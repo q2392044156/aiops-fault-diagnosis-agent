@@ -1,0 +1,41 @@
+schema_version: 1
+data_config: configs/data.yaml
+w2_config: configs/model_lr.yaml
+w1_version: b6ec93dcf0ef27974252
+protocol_name: time_event_v1
+feature_version: lstm_v1
+seed: 42
+seeds: [17, 42, 2026]
+split:
+  ddev_fit_fraction: 0.8
+  dmain_fit_fraction: 0.9
+features:
+  max_length: 128
+  gap_clip_percentile: 99.5
+  pad_id: 0
+  unknown_id: 1
+  whitelist: [event_gap_seconds, session_length, duration_seconds, warn_ratio, error_ratio]
+model:
+  embedding_dim: 32
+  hidden_candidates: [32, 64]
+  dropout: 0.2
+training:
+  learning_rate: 0.001
+  batch_size: 64
+  max_epochs: 20
+  patience: 3
+  gradient_clip: 1.0
+  num_workers: 0
+  weight_modes: [one, capped, full]
+  capped_pos_weight: 10.0
+  max_wall_seconds: 7200
+  overfit_sizes: [512, 1024, 2048]
+  overfit_max_epochs: 100
+  learning_curve_sizes: [1000, 2500, 5000, all]
+threshold:
+  max_fpr: 0.01
+runtime:
+  device: auto
+paths:
+  artifacts_dir: artifacts
+  experiments_dir: experiments

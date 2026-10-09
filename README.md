@@ -1,8 +1,8 @@
 # AIOps Fault Diagnosis Agent
 
-面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议，拟合 Drain3，并建立规则、TF-IDF + Logistic Regression 和 Isolation Forest 会话级异常检测基线。不执行自动修复。
+面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议，拟合 Drain3，并建立传统会话级异常检测基线；W3 在同一冻结协议上实现小型监督式 LSTM 序列模型。不执行自动修复。
 
-当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。测试集保持封存，没有生成测试预测或测试指标。
+当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。测试集保持封存，没有生成测试预测或测试指标。
 
 ## Conda 环境
 
@@ -47,8 +47,24 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling inspe
 
 本地大型制品写入 `artifacts/` 和 `experiments/`。`docs/` 中的本地报告、模型卡和审计材料也不纳入 Git；这些目录均由 `.gitignore` 整体忽略。
 
+## W3 LSTM 命令
+
+W3 默认优先使用 CUDA，CUDA 不可用时回退 CPU；可通过 `--device auto/cuda/cpu` 显式控制。
+
+```powershell
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-prepare --config configs/model_lstm.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-tune --config configs/model_lstm.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-train --config configs/model_lstm.yaml --device auto
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-predict --config configs/model_lstm.yaml --split validation
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-evaluate --config configs/model_lstm.yaml --split validation
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-run --config configs/model_lstm.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-inspect --config configs/model_lstm.yaml --run-id <run_id> --seed 42 --session-id <block_id>
+```
+
+模板序列最长块固定为 128；更长会话按连续、不重叠块完整处理，并以块级最大 logit 汇聚为会话异常分数。模型只接受模板、事件间隔和四项审计过的会话统计。W3 只评估 `dev`/`validation`；请求 `test` 会以非零状态失败。
+
 ## 实验边界
 
-标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证集只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低跨边界泄漏风险的保守代理，不是真实故障事件。W2 不实现 LSTM、根因分类、RAG、Agent、API、前端或自动处置。
+标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证集只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低跨边界泄漏风险的保守代理，不是真实故障事件。W3 不实现 Transformer、DeepLog 下一事件预测、根因分类、RAG、Agent、API、前端或自动处置；正式模型晋级和测试集一次性评估留到 W4。
 
 请只提交代码、配置、依赖文件和自制测试；不要提交 `data/`、`artifacts/`、`experiments/`、`docs/`、`.conda-env/` 或旧 `.venv/`。

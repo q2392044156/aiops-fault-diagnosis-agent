@@ -9,8 +9,12 @@ import pyarrow.parquet as pq
 from aiops_diag.data.common import verified_manifest
 from .config import load
 from .evaluation import evaluate
+from .lstm_config import load_lstm
+from .lstm_workflow import (evaluate_lstm, inspect_lstm, predict_lstm,
+                            train_lstm, tune_lstm)
 from .models import predictions, train
 from .protocol import freeze
+from .sequences import prepare_sequences
 from .templates import build_templates
 
 
@@ -35,15 +39,46 @@ def inspect(cfg, run_id, session_id):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="W2 frozen parsing and anomaly baselines")
+    parser = argparse.ArgumentParser(description="AIOps W2/W3 modeling workflows")
     parser.add_argument("command", choices=["freeze", "templates", "train", "predict",
-                                            "evaluate", "run", "inspect"])
+                                            "evaluate", "run", "inspect",
+                                            "lstm-prepare", "lstm-tune", "lstm-train",
+                                            "lstm-predict", "lstm-evaluate", "lstm-run",
+                                            "lstm-inspect"])
     parser.add_argument("--config", default="configs/model_lr.yaml")
     parser.add_argument("--split", default="validation")
     parser.add_argument("--run-id")
     parser.add_argument("--session-id")
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--device", choices=["auto", "cuda", "cpu"], default="auto")
     args = parser.parse_args()
     try:
+        if args.command.startswith("lstm-"):
+            cfg = load_lstm(args.config)
+            if args.command == "lstm-prepare":
+                result = prepare_sequences(cfg)
+            elif args.command == "lstm-tune":
+                result = tune_lstm(cfg, args.device)
+            elif args.command == "lstm-train":
+                result = train_lstm(cfg, args.device)
+            elif args.command == "lstm-predict":
+                result = predict_lstm(cfg, args.split, args.device)
+            elif args.command == "lstm-evaluate":
+                result = evaluate_lstm(cfg, args.split, args.device)
+            elif args.command == "lstm-run":
+                prepared = prepare_sequences(cfg)
+                tuned = tune_lstm(cfg, args.device)
+                trained = train_lstm(cfg, args.device)
+                evaluated = evaluate_lstm(cfg, "validation", args.device)
+                result = {"prepare": prepared, "tune": tuned,
+                          "train": trained, "evaluate": evaluated}
+            else:
+                if not args.run_id or not args.session_id:
+                    parser.error("lstm-inspect requires --run-id and --session-id")
+                result = inspect_lstm(cfg, args.run_id, args.seed, args.session_id)
+            print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
+            return 0
+
         cfg = load(args.config)
         if args.command == "freeze":
             result = freeze(cfg)

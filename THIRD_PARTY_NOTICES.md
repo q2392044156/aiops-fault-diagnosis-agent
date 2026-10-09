@@ -29,3 +29,4 @@ W2 uses the following open-source Python packages. Their exact installed version
 - SciPy — BSD 3-Clause License — https://github.com/scipy/scipy
 - joblib — BSD 3-Clause License — https://github.com/joblib/joblib
 - PyArrow — Apache License 2.0 — https://github.com/apache/arrow
+- PyTorch — BSD-style License — https://github.com/pytorch/pytorch
