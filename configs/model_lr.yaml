@@ -1,0 +1,36 @@
+schema_version: 1
+data_config: configs/data.yaml
+w1_version: b6ec93dcf0ef27974252
+protocol_name: time_event_v1
+seed: 42
+seeds: [17, 42, 2026]
+event_proxy:
+  max_gap_seconds: 300
+  max_span_seconds: 1800
+sampling:
+  dmain_max_sessions: 100000
+  ddev_max_sessions: 10000
+parser:
+  candidate_similarity: [0.4, 0.5]
+  selected_similarity: auto
+  depth: 4
+  max_children: 100
+  unknown_token: T_UNK
+features:
+  rare_template_max_count: 5
+  isolation_top_templates: 256
+threshold:
+  max_fpr: 0.01
+logistic_regression:
+  c_values: [0.1, 1.0, 10.0]
+  class_weights: [none, balanced]
+  solver: liblinear
+  max_iter: 1000
+isolation_forest:
+  estimators: [100, 200]
+  max_samples: 10000
+limits:
+  max_wall_seconds: 7200
+paths:
+  artifacts_dir: artifacts
+  experiments_dir: experiments

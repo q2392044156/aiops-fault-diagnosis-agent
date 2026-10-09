@@ -1,0 +1,21 @@
+# Generated from the aiops-fault-diagnosis-agent Conda environment on Windows (2026-10-09).
+# Install the project itself afterwards with: python -m pip install -e . --no-deps
+cachetools==4.2.1
+cloudpickle==3.1.2
+colorama==0.4.6
+drain3==0.9.11
+iniconfig==2.3.1
+joblib==1.6.0
+jsonpickle==1.5.1
+narwhals==2.26.0
+numpy==2.4.6
+packaging==26.3
+pluggy==1.6.0
+psutil==7.2.2
+pyarrow==23.0.1
+Pygments==2.21.0
+pytest==9.1.1
+PyYAML==6.0.3
+scikit-learn==1.9.1
+scipy==1.17.1
+threadpoolctl==3.7.0

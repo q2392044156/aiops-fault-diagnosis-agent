@@ -18,3 +18,14 @@ Collection of System Log Datasets for AI-driven Log Analytics. In ISSRE, 2023.
 
 The above license notice shall be included in all copies of the datasets.
 ```
+
+## W2 software dependencies
+
+W2 uses the following open-source Python packages. Their exact installed versions are recorded in `requirements-lock.txt`; their license files are included in the installed distributions.
+
+- Drain3 — MIT License — https://github.com/logpai/Drain3
+- scikit-learn — BSD 3-Clause License — https://github.com/scikit-learn/scikit-learn
+- NumPy — BSD 3-Clause License — https://github.com/numpy/numpy
+- SciPy — BSD 3-Clause License — https://github.com/scipy/scipy
+- joblib — BSD 3-Clause License — https://github.com/joblib/joblib
+- PyArrow — Apache License 2.0 — https://github.com/apache/arrow

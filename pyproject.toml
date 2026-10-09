@@ -3,9 +3,17 @@ name = "aiops-fault-diagnosis-agent"
 version = "0.1.0"
 description = "Reproducible HDFS data pipeline for an AIOps research prototype"
 requires-python = ">=3.11,<3.12"
-dependencies = ["pyarrow>=18,<24", "PyYAML>=6,<7", "psutil>=6,<8"]
+dependencies = [
+    "drain3==0.9.11",
+    "joblib>=1.4,<2",
+    "numpy>=2,<3",
+    "psutil>=6,<8",
+    "pyarrow>=18,<24",
+    "PyYAML>=6,<7",
+    "scikit-learn>=1.6,<2",
+]
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = ["pytest>=8,<10"]
 
 [build-system]
