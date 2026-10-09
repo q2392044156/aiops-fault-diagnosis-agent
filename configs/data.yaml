@@ -1,0 +1,13 @@
+dataset: HDFS_v1
+record: '8196385'
+url: https://zenodo.org/records/8196385/files/HDFS_v1.zip?download=1
+size: 186645559
+md5: 76a24b4d9a6164d543fb275f89773260
+raw_dir: data/raw
+output_dir: data/processed
+seed: 42
+embargo_seconds: 600
+target_blocks: 10000
+max_lines: 300000
+batch_size: 50000
+min_free_gb: 20
