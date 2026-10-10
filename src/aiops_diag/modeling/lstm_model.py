@@ -114,6 +114,7 @@ class LSTMClassifier(nn.Module):
         self.embedding = nn.Embedding(vocabulary_size, embedding_dim, padding_idx=0)
         self.lstm = nn.LSTM(embedding_dim + 1, hidden_dim, num_layers=1,
                             batch_first=True, bidirectional=False)
+        self.session_feature_count = session_feature_count
         self.dropout = nn.Dropout(dropout)
         self.output = nn.Linear(hidden_dim * 2 + session_feature_count, 1)
 
@@ -128,9 +129,12 @@ class LSTMClassifier(nn.Module):
         mean_pool = (hidden * weights).sum(dim=1) / weights.sum(dim=1).clamp_min(1.0)
         max_pool = hidden.masked_fill(~flat_mask.unsqueeze(-1), -torch.inf).max(dim=1).values
         max_pool = torch.where(torch.isfinite(max_pool), max_pool, torch.zeros_like(max_pool))
-        repeated_features = session_features[:, None, :].expand(batch, chunks, -1)
-        repeated_features = repeated_features.reshape(batch * chunks, -1)
-        pooled = torch.cat([mean_pool, max_pool, repeated_features], dim=-1)
+        pooled = torch.cat([mean_pool, max_pool], dim=-1)
+        if self.session_feature_count:
+            selected_features = session_features[:, :self.session_feature_count]
+            repeated_features = selected_features[:, None, :].expand(batch, chunks, -1)
+            repeated_features = repeated_features.reshape(batch * chunks, -1)
+            pooled = torch.cat([pooled, repeated_features], dim=-1)
         chunk_logits = self.output(self.dropout(pooled)).squeeze(-1).reshape(batch, chunks)
         chunk_logits = chunk_logits.masked_fill(~chunk_valid, -torch.inf)
         return chunk_logits.max(dim=1).values

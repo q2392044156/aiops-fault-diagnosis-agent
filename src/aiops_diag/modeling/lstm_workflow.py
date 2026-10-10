@@ -98,12 +98,12 @@ def training_weight(rows, labels, mode, cap):
 
 
 def _train_once(train_rows, stop_rows, labels, scaler, cfg, hidden_dim, weight_mode,
-                seed, device, max_epochs=None):
+                seed, device, max_epochs=None, session_feature_count=4):
     seed_everything(seed)
     model = LSTMClassifier(
         vocabulary_size=verified_manifest(cfg["feature_dir"], "manifest.json")["model_vocabulary_size"],
         embedding_dim=cfg["model"]["embedding_dim"], hidden_dim=hidden_dim,
-        dropout=cfg["model"]["dropout"],
+        dropout=cfg["model"]["dropout"], session_feature_count=session_feature_count,
     ).to(device)
     weight_value, weight_audit = training_weight(
         train_rows, labels, weight_mode, cfg["training"]["capped_pos_weight"])

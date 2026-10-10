@@ -1,8 +1,8 @@
 # AIOps Fault Diagnosis Agent
 
-面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议，拟合 Drain3，并建立传统会话级异常检测基线；W3 在同一冻结协议上实现小型监督式 LSTM 序列模型。不执行自动修复。
+面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议并建立传统基线；W3 实现小型监督式 LSTM；W4 统一比较两个正式候选，完成消融、一次性测试评测和 v0.2 模型冻结。不执行自动修复。
 
-当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。测试集保持封存，没有生成测试预测或测试指标。
+当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。W4 按预登记规则一次性评测 250,538 个测试会话，默认发布模型冻结为 TF-IDF + Logistic Regression，LSTM 保留为研究对照。
 
 ## Conda 环境
 
@@ -63,8 +63,22 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-
 
 模板序列最长块固定为 128；更长会话按连续、不重叠块完整处理，并以块级最大 logit 汇聚为会话异常分数。模型只接受模板、事件间隔和四项审计过的会话统计。W3 只评估 `dev`/`validation`；请求 `test` 会以非零状态失败。
 
+## W4 统一评测命令
+
+```powershell
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection preregister --config configs/model_selection.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection compare-parsing --config configs/model_selection.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection ablate --config configs/model_selection.yaml --device auto
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection finalize --config configs/model_selection.yaml --device auto
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection report --config configs/model_selection.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection inspect --config configs/model_selection.yaml --model-id logistic_regression --session-id <block_id>
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection run --config configs/model_selection.yaml --device auto
+```
+
+`finalize` 是测试集的唯一受控入口。测试阈值来自 W2/W3 验证结果；完成后相同输入只校验并复用同一套预测，配置或上游模型 hash 变化会被拒绝。W4 测试结果显示明显时间分布差异：LR 的 F1 为 0.883181、AP 为 0.789731；LSTM 三 seed 的 F1 为 0.882568–0.883925、AP 为 0.953322–0.993442。由于固定阈值下没有跨 seed 稳定提升，测试结果不改变预先冻结的 LR 默认选择。
+
 ## 实验边界
 
-标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证集只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低跨边界泄漏风险的保守代理，不是真实故障事件。W3 不实现 Transformer、DeepLog 下一事件预测、根因分类、RAG、Agent、API、前端或自动处置；正式模型晋级和测试集一次性评估留到 W4。
+标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证和测试只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低跨边界泄漏风险的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W4 不实现 RAG、Agent、API、前端或自动处置。
 
 请只提交代码、配置、依赖文件和自制测试；不要提交 `data/`、`artifacts/`、`experiments/`、`docs/`、`.conda-env/` 或旧 `.venv/`。

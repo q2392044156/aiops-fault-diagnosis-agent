@@ -1,0 +1,30 @@
+schema_version: 1
+protocol_name: model_selection_v1
+w2_config: configs/model_lr.yaml
+lstm_config: configs/model_lstm.yaml
+allowed_test_models:
+  - logistic_regression
+  - lstm_seed_17
+  - lstm_seed_42
+  - lstm_seed_2026
+selection:
+  max_fpr: 0.01
+  lstm_min_f1_improvement: 0.001
+  lstm_min_seeds_reducing_fp_and_fn: 2
+parsing_comparison:
+  max_features: 20000
+  min_df: 2
+  c_values: [0.1, 1.0, 10.0]
+  class_weights: [none, balanced]
+ablation:
+  variants: [no_safe_features, no_order_no_gap, max_len_32, max_len_64]
+  shuffle_seed: 704
+bootstrap:
+  seed: 4204
+  replicates: 2000
+  method: poisson_group_paired
+runtime:
+  device: auto
+paths:
+  artifacts_dir: artifacts
+  experiments_dir: experiments
