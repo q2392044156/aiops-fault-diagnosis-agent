@@ -1,8 +1,8 @@
 # AIOps Fault Diagnosis Agent
 
-面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议并建立传统基线；W3 实现小型监督式 LSTM；W4 统一比较两个正式候选，完成消融、一次性测试评测和 v0.2 模型冻结。不执行自动修复。
+面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议并建立传统基线；W3 实现小型监督式 LSTM；W4 完成统一评测和 v0.2 模型冻结；W5 将冻结的 LR 发布为可恢复的本机异常检测 API。不执行自动修复。
 
-当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。W4 按预登记规则一次性评测 250,538 个测试会话，默认发布模型冻结为 TF-IDF + Logistic Regression，LSTM 保留为研究对照。
+当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。W4 按预登记规则一次性评测 250,538 个测试会话，默认发布模型冻结为 TF-IDF + Logistic Regression，LSTM 保留为研究对照。W5 API 已用 W1 开发批次完成真实模型冒烟测试。
 
 ## Conda 环境
 
@@ -79,6 +79,21 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection run 
 
 ## 实验边界
 
-标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证和测试只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低跨边界泄漏风险的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W4 不实现 RAG、Agent、API、前端或自动处置。
+标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证、测试和服务推理只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低泄漏或合并告警的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W5 不实现 RAG、Agent、前端或自动处置。
+
+## W5 服务命令
+
+W5 默认只监听 `127.0.0.1:8000`，使用单进程、单 worker 和 SQLite WAL。先发布并校验现有冻结制品，再启动服务：
+
+```powershell
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service publish --config configs/service.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service init --config configs/service.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service verify --config configs/service.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service serve --config configs/service.yaml
+```
+
+OpenAPI 页面为 `http://127.0.0.1:8000/docs`。`POST /api/v1/batches/uploads` 接受最大256 MiB的原始 HDFS 文本日志；`POST /api/v1/batches/registered` 只接受配置白名单中的批次 ID。任务返回202，随后可查询任务、批次、异常事件、会话和脱敏日志。相同内容、发布和处理配置会复用同一任务；可选 `Idempotency-Key` 冲突返回409。
+
+服务只加载 W5 发布清单中登记且哈希匹配的 Drain3、模板词表、TF-IDF 和 LR 制品，不触发训练或阈值搜索。运行数据库、上传和 Parquet 输出位于 `runtime/` 并由 Git 忽略。当前无鉴权和 TLS，只适用于本机研究演示。
 
 请只提交代码、配置、依赖文件和自制测试；不要提交 `data/`、`artifacts/`、`experiments/`、`docs/`、`.conda-env/` 或旧 `.venv/`。

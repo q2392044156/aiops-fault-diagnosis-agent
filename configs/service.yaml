@@ -1,0 +1,27 @@
+schema_version: 1
+model_config: configs/model_lr.yaml
+w4_release_dir: experiments/time_event_v1/model_selection_v1/final
+release_dir: artifacts/releases/v0.2_lr
+server:
+  host: 127.0.0.1
+  port: 8000
+  workers: 1
+upload:
+  max_bytes: 268435456
+  chunk_bytes: 1048576
+processing:
+  max_line_bytes: 1048576
+  parquet_batch_rows: 10000
+  inference_batch_sessions: 2048
+  event_max_gap_seconds: 300
+  event_max_span_seconds: 1800
+worker:
+  poll_seconds: 0.2
+paths:
+  runtime_dir: runtime
+  database: runtime/service.sqlite3
+registered_batches:
+  w1_dev:
+    kind: w1_parquet
+    path: data/processed/b6ec93dcf0ef27974252/dev_logs.parquet
+
