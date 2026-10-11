@@ -19,6 +19,11 @@ class RegisteredRequest(StrictModel):
     registered_id: str = Field(min_length=1, max_length=64, pattern=r"^[A-Za-z0-9._-]+$")
 
 
+class RegisteredBatchList(StrictModel):
+    schema_version: int = 1
+    items: list[str]
+
+
 class TaskResponse(StrictModel):
     schema_version: int = 1
     task_id: str
@@ -116,6 +121,7 @@ class HealthResponse(StrictModel):
 
 class ReleaseResponse(StrictModel):
     schema_version: int
+    deployment_release: str | None = None
     release_id: str
     model_id: str
     model_family: str
@@ -123,3 +129,16 @@ class ReleaseResponse(StrictModel):
     anomaly_score_semantics: str
     protocol_hash: str
     template_manifest_hash: str
+
+
+class OperationsSummary(StrictModel):
+    schema_version: int = 1
+    release_id: str
+    worker_ready: bool
+    worker_heartbeat_at: str | None
+    queued: int
+    running: int
+    succeeded: int
+    failed: int
+    oldest_queue_seconds: float | None
+    last_finished_at: str | None

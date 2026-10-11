@@ -15,12 +15,13 @@ dependencies = [
     "python-multipart>=0.0.32,<1",
     "PyYAML>=6,<7",
     "scikit-learn>=1.6,<2",
-    "torch==2.14.1",
+    "streamlit>=1.50,<2",
     "uvicorn>=0.54,<1",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10"]
+research = ["torch==2.14.1"]
 
 [build-system]
 requires = ["hatchling"]

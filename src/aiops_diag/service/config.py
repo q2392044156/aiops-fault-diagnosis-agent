@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 import yaml
@@ -11,7 +12,7 @@ def load(path):
     path = Path(path).resolve()
     root = path.parent.parent
     raw = yaml.safe_load(path.read_text(encoding="utf-8"))
-    if raw.get("schema_version") != 1:
+    if raw.get("schema_version") != 2:
         raise ValueError("Unsupported service configuration schema")
     if raw["server"].get("workers") != 1:
         raise ValueError("W5 requires exactly one service worker")
@@ -27,6 +28,18 @@ def load(path):
     for name, item in raw.get("registered_batches", {}).items():
         registered[name] = {**item, "path": str((root / item["path"]).resolve())}
     cfg["registered_batches"] = registered
+    if os.environ.get("AIOPS_RELEASE_DIR"):
+        cfg["release_dir"] = str(Path(os.environ["AIOPS_RELEASE_DIR"]).resolve())
+    if os.environ.get("AIOPS_HOST"):
+        cfg["server"]["host"] = os.environ["AIOPS_HOST"]
+    if os.environ.get("AIOPS_RUNTIME_DIR"):
+        runtime = Path(os.environ["AIOPS_RUNTIME_DIR"]).resolve()
+        cfg["paths"]["runtime_dir"] = str(runtime)
+        cfg["paths"]["database"] = str(runtime / "service.sqlite3")
+    if os.environ.get("AIOPS_REGISTERED_ROOT"):
+        data_root = Path(os.environ["AIOPS_REGISTERED_ROOT"]).resolve()
+        for item in cfg["registered_batches"].values():
+            item["path"] = str(data_root / Path(item["path"]).name)
     comparable = json.loads(json.dumps(raw))
     cfg["config_hash"] = key(comparable)
     cfg["processing_hash"] = key({

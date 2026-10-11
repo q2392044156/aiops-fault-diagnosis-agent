@@ -1,4 +1,7 @@
 import json
+import os
+import shutil
+import uuid
 from pathlib import Path
 
 import joblib
@@ -10,7 +13,8 @@ from aiops_diag.data.common import digest, key, save, verified_manifest
 from aiops_diag.modeling.templates import content, miner_config
 
 
-SERVICE_RELEASE = "v0.2_lr"
+MODEL_RELEASE = "v0.2_lr"
+DEPLOYMENT_RELEASE = "v0.3"
 
 
 def _read(path):
@@ -56,80 +60,145 @@ def _components(cfg):
     return w4, final, templates, training, files, float(threshold)
 
 
+def _bundle_names(files):
+    suffixes = {
+        "drain3_state": ".bin", "template_vocab": ".json", "tfidf": ".joblib",
+        "logistic_regression": ".joblib", "w2_training": ".json",
+        "w2_templates": ".json", "w4_release": ".json", "w4_manifest": ".json",
+    }
+    return {name: f"components/{name}{suffixes[name]}" for name in files}
+
+
 def publish(cfg):
-    w4, final, templates, training, files, threshold = _components(cfg)
+    """Build an atomic, self-contained and path-portable CPU service bundle."""
+    w4, _final, templates, training, files, threshold = _components(cfg)
     directory = Path(cfg["release_dir"])
-    directory.mkdir(parents=True, exist_ok=True)
-    value = {
-        "schema_version": 1,
-        "release_id": SERVICE_RELEASE,
-        "model_id": "logistic_regression",
-        "model_family": "tfidf_lr",
-        "threshold": threshold,
-        "anomaly_score_semantics": "larger_is_more_anomalous_uncalibrated",
-        "service_config_hash": cfg["config_hash"],
-        "processing_hash": cfg["processing_hash"],
-        "w4_release": w4["release"],
-        "w4_manifest_hash": digest(files["w4_manifest"]),
-        "w2_run_id": training["run_id"],
-        "protocol_hash": training["protocol_hash"],
-        "template_manifest_hash": training["template_manifest_hash"],
-        "selected_similarity": templates["selected_similarity"],
-        "component_hashes": {name: digest(path) for name, path in files.items()},
-    }
-    target = directory / "service_release.json"
-    if target.exists():
-        existing = _read(target)
-        if existing != value:
-            raise ValueError("A different service release already exists")
-    else:
-        save(target, value)
-    registry = {
-        "schema_version": 1,
-        "release_id": SERVICE_RELEASE,
-        "artifacts": {"service_release.json": digest(target)},
-    }
-    save(directory / "registry.json", registry)
-    return value
+    directory.parent.mkdir(parents=True, exist_ok=True)
+    staging = directory.parent / f".{directory.name}.{uuid.uuid4().hex}.partial"
+    staging.mkdir(parents=True)
+    try:
+        names = _bundle_names(files)
+        for name, source in files.items():
+            target = staging / names[name]
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
+        component_hashes = {name: digest(staging / relative)
+                            for name, relative in names.items()}
+        parser = cfg.get("model", {}).get("parser", {"depth": 4, "max_children": 100})
+        value = {
+            "schema_version": 2,
+            "deployment_release": DEPLOYMENT_RELEASE,
+            "release_id": MODEL_RELEASE,
+            "model_id": "logistic_regression",
+            "model_family": "tfidf_lr",
+            "threshold": threshold,
+            "anomaly_score_semantics": "larger_is_more_anomalous_uncalibrated",
+            "service_config_hash": cfg["config_hash"],
+            "processing_hash": cfg["processing_hash"],
+            "w4_release": w4["release"],
+            "w2_run_id": training["run_id"],
+            "protocol_hash": training["protocol_hash"],
+            "template_manifest_hash": training["template_manifest_hash"],
+            "selected_similarity": templates["selected_similarity"],
+            "parser": {
+                "depth": int(parser["depth"]),
+                "max_children": int(parser["max_children"]),
+            },
+            "components": names,
+            "component_hashes": component_hashes,
+        }
+        save(staging / "service_release.json", value)
+        registry = {
+            "schema_version": 2,
+            "deployment_release": DEPLOYMENT_RELEASE,
+            "release_id": MODEL_RELEASE,
+            "artifacts": {"service_release.json": digest(staging / "service_release.json"),
+                          **{relative: component_hashes[name]
+                             for name, relative in names.items()}},
+        }
+        save(staging / "registry.json", registry)
+        verified_manifest(staging, "registry.json")
+        if directory.exists():
+            previous = directory.parent / f".{directory.name}.previous"
+            if previous.exists():
+                shutil.rmtree(previous)
+            os.replace(directory, previous)
+            try:
+                os.replace(staging, directory)
+            except Exception:
+                os.replace(previous, directory)
+                raise
+            shutil.rmtree(previous)
+        else:
+            os.replace(staging, directory)
+        return value
+    finally:
+        if staging.exists():
+            shutil.rmtree(staging)
 
 
 def verify(cfg):
-    directory = Path(cfg["release_dir"])
-    verified_manifest(directory, "registry.json")
+    """Verify only the portable bundle; source experiment directories are not required."""
+    directory = Path(cfg["release_dir"]).resolve()
+    registry = verified_manifest(directory, "registry.json")
     release = _read(directory / "service_release.json")
-    if release.get("service_config_hash") != cfg["config_hash"]:
-        raise ValueError("Service configuration changed after publication")
-    w4, _final, templates, training, files, threshold = _components(cfg)
-    actual = {name: digest(path) for name, path in files.items()}
-    if actual != release.get("component_hashes"):
-        raise ValueError("A published model component changed")
-    if release.get("threshold") != threshold or release.get("release_id") != SERVICE_RELEASE:
-        raise ValueError("Published threshold or release identity changed")
-    if w4["default_model"] != release["model_id"]:
-        raise ValueError("Published default model changed")
+    if release.get("schema_version") != 2:
+        raise ValueError("Unsupported service release schema")
+    if release.get("deployment_release") != DEPLOYMENT_RELEASE:
+        raise ValueError("Unexpected deployment release")
+    if release.get("release_id") != MODEL_RELEASE:
+        raise ValueError("Published model release changed")
+    if release.get("processing_hash") != cfg["processing_hash"]:
+        raise ValueError("Processing configuration changed after publication")
+    expected = release.get("component_hashes", {})
+    components = release.get("components", {})
+    if set(expected) != set(components):
+        raise ValueError("Published component registry is incomplete")
+    for name, relative in components.items():
+        path = (directory / relative).resolve()
+        if directory not in path.parents:
+            raise ValueError("Published component escaped the release directory")
+        if digest(path) != expected[name]:
+            raise ValueError(f"Published component changed: {name}")
+        if registry["artifacts"].get(relative) != expected[name]:
+            raise ValueError(f"Registry hash changed: {name}")
     return release
 
 
-class FrozenRelease:
+class ReleaseMetadata:
+    """Hash-verified release metadata for API processes; does not deserialize models."""
+
     def __init__(self, cfg):
-        self.cfg = cfg
         self.manifest = verify(cfg)
-        model_cfg = cfg["model"]
-        templates_dir = Path(model_cfg["artifact_dir"])
-        templates = verified_manifest(templates_dir, "templates.json")
-        _run_id, run_dir = _w2_run(model_cfg, templates)
-        vectorizer_path = (run_dir / "tfidf.joblib").resolve()
-        model_path = (run_dir / "logistic_regression.joblib").resolve()
-        if vectorizer_path.parent != run_dir.resolve() or model_path.parent != run_dir.resolve():
-            raise ValueError("Model files escaped the registered run directory")
-        self.vectorizer = joblib.load(vectorizer_path)
-        self.model = joblib.load(model_path)
+
+    def public(self):
+        return {name: self.manifest[name] for name in (
+            "schema_version", "deployment_release", "release_id", "model_id",
+            "model_family", "threshold", "anomaly_score_semantics", "protocol_hash",
+            "template_manifest_hash",
+        )}
+
+
+class FrozenRelease(ReleaseMetadata):
+    def __init__(self, cfg):
+        super().__init__(cfg)
+        directory = Path(cfg["release_dir"]).resolve()
+
+        def component(name):
+            path = (directory / self.manifest["components"][name]).resolve()
+            if directory not in path.parents:
+                raise ValueError("Model file escaped the registered release directory")
+            return path
+
+        self.vectorizer = joblib.load(component("tfidf"))
+        self.model = joblib.load(component("logistic_regression"))
         self.threshold = float(self.manifest["threshold"])
-        self.snapshot = templates_dir / "drain3_state.bin"
+        self.snapshot = component("drain3_state")
         self.snapshot_hash = digest(self.snapshot)
+        parser_cfg = {"parser": self.manifest["parser"]}
         self.miner = TemplateMiner(
             FilePersistence(str(self.snapshot)),
-            miner_config(model_cfg, templates["selected_similarity"]),
+            miner_config(parser_cfg, self.manifest["selected_similarity"]),
         )
 
     def template(self, row):
@@ -145,9 +214,3 @@ class FrozenRelease:
     def assert_unchanged(self):
         if digest(self.snapshot) != self.snapshot_hash:
             raise ValueError("Frozen Drain3 snapshot changed during inference")
-
-    def public(self):
-        return {key: self.manifest[key] for key in (
-            "schema_version", "release_id", "model_id", "model_family", "threshold",
-            "anomaly_score_semantics", "protocol_hash", "template_manifest_hash",
-        )}

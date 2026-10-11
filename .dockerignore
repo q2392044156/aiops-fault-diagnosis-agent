@@ -1,0 +1,14 @@
+.git
+.venv
+.conda-env
+.python
+.uv-cache
+.pytest_cache
+__pycache__
+data
+artifacts
+experiments
+runtime
+docs
+*.pyc
+*.pyo

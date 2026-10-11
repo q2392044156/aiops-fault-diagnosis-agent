@@ -1,5 +1,7 @@
 import base64
 import json
+import logging
+import time
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime
@@ -10,20 +12,24 @@ from fastapi import FastAPI, File, Header, Query, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from .db import IdempotencyConflict
+from .db import IdempotencyConflict, QueueFull
 from .runtime import ServiceRuntime
 from .schemas import (BatchResponse, ErrorBody, EventDetail, EventList, HealthResponse,
-                      LogItem, LogList, RegisteredRequest, ReleaseResponse, SessionResponse,
-                      TaskResponse)
+                      LogItem, LogList, OperationsSummary, RegisteredBatchList,
+                      RegisteredRequest, ReleaseResponse, SessionResponse, TaskResponse)
+
+
+AUDIT_LOG = logging.getLogger("aiops_diag.service.audit")
 
 
 class ServiceError(Exception):
-    def __init__(self, status, code, message, retryable=False):
+    def __init__(self, status, code, message, retryable=False, headers=None):
         super().__init__(message)
         self.status = status
         self.code = code
         self.message = message
         self.retryable = retryable
+        self.headers = headers or {}
 
 
 def _encode_cursor(value):
@@ -72,8 +78,8 @@ def _task(row, deduplicated=False):
     }
 
 
-def create_app(cfg, start_worker=True, runtime=None):
-    runtime = runtime or ServiceRuntime(cfg)
+def create_app(cfg, start_worker=False, runtime=None):
+    runtime = runtime or ServiceRuntime(cfg, load_model=False, role="api")
 
     @asynccontextmanager
     async def lifespan(_app):
@@ -82,21 +88,30 @@ def create_app(cfg, start_worker=True, runtime=None):
         yield
         runtime.stop()
 
-    app = FastAPI(title="AIOps Fault Diagnosis API", version="0.3.0-w5", lifespan=lifespan)
+    app = FastAPI(title="AIOps Fault Diagnosis API", version="0.3.0", lifespan=lifespan)
     app.state.runtime = runtime
 
     @app.middleware("http")
     async def request_id(request, call_next):
+        started = time.perf_counter()
         request.state.request_id = request.headers.get("X-Request-ID") or uuid.uuid4().hex
         response = await call_next(request)
         response.headers["X-Request-ID"] = request.state.request_id
+        route = request.scope.get("route")
+        AUDIT_LOG.info(json.dumps({
+            "event": "http_request", "request_id": request.state.request_id,
+            "method": request.method,
+            "route": getattr(route, "path", "unmatched"),
+            "status": response.status_code,
+            "duration_ms": round((time.perf_counter() - started) * 1000, 3),
+        }, separators=(",", ":")))
         return response
 
     @app.exception_handler(ServiceError)
     async def service_error(request, exc):
         body = ErrorBody(code=exc.code, message=exc.message, retryable=exc.retryable,
                          request_id=getattr(request.state, "request_id", uuid.uuid4().hex))
-        return JSONResponse(status_code=exc.status, content=body.model_dump())
+        return JSONResponse(status_code=exc.status, content=body.model_dump(), headers=exc.headers)
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(request, exc):
@@ -118,14 +133,21 @@ def create_app(cfg, start_worker=True, runtime=None):
              responses={503: {"model": ErrorBody}})
     def ready():
         if not runtime.ready:
-            raise ServiceError(503, "MODEL_UNAVAILABLE", runtime.ready_error or "Not ready", True)
+            raise ServiceError(503, "MODEL_UNAVAILABLE", runtime.ready_detail or "Not ready", True)
         return {"status": "ready"}
 
     @app.get("/api/v1/releases/current", response_model=ReleaseResponse)
     def current_release():
         if not runtime.ready:
-            raise ServiceError(503, "MODEL_UNAVAILABLE", runtime.ready_error or "Not ready", True)
-        return runtime.model.public()
+            raise ServiceError(503, "MODEL_UNAVAILABLE", runtime.ready_detail or "Not ready", True)
+        return (runtime.model or runtime.release).public()
+
+    @app.get("/api/v1/operations/summary", response_model=OperationsSummary)
+    def operations_summary():
+        if runtime.manifest is None:
+            raise ServiceError(503, "RELEASE_UNAVAILABLE", runtime.ready_detail or "Not ready", True)
+        age = int(cfg.get("worker", {}).get("heartbeat_max_age_seconds", 15))
+        return runtime.db.operation_summary(runtime.manifest["release_id"], age)
 
     @app.post("/api/v1/batches/uploads", status_code=202, response_model=TaskResponse)
     async def upload_batch(file: UploadFile = File(...), idempotency_key: str | None = Header(
@@ -141,6 +163,9 @@ def create_app(cfg, start_worker=True, runtime=None):
             raise ServiceError(415, "UNSUPPORTED_MEDIA", str(exc)) from exc
         except IdempotencyConflict as exc:
             raise ServiceError(409, "IDEMPOTENCY_CONFLICT", str(exc)) from exc
+        except QueueFull as exc:
+            raise ServiceError(429, "QUEUE_CAPACITY_EXCEEDED", str(exc), True,
+                               {"Retry-After": "5"}) from exc
         except ValueError as exc:
             raise ServiceError(422, "INVALID_REQUEST", str(exc)) from exc
         except RuntimeError as exc:
@@ -156,10 +181,17 @@ def create_app(cfg, start_worker=True, runtime=None):
             raise ServiceError(404, "REGISTERED_SOURCE_NOT_FOUND", str(exc)) from exc
         except IdempotencyConflict as exc:
             raise ServiceError(409, "IDEMPOTENCY_CONFLICT", str(exc)) from exc
+        except QueueFull as exc:
+            raise ServiceError(429, "QUEUE_CAPACITY_EXCEEDED", str(exc), True,
+                               {"Retry-After": "5"}) from exc
         except ValueError as exc:
             raise ServiceError(422, "INVALID_REQUEST", str(exc)) from exc
         except RuntimeError as exc:
             raise ServiceError(503, "MODEL_UNAVAILABLE", str(exc), True) from exc
+
+    @app.get("/api/v1/batches/registered", response_model=RegisteredBatchList)
+    def registered_batches():
+        return {"items": sorted(cfg.get("registered_batches", {}))}
 
     @app.get("/api/v1/tasks/{task_id}", response_model=TaskResponse)
     def task_status(task_id: str):

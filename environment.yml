@@ -12,4 +12,4 @@ dependencies:
       - python-multipart==0.0.32
       - torch==2.14.1+cu130
       - uvicorn==0.54.0
-      - -e .[dev]
+      - -e .[dev,research]

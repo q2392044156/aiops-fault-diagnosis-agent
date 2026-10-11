@@ -1,7 +1,7 @@
-schema_version: 1
+schema_version: 2
 model_config: configs/model_lr.yaml
 w4_release_dir: experiments/time_event_v1/model_selection_v1/final
-release_dir: artifacts/releases/v0.2_lr
+release_dir: artifacts/releases/v0.3_service
 server:
   host: 127.0.0.1
   port: 8000
@@ -17,6 +17,13 @@ processing:
   event_max_span_seconds: 1800
 worker:
   poll_seconds: 0.2
+  heartbeat_seconds: 5
+  heartbeat_max_age_seconds: 15
+  lease_seconds: 30
+  queue_capacity: 32
+ui:
+  api_url: http://127.0.0.1:8000
+  refresh_seconds: 2
 paths:
   runtime_dir: runtime
   database: runtime/service.sqlite3

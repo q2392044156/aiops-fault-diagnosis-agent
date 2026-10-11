@@ -206,8 +206,10 @@ def test_release_verification_rejects_changed_component(tmp_path, monkeypatch):
     monkeypatch.setattr(release_module, "_components", lambda _cfg: components)
     release_module.publish(cfg)
     assert release_module.verify(cfg)["release_id"] == "v0.2_lr"
-    files["tfidf"].write_text("changed", encoding="utf-8")
-    with pytest.raises(ValueError, match="component changed"):
+    bundle = Path(cfg["release_dir"])
+    manifest = release_module._read(bundle / "service_release.json")
+    (bundle / manifest["components"]["tfidf"]).write_text("changed", encoding="utf-8")
+    with pytest.raises(ValueError, match="changed"):
         release_module.verify(cfg)
 
 

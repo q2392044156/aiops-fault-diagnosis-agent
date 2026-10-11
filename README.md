@@ -1,8 +1,8 @@
 # AIOps Fault Diagnosis Agent
 
-面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议并建立传统基线；W3 实现小型监督式 LSTM；W4 完成统一评测和 v0.2 模型冻结；W5 将冻结的 LR 发布为可恢复的本机异常检测 API。不执行自动修复。
+面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议并建立传统基线；W3 实现小型监督式 LSTM；W4 完成统一评测和 v0.2 模型冻结；W5 将冻结的 LR 发布为可恢复的异常检测 API；W6 提供 CPU 容器、独立 worker 和 Streamlit 事件复核台。不执行自动修复。
 
-当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。W4 按预登记规则一次性评测 250,538 个测试会话，默认发布模型冻结为 TF-IDF + Logistic Regression，LSTM 保留为研究对照。W5 API 已用 W1 开发批次完成真实模型冒烟测试。
+当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。W4 按预登记规则一次性评测 250,538 个测试会话，默认发布模型冻结为 TF-IDF + Logistic Regression，LSTM 保留为研究对照。W5 API 已用 W1 开发批次完成真实模型冒烟测试。W6 服务部署版本为 v0.3，模型仍是 W4 冻结的 `v0.2_lr`。
 
 ## Conda 环境
 
@@ -11,7 +11,7 @@
 ```powershell
 conda env create --file environment.yml
 conda run --name aiops-fault-diagnosis-agent python -m pip install -r requirements-lock.txt
-conda run --name aiops-fault-diagnosis-agent python -m pip install -e . --no-deps
+conda run --name aiops-fault-diagnosis-agent python -m pip install -e ".[dev,research]" --no-deps
 conda run --name aiops-fault-diagnosis-agent python -m pip check
 conda run --name aiops-fault-diagnosis-agent python -m pytest -q
 ```
@@ -79,21 +79,55 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection run 
 
 ## 实验边界
 
-标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证、测试和服务推理只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低泄漏或合并告警的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W5 不实现 RAG、Agent、前端或自动处置。
+标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证、测试和服务推理只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低泄漏或合并告警的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W6 不实现 RAG、Agent、鉴权、TLS 或自动处置。
 
 ## W5 服务命令
 
-W5 默认只监听 `127.0.0.1:8000`，使用单进程、单 worker 和 SQLite WAL。先发布并校验现有冻结制品，再启动服务：
+W5/W6 默认只监听本机，使用 SQLite WAL。先发布并校验便携冻结制品；本地开发时分别启动 API 和 worker：
 
 ```powershell
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service publish --config configs/service.yaml
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service init --config configs/service.yaml
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service verify --config configs/service.yaml
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service serve --config configs/service.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service worker --config configs/service.yaml
 ```
 
 OpenAPI 页面为 `http://127.0.0.1:8000/docs`。`POST /api/v1/batches/uploads` 接受最大256 MiB的原始 HDFS 文本日志；`POST /api/v1/batches/registered` 只接受配置白名单中的批次 ID。任务返回202，随后可查询任务、批次、异常事件、会话和脱敏日志。相同内容、发布和处理配置会复用同一任务；可选 `Idempotency-Key` 冲突返回409。
 
-服务只加载 W5 发布清单中登记且哈希匹配的 Drain3、模板词表、TF-IDF 和 LR 制品，不触发训练或阈值搜索。运行数据库、上传和 Parquet 输出位于 `runtime/` 并由 Git 忽略。当前无鉴权和 TLS，只适用于本机研究演示。
+服务只加载发布清单中登记且哈希匹配的 Drain3、模板词表、TF-IDF 和 LR 制品，不触发训练或阈值搜索。运行数据库、上传和 Parquet 输出位于 `runtime/` 并由 Git 忽略。当前无鉴权和 TLS，只适用于本机研究演示。
+
+## W6 Docker Compose
+
+W6 使用不含 Torch/CUDA 的 Python 3.11 CPU 镜像。模型发布包只读挂载，SQLite、上传和任务制品保存在命名卷中。API、worker 和 UI 均以非 root 用户运行，根文件系统只读且不挂载 Docker socket。
+
+先在 Conda 环境中生成并校验自包含发布包，然后启动三服务：
+
+```powershell
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service publish --config configs/service.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service verify --config configs/service.yaml
+docker compose -f deployment/compose.yaml up --build -d
+docker compose -f deployment/compose.yaml ps
+docker compose -f deployment/compose.yaml logs --tail=100 api worker ui
+```
+
+- API/OpenAPI：`http://127.0.0.1:8000/docs`
+- Streamlit：`http://127.0.0.1:8501`
+- API readiness 同时检查发布包、数据库和最新 worker 心跳。
+- `docker compose -f deployment/compose.yaml down` 会保留命名卷；只有显式追加 `-v` 才删除运行数据。
+- `GET /api/v1/operations/summary` 返回队列、任务和 worker 摘要，不暴露本地路径。
+
+W6 工程基准命令如下，结果保存到被忽略的 `experiments/w6/`：
+
+```powershell
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service benchmark --config configs/service.yaml --suite e1
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service benchmark --config configs/service.yaml --suite e2
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service benchmark --config configs/service.yaml --suite e3
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service benchmark --config configs/service.yaml --suite e4
+```
+
+若发布包或登记数据不在默认位置，可在启动 Compose 前设置 `AIOPS_RELEASE_DIR` 和 `AIOPS_REGISTERED_FILE` 为对应宿主机路径。容器运行阶段不会下载模型、训练模型或重新选择阈值。
+
+本机 W6 验收中，W1 开发批次的 233,584 行日志和 10,000 个会话在约9.82秒内完成，得到502个异常事件；并发1/2/4下100次摘要查询均无错误，P95分别为4.60/8.23/16.03毫秒。五次完整容器启动为13.07–13.74秒，五次热重启为1.92–2.04秒。以上仅是当前机器的研究原型实测，不作为生产容量承诺。
 
 请只提交代码、配置、依赖文件和自制测试；不要提交 `data/`、`artifacts/`、`experiments/`、`docs/`、`.conda-env/` 或旧 `.venv/`。

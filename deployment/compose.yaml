@@ -1,0 +1,75 @@
+name: aiops-fault-diagnosis
+
+x-common: &common
+  image: aiops-fault-diagnosis-agent:v0.3
+  build:
+    context: ..
+    dockerfile: deployment/Dockerfile
+  restart: unless-stopped
+  init: true
+  user: "10001:10001"
+  read_only: true
+  cap_drop: [ALL]
+  security_opt:
+    - no-new-privileges:true
+  tmpfs:
+    - /tmp:size=128m,mode=1777
+  environment: &environment
+    AIOPS_RELEASE_DIR: /app/release
+    AIOPS_RUNTIME_DIR: /app/runtime
+    AIOPS_REGISTERED_ROOT: /app/data
+  volumes: &volumes
+    - aiops-runtime:/app/runtime
+    - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.3_service}:/app/release:ro
+    - ${AIOPS_REGISTERED_FILE:-../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
+
+services:
+  worker:
+    <<: *common
+    command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service.yaml"]
+    healthcheck:
+      test: ["CMD", "python", "-m", "aiops_diag.service", "worker-health", "--config", "configs/service.yaml"]
+      interval: 5s
+      timeout: 4s
+      retries: 12
+      start_period: 30s
+
+  api:
+    <<: *common
+    environment:
+      <<: *environment
+      AIOPS_HOST: 0.0.0.0
+    command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service.yaml"]
+    depends_on:
+      worker:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "deployment/healthcheck.py", "http://127.0.0.1:8000/api/v1/health/ready"]
+      interval: 5s
+      timeout: 4s
+      retries: 12
+      start_period: 10s
+
+  ui:
+    <<: *common
+    environment:
+      <<: *environment
+      AIOPS_API_URL: http://api:8000
+    command: ["streamlit", "run", "/app/src/aiops_diag/service/streamlit_app.py",
+              "--server.address=0.0.0.0", "--server.port=8501", "--server.headless=true"]
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8501:8501"
+    healthcheck:
+      test: ["CMD", "python", "deployment/healthcheck.py", "http://127.0.0.1:8501/_stcore/health"]
+      interval: 5s
+      timeout: 4s
+      retries: 12
+      start_period: 15s
+
+volumes:
+  aiops-runtime:

@@ -1,2 +1,2 @@
-"""W5 local anomaly-detection API and durable task pipeline."""
+"""W6 container-ready anomaly-detection API, worker and review UI."""
 
