@@ -30,3 +30,19 @@ W2 uses the following open-source Python packages. Their exact installed version
 - joblib — BSD 3-Clause License — https://github.com/joblib/joblib
 - PyArrow — Apache License 2.0 — https://github.com/apache/arrow
 - PyTorch — BSD-style License — https://github.com/pytorch/pytorch
+
+## W7 documentation and retrieval model
+
+- Apache Hadoop HDFS documentation — Apache License 2.0 — https://hadoop.apache.org/docs/
+  Accessed 2026-10-13. The committed knowledge cards are original Chinese summaries;
+  the upstream documentation is linked as evidence and is not copied wholesale.
+- BAAI `bge-small-zh-v1.5` — MIT License —
+  https://huggingface.co/BAAI/bge-small-zh-v1.5
+  Pinned revision: `7999e1d3359715c523056ef9478215996d62a620`.
+  Source `model.safetensors` SHA-256:
+  `354763b9b1357bc9c44f62c6be2276321081ed2567773608c0d0785b61d5a026`.
+  The locally exported FP32 ONNX artifact is not committed and is verified by the
+  retrieval release manifest.
+- Hugging Face Transformers, Tokenizers, Hub, Optimum ONNX and ONNX Runtime are
+  used for model export or CPU inference. Their exact installed versions are
+  recorded in the two requirements lock files.

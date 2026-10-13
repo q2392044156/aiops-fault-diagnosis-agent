@@ -12,7 +12,7 @@ COPY requirements-service-lock.txt ./
 RUN python -m pip install --no-cache-dir -r requirements-service-lock.txt \
     && python -m pip check \
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin aiops \
-    && mkdir -p /app/runtime /app/release /app/data \
+    && mkdir -p /app/runtime /app/release /app/kb /app/data \
     && chown -R 10001:10001 /app/runtime /home/aiops
 
 ENV PYTHONPATH=/app/src

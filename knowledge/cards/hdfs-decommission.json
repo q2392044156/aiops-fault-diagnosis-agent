@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-decommission",
+  "title": "DataNode退役状态核对",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "退役长时间不完成或副本迁移停滞"
+  ],
+  "evidence_required": [
+    "记录退役节点、剩余待复制block、目标节点容量和include/exclude配置"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "退役长时间不完成或副本迁移停滞。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "记录退役节点、剩余待复制block、目标节点容量和include/exclude配置。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "确认节点处于正确退役状态，观察复制队列和容量约束，避免同时退役过多节点。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "错误移除仍含唯一副本的节点可能造成数据不可用，必须人工复核。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-lease-recovery",
+  "title": "文件租约恢复判断",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "文件长时间处于写入中、追加失败或lease recovery反复出现"
+  ],
+  "evidence_required": [
+    "记录文件路径、持有客户端、最后写入时间、pipeline节点和恢复日志"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "文件长时间处于写入中、追加失败或lease recovery反复出现。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "记录文件路径、持有客户端、最后写入时间、pipeline节点和恢复日志。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "确认原写入客户端是否仍活动，观察NameNode租约恢复进度并核对pipeline可用性。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "强制恢复可能中断仍在运行的写入，必须由业务所有者确认。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

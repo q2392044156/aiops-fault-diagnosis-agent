@@ -1,0 +1,60 @@
+{"schema_version":1,"query_id":"dev_q001","family_id":"dev_hdfs-namenode-unavailable_steps","split":"dev","query":"NameNode连接失败时应如何只读排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q002","family_id":"dev_hdfs-namenode-unavailable_evidence","split":"dev","query":"NameNode不可用需要收集哪些证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q003","family_id":"dev_hdfs-namenode-unavailable_risk","split":"dev","query":"建议切换或重启NameNode前有什么风险","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q004","family_id":"dev_hdfs-datanode-heartbeat_steps","split":"dev","query":"DataNode心跳缺失时如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q005","family_id":"dev_hdfs-datanode-heartbeat_evidence","split":"dev","query":"判断DataNode失联需要哪些证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q006","family_id":"dev_hdfs-datanode-heartbeat_risk","split":"dev","query":"多台DataNode同时失联应注意什么","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q007","family_id":"dev_hdfs-missing-blocks_steps","split":"dev","query":"HDFS提示missing block时如何核对","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q008","family_id":"dev_hdfs-missing-blocks_evidence","split":"dev","query":"缺失block需要保存哪些证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q009","family_id":"dev_hdfs-missing-blocks_risk","split":"dev","query":"处理缺失block时哪些操作不能自动执行","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q010","family_id":"dev_hdfs-corrupt-blocks_steps","split":"dev","query":"checksum错误和corrupt block如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q011","family_id":"dev_hdfs-corrupt-blocks_evidence","split":"dev","query":"损坏block应收集哪些副本证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q012","family_id":"dev_hdfs-corrupt-blocks_risk","split":"dev","query":"是否可以直接覆盖损坏的block文件","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q013","family_id":"dev_hdfs-under-replicated_steps","split":"dev","query":"under-replicated block持续增加如何处理","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q014","family_id":"dev_hdfs-under-replicated_evidence","split":"dev","query":"副本不足需要检查哪些容量和队列信息","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q015","family_id":"dev_hdfs-under-replicated_risk","split":"dev","query":"提高复制因子前要评估什么风险","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q016","family_id":"dev_hdfs-safemode_steps","split":"dev","query":"NameNode处于safe mode时如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q017","family_id":"dev_hdfs-safemode_evidence","split":"dev","query":"安全模式退出条件需要哪些证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q018","family_id":"dev_hdfs-safemode_risk","split":"dev","query":"能否直接强制退出safe mode","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q019","family_id":"dev_hdfs-disk-full_steps","split":"dev","query":"DataNode磁盘空间不足如何只读定位","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q020","family_id":"dev_hdfs-disk-full_evidence","split":"dev","query":"磁盘满需要采集哪些信息","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q021","family_id":"dev_hdfs-disk-full_risk","split":"dev","query":"能否直接删除DataNode数据目录内容","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q022","family_id":"dev_hdfs-volume-failure_steps","split":"dev","query":"DataNode出现failed volume如何诊断","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q023","family_id":"dev_hdfs-volume-failure_evidence","split":"dev","query":"卷故障需要哪些操作系统和副本证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q024","family_id":"dev_hdfs-volume-failure_risk","split":"dev","query":"重新格式化故障卷有什么风险","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q025","family_id":"dev_hdfs-permission-denied_steps","split":"dev","query":"HDFS Permission denied如何定位","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q026","family_id":"dev_hdfs-permission-denied_evidence","split":"dev","query":"权限拒绝需要核对哪些身份和ACL信息","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q027","family_id":"dev_hdfs-permission-denied_risk","split":"dev","query":"是否应临时把目录改成全局可写","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q028","family_id":"dev_hdfs-quota-exceeded_steps","split":"dev","query":"目录quota exceeded如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q029","family_id":"dev_hdfs-quota-exceeded_evidence","split":"dev","query":"配额超限要采集哪些使用量","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q030","family_id":"dev_hdfs-quota-exceeded_risk","split":"dev","query":"提升配额或删除数据需要什么控制","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q031","family_id":"dev_hdfs-replication-factor_steps","split":"dev","query":"文件副本数与预期不符如何判断","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q032","family_id":"dev_hdfs-replication-factor_evidence","split":"dev","query":"副本因子问题要核对哪些配置","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q033","family_id":"dev_hdfs-decommission_steps","split":"dev","query":"DataNode退役长时间不完成如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q034","family_id":"dev_hdfs-decommission_evidence","split":"dev","query":"退役前需要检查哪些待复制信息","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q035","family_id":"dev_hdfs-fsck_steps","split":"dev","query":"如何使用fsck收集只读证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q036","family_id":"dev_hdfs-fsck_evidence","split":"dev","query":"fsck有哪些高风险选项不能自动使用","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q037","family_id":"dev_hdfs-checkpoint_steps","split":"dev","query":"checkpoint长期未更新如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q038","family_id":"dev_hdfs-checkpoint_evidence","split":"dev","query":"NameNode元数据问题需要哪些证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q039","family_id":"dev_hdfs-journalnode_steps","split":"dev","query":"JournalNode多数派不足如何诊断","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q040","family_id":"dev_hdfs-journalnode_evidence","split":"dev","query":"操作JournalNode前有哪些停止条件","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q041","family_id":"dev_noanswer_01","split":"dev","query":"Kubernetes Pod驱逐如何修复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q042","family_id":"dev_noanswer_02","split":"dev","query":"MySQL主从复制延迟如何处理","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q043","family_id":"dev_noanswer_03","split":"dev","query":"Kafka消费者积压如何扩容","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q044","family_id":"dev_noanswer_04","split":"dev","query":"GPU显存溢出如何优化","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q045","family_id":"dev_noanswer_05","split":"dev","query":"DNS递归服务器缓存污染怎么办","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q046","family_id":"dev_noanswer_06","split":"dev","query":"Redis持久化失败如何恢复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q047","family_id":"dev_noanswer_07","split":"dev","query":"Nginx证书过期如何替换","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q048","family_id":"dev_noanswer_08","split":"dev","query":"PostgreSQL WAL损坏如何修复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q049","family_id":"dev_noanswer_09","split":"dev","query":"Ceph PG不一致如何处理","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q050","family_id":"dev_noanswer_10","split":"dev","query":"RabbitMQ镜像队列故障怎么修复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q051","family_id":"dev_noanswer_11","split":"dev","query":"Linux内核panic如何分析","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q052","family_id":"dev_noanswer_12","split":"dev","query":"交换机BGP邻居中断如何恢复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q053","family_id":"dev_noanswer_13","split":"dev","query":"Oracle表空间满如何扩容","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q054","family_id":"dev_noanswer_14","split":"dev","query":"MongoDB副本集选举失败怎么办","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q055","family_id":"dev_noanswer_15","split":"dev","query":"Elasticsearch分片红色如何恢复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q056","family_id":"dev_noanswer_16","split":"dev","query":"Tomcat线程池耗尽怎么调参","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q057","family_id":"dev_noanswer_17","split":"dev","query":"Prometheus远端写失败怎么办","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q058","family_id":"dev_noanswer_18","split":"dev","query":"容器镜像拉取失败如何处理","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q059","family_id":"dev_noanswer_19","split":"dev","query":"云负载均衡健康检查失败怎么办","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"dev_q060","family_id":"dev_noanswer_20","split":"dev","query":"物理服务器RAID重建如何操作","has_answer":false,"component":null,"product_version":null}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-network-timeout",
+  "title": "HDFS网络超时定位",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "HDFS Client"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "客户端到NameNode或DataNode出现connect/read timeout"
+  ],
+  "evidence_required": [
+    "收集源端、目标角色、端口、时间窗、重试次数和同网段对照"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "客户端到NameNode或DataNode出现connect/read timeout。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "收集源端、目标角色、端口、时间窗、重试次数和同网段对照。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "按客户端到NameNode、客户端到DataNode、DataNode间复制三条路径分别验证。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "网络超时不能仅凭日志确定根因；涉及防火墙变更必须走外部流程。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

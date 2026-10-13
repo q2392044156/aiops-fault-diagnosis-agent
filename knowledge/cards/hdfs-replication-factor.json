@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-replication-factor",
+  "title": "副本因子配置核对",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "BlockManager"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "文件副本数量与预期不符或复制流量异常"
+  ],
+  "evidence_required": [
+    "核对文件级副本因子、集群默认值、可用节点与机架条件"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "文件副本数量与预期不符或复制流量异常。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "核对文件级副本因子、集群默认值、可用节点与机架条件。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "区分配置预期、尚未完成复制和放置约束；先验证单文件再扩大范围。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "批量修改副本因子会消耗网络和磁盘，应分批并受控执行。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

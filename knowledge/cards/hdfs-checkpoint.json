@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-checkpoint",
+  "title": "NameNode元数据与checkpoint",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "SecondaryNameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "checkpoint长期未更新、edits增长或元数据操作变慢"
+  ],
+  "evidence_required": [
+    "收集最近checkpoint时间、edits规模、存储目录状态和相关日志"
+  ],
+  "risk_level": "high",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "checkpoint长期未更新、edits增长或元数据操作变慢。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "收集最近checkpoint时间、edits规模、存储目录状态和相关日志。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "核对checkpoint组件是否运行、存储是否可写以及上传是否成功；保留时间线。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "手工替换元数据文件风险极高，必须备份并由资深管理员处理。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

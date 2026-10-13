@@ -1,0 +1,18 @@
+schema_version: 1
+sources:
+  - source_id: apache-hdfs-3.3.5
+    title: Apache Hadoop 3.3.5 HDFS Users Guide
+    publisher: Apache Software Foundation
+    source_url: https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html
+    source_version: "3.3.5"
+    accessed_at: "2026-10-13"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: project-ops-policy-v1
+    title: Project-authored read-only operations safety policy
+    publisher: aiops-fault-diagnosis-agent
+    source_url: null
+    source_version: "v1"
+    accessed_at: "2026-10-13"
+    license: project-original
+    usage: Original generic safety rules; not an enterprise runbook.

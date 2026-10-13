@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-volume-failure",
+  "title": "DataNode卷故障排查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "DataNode报告failed volume，节点容量骤降或部分block不可访问"
+  ],
+  "evidence_required": [
+    "收集卷错误、操作系统磁盘事件、坏盘范围和健康副本数量"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "DataNode报告failed volume，节点容量骤降或部分block不可访问。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "收集卷错误、操作系统磁盘事件、坏盘范围和健康副本数量。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "隔离判断硬件、文件系统或权限问题，核对容忍卷故障配置与剩余健康容量。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "重新格式化或移除卷会影响数据，必须由存储管理员执行。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

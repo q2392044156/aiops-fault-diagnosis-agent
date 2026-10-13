@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "ops-evidence-window",
+  "title": "故障证据时间窗管理",
+  "category": "operations",
+  "content_origin": "original",
+  "component": [
+    "Operations"
+  ],
+  "product": "Generic operations",
+  "version_scope": [
+    "project-policy-v1"
+  ],
+  "symptoms": [
+    "不同日志来源时间范围不一致，容易遗漏前因或混入无关事件"
+  ],
+  "evidence_required": [
+    "记录每个来源的覆盖起止、时区、缺口、采集时间和过滤条件"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "project-ops-policy-v1"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "不同日志来源时间范围不一致，容易遗漏前因或混入无关事件。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "记录每个来源的覆盖起止、时区、缺口、采集时间和过滤条件。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "使用左闭右开时间窗，保留故障前后缓冲并在报告中列出缺失区间。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "时间基础不可靠时不得声明严格先后因果。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

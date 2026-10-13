@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "ops-clock-timezone",
+  "title": "时钟与时区不确定性",
+  "category": "operations",
+  "content_origin": "original",
+  "component": [
+    "Operations"
+  ],
+  "product": "Generic operations",
+  "version_scope": [
+    "project-policy-v1"
+  ],
+  "symptoms": [
+    "跨节点时间戳无法直接对齐或日志未携带时区"
+  ],
+  "evidence_required": [
+    "收集主机时区配置、NTP状态、原始时间字符串和采集端时间"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "project-ops-policy-v1"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "跨节点时间戳无法直接对齐或日志未携带时区。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "收集主机时区配置、NTP状态、原始时间字符串和采集端时间。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "保留原始时间，不擅自转换为UTC；以可验证偏移建立相对顺序。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "时钟偏差未知时只能报告观察关联，不能断言因果。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-namenode-unavailable",
+  "title": "NameNode不可用的只读诊断",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "客户端无法列目录或创建文件，连接NameNode失败"
+  ],
+  "evidence_required": [
+    "核对NameNode进程、RPC端口、HA角色和同时间窗客户端错误，先区分服务不可达与权限问题"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "客户端无法列目录或创建文件，连接NameNode失败。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "核对NameNode进程、RPC端口、HA角色和同时间窗客户端错误，先区分服务不可达与权限问题。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "只读查看NameNode状态与日志，核对客户端配置中的服务地址，再检查HA是否存在可用Active节点。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "切换或重启会改变集群状态；证据不足时停止并升级给HDFS管理员。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

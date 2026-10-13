@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-disk-full",
+  "title": "DataNode磁盘空间不足",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "写入失败、volume剩余空间低或磁盘使用率持续接近上限"
+  ],
+  "evidence_required": [
+    "核对各数据目录可用空间、保留空间配置、失败写入和容量趋势"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "写入失败、volume剩余空间低或磁盘使用率持续接近上限。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "核对各数据目录可用空间、保留空间配置、失败写入和容量趋势。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "先确认是单卷还是整机容量问题，清点非HDFS文件与异常增长来源并制定扩容方案。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "不可直接删除HDFS数据目录内容；任何清理需走数据所有者审批。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

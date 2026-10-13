@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -142,3 +142,73 @@ class OperationsSummary(StrictModel):
     failed: int
     oldest_queue_seconds: float | None
     last_finished_at: str | None
+
+
+class RetrievalSearchRequest(StrictModel):
+    query: str = Field(min_length=1, max_length=500)
+    top_k: int | None = Field(default=None, ge=1, le=10)
+    mode: Literal["frozen", "bm25", "dense", "hybrid"] = "frozen"
+    component: str | None = Field(default=None, min_length=1, max_length=64)
+    product_version: str | None = Field(default=None, min_length=1, max_length=32)
+
+
+class RetrievalItem(StrictModel):
+    rank: int
+    chunk_id: str
+    doc_id: str
+    title: str
+    section_path: str
+    excerpt: str
+    component: list[str]
+    product: str
+    version_scope: list[str]
+    risk_level: str
+    source_id: str
+    source_url: str | None
+    source_version: str
+    maintained_at: str
+    evidence_url: str
+    bm25_score: float
+    dense_score: float | None
+    rrf_score: float
+
+
+class RetrievalSearchResponse(StrictModel):
+    schema_version: int = 1
+    kb_release_id: str
+    mode: str
+    status: Literal["evidence_found", "insufficient_evidence"]
+    elapsed_ms: float
+    items: list[RetrievalItem]
+
+
+class KnowledgeChunkResponse(StrictModel):
+    schema_version: int = 1
+    kb_release_id: str
+    chunk_id: str
+    doc_id: str
+    title: str
+    section_path: str
+    text: str
+    component: list[str]
+    product: str
+    version_scope: list[str]
+    risk_level: str
+    source_id: str
+    source_url: str | None
+    source_version: str
+    maintained_at: str
+
+
+class KnowledgeReleaseResponse(StrictModel):
+    schema_version: int
+    kb_release_id: str
+    corpus_hash: str
+    index_hash: str
+    model_revision: str
+    model_hash: str
+    default_mode: str
+    default_k: int
+    gate_threshold: float
+    chunk_variant: str
+    chunk_count: int

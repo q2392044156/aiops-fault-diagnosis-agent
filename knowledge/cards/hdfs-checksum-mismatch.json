@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-checksum-mismatch",
+  "title": "校验和不一致证据链",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "HDFS Client"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "读取过程中校验和不一致或本地缓存与远端内容冲突"
+  ],
+  "evidence_required": [
+    "记录文件、block、读取副本、客户端版本和校验错误原文"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "读取过程中校验和不一致或本地缓存与远端内容冲突。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "记录文件、block、读取副本、客户端版本和校验错误原文。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "从其他副本只读验证，区分传输、本地缓存与存储介质问题。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "关闭校验会隐藏损坏风险，禁止作为修复建议。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

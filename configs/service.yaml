@@ -1,5 +1,6 @@
 schema_version: 2
 model_config: configs/model_lr.yaml
+retrieval_config: configs/retrieval.yaml
 w4_release_dir: experiments/time_event_v1/model_selection_v1/final
 release_dir: artifacts/releases/v0.3_service
 server:

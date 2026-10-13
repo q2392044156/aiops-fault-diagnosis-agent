@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "release_id": "kb_v0.1",
+  "seed": 42,
+  "corpus": {
+    "card_count": 30,
+    "hdfs_card_count": 24,
+    "generic_operations_card_count": 6,
+    "corpus_sha256": "e1e62e67e43e253f232d3023a3b1064736044435e896f688dd39b3e30e6f4e49"
+  },
+  "evaluation": {
+    "rdev": {
+      "query_count": 60,
+      "answerable": 40,
+      "unanswerable": 20,
+      "input_sha256": "238f70d1d79fd770e8c357049ed96cf718accdda5c656f98cdecea31dfd10f0d"
+    },
+    "rtest": {
+      "query_count": 60,
+      "answerable": 40,
+      "unanswerable": 20,
+      "input_sha256": "97d6153305b11588c806be05a8766d918f22fcf54c716eb9db2177fc8cc03448"
+    },
+    "family_overlap": 0
+  },
+  "model": {
+    "repo_id": "BAAI/bge-small-zh-v1.5",
+    "revision": "7999e1d3359715c523056ef9478215996d62a620",
+    "source_safetensors_sha256": "354763b9b1357bc9c44f62c6be2276321081ed2567773608c0d0785b61d5a026",
+    "onnx_sha256": "f5dbc92b825a90812f439bbbae42f77d9291dd93b6d38af29433ac1dd742c243",
+    "dimension": 512,
+    "fp32_max_abs_error": 1.902226358652115e-07,
+    "top5_ranking_equal": true
+  },
+  "frozen_retriever": {
+    "chunk_variant": "fixed",
+    "mode": "hybrid",
+    "top_k": 3,
+    "gate_threshold": 0.55043625831604,
+    "index_sha256": "6418221be42ef5c8caae30e879533f85bd1f1eae55d193164aa8333dc9da694b",
+    "registry_sha256": "aad157670bbd8a45bc000dd03e1a7c8062453a1e667a01b6ec3492b0808c47d9",
+    "release_manifest_sha256": "c9f8a44ba0d7bd21f0e991f8a736b558e9169d330c9bd69f64c86a29cfdece35"
+  },
+  "rdev_hybrid_at_5": {
+    "recall": 1.0,
+    "mrr": 0.9333333333333333,
+    "ndcg": 0.785412861063029,
+    "no_answer_false_return": 0.1
+  },
+  "rtest_hybrid_at_5": {
+    "recall": 0.975,
+    "mrr": 0.9375,
+    "ndcg": 0.782708393561778,
+    "no_answer_false_return_with_frozen_gate": 0.2
+  },
+  "limitations": [
+    "The Rtest no-answer false-return rate exceeded the Rdev gate target; Rtest was not used for retuning.",
+    "The knowledge base is a small project-authored corpus and is not an enterprise runbook.",
+    "Retrieval returns evidence only and does not generate a diagnosis or execute remediation."
+  ]
+}

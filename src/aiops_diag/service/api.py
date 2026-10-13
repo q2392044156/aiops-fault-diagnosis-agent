@@ -1,6 +1,8 @@
 import base64
+import hashlib
 import json
 import logging
+import re
 import time
 import uuid
 from contextlib import asynccontextmanager
@@ -15,8 +17,9 @@ from fastapi.responses import JSONResponse
 from .db import IdempotencyConflict, QueueFull
 from .runtime import ServiceRuntime
 from .schemas import (BatchResponse, ErrorBody, EventDetail, EventList, HealthResponse,
-                      LogItem, LogList, OperationsSummary, RegisteredBatchList,
-                      RegisteredRequest, ReleaseResponse, SessionResponse, TaskResponse)
+                      KnowledgeChunkResponse, KnowledgeReleaseResponse, LogItem, LogList,
+                      OperationsSummary, RegisteredBatchList, RegisteredRequest, ReleaseResponse,
+                      RetrievalSearchRequest, RetrievalSearchResponse, SessionResponse, TaskResponse)
 
 
 AUDIT_LOG = logging.getLogger("aiops_diag.service.audit")
@@ -148,6 +151,63 @@ def create_app(cfg, start_worker=False, runtime=None):
             raise ServiceError(503, "RELEASE_UNAVAILABLE", runtime.ready_detail or "Not ready", True)
         age = int(cfg.get("worker", {}).get("heartbeat_max_age_seconds", 15))
         return runtime.db.operation_summary(runtime.manifest["release_id"], age)
+
+    @app.get("/api/v1/knowledge/releases/current", response_model=KnowledgeReleaseResponse)
+    def current_knowledge_release():
+        if runtime.retriever is None:
+            raise ServiceError(503, "KNOWLEDGE_UNAVAILABLE", "Knowledge release is unavailable", True)
+        return runtime.retriever.public()
+
+    @app.post("/api/v1/retrieval/search", response_model=RetrievalSearchResponse)
+    def retrieve(body: RetrievalSearchRequest):
+        if runtime.retriever is None:
+            raise ServiceError(503, "KNOWLEDGE_UNAVAILABLE", "Knowledge release is unavailable", True)
+        started = time.perf_counter()
+        try:
+            result = runtime.retriever.search(body.query, mode=body.mode, top_k=body.top_k,
+                                              component=body.component,
+                                              product_version=body.product_version)
+        except ValueError as exc:
+            raise ServiceError(422, "INVALID_RETRIEVAL_REQUEST", str(exc)) from exc
+        items = []
+        for row in result["items"]:
+            items.append({"rank": row["rank"], "chunk_id": row["chunk_id"],
+                          "doc_id": row["doc_id"], "title": row["title"],
+                          "section_path": row["section_path"], "excerpt": row["text"],
+                          "component": row["component"], "product": row["product"],
+                          "version_scope": row["version_scope"], "risk_level": row["risk_level"],
+                          "source_id": row["source_id"], "source_url": row["source_url"],
+                          "source_version": row["source_version"],
+                          "maintained_at": row["maintained_at"],
+                          "evidence_url": f"/api/v1/knowledge/chunks/{row['chunk_id']}",
+                          "bm25_score": row["bm25_score"], "dense_score": row["dense_score"],
+                          "rrf_score": row["rrf_score"]})
+        elapsed = (time.perf_counter() - started) * 1000
+        AUDIT_LOG.info(json.dumps({"event": "knowledge_retrieval",
+                                   "query_hash": hashlib.sha256(body.query.encode()).hexdigest(),
+                                   "mode": result["mode"], "status": result["status"],
+                                   "result_count": len(items), "elapsed_ms": round(elapsed, 3)},
+                                  separators=(",", ":")))
+        return {"kb_release_id": runtime.retriever.manifest["kb_release_id"],
+                "mode": result["mode"], "status": result["status"],
+                "elapsed_ms": elapsed, "items": items}
+
+    @app.get("/api/v1/knowledge/chunks/{chunk_id}", response_model=KnowledgeChunkResponse)
+    def knowledge_chunk(chunk_id: str):
+        if runtime.retriever is None:
+            raise ServiceError(503, "KNOWLEDGE_UNAVAILABLE", "Knowledge release is unavailable", True)
+        if not re.fullmatch(r"chk_[a-f0-9]{24}", chunk_id):
+            raise ServiceError(422, "INVALID_CHUNK_ID", "Chunk identifier is invalid")
+        row = runtime.retriever.chunk(chunk_id)
+        if row is None:
+            raise ServiceError(404, "CHUNK_NOT_FOUND", "Knowledge chunk was not found")
+        return {"kb_release_id": runtime.retriever.manifest["kb_release_id"],
+                "chunk_id": row["chunk_id"], "doc_id": row["doc_id"], "title": row["title"],
+                "section_path": row["section_path"], "text": row["text"],
+                "component": row["component"], "product": row["product"],
+                "version_scope": row["version_scope"], "risk_level": row["risk_level"],
+                "source_id": row["source_id"], "source_url": row["source_url"],
+                "source_version": row["source_version"], "maintained_at": row["maintained_at"]}
 
     @app.post("/api/v1/batches/uploads", status_code=202, response_model=TaskResponse)
     async def upload_batch(file: UploadFile = File(...), idempotency_key: str | None = Header(

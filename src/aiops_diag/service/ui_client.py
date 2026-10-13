@@ -59,6 +59,17 @@ class ApiClient:
             params["cursor"] = cursor
         return self._value(self.client.get(f"/api/v1/batches/{batch_id}/logs", params=params))
 
+    def knowledge_release(self):
+        return self._value(self.client.get("/api/v1/knowledge/releases/current"))
+
+    def retrieve(self, query, top_k=None, mode="frozen", component=None, product_version=None):
+        payload = {"query": query, "mode": mode, "top_k": top_k,
+                   "component": component, "product_version": product_version}
+        return self._value(self.client.post("/api/v1/retrieval/search", json=payload))
+
+    def knowledge_chunk(self, chunk_id):
+        return self._value(self.client.get(f"/api/v1/knowledge/chunks/{chunk_id}"))
+
     def close(self):
         self.client.close()
 

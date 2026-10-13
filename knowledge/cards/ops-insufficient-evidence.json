@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "ops-insufficient-evidence",
+  "title": "证据不足时的停止规则",
+  "category": "operations",
+  "content_origin": "original",
+  "component": [
+    "Operations"
+  ],
+  "product": "Generic operations",
+  "version_scope": [
+    "project-policy-v1"
+  ],
+  "symptoms": [
+    "现有日志无法区分多个假设或关键模态缺失"
+  ],
+  "evidence_required": [
+    "列出已获得证据、相互矛盾点、缺失数据和可执行的只读补查"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "project-ops-policy-v1"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "现有日志无法区分多个假设或关键模态缺失。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "列出已获得证据、相互矛盾点、缺失数据和可执行的只读补查。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "明确返回insufficient_evidence，并给出最小补证清单，不用常识补造根因。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "低置信度不得包装成确定结论；预算耗尽或关键工具失败时转人工。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

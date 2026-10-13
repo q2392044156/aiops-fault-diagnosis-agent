@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-corrupt-blocks",
+  "title": "损坏block与校验失败",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "客户端报告checksum error，fsck显示corrupt block"
+  ],
+  "evidence_required": [
+    "保留校验错误、block位置、涉及DataNode和其他副本读取结果"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "客户端报告checksum error，fsck显示corrupt block。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "保留校验错误、block位置、涉及DataNode和其他副本读取结果。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "先从不同副本验证是否局部损坏，再核对磁盘与DataNode日志；记录可恢复副本。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "不要手工覆盖block文件；无健康副本时必须停止并升级。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

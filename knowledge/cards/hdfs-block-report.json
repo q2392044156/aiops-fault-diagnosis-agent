@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-block-report",
+  "title": "block report延迟或失败",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "NameNode视图与DataNode存储不一致，block report耗时或失败"
+  ],
+  "evidence_required": [
+    "记录全量与增量block report时间、节点规模、RPC错误和NameNode负载"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "NameNode视图与DataNode存储不一致，block report耗时或失败。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "记录全量与增量block report时间、节点规模、RPC错误和NameNode负载。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "确认是单节点、批次拥塞还是NameNode压力，观察后续报告是否恢复。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "频繁触发全量报告会增加负载，不应作为默认操作。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import yaml
 
 from aiops_diag.data.common import key
 from aiops_diag.modeling.config import load as load_model_config
+from aiops_diag.retrieval.config import load as load_retrieval_config
 
 
 def load(path):
@@ -20,6 +21,8 @@ def load(path):
     cfg["root"] = str(root)
     cfg["config_path"] = str(path)
     cfg["model"] = load_model_config(root / raw["model_config"])
+    if raw.get("retrieval_config"):
+        cfg["retrieval"] = load_retrieval_config(root / raw["retrieval_config"])
     for field in ("w4_release_dir", "release_dir"):
         cfg[field] = str((root / raw[field]).resolve())
     for field in ("runtime_dir", "database"):

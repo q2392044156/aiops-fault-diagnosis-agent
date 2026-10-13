@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "ops-network-escalation",
+  "title": "网络故障的分层升级",
+  "category": "operations",
+  "content_origin": "original",
+  "component": [
+    "Operations"
+  ],
+  "product": "Generic operations",
+  "version_scope": [
+    "project-policy-v1"
+  ],
+  "symptoms": [
+    "连接失败涉及多个服务或跨网络区域"
+  ],
+  "evidence_required": [
+    "记录源、目标、端口、协议、时间窗、路由和对照探测结果"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "project-ops-policy-v1"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "连接失败涉及多个服务或跨网络区域。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "记录源、目标、端口、协议、时间窗、路由和对照探测结果。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "先确认应用监听与本机路径，再携带证据升级网络团队，避免无依据改防火墙。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "本项目没有网络变更工具，也不输出可直接执行的封禁或放通操作。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "ops-restart-risk",
+  "title": "重启建议的风险门禁",
+  "category": "operations",
+  "content_origin": "original",
+  "component": [
+    "Operations"
+  ],
+  "product": "Generic operations",
+  "version_scope": [
+    "project-policy-v1"
+  ],
+  "symptoms": [
+    "排查过程中出现重启服务或节点的建议"
+  ],
+  "evidence_required": [
+    "确认冗余、正在运行任务、恢复窗口、回滚方案和审批责任人"
+  ],
+  "risk_level": "high",
+  "source_ids": [
+    "project-ops-policy-v1"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "排查过程中出现重启服务或节点的建议。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "确认冗余、正在运行任务、恢复窗口、回滚方案和审批责任人。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "先完成只读证据收集；重启只能作为待人工复核建议，不由本系统执行。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "未知动作默认高风险，未满足前置条件必须停止。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

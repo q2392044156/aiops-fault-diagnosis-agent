@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "ops-disk-safety",
+  "title": "磁盘清理与容量安全边界",
+  "category": "operations",
+  "content_origin": "original",
+  "component": [
+    "Operations"
+  ],
+  "product": "Generic operations",
+  "version_scope": [
+    "project-policy-v1"
+  ],
+  "symptoms": [
+    "容量不足时有人提出删除日志或数据"
+  ],
+  "evidence_required": [
+    "收集目录所有者、保留策略、备份状态、增长速率和可回收清单"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "project-ops-policy-v1"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "容量不足时有人提出删除日志或数据。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "收集目录所有者、保留策略、备份状态、增长速率和可回收清单。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "优先扩容、限流或归档评估；任何删除对象必须精确列举并经所有者批准。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "禁止通配符删除、递归删除未知目录或直接删除HDFS数据块。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

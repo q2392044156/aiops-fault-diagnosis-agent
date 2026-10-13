@@ -4,6 +4,7 @@
 .uv-cache/
 __pycache__/
 .pytest_cache/
+.test-cache/
 *.egg-info/
 /data/
 /artifacts/

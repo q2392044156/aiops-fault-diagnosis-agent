@@ -128,6 +128,26 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service benchm
 
 若发布包或登记数据不在默认位置，可在启动 Compose 前设置 `AIOPS_RELEASE_DIR` 和 `AIOPS_REGISTERED_FILE` 为对应宿主机路径。容器运行阶段不会下载模型、训练模型或重新选择阈值。
 
+## W7 运维知识检索
+
+W7 提供30篇可追溯的中文原创知识卡片（24篇HDFS、6篇通用运维）、BM25、BGE Dense 与 RRF Hybrid 检索。Dense 模型固定为官方 `BAAI/bge-small-zh-v1.5` revision `7999e1d3359715c523056ef9478215996d62a620`，本地导出为FP32 ONNX；服务镜像不安装Torch，也不会在运行时联网下载模型。
+
+```powershell
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval validate --config configs/retrieval.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval fetch-model --config configs/retrieval.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval build --config configs/retrieval.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval tune --config configs/retrieval.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval publish --config configs/retrieval.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval finalize --config configs/retrieval.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval verify --config configs/retrieval.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval search --config configs/retrieval.yaml --query "NameNode安全模式如何只读排查？"
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval benchmark --config configs/retrieval.yaml
+```
+
+Rdev 冻结方案为固定切分、Hybrid、Top-3，证据门禁阈值为 `0.55043625831604`。冻结前Rdev的Hybrid Top-5取得 Recall 1.000、MRR 0.9333、nDCG 0.7854；一次性Rtest的Hybrid Top-5取得 Recall 0.975、MRR 0.9375、nDCG 0.7827。门禁在Rdev将无答案误返回控制为10%，但Rtest实测为20%，说明拒答校准仍有分布差异；该结果未用于反向调参，W8前应将其作为已知限制。
+
+服务新增 `POST /api/v1/retrieval/search`、`GET /api/v1/knowledge/chunks/{chunk_id}` 和 `GET /api/v1/knowledge/releases/current`。Streamlit“知识检索”页只通过这些API访问数据，可查看BM25、Dense、RRF分数和可点击证据。检索只返回现有卡片证据，不调用LLM，也不生成诊断结论或处置建议。
+
 本机 W6 验收中，W1 开发批次的 233,584 行日志和 10,000 个会话在约9.82秒内完成，得到502个异常事件；并发1/2/4下100次摘要查询均无错误，P95分别为4.60/8.23/16.03毫秒。五次完整容器启动为13.07–13.74秒，五次热重启为1.92–2.04秒。以上仅是当前机器的研究原型实测，不作为生产容量承诺。
 
 请只提交代码、配置、依赖文件和自制测试；不要提交 `data/`、`artifacts/`、`experiments/`、`docs/`、`.conda-env/` 或旧 `.venv/`。

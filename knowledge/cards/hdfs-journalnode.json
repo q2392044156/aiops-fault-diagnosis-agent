@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-journalnode",
+  "title": "JournalNode法定多数异常",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "JournalNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "HA写入受阻并出现JournalNode不可达或多数派不足"
+  ],
+  "evidence_required": [
+    "记录各JournalNode可达性、磁盘状态、epoch相关错误和发生时间"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "HA写入受阻并出现JournalNode不可达或多数派不足。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "记录各JournalNode可达性、磁盘状态、epoch相关错误和发生时间。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "分别核对网络、进程和存储，确认是否仍满足法定多数；不要只看单节点日志。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "同时操作多个JournalNode可能破坏HA元数据，需逐节点审批。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

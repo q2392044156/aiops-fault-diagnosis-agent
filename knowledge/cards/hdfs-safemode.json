@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-safemode",
+  "title": "NameNode安全模式判断",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "写入被拒绝并提示safe mode，NameNode尚未满足block汇报阈值"
+  ],
+  "evidence_required": [
+    "记录安全模式状态、缺失block比例、DataNode注册与block report进度"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "写入被拒绝并提示safe mode，NameNode尚未满足block汇报阈值。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "记录安全模式状态、缺失block比例、DataNode注册与block report进度。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "只读查询安全模式原因，等待或排查阻塞block汇报的节点；确认退出条件是否自然满足。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "强制离开安全模式可能掩盖数据风险，未经复核不得执行。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

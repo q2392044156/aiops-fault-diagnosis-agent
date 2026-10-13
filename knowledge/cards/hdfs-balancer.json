@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-balancer",
+  "title": "Balancer运行前证据检查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "Balancer"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "节点利用率不均或新增节点长期空闲"
+  ],
+  "evidence_required": [
+    "收集节点容量利用率、网络窗口、迁移阈值和正在进行的恢复任务"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "节点利用率不均或新增节点长期空闲。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "收集节点容量利用率、网络窗口、迁移阈值和正在进行的恢复任务。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "先判断不均衡是否影响服务，再选择低峰期评估balancer，不与大规模恢复叠加。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "Balancer增加网络与磁盘IO，运行与停止均需人工控制。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}

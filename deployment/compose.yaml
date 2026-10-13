@@ -18,14 +18,14 @@ x-common: &common
     AIOPS_RELEASE_DIR: /app/release
     AIOPS_RUNTIME_DIR: /app/runtime
     AIOPS_REGISTERED_ROOT: /app/data
-  volumes: &volumes
-    - aiops-runtime:/app/runtime
-    - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.3_service}:/app/release:ro
-    - ${AIOPS_REGISTERED_FILE:-../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
 
 services:
   worker:
     <<: *common
+    volumes:
+      - aiops-runtime:/app/runtime
+      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.3_service}:/app/release:ro
+      - ${AIOPS_REGISTERED_FILE:-../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
     command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service.yaml"]
     healthcheck:
       test: ["CMD", "python", "-m", "aiops_diag.service", "worker-health", "--config", "configs/service.yaml"]
@@ -39,6 +39,11 @@ services:
     environment:
       <<: *environment
       AIOPS_HOST: 0.0.0.0
+      AIOPS_KB_RELEASE_DIR: /app/kb
+    volumes:
+      - aiops-runtime:/app/runtime
+      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.3_service}:/app/release:ro
+      - ${AIOPS_KB_RELEASE_DIR:-../artifacts/releases/kb_v0.1}:/app/kb:ro
     command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service.yaml"]
     depends_on:
       worker:
@@ -57,6 +62,7 @@ services:
     environment:
       <<: *environment
       AIOPS_API_URL: http://api:8000
+      AIOPS_PUBLIC_API_URL: http://127.0.0.1:8000
     command: ["streamlit", "run", "/app/src/aiops_diag/service/streamlit_app.py",
               "--server.address=0.0.0.0", "--server.port=8501", "--server.headless=true"]
     depends_on:

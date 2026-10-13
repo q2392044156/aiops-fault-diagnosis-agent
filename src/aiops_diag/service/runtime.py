@@ -7,6 +7,7 @@ import uuid
 from pathlib import Path
 
 from aiops_diag.data.common import digest, key
+from aiops_diag.retrieval.release import FrozenRetriever
 
 from .db import Database, LeaseLost
 from .pipeline import database_payload, process
@@ -27,6 +28,7 @@ class ServiceRuntime:
         self.db.init()
         self.model = None
         self.release = None
+        self.retriever = None
         self.ready_error = None
         try:
             if load_model:
@@ -34,6 +36,8 @@ class ServiceRuntime:
                 self.release = self.model
             else:
                 self.release = ReleaseMetadata(cfg)
+            if role == "api" and cfg.get("retrieval"):
+                self.retriever = FrozenRetriever(cfg["retrieval"])
         except Exception as exc:
             self.ready_error = f"{type(exc).__name__}: {exc}"
         self.stop_event = threading.Event()
@@ -49,6 +53,13 @@ class ServiceRuntime:
     def ready(self):
         if self.ready_error is not None or self.manifest is None:
             return False
+        if self.role == "api" and self.cfg.get("retrieval") and self.retriever is None:
+            return False
+        if self.retriever is not None and hasattr(self.retriever, "verify_integrity"):
+            try:
+                self.retriever.verify_integrity()
+            except Exception:
+                return False
         if self.model is not None:
             return True
         max_age = int(self.cfg.get("worker", {}).get("heartbeat_max_age_seconds", 15))
@@ -60,6 +71,13 @@ class ServiceRuntime:
             return self.ready_error
         if self.manifest is None:
             return "Release metadata is unavailable"
+        if self.role == "api" and self.cfg.get("retrieval") and self.retriever is None:
+            return "Knowledge release is unavailable"
+        if self.retriever is not None and hasattr(self.retriever, "verify_integrity"):
+            try:
+                self.retriever.verify_integrity()
+            except Exception as exc:
+                return f"Knowledge integrity error: {type(exc).__name__}: {exc}"
         if self.model is None and not self.ready:
             return "No healthy model worker heartbeat"
         return None

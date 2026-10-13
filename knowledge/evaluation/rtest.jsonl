@@ -1,0 +1,60 @@
+{"schema_version":1,"query_id":"test_q001","family_id":"test_hdfs-standby-lag_steps","split":"test","query":"Standby NameNode同步滞后如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q002","family_id":"test_hdfs-standby-lag_evidence","split":"test","query":"Standby滞后要采集哪些事务证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q003","family_id":"test_hdfs-standby-lag_risk","split":"test","query":"同步未知时能否直接切换角色","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q004","family_id":"test_hdfs-block-report_steps","split":"test","query":"block report延迟如何定位","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q005","family_id":"test_hdfs-block-report_evidence","split":"test","query":"block report问题需要哪些负载证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q006","family_id":"test_hdfs-block-report_risk","split":"test","query":"是否应频繁触发全量block report","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q007","family_id":"test_hdfs-network-timeout_steps","split":"test","query":"HDFS网络超时如何分层定位","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q008","family_id":"test_hdfs-network-timeout_evidence","split":"test","query":"网络超时需要记录哪些源目标信息","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q009","family_id":"test_hdfs-network-timeout_risk","split":"test","query":"能否仅凭一条超时日志判断网络根因","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q010","family_id":"test_hdfs-checksum-mismatch_steps","split":"test","query":"校验和不一致如何验证副本","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q011","family_id":"test_hdfs-checksum-mismatch_evidence","split":"test","query":"checksum mismatch需要收集哪些证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q012","family_id":"test_hdfs-checksum-mismatch_risk","split":"test","query":"是否可以关闭校验绕过错误","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q013","family_id":"test_hdfs-lease-recovery_steps","split":"test","query":"文件租约恢复反复出现如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q014","family_id":"test_hdfs-lease-recovery_evidence","split":"test","query":"lease recovery需要哪些客户端证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q015","family_id":"test_hdfs-lease-recovery_risk","split":"test","query":"强制恢复租约有哪些风险","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q016","family_id":"test_hdfs-small-files_steps","split":"test","query":"小文件导致NameNode压力如何判断","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q017","family_id":"test_hdfs-small-files_evidence","split":"test","query":"小文件问题需要哪些规模和GC证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q018","family_id":"test_hdfs-small-files_risk","split":"test","query":"能否直接批量删除小文件","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q019","family_id":"test_hdfs-balancer_steps","split":"test","query":"运行Balancer前如何评估","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q020","family_id":"test_hdfs-balancer_evidence","split":"test","query":"Balancer需要收集哪些利用率信息","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q021","family_id":"test_hdfs-balancer_risk","split":"test","query":"为什么不能与大规模恢复同时运行","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q022","family_id":"test_hdfs-rack-awareness_steps","split":"test","query":"副本集中同一机架如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q023","family_id":"test_hdfs-rack-awareness_evidence","split":"test","query":"机架感知问题需要哪些映射证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q024","family_id":"test_hdfs-rack-awareness_risk","split":"test","query":"修改拓扑配置有什么影响","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q025","family_id":"test_hdfs-write-pipeline_steps","split":"test","query":"客户端写入pipeline失败如何排查","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q026","family_id":"test_hdfs-write-pipeline_evidence","split":"test","query":"pipeline失败需要收集哪些ack证据","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q027","family_id":"test_hdfs-write-pipeline_risk","split":"test","query":"持续重试写入有什么风险","has_answer":true,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q028","family_id":"test_ops-evidence-window_steps","split":"test","query":"如何建立故障证据时间窗","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q029","family_id":"test_ops-evidence-window_evidence","split":"test","query":"时间窗需要记录哪些覆盖和缺口","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q030","family_id":"test_ops-evidence-window_risk","split":"test","query":"时区不可靠时能否断言严格因果","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q031","family_id":"test_ops-clock-timezone_steps","split":"test","query":"日志没有时区时如何处理","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q032","family_id":"test_ops-clock-timezone_evidence","split":"test","query":"时钟对齐需要哪些NTP证据","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q033","family_id":"test_ops-restart-risk_steps","split":"test","query":"提出重启建议前要检查什么","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q034","family_id":"test_ops-restart-risk_evidence","split":"test","query":"重启为什么必须人工复核","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q035","family_id":"test_ops-disk-safety_steps","split":"test","query":"磁盘空间不足时如何安全处置","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q036","family_id":"test_ops-disk-safety_evidence","split":"test","query":"为什么不能使用通配符递归删除","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q037","family_id":"test_ops-network-escalation_steps","split":"test","query":"网络连接失败如何携带证据升级","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q038","family_id":"test_ops-network-escalation_evidence","split":"test","query":"本系统能否直接修改防火墙","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q039","family_id":"test_ops-insufficient-evidence_steps","split":"test","query":"证据不足时系统应如何返回","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q040","family_id":"test_ops-insufficient-evidence_evidence","split":"test","query":"哪些情况必须停止并转人工","has_answer":true,"component":"Operations","product_version":null}
+{"schema_version":1,"query_id":"test_q041","family_id":"test_noanswer_01","split":"test","query":"etcd集群失去多数派如何恢复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q042","family_id":"test_noanswer_02","split":"test","query":"ZooKeeper会话频繁过期怎么办","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q043","family_id":"test_noanswer_03","split":"test","query":"Spark任务shuffle失败如何调优","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q044","family_id":"test_noanswer_04","split":"test","query":"Flink checkpoint超时如何处理","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q045","family_id":"test_noanswer_05","split":"test","query":"ClickHouse合并队列积压怎么办","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q046","family_id":"test_noanswer_06","split":"test","query":"SQL Server死锁如何定位","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q047","family_id":"test_noanswer_07","split":"test","query":"Windows域控复制失败如何恢复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q048","family_id":"test_noanswer_08","split":"test","query":"TLS私钥泄露后如何轮换","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q049","family_id":"test_noanswer_09","split":"test","query":"WAF误封业务请求如何放行","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q050","family_id":"test_noanswer_10","split":"test","query":"堡垒机账号锁定如何解锁","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q051","family_id":"test_noanswer_11","split":"test","query":"SAN存储多路径故障如何切换","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q052","family_id":"test_noanswer_12","split":"test","query":"光纤链路误码率升高如何处理","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q053","family_id":"test_noanswer_13","split":"test","query":"虚拟机CPU steal过高怎么办","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q054","family_id":"test_noanswer_14","split":"test","query":"Kubernetes API Server不可用如何恢复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q055","family_id":"test_noanswer_15","split":"test","query":"Grafana数据源连接失败怎么办","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q056","family_id":"test_noanswer_16","split":"test","query":"Jenkins构建节点离线如何恢复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q057","family_id":"test_noanswer_17","split":"test","query":"Git仓库对象损坏如何修复","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q058","family_id":"test_noanswer_18","split":"test","query":"对象存储桶策略拒绝访问怎么办","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q059","family_id":"test_noanswer_19","split":"test","query":"CDN回源超时如何排查","has_answer":false,"component":null,"product_version":null}
+{"schema_version":1,"query_id":"test_q060","family_id":"test_noanswer_20","split":"test","query":"消息队列跨机房复制中断怎么办","has_answer":false,"component":null,"product_version":null}

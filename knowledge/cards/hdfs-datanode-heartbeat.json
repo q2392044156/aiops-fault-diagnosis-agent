@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "doc_id": "hdfs-datanode-heartbeat",
+  "title": "DataNode心跳缺失排查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "symptoms": [
+    "NameNode报告DataNode失联、存活节点数量下降或副本告警集中出现"
+  ],
+  "evidence_required": [
+    "收集NameNode心跳判断、DataNode进程状态、网络连通性和故障前后日志"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-10-13",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "NameNode报告DataNode失联、存活节点数量下降或副本告警集中出现。本卡用于辅助收集证据，不把观测组件直接称为根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "收集NameNode心跳判断、DataNode进程状态、网络连通性和故障前后日志。所有日志只使用脱敏内容并保留来源标识。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "先确认影响节点范围，再核对进程与网络；不要把单条超时日志直接解释为节点故障。每一步都应记录时间窗和实际结果。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "重启DataNode可能扩大恢复流量；多个节点同时异常时应立即升级。若适用版本不明或证据相互矛盾，返回证据不足。"
+    }
+  ]
+}
