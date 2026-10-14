@@ -26,7 +26,7 @@ def test_schema_v1_migrates_idempotently(tmp_path):
     raw.close()
     db.init()
     db.init()
-    assert db.one("SELECT version FROM schema_meta")["version"] == 2
+    assert db.one("SELECT version FROM schema_meta")["version"] == 3
     columns = {row["name"] for row in db.all("PRAGMA table_info(tasks)")}
     assert {"lease_owner", "lease_token", "lease_expires_at"} <= columns
 

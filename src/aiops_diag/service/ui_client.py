@@ -70,6 +70,21 @@ class ApiClient:
     def knowledge_chunk(self, chunk_id):
         return self._value(self.client.get(f"/api/v1/knowledge/chunks/{chunk_id}"))
 
+    def rag_release(self):
+        return self._value(self.client.get("/api/v1/rag/releases/current"))
+
+    def create_report(self, query, mode="auto", component=None, product_version=None,
+                      idempotency_key=None):
+        headers = {"Idempotency-Key": idempotency_key} if idempotency_key else None
+        return self._value(self.client.post(
+            "/api/v1/rag/reports",
+            json={"query": query, "mode": mode, "component": component,
+                  "product_version": product_version}, headers=headers,
+        ))
+
+    def report(self, report_id):
+        return self._value(self.client.get(f"/api/v1/rag/reports/{report_id}"))
+
     def close(self):
         self.client.close()
 

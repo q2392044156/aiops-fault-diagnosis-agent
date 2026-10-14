@@ -12,7 +12,7 @@ from .runtime import ServiceRuntime
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="W6 container-ready anomaly-detection service")
+    parser = argparse.ArgumentParser(description="W8 container-ready anomaly and knowledge service")
     sub = parser.add_subparsers(dest="command", required=True)
     for name in ("publish", "init", "verify", "serve", "worker", "worker-health"):
         item = sub.add_parser(name)
@@ -27,7 +27,7 @@ def main(argv=None):
         print(json.dumps(publish(cfg), ensure_ascii=False, indent=2))
     elif args.command == "init":
         runtime = ServiceRuntime(cfg, load_model=False)
-        print(json.dumps({"database": str(runtime.db.path), "schema_version": 2},
+        print(json.dumps({"database": str(runtime.db.path), "schema_version": 3},
                          ensure_ascii=False, indent=2))
     elif args.command == "verify":
         manifest = verify(cfg)

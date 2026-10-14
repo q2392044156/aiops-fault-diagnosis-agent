@@ -13,12 +13,15 @@ import pyarrow.parquet as pq
 from fastapi import FastAPI, File, Header, Query, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from aiops_diag.data.common import key
+from aiops_diag.rag.schemas import RagReport
 
 from .db import IdempotencyConflict, QueueFull
 from .runtime import ServiceRuntime
 from .schemas import (BatchResponse, ErrorBody, EventDetail, EventList, HealthResponse,
                       KnowledgeChunkResponse, KnowledgeReleaseResponse, LogItem, LogList,
-                      OperationsSummary, RegisteredBatchList, RegisteredRequest, ReleaseResponse,
+                      OperationsSummary, RagReleaseResponse, RagReportRequest,
+                      RegisteredBatchList, RegisteredRequest, ReleaseResponse,
                       RetrievalSearchRequest, RetrievalSearchResponse, SessionResponse, TaskResponse)
 
 
@@ -91,7 +94,7 @@ def create_app(cfg, start_worker=False, runtime=None):
         yield
         runtime.stop()
 
-    app = FastAPI(title="AIOps Fault Diagnosis API", version="0.3.0", lifespan=lifespan)
+    app = FastAPI(title="AIOps Fault Diagnosis API", version="0.4.0", lifespan=lifespan)
     app.state.runtime = runtime
 
     @app.middleware("http")
@@ -157,6 +160,62 @@ def create_app(cfg, start_worker=False, runtime=None):
         if runtime.retriever is None:
             raise ServiceError(503, "KNOWLEDGE_UNAVAILABLE", "Knowledge release is unavailable", True)
         return runtime.retriever.public()
+
+    @app.get("/api/v1/rag/releases/current", response_model=RagReleaseResponse)
+    def current_rag_release():
+        if runtime.rag is None:
+            raise ServiceError(503, "RAG_UNAVAILABLE", "RAG report engine is unavailable", True)
+        return runtime.rag.public()
+
+    @app.post("/api/v1/rag/reports", response_model=RagReport)
+    def create_rag_report(body: RagReportRequest,
+                          idempotency_key: str | None = Header(default=None, alias="Idempotency-Key")):
+        if runtime.rag is None:
+            raise ServiceError(503, "RAG_UNAVAILABLE", "RAG report engine is unavailable", True)
+        if idempotency_key and not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", idempotency_key):
+            raise ServiceError(422, "INVALID_IDEMPOTENCY_KEY",
+                               "Idempotency-Key must contain 1-128 safe ASCII characters")
+        fingerprint = key(body.model_dump())
+        if idempotency_key:
+            found = runtime.db.one(
+                "SELECT request_fingerprint,report_id FROM rag_idempotency_keys WHERE idempotency_key=?",
+                (idempotency_key,),
+            )
+            if found:
+                if found["request_fingerprint"] != fingerprint:
+                    raise ServiceError(409, "IDEMPOTENCY_CONFLICT",
+                                       "Idempotency-Key was used for another request")
+                return runtime.db.get_rag_report(found["report_id"])
+        try:
+            with runtime.rag_lock:
+                if idempotency_key:
+                    found = runtime.db.one(
+                        "SELECT request_fingerprint,report_id FROM rag_idempotency_keys "
+                        "WHERE idempotency_key=?", (idempotency_key,),
+                    )
+                    if found:
+                        if found["request_fingerprint"] != fingerprint:
+                            raise IdempotencyConflict(
+                                "Idempotency-Key was already used for another RAG request")
+                        return runtime.db.get_rag_report(found["report_id"])
+                report = runtime.rag.generate(body.query, body.component, body.product_version,
+                                              body.mode).model_dump()
+                stored, _deduplicated = runtime.db.save_rag_report(report, fingerprint,
+                                                                    idempotency_key)
+            return stored
+        except IdempotencyConflict as exc:
+            raise ServiceError(409, "IDEMPOTENCY_CONFLICT", str(exc)) from exc
+        except ValueError as exc:
+            raise ServiceError(422, "INVALID_RAG_REQUEST", str(exc)) from exc
+
+    @app.get("/api/v1/rag/reports/{report_id}", response_model=RagReport)
+    def get_rag_report(report_id: str):
+        if not re.fullmatch(r"rpt_[a-f0-9]{24}", report_id):
+            raise ServiceError(422, "INVALID_REPORT_ID", "Report ID is invalid")
+        report = runtime.db.get_rag_report(report_id)
+        if report is None:
+            raise ServiceError(404, "REPORT_NOT_FOUND", "Report was not found")
+        return report
 
     @app.post("/api/v1/retrieval/search", response_model=RetrievalSearchResponse)
     def retrieve(body: RetrievalSearchRequest):

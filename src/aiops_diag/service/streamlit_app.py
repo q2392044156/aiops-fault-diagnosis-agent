@@ -9,7 +9,7 @@ from aiops_diag.service.ui_client import ApiClient
 
 st.set_page_config(page_title="AIOps 异常事件复核台", page_icon="🔎", layout="wide")
 st.title("AIOps 异常事件复核台")
-st.caption("W7 · 冻结异常检测 + 可追溯混合检索 · 只读证据浏览")
+st.caption("W8 · 冻结异常检测 + 可追溯检索 + 证据约束知识报告")
 
 api_url = os.environ.get("AIOPS_API_URL", "http://127.0.0.1:8000")
 public_api_url = os.environ.get("AIOPS_PUBLIC_API_URL", "http://127.0.0.1:8000").rstrip("/")
@@ -32,8 +32,8 @@ except (httpx.HTTPError, KeyError) as exc:
     st.error(f"API 暂不可用：{exc}")
     st.stop()
 
-tab_submit, tab_task, tab_events, tab_knowledge = st.tabs(
-    ("提交日志", "任务状态", "异常事件", "知识检索"))
+tab_submit, tab_task, tab_events, tab_knowledge, tab_report = st.tabs(
+    ("提交日志", "任务状态", "异常事件", "知识检索", "知识报告"))
 
 with tab_submit:
     upload = st.file_uploader("上传原始 HDFS 文本日志", type=("log", "txt"))
@@ -127,4 +127,41 @@ with tab_knowledge:
                         st.markdown(f"[打开官方来源]({item['source_url']})")
     except httpx.HTTPError as exc:
         st.error(f"知识检索暂不可用：{exc}")
+
+with tab_report:
+    try:
+        rag_release = client.rag_release()
+        online = "已配置" if rag_release["online_configured"] else "未配置（自动降级模板）"
+        st.caption(f"RAG {rag_release['rag_version']} · {rag_release['model']} · 在线密钥{online}")
+        report_query = st.text_area("输入需要整理证据的运维问题", max_chars=500,
+                                    key="report_query")
+        report_mode = st.selectbox("生成方式", ("auto", "template"),
+                                   format_func=lambda x: "在线生成（失败自动降级）" if x == "auto"
+                                   else "确定性证据模板")
+        if st.button("生成知识证据报告", disabled=not report_query.strip()):
+            st.session_state["rag_report"] = client.create_report(
+                report_query.strip(), mode=report_mode)
+        report = st.session_state.get("rag_report")
+        if report:
+            if report["status"] == "EVIDENCE_SUPPORTED":
+                st.success("证据约束生成完成；仍需人工复核。")
+            elif report["status"] == "INSUFFICIENT_EVIDENCE":
+                st.warning("证据不足，未调用在线模型。")
+            else:
+                st.warning("已使用确定性降级模板。")
+            st.subheader(report["summary"])
+            for claim in report["evidence_claims"]:
+                st.write("- " + claim["claim"])
+            for check in report["recommended_checks"]:
+                with st.expander(check["action"]):
+                    st.write(check["rationale"])
+                    st.caption("风险：" + check["risk"])
+            st.write("缺失信息", report["missing_information"])
+            st.write("限制", report["limitations"])
+            for evidence in report["evidence"]:
+                st.markdown(f"[{evidence['title']} · {evidence['section_path']}]"
+                            f"({public_api_url}{evidence['evidence_url']})")
+            st.caption(f"报告 {report['report_id']} · hash {report['report_hash']} · 必须人工复核")
+    except httpx.HTTPError as exc:
+        st.error(f"知识报告暂不可用：{exc}")
 

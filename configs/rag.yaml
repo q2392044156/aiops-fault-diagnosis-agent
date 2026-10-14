@@ -1,0 +1,39 @@
+schema_version: 1
+rag_version: rag_v0.1
+retrieval_config: configs/retrieval.yaml
+service_config: configs/service.yaml
+provider:
+  name: deepseek
+  base_url: https://api.deepseek.com
+  model: deepseek-flash
+  api_key_env: DEEPSEEK_API_KEY
+  api_key_file_env: DEEPSEEK_API_KEY_FILE
+  tracking_id_env: DEEPSEEK_TRACKING_ID
+  tracking_id_file_env: DEEPSEEK_TRACKING_ID_FILE
+  timeout_seconds: 30
+  overall_timeout_seconds: 45
+  max_tokens: 1200
+  temperature: 0
+  max_repair_calls: 1
+budget:
+  max_total_tokens: 2000000
+  max_cost_cny: 20.0
+  input_cny_per_million: 2.0
+  output_cny_per_million: 8.0
+generation:
+  top_k: 3
+  retrieval_mode: frozen
+  max_query_chars: 500
+  max_evidence_chars: 9000
+  prompt_version: w8_prompt_v1
+reranker:
+  enabled_by_default: false
+  repo_id: BAAI/bge-reranker-base
+  revision: 2cfc18c9415c912f9d8155881c133215df768a70
+  top_n: 3
+paths:
+  work_dir: experiments/rag_v0_1
+  release_dir: artifacts/releases/rag_v0.1
+  reranker_source_dir: artifacts/rag/reranker_source
+  reranker_onnx_dir: artifacts/rag/reranker_onnx
+  budget_ledger: runtime/rag_budget.json

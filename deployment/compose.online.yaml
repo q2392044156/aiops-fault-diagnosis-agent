@@ -1,0 +1,14 @@
+services:
+  api:
+    environment:
+      DEEPSEEK_API_KEY_FILE: /run/secrets/deepseek_api_key
+      DEEPSEEK_TRACKING_ID_FILE: /run/secrets/deepseek_tracking_id
+    secrets:
+      - deepseek_api_key
+      - deepseek_tracking_id
+
+secrets:
+  deepseek_api_key:
+    file: ${DEEPSEEK_API_KEY_FILE_HOST:-E:/develop/docker/secrets/deepseek_api_key.txt}
+  deepseek_tracking_id:
+    file: ${DEEPSEEK_TRACKING_ID_FILE_HOST:-E:/develop/docker/secrets/deepseek_tracking_id.txt}

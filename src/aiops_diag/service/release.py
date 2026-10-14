@@ -14,7 +14,7 @@ from aiops_diag.modeling.templates import content, miner_config
 
 
 MODEL_RELEASE = "v0.2_lr"
-DEPLOYMENT_RELEASE = "v0.3"
+DEPLOYMENT_RELEASE = "v0.4"
 
 
 def _read(path):
@@ -85,8 +85,12 @@ def publish(cfg):
         component_hashes = {name: digest(staging / relative)
                             for name, relative in names.items()}
         parser = cfg.get("model", {}).get("parser", {"depth": 4, "max_children": 100})
+        rag_release = None
+        if cfg.get("rag"):
+            from aiops_diag.rag.release import verify as verify_rag
+            rag_release = verify_rag(cfg["rag"])
         value = {
-            "schema_version": 2,
+            "schema_version": 3,
             "deployment_release": DEPLOYMENT_RELEASE,
             "release_id": MODEL_RELEASE,
             "model_id": "logistic_regression",
@@ -106,10 +110,13 @@ def publish(cfg):
             },
             "components": names,
             "component_hashes": component_hashes,
+            "rag_release": ({"rag_version": rag_release["rag_version"],
+                             "kb_release_id": rag_release["kb_release_id"],
+                             "release_hash": key(rag_release)} if rag_release else None),
         }
         save(staging / "service_release.json", value)
         registry = {
-            "schema_version": 2,
+            "schema_version": 3,
             "deployment_release": DEPLOYMENT_RELEASE,
             "release_id": MODEL_RELEASE,
             "artifacts": {"service_release.json": digest(staging / "service_release.json"),
@@ -137,12 +144,12 @@ def publish(cfg):
             shutil.rmtree(staging)
 
 
-def verify(cfg):
+def verify(cfg, verify_rag=True):
     """Verify only the portable bundle; source experiment directories are not required."""
     directory = Path(cfg["release_dir"]).resolve()
     registry = verified_manifest(directory, "registry.json")
     release = _read(directory / "service_release.json")
-    if release.get("schema_version") != 2:
+    if release.get("schema_version") not in (2, 3):
         raise ValueError("Unsupported service release schema")
     if release.get("deployment_release") != DEPLOYMENT_RELEASE:
         raise ValueError("Unexpected deployment release")
@@ -150,6 +157,12 @@ def verify(cfg):
         raise ValueError("Published model release changed")
     if release.get("processing_hash") != cfg["processing_hash"]:
         raise ValueError("Processing configuration changed after publication")
+    if verify_rag and release.get("schema_version") == 3 and cfg.get("rag"):
+        from aiops_diag.rag.release import verify as verify_rag
+        rag_release = verify_rag(cfg["rag"])
+        expected_rag = release.get("rag_release") or {}
+        if expected_rag.get("release_hash") != key(rag_release):
+            raise ValueError("Published RAG release changed")
     expected = release.get("component_hashes", {})
     components = release.get("components", {})
     if set(expected) != set(components):
@@ -168,8 +181,8 @@ def verify(cfg):
 class ReleaseMetadata:
     """Hash-verified release metadata for API processes; does not deserialize models."""
 
-    def __init__(self, cfg):
-        self.manifest = verify(cfg)
+    def __init__(self, cfg, verify_rag=True):
+        self.manifest = verify(cfg, verify_rag=verify_rag)
 
     def public(self):
         return {name: self.manifest[name] for name in (
@@ -181,7 +194,7 @@ class ReleaseMetadata:
 
 class FrozenRelease(ReleaseMetadata):
     def __init__(self, cfg):
-        super().__init__(cfg)
+        super().__init__(cfg, verify_rag=False)
         directory = Path(cfg["release_dir"]).resolve()
 
         def component(name):

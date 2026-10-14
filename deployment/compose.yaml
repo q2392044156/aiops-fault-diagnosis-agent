@@ -1,7 +1,7 @@
 name: aiops-fault-diagnosis
 
 x-common: &common
-  image: aiops-fault-diagnosis-agent:v0.3
+  image: aiops-fault-diagnosis-agent:v0.4
   build:
     context: ..
     dockerfile: deployment/Dockerfile
@@ -24,7 +24,7 @@ services:
     <<: *common
     volumes:
       - aiops-runtime:/app/runtime
-      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.3_service}:/app/release:ro
+      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.4_service}:/app/release:ro
       - ${AIOPS_REGISTERED_FILE:-../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
     command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service.yaml"]
     healthcheck:
@@ -40,10 +40,12 @@ services:
       <<: *environment
       AIOPS_HOST: 0.0.0.0
       AIOPS_KB_RELEASE_DIR: /app/kb
+      AIOPS_RAG_RELEASE_DIR: /app/rag
     volumes:
       - aiops-runtime:/app/runtime
-      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.3_service}:/app/release:ro
+      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.4_service}:/app/release:ro
       - ${AIOPS_KB_RELEASE_DIR:-../artifacts/releases/kb_v0.1}:/app/kb:ro
+      - ${AIOPS_RAG_RELEASE_DIR:-../artifacts/releases/rag_v0.1}:/app/rag:ro
     command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service.yaml"]
     depends_on:
       worker:

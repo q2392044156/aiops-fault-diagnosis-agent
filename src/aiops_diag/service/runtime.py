@@ -8,6 +8,7 @@ from pathlib import Path
 
 from aiops_diag.data.common import digest, key
 from aiops_diag.retrieval.release import FrozenRetriever
+from aiops_diag.rag.engine import RagEngine
 
 from .db import Database, LeaseLost
 from .pipeline import database_payload, process
@@ -29,15 +30,19 @@ class ServiceRuntime:
         self.model = None
         self.release = None
         self.retriever = None
+        self.rag = None
+        self.rag_lock = threading.Lock()
         self.ready_error = None
         try:
             if load_model:
                 self.model = FrozenRelease(cfg)
                 self.release = self.model
             else:
-                self.release = ReleaseMetadata(cfg)
+                self.release = ReleaseMetadata(cfg, verify_rag=(role == "api"))
             if role == "api" and cfg.get("retrieval"):
                 self.retriever = FrozenRetriever(cfg["retrieval"])
+            if role == "api" and cfg.get("rag"):
+                self.rag = RagEngine(cfg["rag"], retriever=self.retriever)
         except Exception as exc:
             self.ready_error = f"{type(exc).__name__}: {exc}"
         self.stop_event = threading.Event()
@@ -54,6 +59,8 @@ class ServiceRuntime:
         if self.ready_error is not None or self.manifest is None:
             return False
         if self.role == "api" and self.cfg.get("retrieval") and self.retriever is None:
+            return False
+        if self.role == "api" and self.cfg.get("rag") and self.rag is None:
             return False
         if self.retriever is not None and hasattr(self.retriever, "verify_integrity"):
             try:
@@ -73,6 +80,8 @@ class ServiceRuntime:
             return "Release metadata is unavailable"
         if self.role == "api" and self.cfg.get("retrieval") and self.retriever is None:
             return "Knowledge release is unavailable"
+        if self.role == "api" and self.cfg.get("rag") and self.rag is None:
+            return "RAG report engine is unavailable"
         if self.retriever is not None and hasattr(self.retriever, "verify_integrity"):
             try:
                 self.retriever.verify_integrity()
@@ -96,6 +105,8 @@ class ServiceRuntime:
         self.stop_event.set()
         if self.thread:
             self.thread.join(timeout=10)
+        if self.rag is not None:
+            self.rag.close()
 
     def _heartbeat(self, status="READY", details=None):
         if self.manifest:

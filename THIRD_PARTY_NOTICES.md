@@ -46,3 +46,18 @@ W2 uses the following open-source Python packages. Their exact installed version
 - Hugging Face Transformers, Tokenizers, Hub, Optimum ONNX and ONNX Runtime are
   used for model export or CPU inference. Their exact installed versions are
   recorded in the two requirements lock files.
+
+## W8 report generation and optional reranker
+
+- DeepSeek API (`deepseek-flash`) — commercial hosted API —
+  https://api-docs.deepseek.com/
+  W8 sends only the user's question and the W7 retrieved knowledge excerpts. API
+  credentials are supplied at runtime from Docker secrets and are never included in
+  source control, release manifests, reports or request logs.
+- BAAI `bge-reranker-base` — MIT License —
+  https://huggingface.co/BAAI/bge-reranker-base
+  Pinned revision: `2cfc18c9415c912f9d8155881c133215df768a70`.
+  Source `model.safetensors` SHA-256:
+  `ced967c45fd1902eb92716c9ceeca7c95a936770ea9db611f5a841b926e33fbd`.
+  The optional FP32 ONNX experiment is disabled by default; downloaded weights and
+  exported artifacts remain under ignored local artifact directories.

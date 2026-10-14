@@ -58,6 +58,16 @@ CREATE TABLE IF NOT EXISTS workers(
   worker_id TEXT PRIMARY KEY, release_id TEXT NOT NULL, status TEXT NOT NULL,
   started_at TEXT NOT NULL, heartbeat_at TEXT NOT NULL, details_json TEXT NOT NULL DEFAULT '{}'
 );
+CREATE TABLE IF NOT EXISTS rag_reports(
+  report_id TEXT PRIMARY KEY, query_hash TEXT NOT NULL, request_fingerprint TEXT NOT NULL,
+  status TEXT NOT NULL, report_json TEXT NOT NULL, report_hash TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_rag_reports_query ON rag_reports(query_hash,created_at);
+CREATE TABLE IF NOT EXISTS rag_idempotency_keys(
+  idempotency_key TEXT PRIMARY KEY, request_fingerprint TEXT NOT NULL,
+  report_id TEXT NOT NULL REFERENCES rag_reports(report_id), created_at TEXT NOT NULL
+);
 """
 
 
@@ -104,11 +114,11 @@ class Database:
                     db.execute(f"ALTER TABLE tasks ADD COLUMN {name} TEXT")
             rows = db.execute("SELECT version FROM schema_meta").fetchall()
             if not rows:
-                db.execute("INSERT INTO schema_meta(version) VALUES (2)")
-            elif len(rows) != 1 or rows[0][0] not in (1, 2):
+                db.execute("INSERT INTO schema_meta(version) VALUES (3)")
+            elif len(rows) != 1 or rows[0][0] not in (1, 2, 3):
                 raise ValueError("Unsupported service database schema")
             else:
-                db.execute("UPDATE schema_meta SET version=2")
+                db.execute("UPDATE schema_meta SET version=3")
         finally:
             db.close()
 
@@ -385,6 +395,40 @@ class Database:
             "oldest_queue_seconds": wait,
             "last_finished_at": latest["finished_at"] if latest else None,
         }
+
+    def save_rag_report(self, report, request_fingerprint, idempotency_key=None):
+        stamp = now()
+        payload = json.dumps(report, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        with self.transaction() as db:
+            if idempotency_key:
+                found = db.execute(
+                    "SELECT request_fingerprint,report_id FROM rag_idempotency_keys "
+                    "WHERE idempotency_key=?", (idempotency_key,),
+                ).fetchone()
+                if found:
+                    if found["request_fingerprint"] != request_fingerprint:
+                        raise IdempotencyConflict(
+                            "Idempotency-Key was already used for another RAG request")
+                    existing = db.execute("SELECT report_json FROM rag_reports WHERE report_id=?",
+                                          (found["report_id"],)).fetchone()
+                    return json.loads(existing["report_json"]), True
+            db.execute(
+                "INSERT OR IGNORE INTO rag_reports(report_id,query_hash,request_fingerprint,status,"
+                "report_json,report_hash,created_at) VALUES (?,?,?,?,?,?,?)",
+                (report["report_id"], report["provenance"]["query_hash"], request_fingerprint,
+                 report["status"], payload, report["report_hash"], stamp),
+            )
+            if idempotency_key:
+                db.execute("INSERT INTO rag_idempotency_keys VALUES (?,?,?,?)",
+                           (idempotency_key, request_fingerprint, report["report_id"], stamp))
+            self._audit(db, None, "RAG_REPORT_CREATED",
+                        {"report_id": report["report_id"], "query_hash":
+                         report["provenance"]["query_hash"], "status": report["status"]}, stamp)
+            return report, False
+
+    def get_rag_report(self, report_id):
+        row = self.one("SELECT report_json FROM rag_reports WHERE report_id=?", (report_id,))
+        return json.loads(row["report_json"]) if row else None
 
     def one(self, query, params=()):
         db = self.connect()

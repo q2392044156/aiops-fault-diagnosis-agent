@@ -212,3 +212,23 @@ class KnowledgeReleaseResponse(StrictModel):
     gate_threshold: float
     chunk_variant: str
     chunk_count: int
+
+
+class RagReportRequest(StrictModel):
+    query: str = Field(min_length=1, max_length=500)
+    component: str | None = Field(default=None, min_length=1, max_length=64)
+    product_version: str | None = Field(default=None, min_length=1, max_length=32)
+    mode: Literal["auto", "template"] = "auto"
+
+
+class RagReleaseResponse(StrictModel):
+    schema_version: int
+    rag_version: str
+    kb_release_id: str
+    provider: str
+    model: str
+    prompt_version: str
+    prompt_hash: str
+    config_hash: str
+    online_configured: bool
+    reranker_enabled: bool

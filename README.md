@@ -1,8 +1,8 @@
 # AIOps Fault Diagnosis Agent
 
-面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议并建立传统基线；W3 实现小型监督式 LSTM；W4 完成统一评测和 v0.2 模型冻结；W5 将冻结的 LR 发布为可恢复的异常检测 API；W6 提供 CPU 容器、独立 worker 和 Streamlit 事件复核台。不执行自动修复。
+面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议并建立传统基线；W3 实现小型监督式 LSTM；W4 完成统一评测和 v0.2 模型冻结；W5/W6 提供可恢复的 CPU 服务；W7 建立可追溯混合检索；W8 在严格证据门禁下生成需人工复核的知识报告。不执行自动修复。
 
-当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。W4 按预登记规则一次性评测 250,538 个测试会话，默认发布模型冻结为 TF-IDF + Logistic Regression，LSTM 保留为研究对照。W5 API 已用 W1 开发批次完成真实模型冒烟测试。W6 服务部署版本为 v0.3，模型仍是 W4 冻结的 `v0.2_lr`。
+当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。W4 按预登记规则一次性评测 250,538 个测试会话，默认模型仍为 TF-IDF + Logistic Regression。W8 服务部署版本为 v0.4，绑定 `v0.2_lr`、`kb_v0.1` 和 `rag_v0.1`；LLM 输出不称为根因诊断，且始终要求人工复核。
 
 ## Conda 环境
 
@@ -79,7 +79,7 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection run 
 
 ## 实验边界
 
-标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证、测试和服务推理只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低泄漏或合并告警的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W6 不实现 RAG、Agent、鉴权、TLS 或自动处置。
+标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证、测试和服务推理只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低泄漏或合并告警的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W8 只生成由知识卡片支持的只读复核报告，不实现 Agent、鉴权、TLS、审批或自动处置。
 
 ## W5 服务命令
 
@@ -151,3 +151,29 @@ Rdev 冻结方案为固定切分、Hybrid、Top-3，证据门禁阈值为 `0.550
 本机 W6 验收中，W1 开发批次的 233,584 行日志和 10,000 个会话在约9.82秒内完成，得到502个异常事件；并发1/2/4下100次摘要查询均无错误，P95分别为4.60/8.23/16.03毫秒。五次完整容器启动为13.07–13.74秒，五次热重启为1.92–2.04秒。以上仅是当前机器的研究原型实测，不作为生产容量承诺。
 
 请只提交代码、配置、依赖文件和自制测试；不要提交 `data/`、`artifacts/`、`experiments/`、`docs/`、`.conda-env/` 或旧 `.venv/`。
+
+## W8 证据约束知识报告
+
+W8 使用 DeepSeek 官方 `deepseek-flash` 非思考模式与 JSON Output。问题先经过 W7 冻结检索：没有达到证据门禁时不调用 LLM；输出只能引用本次返回的 `chunk_id`，严格 Schema 或引用校验失败时最多修复一次，随后降级为确定性模板。密钥只允许从进程环境或 Docker secret 文件读取，SQLite、报告、日志和 Git 均不保存 Key、Tracking ID 或原始问题。
+
+```powershell
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag validate --config configs/rag.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag reranker --config configs/rag.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag tune --config configs/rag.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag publish --config configs/rag.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag finalize --config configs/rag.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag verify --config configs/rag.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag generate --config configs/rag.yaml --mode template --query "NameNode安全模式如何只读排查？"
+```
+
+在线运行前设置 `DEEPSEEK_API_KEY_FILE`；`DEEPSEEK_TRACKING_ID_FILE` 仅作为本地凭据登记，不写入请求。硬上限为累计 2,000,000 tokens 和 ¥20，账本位于被忽略的 `runtime/`。Rdev 实测有答案题支持率80%、无答案拒答率90%、引用合法率100%；冻结后一次性Rtest分别为70%、80%和100%。这显示证据门禁仍有分布差异，不能据此宣称无幻觉或生产泛化。
+
+可选 `bge-reranker-base` 固定官方 revision 并导出FP32 ONNX。Rdev上其 Top-3 MRR/nDCG 从0.9333/0.7854提高至0.9583/0.7953，但Recall从1.000降至0.975，P50从约3.3ms升至约863ms，因此默认保持关闭。
+
+新增接口为 `POST /api/v1/rag/reports`、`GET /api/v1/rag/reports/{report_id}` 和 `GET /api/v1/rag/releases/current`。默认 Compose 保持离线模板模式；显式启用在线 secret 覆盖层：
+
+```powershell
+docker compose -f deployment/compose.yaml -f deployment/compose.online.yaml up --build -d
+```
+
+Streamlit 的“知识报告”页可选择在线生成或确定性模板，并展示可点击证据、缺失信息、限制和报告哈希。所有报告都带 `requires_review=true`。
