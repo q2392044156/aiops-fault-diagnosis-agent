@@ -1,7 +1,7 @@
 name: aiops-fault-diagnosis
 
 x-common: &common
-  image: aiops-fault-diagnosis-agent:v0.4
+  image: aiops-fault-diagnosis-agent:v0.5
   build:
     context: ..
     dockerfile: deployment/Dockerfile
@@ -18,13 +18,19 @@ x-common: &common
     AIOPS_RELEASE_DIR: /app/release
     AIOPS_RUNTIME_DIR: /app/runtime
     AIOPS_REGISTERED_ROOT: /app/data
+    AIOPS_KB_RELEASE_DIR: /app/kb
+    AIOPS_RAG_RELEASE_DIR: /app/rag
+    AIOPS_AGENT_RELEASE_DIR: /app/agent
 
 services:
   worker:
     <<: *common
     volumes:
       - aiops-runtime:/app/runtime
-      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.4_service}:/app/release:ro
+      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.5_service}:/app/release:ro
+      - ${AIOPS_KB_RELEASE_DIR:-../artifacts/releases/kb_v0.1}:/app/kb:ro
+      - ${AIOPS_RAG_RELEASE_DIR:-../artifacts/releases/rag_v0.1}:/app/rag:ro
+      - ${AIOPS_AGENT_RELEASE_DIR:-../artifacts/releases/agent_v0.1}:/app/agent:ro
       - ${AIOPS_REGISTERED_FILE:-../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
     command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service.yaml"]
     healthcheck:
@@ -39,13 +45,15 @@ services:
     environment:
       <<: *environment
       AIOPS_HOST: 0.0.0.0
-      AIOPS_KB_RELEASE_DIR: /app/kb
-      AIOPS_RAG_RELEASE_DIR: /app/rag
+      AIOPS_REVIEWER_REGISTRY_FILE: /run/secrets/agent_reviewer_registry
     volumes:
       - aiops-runtime:/app/runtime
-      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.4_service}:/app/release:ro
+      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.5_service}:/app/release:ro
       - ${AIOPS_KB_RELEASE_DIR:-../artifacts/releases/kb_v0.1}:/app/kb:ro
       - ${AIOPS_RAG_RELEASE_DIR:-../artifacts/releases/rag_v0.1}:/app/rag:ro
+      - ${AIOPS_AGENT_RELEASE_DIR:-../artifacts/releases/agent_v0.1}:/app/agent:ro
+    secrets:
+      - agent_reviewer_registry
     command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service.yaml"]
     depends_on:
       worker:
@@ -65,8 +73,11 @@ services:
       <<: *environment
       AIOPS_API_URL: http://api:8000
       AIOPS_PUBLIC_API_URL: http://127.0.0.1:8000
+      AIOPS_REVIEWER_TOKEN_FILE: /run/secrets/agent_reviewer_token
     command: ["streamlit", "run", "/app/src/aiops_diag/service/streamlit_app.py",
               "--server.address=0.0.0.0", "--server.port=8501", "--server.headless=true"]
+    secrets:
+      - agent_reviewer_token
     depends_on:
       api:
         condition: service_healthy
@@ -81,3 +92,9 @@ services:
 
 volumes:
   aiops-runtime:
+
+secrets:
+  agent_reviewer_registry:
+    file: ${AIOPS_REVIEWER_REGISTRY_FILE_HOST:-E:/develop/docker/secrets/agent_reviewers.json}
+  agent_reviewer_token:
+    file: ${AIOPS_REVIEWER_TOKEN_FILE_HOST:-E:/develop/docker/secrets/agent_reviewer_token.txt}

@@ -8,21 +8,27 @@ import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
+from typing import Literal
 
 import pyarrow.parquet as pq
 from fastapi import FastAPI, File, Header, Query, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from aiops_diag.data.common import key
 from aiops_diag.rag.schemas import RagReport
+from aiops_diag.agent.auth import ReviewerAuthError
+from aiops_diag.agent.schemas import IncidentReport
 
-from .db import IdempotencyConflict, QueueFull
+from .db import (ApprovalConflict, ApprovalExpired, IdempotencyConflict,
+                 QueueFull)
 from .runtime import ServiceRuntime
 from .schemas import (BatchResponse, ErrorBody, EventDetail, EventList, HealthResponse,
                       KnowledgeChunkResponse, KnowledgeReleaseResponse, LogItem, LogList,
                       OperationsSummary, RagReleaseResponse, RagReportRequest,
                       RegisteredBatchList, RegisteredRequest, ReleaseResponse,
-                      RetrievalSearchRequest, RetrievalSearchResponse, SessionResponse, TaskResponse)
+                      RetrievalSearchRequest, RetrievalSearchResponse, SessionResponse, TaskResponse,
+                      AgentReleaseResponse, ApprovalDecisionRequest, ApprovalList,
+                      ApprovalResponse, DiagnosisRequest, DiagnosisResponse, ToolCallList)
 
 
 AUDIT_LOG = logging.getLogger("aiops_diag.service.audit")
@@ -84,6 +90,43 @@ def _task(row, deduplicated=False):
     }
 
 
+def _diagnosis(row, deduplicated=False):
+    if not row:
+        raise ServiceError(404, "DIAGNOSIS_NOT_FOUND", "Diagnosis was not found")
+    state = row.get("state")
+    budget = row.get("budget")
+    if state is None:
+        state = json.loads(row.get("state_json") or "{}")
+    if budget is None:
+        budget = json.loads(row.get("budget_json") or "{}")
+    return {"diagnosis_id": row["diagnosis_id"], "event_id": row["event_id"],
+            "revision": row["revision"], "status": row["status"],
+            "current_node": row["current_node"], "mode": row["mode"],
+            "state": state, "budget": budget, "report_id": row.get("report_id"),
+            "approval_id": row.get("approval_id"),
+            "error": ({"code": row["error_code"], "message": row["error_message"]}
+                      if row.get("error_code") else None),
+            "created_at": row["created_at"], "started_at": row.get("started_at"),
+            "finished_at": row.get("finished_at"), "updated_at": row["updated_at"],
+            "deduplicated": deduplicated,
+            "links": {"self": f"/api/v1/diagnoses/{row['diagnosis_id']}",
+                      "tools": f"/api/v1/diagnoses/{row['diagnosis_id']}/tool-calls",
+                      "report": (f"/api/v1/reports/{row['report_id']}"
+                                 if row.get("report_id") else "")}}
+
+
+def _approval(row, next_diagnosis_id=None):
+    if not row:
+        raise ServiceError(404, "APPROVAL_NOT_FOUND", "Approval was not found")
+    return {"approval_id": row["approval_id"], "diagnosis_id": row["diagnosis_id"],
+            "report_id": row["report_id"], "report_hash": row["report_hash"],
+            "revision": row["revision"], "action_ids": json.loads(row["action_ids_json"]),
+            "status": row["status"], "reviewer_id": row.get("reviewer_id"),
+            "reason": row.get("reason"), "created_at": row["created_at"],
+            "expires_at": row["expires_at"], "decided_at": row.get("decided_at"),
+            "next_diagnosis_id": next_diagnosis_id}
+
+
 def create_app(cfg, start_worker=False, runtime=None):
     runtime = runtime or ServiceRuntime(cfg, load_model=False, role="api")
 
@@ -94,7 +137,7 @@ def create_app(cfg, start_worker=False, runtime=None):
         yield
         runtime.stop()
 
-    app = FastAPI(title="AIOps Fault Diagnosis API", version="0.4.0", lifespan=lifespan)
+    app = FastAPI(title="AIOps Fault Diagnosis API", version="0.5.0", lifespan=lifespan)
     app.state.runtime = runtime
 
     @app.middleware("http")
@@ -166,6 +209,108 @@ def create_app(cfg, start_worker=False, runtime=None):
         if runtime.rag is None:
             raise ServiceError(503, "RAG_UNAVAILABLE", "RAG report engine is unavailable", True)
         return runtime.rag.public()
+
+    @app.get("/api/v1/agent/releases/current", response_model=AgentReleaseResponse)
+    def current_agent_release():
+        if runtime.agent_release is None:
+            raise ServiceError(503, "AGENT_UNAVAILABLE", "Agent release is unavailable", True)
+        return {name: runtime.agent_release[name] for name in (
+            "schema_version", "agent_version", "release_id", "rag_version",
+            "kb_release_id", "tool_manifest_hash", "risk_policy_hash", "prompt_version")}
+
+    @app.post("/api/v1/diagnoses", status_code=202, response_model=DiagnosisResponse)
+    def create_diagnosis(body: DiagnosisRequest,
+                         idempotency_key: str | None = Header(default=None,
+                                                               alias="Idempotency-Key")):
+        try:
+            row, duplicate = runtime.submit_diagnosis(body.event_id, body.mode, idempotency_key)
+            return _diagnosis(row, duplicate)
+        except FileNotFoundError as exc:
+            raise ServiceError(404, "EVENT_NOT_FOUND", str(exc)) from exc
+        except IdempotencyConflict as exc:
+            raise ServiceError(409, "IDEMPOTENCY_CONFLICT", str(exc)) from exc
+        except QueueFull as exc:
+            raise ServiceError(429, "AGENT_QUEUE_CAPACITY_EXCEEDED", str(exc), True,
+                               {"Retry-After": "5"}) from exc
+        except ValueError as exc:
+            raise ServiceError(422, "INVALID_DIAGNOSIS_REQUEST", str(exc)) from exc
+        except RuntimeError as exc:
+            raise ServiceError(503, "AGENT_UNAVAILABLE", str(exc), True) from exc
+
+    @app.get("/api/v1/diagnoses/{diagnosis_id}", response_model=DiagnosisResponse)
+    def diagnosis(diagnosis_id: str):
+        if not re.fullmatch(r"dia_[a-f0-9]{24}", diagnosis_id):
+            raise ServiceError(422, "INVALID_DIAGNOSIS_ID", "Diagnosis ID is invalid")
+        return _diagnosis(runtime.db.get_agent_run(diagnosis_id))
+
+    @app.get("/api/v1/diagnoses/{diagnosis_id}/tool-calls", response_model=ToolCallList)
+    def diagnosis_tool_calls(diagnosis_id: str):
+        if runtime.db.get_agent_run(diagnosis_id) is None:
+            raise ServiceError(404, "DIAGNOSIS_NOT_FOUND", "Diagnosis was not found")
+        rows = runtime.db.all(
+            "SELECT tool_call_id,ordinal,tool_name,status,args_hash,started_at,finished_at,"
+            "result_json FROM agent_tool_calls WHERE diagnosis_id=? ORDER BY ordinal",
+            (diagnosis_id,),
+        )
+        return {"items": [{**{name: row[name] for name in (
+            "tool_call_id", "ordinal", "tool_name", "status", "args_hash", "started_at",
+            "finished_at")}, "result": json.loads(row["result_json"])
+            if row["result_json"] else None} for row in rows]}
+
+    @app.get("/api/v1/reports/{report_id}")
+    def incident_report(report_id: str, format: Literal["json", "markdown"] = Query("json")):
+        if not re.fullmatch(r"irpt_[a-f0-9]{24}", report_id):
+            raise ServiceError(422, "INVALID_REPORT_ID", "Report ID is invalid")
+        row = runtime.db.one("SELECT * FROM incident_reports WHERE report_id=?", (report_id,))
+        if not row:
+            raise ServiceError(404, "REPORT_NOT_FOUND", "Report was not found")
+        if format == "markdown":
+            return Response(row["report_markdown"], media_type="text/markdown; charset=utf-8",
+                            headers={"Content-Disposition":
+                                     f'inline; filename="{report_id}.md"'})
+        return IncidentReport.model_validate_json(row["report_json"]).model_dump()
+
+    @app.get("/api/v1/approvals", response_model=ApprovalList)
+    def approvals(status: str = Query("PENDING", pattern=r"^[A-Z_]+$")):
+        runtime.db.expire_approvals()
+        rows = runtime.db.all("SELECT * FROM approvals WHERE status=? ORDER BY created_at",
+                              (status,))
+        return {"items": [_approval(row) for row in rows]}
+
+    @app.get("/api/v1/approvals/{approval_id}", response_model=ApprovalResponse)
+    def approval(approval_id: str):
+        runtime.db.expire_approvals()
+        return _approval(runtime.db.one("SELECT * FROM approvals WHERE approval_id=?",
+                                        (approval_id,)))
+
+    @app.post("/api/v1/approvals/{approval_id}/decision", response_model=ApprovalResponse)
+    def decide_approval(approval_id: str, body: ApprovalDecisionRequest,
+                        authorization: str | None = Header(default=None, alias="Authorization"),
+                        idempotency_key: str | None = Header(default=None,
+                                                              alias="Idempotency-Key")):
+        if runtime.reviewer_registry is None:
+            raise ServiceError(503, "REVIEWER_AUTH_UNAVAILABLE",
+                               "Reviewer authentication is unavailable", True)
+        if not idempotency_key or not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", idempotency_key):
+            raise ServiceError(422, "INVALID_IDEMPOTENCY_KEY",
+                               "Approval requires a safe Idempotency-Key")
+        try:
+            reviewer = runtime.reviewer_registry.authenticate(authorization)
+        except ReviewerAuthError as exc:
+            code = 403 if "role" in str(exc).lower() else 401
+            raise ServiceError(code, "REVIEWER_AUTH_FAILED", str(exc)) from exc
+        try:
+            runtime.db.expire_approvals()
+            row, next_id = runtime.db.decide_approval(
+                approval_id, body.decision, body.report_hash, body.revision, body.reason,
+                reviewer["reviewer_id"], idempotency_key)
+            return _approval(row, next_id)
+        except FileNotFoundError as exc:
+            raise ServiceError(404, "APPROVAL_NOT_FOUND", str(exc)) from exc
+        except ApprovalExpired as exc:
+            raise ServiceError(410, "APPROVAL_EXPIRED", str(exc)) from exc
+        except ApprovalConflict as exc:
+            raise ServiceError(409, "APPROVAL_CONFLICT", str(exc)) from exc
 
     @app.post("/api/v1/rag/reports", response_model=RagReport)
     def create_rag_report(body: RagReportRequest,

@@ -1,5 +1,6 @@
 import os
 import time
+from pathlib import Path
 
 import httpx
 import streamlit as st
@@ -32,8 +33,8 @@ except (httpx.HTTPError, KeyError) as exc:
     st.error(f"API 暂不可用：{exc}")
     st.stop()
 
-tab_submit, tab_task, tab_events, tab_knowledge, tab_report = st.tabs(
-    ("提交日志", "任务状态", "异常事件", "知识检索", "知识报告"))
+tab_submit, tab_task, tab_events, tab_knowledge, tab_report, tab_agent = st.tabs(
+    ("提交日志", "任务状态", "异常事件", "知识检索", "知识报告", "Agent诊断与复核"))
 
 with tab_submit:
     upload = st.file_uploader("上传原始 HDFS 文本日志", type=("log", "txt"))
@@ -88,6 +89,7 @@ with tab_events:
         labels = {f"{item['event_id']} · {item['session_count']}会话 · "
                   f"分数{item['max_anomaly_score']:.3f}": item["event_id"] for item in events}
         selected = st.selectbox("选择事件", labels)
+        st.session_state["event_id"] = labels[selected]
         detail = client.event(labels[selected])
         st.json(detail["event"])
         sessions = detail["sessions"]
@@ -164,4 +166,76 @@ with tab_report:
             st.caption(f"报告 {report['report_id']} · hash {report['report_hash']} · 必须人工复核")
     except httpx.HTTPError as exc:
         st.error(f"知识报告暂不可用：{exc}")
+
+with tab_agent:
+    try:
+        agent_release = client.agent_release()
+        st.caption(f"Agent {agent_release['agent_version']} · {agent_release['release_id']} · "
+                   f"知识版本 {agent_release['kb_release_id']}")
+        st.warning("审批只表示建议已经人工审核；本系统不会执行重启、删除、切流或数据库修改。")
+        event_id = st.text_input("异常事件 ID", value=st.session_state.get("event_id", ""),
+                                 key="agent_event_id")
+        agent_mode = st.selectbox("Agent模式", ("auto", "template"),
+                                  format_func=lambda x: "在线受控模式" if x == "auto"
+                                  else "确定性模板模式")
+        if st.button("启动诊断", disabled=not event_id.strip()):
+            created = client.create_diagnosis(event_id.strip(), agent_mode,
+                                              f"ui-{event_id}-{agent_mode}")
+            st.session_state["diagnosis_id"] = created["diagnosis_id"]
+        diagnosis_id = st.text_input("诊断 ID", value=st.session_state.get(
+            "diagnosis_id", ""), key="agent_diagnosis_id")
+        auto_agent = st.checkbox("诊断运行时每2秒自动刷新", key="agent_refresh")
+        if diagnosis_id:
+            diagnosis = client.diagnosis(diagnosis_id)
+            st.progress(min(1.0, len(diagnosis["state"].get("tool_calls", [])) / 8),
+                        text=f"{diagnosis['status']} · {diagnosis['current_node']}")
+            st.json(diagnosis["budget"])
+            calls = client.diagnosis_tools(diagnosis_id)["items"]
+            if calls:
+                st.dataframe([{name: row[name] for name in (
+                    "ordinal", "tool_name", "status", "started_at", "finished_at")}
+                              for row in calls], use_container_width=True)
+            if diagnosis.get("report_id"):
+                report = client.incident_report(diagnosis["report_id"])
+                st.subheader(report["summary"])
+                st.write("候选原因", report["hypotheses"])
+                st.write("只读建议", report["checks"])
+                st.write("复核原因", report["review_reasons"])
+                st.caption(f"报告hash：{report['report_hash']}")
+            if auto_agent and diagnosis["status"] in ("QUEUED", "RUNNING"):
+                time.sleep(2)
+                st.rerun()
+        st.divider()
+        pending = client.approvals("PENDING")["items"]
+        if not pending:
+            st.info("当前没有待审批报告。")
+        else:
+            approval_ids = [row["approval_id"] for row in pending]
+            selected_approval = st.selectbox("待审批记录", approval_ids)
+            approval = next(row for row in pending if row["approval_id"] == selected_approval)
+            st.json({name: approval[name] for name in (
+                "approval_id", "diagnosis_id", "report_id", "revision", "status",
+                "action_ids", "expires_at")})
+            reason = st.text_area("审核理由", max_chars=1000, key="approval_reason")
+            token_path = os.environ.get("AIOPS_REVIEWER_TOKEN_FILE")
+            reviewer_token = None
+            if token_path:
+                try:
+                    reviewer_token = Path(token_path).read_text(encoding="utf-8").strip()
+                except OSError:
+                    reviewer_token = None
+            if reviewer_token is None:
+                reviewer_token = st.text_input("Reviewer token", type="password")
+            decision = st.selectbox("审核决定", ("approve", "reject",
+                                                   "request_more_evidence"))
+            if st.button("提交审核决定", disabled=not reason.strip() or not reviewer_token):
+                decided = client.decide_approval(
+                    approval["approval_id"], decision, approval["report_hash"],
+                    approval["revision"], reason.strip(), reviewer_token,
+                    f"ui-{approval['approval_id']}-{decision}")
+                st.success(f"审批状态：{decided['status']}；不会触发任何运维执行。")
+                if decided.get("next_diagnosis_id"):
+                    st.session_state["diagnosis_id"] = decided["next_diagnosis_id"]
+    except httpx.HTTPError as exc:
+        st.error(f"Agent服务暂不可用：{exc}")
 

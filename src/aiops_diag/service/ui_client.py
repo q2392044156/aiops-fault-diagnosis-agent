@@ -85,6 +85,39 @@ class ApiClient:
     def report(self, report_id):
         return self._value(self.client.get(f"/api/v1/rag/reports/{report_id}"))
 
+    def agent_release(self):
+        return self._value(self.client.get("/api/v1/agent/releases/current"))
+
+    def create_diagnosis(self, event_id, mode="auto", idempotency_key=None):
+        headers = {"Idempotency-Key": idempotency_key} if idempotency_key else None
+        return self._value(self.client.post(
+            "/api/v1/diagnoses", json={"event_id": event_id, "mode": mode}, headers=headers))
+
+    def diagnosis(self, diagnosis_id):
+        return self._value(self.client.get(f"/api/v1/diagnoses/{diagnosis_id}"))
+
+    def diagnosis_tools(self, diagnosis_id):
+        return self._value(self.client.get(f"/api/v1/diagnoses/{diagnosis_id}/tool-calls"))
+
+    def incident_report(self, report_id):
+        return self._value(self.client.get(f"/api/v1/reports/{report_id}"))
+
+    def approvals(self, status="PENDING"):
+        return self._value(self.client.get("/api/v1/approvals", params={"status": status}))
+
+    def approval(self, approval_id):
+        return self._value(self.client.get(f"/api/v1/approvals/{approval_id}"))
+
+    def decide_approval(self, approval_id, decision, report_hash, revision, reason,
+                        reviewer_token, idempotency_key):
+        return self._value(self.client.post(
+            f"/api/v1/approvals/{approval_id}/decision",
+            json={"decision": decision, "report_hash": report_hash,
+                  "revision": revision, "reason": reason},
+            headers={"Authorization": f"Bearer {reviewer_token}",
+                     "Idempotency-Key": idempotency_key},
+        ))
+
     def close(self):
         self.client.close()
 

@@ -68,6 +68,63 @@ CREATE TABLE IF NOT EXISTS rag_idempotency_keys(
   idempotency_key TEXT PRIMARY KEY, request_fingerprint TEXT NOT NULL,
   report_id TEXT NOT NULL REFERENCES rag_reports(report_id), created_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS agent_runs(
+  diagnosis_id TEXT PRIMARY KEY, event_id TEXT NOT NULL REFERENCES events(event_id),
+  revision INTEGER NOT NULL, parent_diagnosis_id TEXT,
+  mode TEXT NOT NULL, status TEXT NOT NULL, current_node TEXT NOT NULL,
+  state_json TEXT NOT NULL DEFAULT '{}', budget_json TEXT NOT NULL DEFAULT '{}',
+  report_id TEXT, approval_id TEXT, release_id TEXT NOT NULL,
+  request_fingerprint TEXT NOT NULL, error_code TEXT, error_message TEXT,
+  created_at TEXT NOT NULL, started_at TEXT, finished_at TEXT, updated_at TEXT NOT NULL,
+  lease_owner TEXT, lease_token TEXT, lease_expires_at TEXT,
+  UNIQUE(event_id,revision,release_id)
+);
+CREATE TABLE IF NOT EXISTS agent_idempotency_keys(
+  idempotency_key TEXT PRIMARY KEY, request_fingerprint TEXT NOT NULL,
+  diagnosis_id TEXT NOT NULL REFERENCES agent_runs(diagnosis_id), created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS agent_tool_calls(
+  tool_call_id TEXT PRIMARY KEY, diagnosis_id TEXT NOT NULL REFERENCES agent_runs(diagnosis_id),
+  ordinal INTEGER NOT NULL, tool_name TEXT NOT NULL, args_hash TEXT NOT NULL,
+  args_json TEXT NOT NULL, status TEXT NOT NULL, result_json TEXT,
+  started_at TEXT NOT NULL, finished_at TEXT,
+  UNIQUE(diagnosis_id,ordinal), UNIQUE(diagnosis_id,tool_name,args_hash)
+);
+CREATE TABLE IF NOT EXISTS agent_evidence(
+  evidence_id TEXT NOT NULL, diagnosis_id TEXT NOT NULL REFERENCES agent_runs(diagnosis_id),
+  kind TEXT NOT NULL, source_ref TEXT NOT NULL, version TEXT NOT NULL,
+  observed_at TEXT, excerpt_redacted TEXT NOT NULL, evidence_hash TEXT NOT NULL,
+  PRIMARY KEY(diagnosis_id,evidence_id)
+);
+CREATE TABLE IF NOT EXISTS incident_reports(
+  report_id TEXT PRIMARY KEY, diagnosis_id TEXT NOT NULL UNIQUE REFERENCES agent_runs(diagnosis_id),
+  revision INTEGER NOT NULL, status TEXT NOT NULL, report_json TEXT NOT NULL,
+  report_markdown TEXT NOT NULL, report_hash TEXT NOT NULL, created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS approvals(
+  approval_id TEXT PRIMARY KEY, diagnosis_id TEXT NOT NULL REFERENCES agent_runs(diagnosis_id),
+  report_id TEXT NOT NULL REFERENCES incident_reports(report_id), report_hash TEXT NOT NULL,
+  revision INTEGER NOT NULL, action_ids_json TEXT NOT NULL, status TEXT NOT NULL,
+  reviewer_id TEXT, reason TEXT, created_at TEXT NOT NULL, expires_at TEXT NOT NULL,
+  decided_at TEXT, idempotency_key TEXT UNIQUE
+);
+CREATE INDEX IF NOT EXISTS idx_approvals_status ON approvals(status,created_at);
+CREATE TABLE IF NOT EXISTS agent_audit_records(
+  audit_id INTEGER PRIMARY KEY AUTOINCREMENT, diagnosis_id TEXT,
+  actor_type TEXT NOT NULL, actor_id TEXT, action TEXT NOT NULL,
+  details_json TEXT NOT NULL, created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS provider_usage(
+  provider TEXT PRIMARY KEY, input_tokens INTEGER NOT NULL DEFAULT 0,
+  output_tokens INTEGER NOT NULL DEFAULT 0, estimated_cost_cny REAL NOT NULL DEFAULT 0,
+  calls INTEGER NOT NULL DEFAULT 0, imported_legacy INTEGER NOT NULL DEFAULT 0,
+  updated_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS provider_reservations(
+  reservation_id TEXT PRIMARY KEY, provider TEXT NOT NULL REFERENCES provider_usage(provider),
+  scope TEXT NOT NULL, reserved_tokens INTEGER NOT NULL, reserved_cost_cny REAL NOT NULL,
+  status TEXT NOT NULL, created_at TEXT NOT NULL, settled_at TEXT
+);
 """
 
 
@@ -80,6 +137,14 @@ class QueueFull(RuntimeError):
 
 
 class LeaseLost(RuntimeError):
+    pass
+
+
+class ApprovalConflict(ValueError):
+    pass
+
+
+class ApprovalExpired(ValueError):
     pass
 
 
@@ -108,17 +173,34 @@ class Database:
         db = self.connect()
         try:
             db.executescript(SCHEMA)
+            evidence_info = db.execute("PRAGMA table_info(agent_evidence)").fetchall()
+            evidence_pk = [row[1] for row in sorted(
+                (row for row in evidence_info if row[5]), key=lambda row: row[5])]
+            if evidence_pk == ["evidence_id"]:
+                db.execute("ALTER TABLE agent_evidence RENAME TO agent_evidence_legacy")
+                db.execute(
+                    "CREATE TABLE agent_evidence("
+                    "evidence_id TEXT NOT NULL,diagnosis_id TEXT NOT NULL "
+                    "REFERENCES agent_runs(diagnosis_id),kind TEXT NOT NULL,"
+                    "source_ref TEXT NOT NULL,version TEXT NOT NULL,observed_at TEXT,"
+                    "excerpt_redacted TEXT NOT NULL,evidence_hash TEXT NOT NULL,"
+                    "PRIMARY KEY(diagnosis_id,evidence_id))")
+                db.execute(
+                    "INSERT INTO agent_evidence SELECT evidence_id,diagnosis_id,kind,"
+                    "source_ref,version,observed_at,excerpt_redacted,evidence_hash "
+                    "FROM agent_evidence_legacy")
+                db.execute("DROP TABLE agent_evidence_legacy")
             task_columns = {row[1] for row in db.execute("PRAGMA table_info(tasks)")}
             for name in ("lease_owner", "lease_token", "lease_expires_at"):
                 if name not in task_columns:
                     db.execute(f"ALTER TABLE tasks ADD COLUMN {name} TEXT")
             rows = db.execute("SELECT version FROM schema_meta").fetchall()
             if not rows:
-                db.execute("INSERT INTO schema_meta(version) VALUES (3)")
-            elif len(rows) != 1 or rows[0][0] not in (1, 2, 3):
+                db.execute("INSERT INTO schema_meta(version) VALUES (4)")
+            elif len(rows) != 1 or rows[0][0] not in (1, 2, 3, 4):
                 raise ValueError("Unsupported service database schema")
             else:
-                db.execute("UPDATE schema_meta SET version=3")
+                db.execute("UPDATE schema_meta SET version=4")
         finally:
             db.close()
 
@@ -429,6 +511,435 @@ class Database:
     def get_rag_report(self, report_id):
         row = self.one("SELECT report_json FROM rag_reports WHERE report_id=?", (report_id,))
         return json.loads(row["report_json"]) if row else None
+
+    def create_agent_run(self, diagnosis_id, event_id, mode, release_id, fingerprint,
+                         budget, idempotency_key=None, max_inflight=16, revision=1,
+                         parent_diagnosis_id=None):
+        stamp = now()
+        with self.transaction() as db:
+            if not db.execute("SELECT 1 FROM events WHERE event_id=?", (event_id,)).fetchone():
+                raise FileNotFoundError("Event was not found")
+            if idempotency_key:
+                found = db.execute(
+                    "SELECT request_fingerprint,diagnosis_id FROM agent_idempotency_keys "
+                    "WHERE idempotency_key=?", (idempotency_key,),
+                ).fetchone()
+                if found:
+                    if found["request_fingerprint"] != fingerprint:
+                        raise IdempotencyConflict(
+                            "Idempotency-Key was already used for another diagnosis")
+                    return self._dict(db.execute(
+                        "SELECT * FROM agent_runs WHERE diagnosis_id=?",
+                        (found["diagnosis_id"],),
+                    ).fetchone()), True
+            existing = db.execute(
+                "SELECT * FROM agent_runs WHERE event_id=? AND revision=? AND release_id=?",
+                (event_id, revision, release_id),
+            ).fetchone()
+            if existing:
+                if idempotency_key:
+                    db.execute("INSERT INTO agent_idempotency_keys VALUES (?,?,?,?)",
+                               (idempotency_key, fingerprint, existing["diagnosis_id"], stamp))
+                return self._dict(existing), True
+            inflight = db.execute(
+                "SELECT COUNT(*) FROM agent_runs WHERE status IN ('QUEUED','RUNNING')"
+            ).fetchone()[0]
+            if inflight >= int(max_inflight):
+                raise QueueFull("Agent queue reached its configured capacity")
+            state = {"tool_calls": [], "evidence_ids": [], "errors": [],
+                     "review_reasons": []}
+            db.execute(
+                "INSERT INTO agent_runs(diagnosis_id,event_id,revision,parent_diagnosis_id,mode,"
+                "status,current_node,state_json,budget_json,release_id,request_fingerprint,"
+                "created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                (diagnosis_id, event_id, revision, parent_diagnosis_id, mode, "QUEUED",
+                 "RECEIVED", json.dumps(state, separators=(",", ":")),
+                 json.dumps(budget, separators=(",", ":")), release_id, fingerprint,
+                 stamp, stamp),
+            )
+            if idempotency_key:
+                db.execute("INSERT INTO agent_idempotency_keys VALUES (?,?,?,?)",
+                           (idempotency_key, fingerprint, diagnosis_id, stamp))
+            self._agent_audit(db, diagnosis_id, "system", None, "AGENT_CREATED",
+                              {"event_id": event_id, "revision": revision}, stamp)
+            return self._dict(db.execute(
+                "SELECT * FROM agent_runs WHERE diagnosis_id=?", (diagnosis_id,),
+            ).fetchone()), False
+
+    @staticmethod
+    def _agent_audit(db, diagnosis_id, actor_type, actor_id, action, details, stamp):
+        db.execute(
+            "INSERT INTO agent_audit_records(diagnosis_id,actor_type,actor_id,action,"
+            "details_json,created_at) VALUES (?,?,?,?,?,?)",
+            (diagnosis_id, actor_type, actor_id, action,
+             json.dumps(details, ensure_ascii=False, separators=(",", ":")), stamp),
+        )
+
+    def claim_agent(self, worker_id, lease_seconds=30):
+        stamp = now()
+        with self.transaction() as db:
+            row = db.execute(
+                "SELECT diagnosis_id FROM agent_runs WHERE status='QUEUED' "
+                "ORDER BY created_at,diagnosis_id LIMIT 1"
+            ).fetchone()
+            if not row:
+                return None
+            token = uuid.uuid4().hex
+            changed = db.execute(
+                "UPDATE agent_runs SET status='RUNNING',started_at=COALESCE(started_at,?),"
+                "updated_at=?,lease_owner=?,lease_token=?,lease_expires_at=? "
+                "WHERE diagnosis_id=? AND status='QUEUED'",
+                (stamp, stamp, worker_id, token, _deadline(lease_seconds),
+                 row["diagnosis_id"]),
+            ).rowcount
+            if changed != 1:
+                return None
+            self._agent_audit(db, row["diagnosis_id"], "worker", worker_id,
+                              "AGENT_CLAIMED", {}, stamp)
+            return self._dict(db.execute(
+                "SELECT * FROM agent_runs WHERE diagnosis_id=?", (row["diagnosis_id"],),
+            ).fetchone())
+
+    def renew_agent(self, diagnosis_id, lease_token, lease_seconds=30):
+        db = self.connect()
+        try:
+            changed = db.execute(
+                "UPDATE agent_runs SET lease_expires_at=?,updated_at=? WHERE diagnosis_id=? "
+                "AND status='RUNNING' AND lease_token=?",
+                (_deadline(lease_seconds), now(), diagnosis_id, lease_token),
+            ).rowcount
+            if changed != 1:
+                raise LeaseLost("Agent lease is no longer owned by this worker")
+        finally:
+            db.close()
+
+    def recover_expired_agents(self):
+        stamp = now()
+        with self.transaction() as db:
+            rows = db.execute(
+                "SELECT diagnosis_id FROM agent_runs WHERE status='RUNNING' "
+                "AND lease_expires_at IS NOT NULL AND lease_expires_at<?", (stamp,),
+            ).fetchall()
+            for row in rows:
+                ambiguous = db.execute(
+                    "SELECT COUNT(*) FROM agent_tool_calls WHERE diagnosis_id=? "
+                    "AND status='IN_FLIGHT'", (row["diagnosis_id"],),
+                ).fetchone()[0]
+                db.execute(
+                    "UPDATE agent_runs SET status='QUEUED',lease_owner=NULL,lease_token=NULL,"
+                    "lease_expires_at=NULL,updated_at=? WHERE diagnosis_id=?",
+                    (stamp, row["diagnosis_id"]),
+                )
+                self._agent_audit(db, row["diagnosis_id"], "system", None,
+                                  "AGENT_LEASE_RECOVERED", {"ambiguous_calls": ambiguous}, stamp)
+            return len(rows)
+
+    def yield_agent(self, diagnosis_id, lease_token, completed_node):
+        stamp = now()
+        with self.transaction() as db:
+            changed = db.execute(
+                "UPDATE agent_runs SET status='QUEUED',lease_owner=NULL,lease_token=NULL,"
+                "lease_expires_at=NULL,updated_at=? WHERE diagnosis_id=? AND status='RUNNING' "
+                "AND lease_token=?", (stamp, diagnosis_id, lease_token),
+            ).rowcount
+            if changed != 1:
+                raise LeaseLost("Agent lease was lost before yielding the node")
+            self._agent_audit(db, diagnosis_id, "worker", None, "AGENT_NODE_COMPLETED",
+                              {"node": completed_node}, stamp)
+
+    def update_agent_state(self, diagnosis_id, lease_token, current_node, state, budget):
+        db = self.connect()
+        try:
+            changed = db.execute(
+                "UPDATE agent_runs SET current_node=?,state_json=?,budget_json=?,updated_at=? "
+                "WHERE diagnosis_id=? AND status='RUNNING' AND lease_token=?",
+                (current_node, json.dumps(state, ensure_ascii=False, separators=(",", ":")),
+                 json.dumps(budget, separators=(",", ":")), now(), diagnosis_id, lease_token),
+            ).rowcount
+            if changed != 1:
+                raise LeaseLost("Agent lease was lost while saving state")
+        finally:
+            db.close()
+
+    def start_agent_tool(self, diagnosis_id, tool_name, args_hash, args, ordinal):
+        stamp = now()
+        tool_call_id = "tc_" + uuid.uuid4().hex[:24]
+        with self.transaction() as db:
+            found = db.execute(
+                "SELECT * FROM agent_tool_calls WHERE diagnosis_id=? AND tool_name=? "
+                "AND args_hash=?", (diagnosis_id, tool_name, args_hash),
+            ).fetchone()
+            if found:
+                return self._dict(found), True
+            db.execute(
+                "INSERT INTO agent_tool_calls(tool_call_id,diagnosis_id,ordinal,tool_name,"
+                "args_hash,args_json,status,started_at) VALUES (?,?,?,?,?,?,?,?)",
+                (tool_call_id, diagnosis_id, ordinal, tool_name, args_hash,
+                 json.dumps(args, ensure_ascii=False, separators=(",", ":")),
+                 "IN_FLIGHT", stamp),
+            )
+            return self._dict(db.execute(
+                "SELECT * FROM agent_tool_calls WHERE tool_call_id=?", (tool_call_id,),
+            ).fetchone()), False
+
+    def finish_agent_tool(self, tool_call_id, result, status="SUCCEEDED"):
+        db = self.connect()
+        try:
+            db.execute(
+                "UPDATE agent_tool_calls SET status=?,result_json=?,finished_at=? "
+                "WHERE tool_call_id=? AND status='IN_FLIGHT'",
+                (status, json.dumps(result, ensure_ascii=False, separators=(",", ":")),
+                 now(), tool_call_id),
+            )
+        finally:
+            db.close()
+
+    def save_agent_evidence(self, diagnosis_id, items):
+        if not items:
+            return
+        with self.transaction() as db:
+            db.executemany(
+                "INSERT OR IGNORE INTO agent_evidence(evidence_id,diagnosis_id,kind,"
+                "source_ref,version,observed_at,excerpt_redacted,evidence_hash) "
+                "VALUES (?,?,?,?,?,?,?,?)",
+                ((item["evidence_id"], diagnosis_id, item["kind"], item["source_ref"],
+                  item["version"], item.get("observed_at"), item["excerpt_redacted"],
+                  item["evidence_hash"]) for item in items),
+            )
+
+    def save_agent_report(self, diagnosis_id, lease_token, report, markdown, approval=None):
+        stamp = now()
+        payload = json.dumps(report, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        with self.transaction() as db:
+            row = db.execute(
+                "SELECT * FROM agent_runs WHERE diagnosis_id=? AND status='RUNNING' "
+                "AND lease_token=?", (diagnosis_id, lease_token),
+            ).fetchone()
+            if not row:
+                raise LeaseLost("Agent lease was lost before report publication")
+            db.execute(
+                "INSERT INTO incident_reports(report_id,diagnosis_id,revision,status,report_json,"
+                "report_markdown,report_hash,created_at) VALUES (?,?,?,?,?,?,?,?)",
+                (report["report_id"], diagnosis_id, report["revision"],
+                 report["diagnosis_status"], payload, markdown, report["report_hash"], stamp),
+            )
+            status = "WAITING_REVIEW" if approval else "COMPLETED"
+            approval_id = None
+            if approval:
+                approval_id = approval["approval_id"]
+                db.execute(
+                    "INSERT INTO approvals(approval_id,diagnosis_id,report_id,report_hash,revision,"
+                    "action_ids_json,status,created_at,expires_at) VALUES (?,?,?,?,?,?,?,?,?)",
+                    (approval_id, diagnosis_id, report["report_id"], report["report_hash"],
+                     report["revision"], json.dumps(approval["action_ids"]), "PENDING",
+                     stamp, approval["expires_at"]),
+                )
+            db.execute(
+                "UPDATE agent_runs SET status=?,current_node='REPORT_VALIDATED',report_id=?,"
+                "approval_id=?,finished_at=?,updated_at=?,lease_owner=NULL,lease_token=NULL,"
+                "lease_expires_at=NULL WHERE diagnosis_id=?",
+                (status, report["report_id"], approval_id, stamp, stamp, diagnosis_id),
+            )
+            self._agent_audit(db, diagnosis_id, "worker", row["lease_owner"],
+                              "AGENT_REPORT_PUBLISHED", {"status": status,
+                              "report_id": report["report_id"]}, stamp)
+        return self.one("SELECT * FROM agent_runs WHERE diagnosis_id=?", (diagnosis_id,))
+
+    def fail_agent(self, diagnosis_id, lease_token, code, message):
+        stamp = now()
+        with self.transaction() as db:
+            changed = db.execute(
+                "UPDATE agent_runs SET status='FAILED',error_code=?,error_message=?,"
+                "finished_at=?,updated_at=?,lease_owner=NULL,lease_token=NULL,"
+                "lease_expires_at=NULL WHERE diagnosis_id=? AND status='RUNNING' "
+                "AND lease_token=?", (code, str(message)[:2000], stamp, stamp,
+                                      diagnosis_id, lease_token),
+            ).rowcount
+            if changed != 1:
+                raise LeaseLost("Agent lease was lost before failure could be recorded")
+            self._agent_audit(db, diagnosis_id, "worker", None, "AGENT_FAILED",
+                              {"code": code}, stamp)
+
+    def get_agent_run(self, diagnosis_id):
+        row = self.one("SELECT * FROM agent_runs WHERE diagnosis_id=?", (diagnosis_id,))
+        if row:
+            row["state"] = json.loads(row.pop("state_json"))
+            row["budget"] = json.loads(row.pop("budget_json"))
+        return row
+
+    def expire_approvals(self):
+        stamp = now()
+        with self.transaction() as db:
+            rows = db.execute(
+                "SELECT approval_id,diagnosis_id FROM approvals WHERE status='PENDING' "
+                "AND expires_at<?", (stamp,),
+            ).fetchall()
+            for row in rows:
+                db.execute("UPDATE approvals SET status='EXPIRED',decided_at=? WHERE approval_id=?",
+                           (stamp, row["approval_id"]))
+                db.execute("UPDATE agent_runs SET status='EXPIRED',updated_at=? WHERE diagnosis_id=? "
+                           "AND status='WAITING_REVIEW'", (stamp, row["diagnosis_id"]))
+            return len(rows)
+
+    def decide_approval(self, approval_id, decision, report_hash, revision, reason,
+                        reviewer_id, idempotency_key):
+        self.expire_approvals()
+        stamp = now()
+        target = {"approve": "APPROVED", "reject": "REJECTED",
+                  "request_more_evidence": "NEEDS_MORE_EVIDENCE"}[decision]
+        with self.transaction() as db:
+            same_key = db.execute(
+                "SELECT * FROM approvals WHERE idempotency_key=?", (idempotency_key,),
+            ).fetchone()
+            if same_key:
+                same_request = (
+                    same_key["approval_id"] == approval_id
+                    and same_key["status"] == target
+                    and same_key["report_hash"] == report_hash
+                    and int(same_key["revision"]) == int(revision)
+                    and same_key["reason"] == reason
+                    and same_key["reviewer_id"] == reviewer_id
+                )
+                if not same_request:
+                    raise ApprovalConflict("Idempotency-Key was used for another decision")
+                return self._dict(same_key), None
+            row = db.execute("SELECT * FROM approvals WHERE approval_id=?", (approval_id,)).fetchone()
+            if not row:
+                raise FileNotFoundError("Approval was not found")
+            if row["status"] == "EXPIRED":
+                raise ApprovalExpired("Approval has expired")
+            if row["expires_at"] < stamp:
+                raise ApprovalExpired("Approval has expired")
+            if row["status"] != "PENDING":
+                raise ApprovalConflict("Approval has already been decided")
+            if row["report_hash"] != report_hash or int(row["revision"]) != int(revision):
+                raise ApprovalConflict("Approval report version does not match")
+            db.execute(
+                "UPDATE approvals SET status=?,reviewer_id=?,reason=?,decided_at=?,"
+                "idempotency_key=? WHERE approval_id=? AND status='PENDING'",
+                (target, reviewer_id, reason, stamp, idempotency_key, approval_id),
+            )
+            next_run = None
+            if decision == "request_more_evidence":
+                parent = db.execute("SELECT * FROM agent_runs WHERE diagnosis_id=?",
+                                    (row["diagnosis_id"],)).fetchone()
+                if int(parent["revision"]) >= 2:
+                    raise ApprovalConflict("Only one evidence revision is allowed")
+                next_id = "dia_" + uuid.uuid4().hex[:24]
+                next_budget = json.loads(parent["budget_json"])
+                for name in ("tool_calls", "llm_calls", "tokens", "active_ms",
+                             "estimated_cost_cny"):
+                    next_budget[name] = 0
+                state = {"tool_calls": [], "evidence_ids": [], "errors": [],
+                         "review_reasons": ["reviewer_requested_more_evidence"],
+                         "reviewer_reason": reason}
+                fingerprint = parent["request_fingerprint"] + ":revision:2"
+                db.execute(
+                    "INSERT INTO agent_runs(diagnosis_id,event_id,revision,parent_diagnosis_id,"
+                    "mode,status,current_node,state_json,budget_json,release_id,request_fingerprint,"
+                    "created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    (next_id, parent["event_id"], 2, parent["diagnosis_id"], parent["mode"],
+                     "QUEUED", "RECEIVED", json.dumps(state, ensure_ascii=False),
+                     json.dumps(next_budget), parent["release_id"], fingerprint, stamp, stamp),
+                )
+                next_run = next_id
+                db.execute("UPDATE agent_runs SET status='NEEDS_MORE_EVIDENCE',updated_at=? "
+                           "WHERE diagnosis_id=?", (stamp, parent["diagnosis_id"]))
+            else:
+                run_status = "APPROVED_REPORT" if decision == "approve" else "REJECTED"
+                db.execute("UPDATE agent_runs SET status=?,updated_at=? WHERE diagnosis_id=?",
+                           (run_status, stamp, row["diagnosis_id"]))
+            self._agent_audit(db, row["diagnosis_id"], "reviewer", reviewer_id,
+                              "APPROVAL_DECIDED", {"decision": decision,
+                              "next_diagnosis_id": next_run}, stamp)
+            return self._dict(db.execute(
+                "SELECT * FROM approvals WHERE approval_id=?", (approval_id,),
+            ).fetchone()), next_run
+
+    def import_provider_usage(self, provider, legacy):
+        stamp = now()
+        with self.transaction() as db:
+            db.execute(
+                "INSERT OR IGNORE INTO provider_usage(provider,updated_at) VALUES (?,?)",
+                (provider, stamp),
+            )
+            row = db.execute("SELECT imported_legacy FROM provider_usage WHERE provider=?",
+                             (provider,)).fetchone()
+            if not row["imported_legacy"]:
+                db.execute(
+                    "UPDATE provider_usage SET input_tokens=?,output_tokens=?,"
+                    "estimated_cost_cny=?,calls=?,imported_legacy=1,updated_at=? WHERE provider=?",
+                    (int(legacy.get("input_tokens", 0)), int(legacy.get("output_tokens", 0)),
+                     float(legacy.get("estimated_cost_cny", 0)), int(legacy.get("calls", 0)),
+                     stamp, provider),
+                )
+
+    def reserve_provider_usage(self, provider, scope, reserved_tokens, reserved_cost,
+                               max_tokens, max_cost):
+        stamp = now()
+        reservation_id = "res_" + uuid.uuid4().hex[:24]
+        with self.transaction() as db:
+            db.execute(
+                "INSERT OR IGNORE INTO provider_usage(provider,updated_at) VALUES (?,?)",
+                (provider, stamp),
+            )
+            usage = db.execute("SELECT * FROM provider_usage WHERE provider=?",
+                               (provider,)).fetchone()
+            pending = db.execute(
+                "SELECT COALESCE(SUM(reserved_tokens),0),COALESCE(SUM(reserved_cost_cny),0) "
+                "FROM provider_reservations WHERE provider=? AND status='RESERVED'",
+                (provider,),
+            ).fetchone()
+            used_tokens = usage["input_tokens"] + usage["output_tokens"] + pending[0]
+            used_cost = usage["estimated_cost_cny"] + pending[1]
+            if used_tokens + int(reserved_tokens) > int(max_tokens):
+                raise RuntimeError("Token budget has been exhausted")
+            if used_cost + float(reserved_cost) > float(max_cost):
+                raise RuntimeError("Cost budget has been exhausted")
+            db.execute(
+                "INSERT INTO provider_reservations VALUES (?,?,?,?,?,'RESERVED',?,NULL)",
+                (reservation_id, provider, scope, int(reserved_tokens),
+                 float(reserved_cost), stamp),
+            )
+        return reservation_id
+
+    def settle_provider_usage(self, reservation_id, input_tokens, output_tokens,
+                              input_rate, output_rate):
+        stamp = now()
+        cost = (int(input_tokens) * float(input_rate)
+                + int(output_tokens) * float(output_rate)) / 1_000_000
+        with self.transaction() as db:
+            row = db.execute(
+                "SELECT * FROM provider_reservations WHERE reservation_id=? AND status='RESERVED'",
+                (reservation_id,),
+            ).fetchone()
+            if not row:
+                raise ValueError("Provider budget reservation is unavailable")
+            db.execute(
+                "UPDATE provider_usage SET input_tokens=input_tokens+?,"
+                "output_tokens=output_tokens+?,estimated_cost_cny=estimated_cost_cny+?,"
+                "calls=calls+1,updated_at=? WHERE provider=?",
+                (int(input_tokens), int(output_tokens), cost, stamp, row["provider"]),
+            )
+            db.execute(
+                "UPDATE provider_reservations SET status='SETTLED',settled_at=? "
+                "WHERE reservation_id=?", (stamp, reservation_id),
+            )
+        return self.provider_usage(row["provider"])
+
+    def provider_usage(self, provider):
+        row = self.one("SELECT * FROM provider_usage WHERE provider=?", (provider,))
+        if not row:
+            return {"schema_version": 2, "input_tokens": 0, "output_tokens": 0,
+                    "estimated_cost_cny": 0.0, "calls": 0, "reserved_tokens": 0}
+        pending = self.one(
+            "SELECT COALESCE(SUM(reserved_tokens),0) AS tokens FROM provider_reservations "
+            "WHERE provider=? AND status='RESERVED'", (provider,),
+        )
+        return {"schema_version": 2, "input_tokens": row["input_tokens"],
+                "output_tokens": row["output_tokens"],
+                "estimated_cost_cny": row["estimated_cost_cny"], "calls": row["calls"],
+                "reserved_tokens": pending["tokens"]}
 
     def one(self, query, params=()):
         db = self.connect()

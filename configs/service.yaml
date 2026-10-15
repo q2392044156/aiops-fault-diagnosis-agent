@@ -1,9 +1,10 @@
-schema_version: 3
+schema_version: 4
 model_config: configs/model_lr.yaml
 retrieval_config: configs/retrieval.yaml
 rag_config: configs/rag.yaml
+agent_config: configs/agent.yaml
 w4_release_dir: experiments/time_event_v1/model_selection_v1/final
-release_dir: artifacts/releases/v0.4_service
+release_dir: artifacts/releases/v0.5_service
 server:
   host: 127.0.0.1
   port: 8000
@@ -23,6 +24,7 @@ worker:
   heartbeat_max_age_seconds: 15
   lease_seconds: 30
   queue_capacity: 32
+  agent_queue_capacity: 16
 ui:
   api_url: http://127.0.0.1:8000
   refresh_seconds: 2

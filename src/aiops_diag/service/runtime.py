@@ -9,6 +9,11 @@ from pathlib import Path
 from aiops_diag.data.common import digest, key
 from aiops_diag.retrieval.release import FrozenRetriever
 from aiops_diag.rag.engine import RagEngine
+from aiops_diag.rag.client import DeepSeekClient
+from aiops_diag.agent.auth import ReviewerRegistry
+from aiops_diag.agent.budget import DatabaseBudgetLedger
+from aiops_diag.agent.engine import AgentEngine, AgentYield
+from aiops_diag.agent.release import verify as verify_agent
 
 from .db import Database, LeaseLost
 from .pipeline import database_payload, process
@@ -31,6 +36,9 @@ class ServiceRuntime:
         self.release = None
         self.retriever = None
         self.rag = None
+        self.agent = None
+        self.agent_release = None
+        self.reviewer_registry = None
         self.rag_lock = threading.Lock()
         self.ready_error = None
         try:
@@ -39,15 +47,28 @@ class ServiceRuntime:
                 self.release = self.model
             else:
                 self.release = ReleaseMetadata(cfg, verify_rag=(role == "api"))
-            if role == "api" and cfg.get("retrieval"):
+            if role in ("api", "worker") and cfg.get("retrieval"):
                 self.retriever = FrozenRetriever(cfg["retrieval"])
             if role == "api" and cfg.get("rag"):
-                self.rag = RagEngine(cfg["rag"], retriever=self.retriever)
+                ledger = DatabaseBudgetLedger(
+                    self.db, cfg["rag"]["provider"]["name"], cfg["rag"]["budget"],
+                    cfg["rag"]["paths"].get("budget_ledger"), scope="w8_w9_shared")
+                self.rag = RagEngine(cfg["rag"], retriever=self.retriever,
+                                     client=DeepSeekClient(cfg["rag"], ledger=ledger))
+            if cfg.get("agent"):
+                self.agent_release = verify_agent(cfg["agent"])
+                if role == "worker":
+                    self.agent = AgentEngine(cfg["agent"], self.db, self.retriever,
+                                             self.manifest, self.agent_release)
+                if role == "api" and cfg["agent"]["approval"].get("reviewer_registry"):
+                    self.reviewer_registry = ReviewerRegistry(
+                        cfg["agent"]["approval"]["reviewer_registry"])
         except Exception as exc:
             self.ready_error = f"{type(exc).__name__}: {exc}"
         self.stop_event = threading.Event()
         self.thread = None
         self.worker_id = f"{socket.gethostname()}-{os.getpid()}-{uuid.uuid4().hex[:8]}"
+        self.prefer_agent = False
 
     @property
     def manifest(self):
@@ -61,6 +82,10 @@ class ServiceRuntime:
         if self.role == "api" and self.cfg.get("retrieval") and self.retriever is None:
             return False
         if self.role == "api" and self.cfg.get("rag") and self.rag is None:
+            return False
+        if self.role == "api" and self.cfg.get("agent") and self.reviewer_registry is None:
+            return False
+        if self.role == "worker" and self.cfg.get("agent") and self.agent is None:
             return False
         if self.retriever is not None and hasattr(self.retriever, "verify_integrity"):
             try:
@@ -82,6 +107,10 @@ class ServiceRuntime:
             return "Knowledge release is unavailable"
         if self.role == "api" and self.cfg.get("rag") and self.rag is None:
             return "RAG report engine is unavailable"
+        if self.role == "api" and self.cfg.get("agent") and self.reviewer_registry is None:
+            return "Reviewer registry is unavailable"
+        if self.role == "worker" and self.cfg.get("agent") and self.agent is None:
+            return "Agent engine is unavailable"
         if self.retriever is not None and hasattr(self.retriever, "verify_integrity"):
             try:
                 self.retriever.verify_integrity()
@@ -107,6 +136,8 @@ class ServiceRuntime:
             self.thread.join(timeout=10)
         if self.rag is not None:
             self.rag.close()
+        if self.agent is not None:
+            self.agent.close()
 
     def _heartbeat(self, status="READY", details=None):
         if self.manifest:
@@ -120,11 +151,14 @@ class ServiceRuntime:
         last_heartbeat = 0.0
         import time
         self.db.recover_expired()
+        self.db.recover_expired_agents()
         while not self.stop_event.is_set():
             current = time.monotonic()
             if current - last_heartbeat >= heartbeat:
                 self._heartbeat()
                 self.db.recover_expired()
+                self.db.recover_expired_agents()
+                self.db.expire_approvals()
                 last_heartbeat = current
             try:
                 completed = self.run_one()
@@ -143,9 +177,20 @@ class ServiceRuntime:
         lease_seconds = int(self.cfg.get("worker", {}).get("lease_seconds", 30))
         heartbeat_seconds = float(self.cfg.get("worker", {}).get("heartbeat_seconds", 5))
         self._heartbeat()
+        if self.agent is not None and self.prefer_agent:
+            agent_run = self.db.claim_agent(self.worker_id, lease_seconds)
+            if agent_run is not None:
+                self.prefer_agent = False
+                return self._run_agent(agent_run, lease_seconds, heartbeat_seconds)
         task = self.db.claim(self.worker_id, lease_seconds)
+        if task is None and self.agent is not None:
+            agent_run = self.db.claim_agent(self.worker_id, lease_seconds)
+            if agent_run is not None:
+                self.prefer_agent = False
+                return self._run_agent(agent_run, lease_seconds, heartbeat_seconds)
         if task is None:
             return None
+        self.prefer_agent = True
         lease_token = task["lease_token"]
         renew_stop = threading.Event()
 
@@ -181,6 +226,39 @@ class ServiceRuntime:
             renewer.join(timeout=2)
             self._heartbeat()
         return self.db.one("SELECT * FROM tasks WHERE task_id=?", (task["task_id"],))
+
+    def _run_agent(self, run, lease_seconds, heartbeat_seconds):
+        lease_token = run["lease_token"]
+        renew_stop = threading.Event()
+
+        def renew_loop():
+            while not renew_stop.wait(min(heartbeat_seconds, max(1, lease_seconds / 3))):
+                try:
+                    self._heartbeat()
+                    self.db.renew_agent(run["diagnosis_id"], lease_token, lease_seconds)
+                except LeaseLost:
+                    return
+
+        renewer = threading.Thread(target=renew_loop, name="aiops-agent-lease", daemon=True)
+        renewer.start()
+        try:
+            return self.agent.run(run)
+        except AgentYield as yielded:
+            self.db.yield_agent(run["diagnosis_id"], lease_token, str(yielded))
+            return self.db.get_agent_run(run["diagnosis_id"])
+        except LeaseLost:
+            raise
+        except Exception as exc:
+            try:
+                self.db.fail_agent(run["diagnosis_id"], lease_token, "AGENT_FAILED",
+                                   f"{type(exc).__name__}: {exc}")
+            except LeaseLost:
+                pass
+            raise
+        finally:
+            renew_stop.set()
+            renewer.join(timeout=2)
+            self._heartbeat()
 
     def _identity(self, input_hash):
         if not self.manifest:
@@ -255,3 +333,24 @@ class ServiceRuntime:
         except Exception:
             partial.unlink(missing_ok=True)
             raise
+
+    def submit_diagnosis(self, event_id, mode="auto", idempotency_key=None):
+        if not self.agent_release:
+            raise RuntimeError("Agent release is unavailable")
+        if mode not in ("auto", "template"):
+            raise ValueError("Diagnosis mode is invalid")
+        if idempotency_key and not IDEMPOTENCY.fullmatch(idempotency_key):
+            raise ValueError("Idempotency-Key must contain 1-128 safe ASCII characters")
+        fingerprint = key([event_id, mode, self.agent_release["release_id"]])
+        diagnosis_id = "dia_" + fingerprint[:24]
+        workflow = self.cfg["agent"]["workflow"]
+        budget = {"max_tool_calls": int(workflow["max_tool_calls"]),
+                  "max_llm_calls": int(workflow["max_llm_calls"]),
+                  "max_tokens": int(workflow["max_tokens"]),
+                  "max_active_ms": int(float(workflow["max_active_seconds"]) * 1000),
+                  "tool_calls": 0, "llm_calls": 0, "tokens": 0,
+                  "active_ms": 0, "estimated_cost_cny": 0.0}
+        return self.db.create_agent_run(
+            diagnosis_id, event_id, mode, self.agent_release["release_id"],
+            fingerprint, budget, idempotency_key,
+            self.cfg["worker"].get("agent_queue_capacity", 16))

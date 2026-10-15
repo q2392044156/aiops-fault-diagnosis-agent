@@ -14,7 +14,7 @@ from aiops_diag.modeling.templates import content, miner_config
 
 
 MODEL_RELEASE = "v0.2_lr"
-DEPLOYMENT_RELEASE = "v0.4"
+DEPLOYMENT_RELEASE = "v0.5"
 
 
 def _read(path):
@@ -89,8 +89,12 @@ def publish(cfg):
         if cfg.get("rag"):
             from aiops_diag.rag.release import verify as verify_rag
             rag_release = verify_rag(cfg["rag"])
+        agent_release = None
+        if cfg.get("agent"):
+            from aiops_diag.agent.release import verify as verify_agent
+            agent_release = verify_agent(cfg["agent"])
         value = {
-            "schema_version": 3,
+            "schema_version": 4,
             "deployment_release": DEPLOYMENT_RELEASE,
             "release_id": MODEL_RELEASE,
             "model_id": "logistic_regression",
@@ -113,10 +117,13 @@ def publish(cfg):
             "rag_release": ({"rag_version": rag_release["rag_version"],
                              "kb_release_id": rag_release["kb_release_id"],
                              "release_hash": key(rag_release)} if rag_release else None),
+            "agent_release": ({"agent_version": agent_release["agent_version"],
+                               "release_id": agent_release["release_id"],
+                               "release_hash": key(agent_release)} if agent_release else None),
         }
         save(staging / "service_release.json", value)
         registry = {
-            "schema_version": 3,
+            "schema_version": 4,
             "deployment_release": DEPLOYMENT_RELEASE,
             "release_id": MODEL_RELEASE,
             "artifacts": {"service_release.json": digest(staging / "service_release.json"),
@@ -149,7 +156,7 @@ def verify(cfg, verify_rag=True):
     directory = Path(cfg["release_dir"]).resolve()
     registry = verified_manifest(directory, "registry.json")
     release = _read(directory / "service_release.json")
-    if release.get("schema_version") not in (2, 3):
+    if release.get("schema_version") not in (2, 3, 4):
         raise ValueError("Unsupported service release schema")
     if release.get("deployment_release") != DEPLOYMENT_RELEASE:
         raise ValueError("Unexpected deployment release")
@@ -163,6 +170,16 @@ def verify(cfg, verify_rag=True):
         expected_rag = release.get("rag_release") or {}
         if expected_rag.get("release_hash") != key(rag_release):
             raise ValueError("Published RAG release changed")
+    if verify_rag and release.get("schema_version") == 4 and cfg.get("rag"):
+        from aiops_diag.rag.release import verify as verify_rag
+        rag_release = verify_rag(cfg["rag"])
+        if (release.get("rag_release") or {}).get("release_hash") != key(rag_release):
+            raise ValueError("Published RAG release changed")
+    if verify_rag and release.get("schema_version") == 4 and cfg.get("agent"):
+        from aiops_diag.agent.release import verify as verify_agent
+        agent_release = verify_agent(cfg["agent"])
+        if (release.get("agent_release") or {}).get("release_hash") != key(agent_release):
+            raise ValueError("Published agent release changed")
     expected = release.get("component_hashes", {})
     components = release.get("components", {})
     if set(expected) != set(components):

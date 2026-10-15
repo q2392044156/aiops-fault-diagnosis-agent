@@ -79,7 +79,7 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection run 
 
 ## 实验边界
 
-标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证、测试和服务推理只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低泄漏或合并告警的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W8 只生成由知识卡片支持的只读复核报告，不实现 Agent、鉴权、TLS、审批或自动处置。
+标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证、测试和服务推理只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低泄漏或合并告警的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W9 的审批只确认报告经过人工审核，所有建议固定 `execution_allowed=false`；系统不存在动作执行入口。
 
 ## W5 服务命令
 
@@ -177,3 +177,18 @@ docker compose -f deployment/compose.yaml -f deployment/compose.online.yaml up -
 ```
 
 Streamlit 的“知识报告”页可选择在线生成或确定性模板，并展示可点击证据、缺失信息、限制和报告哈希。所有报告都带 `requires_review=true`。
+
+## W9 受控单 Agent 与人工复核
+
+W9 将已完成的异常事件组织为可恢复的确定性诊断流程，提供范围受限的只读工具、不可变报告、24小时审批、SQLite预算账本和崩溃恢复。每个状态节点完成后都会持久化并释放worker租约，使检测任务和Agent节点可以交替调度。审批使用独立 Bearer token 注册表；API只能读取token哈希，worker和模型不能访问审批token。批准报告不会执行重启、删除、切流、封禁或数据库修改。
+
+```powershell
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent publish --config configs/agent.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent verify --config configs/agent.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent evaluate --config configs/agent.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent evaluate --config configs/agent.yaml --online
+```
+
+评测集固定为20例。确定性回放的终态符合率和必须复核召回率均为100%；一次真实DeepSeek评测的可选工具选择准确率为55%，低于预登记的80%门槛，因此发布配置默认关闭LLM可选路由，保留确定性必需节点和模板安全降级。在线报告生成仍受每revision 8次工具、3次LLM、12,000 tokens、120秒以及全局/子预算硬限制。
+
+新增接口包括诊断提交与查询、工具轨迹、不可变报告、待审列表和审批决策。`approve/reject/request_more_evidence` 均绑定revision与report hash；旧版本、过期、越权及幂等冲突会被拒绝。在线Compose仍使用 `deployment/compose.online.yaml`，而reviewer token与哈希注册表只保存在 `E:\develop\docker\secrets`，不得提交到Git。

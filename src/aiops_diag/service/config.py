@@ -8,16 +8,17 @@ from aiops_diag.data.common import key
 from aiops_diag.modeling.config import load as load_model_config
 from aiops_diag.retrieval.config import load as load_retrieval_config
 from aiops_diag.rag.config import load as load_rag_config
+from aiops_diag.agent.config import load as load_agent_config
 
 
 def load(path):
     path = Path(path).resolve()
     root = path.parent.parent
     raw = yaml.safe_load(path.read_text(encoding="utf-8"))
-    if raw.get("schema_version") not in (2, 3):
+    if raw.get("schema_version") not in (2, 3, 4):
         raise ValueError("Unsupported service configuration schema")
     if raw["server"].get("workers") != 1:
-        raise ValueError("W5 requires exactly one service worker")
+        raise ValueError("The service requires exactly one API process")
     cfg = json.loads(json.dumps(raw))
     cfg["root"] = str(root)
     cfg["config_path"] = str(path)
@@ -26,6 +27,8 @@ def load(path):
         cfg["retrieval"] = load_retrieval_config(root / raw["retrieval_config"])
     if raw.get("rag_config"):
         cfg["rag"] = load_rag_config(root / raw["rag_config"])
+    if raw.get("agent_config"):
+        cfg["agent"] = load_agent_config(root / raw["agent_config"])
     for field in ("w4_release_dir", "release_dir"):
         cfg[field] = str((root / raw[field]).resolve())
     for field in ("runtime_dir", "database"):

@@ -6,6 +6,13 @@ services:
     secrets:
       - deepseek_api_key
       - deepseek_tracking_id
+  worker:
+    environment:
+      DEEPSEEK_API_KEY_FILE: /run/secrets/deepseek_api_key
+      DEEPSEEK_TRACKING_ID_FILE: /run/secrets/deepseek_tracking_id
+    secrets:
+      - deepseek_api_key
+      - deepseek_tracking_id
 
 secrets:
   deepseek_api_key:

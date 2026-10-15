@@ -1,0 +1,29 @@
+schema_version: 1
+agent_version: agent_v0.1
+rag_config: configs/rag.yaml
+service_config: configs/service.yaml
+workflow:
+  max_tool_calls: 8
+  max_llm_calls: 3
+  max_tokens: 12000
+  max_active_seconds: 120
+  max_revision: 2
+  optional_router_enabled: false
+  optional_router_min_accuracy: 0.8
+  optional_router_evaluated_accuracy: 0.55
+  optional_router_decision: deterministic_default
+tools:
+  query_logs_limit: 200
+  similar_incidents_limit: 5
+  runbook_top_k: 3
+  tool_timeout_seconds: 5
+approval:
+  ttl_hours: 24
+  reviewer_registry_env: AIOPS_REVIEWER_REGISTRY_FILE
+evaluation:
+  max_tokens: 500000
+  max_cost_cny: 5.0
+paths:
+  release_dir: artifacts/releases/agent_v0.1
+  work_dir: experiments/w9
+  adev: evaluation/agent/adev.jsonl

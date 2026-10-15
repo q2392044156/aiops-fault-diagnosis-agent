@@ -232,3 +232,85 @@ class RagReleaseResponse(StrictModel):
     config_hash: str
     online_configured: bool
     reranker_enabled: bool
+
+
+class DiagnosisRequest(StrictModel):
+    event_id: str = Field(min_length=1, max_length=64, pattern=r"^evt_[A-Za-z0-9_-]+$")
+    mode: Literal["auto", "template"] = "auto"
+
+
+class DiagnosisResponse(StrictModel):
+    schema_version: int = 1
+    diagnosis_id: str
+    event_id: str
+    revision: int
+    status: str
+    current_node: str
+    mode: str
+    state: dict[str, Any]
+    budget: dict[str, Any]
+    report_id: str | None = None
+    approval_id: str | None = None
+    error: dict[str, Any] | None = None
+    created_at: str
+    started_at: str | None = None
+    finished_at: str | None = None
+    updated_at: str
+    deduplicated: bool = False
+    links: dict[str, str]
+
+
+class ToolCallItem(StrictModel):
+    tool_call_id: str
+    ordinal: int
+    tool_name: str
+    status: str
+    args_hash: str
+    started_at: str
+    finished_at: str | None = None
+    result: dict[str, Any] | None = None
+
+
+class ToolCallList(StrictModel):
+    schema_version: int = 1
+    items: list[ToolCallItem]
+
+
+class ApprovalDecisionRequest(StrictModel):
+    decision: Literal["approve", "reject", "request_more_evidence"]
+    report_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
+    revision: int = Field(ge=1, le=2)
+    reason: str = Field(min_length=1, max_length=1000)
+
+
+class ApprovalResponse(StrictModel):
+    schema_version: int = 1
+    approval_id: str
+    diagnosis_id: str
+    report_id: str
+    report_hash: str
+    revision: int
+    action_ids: list[str]
+    status: str
+    reviewer_id: str | None = None
+    reason: str | None = None
+    created_at: str
+    expires_at: str
+    decided_at: str | None = None
+    next_diagnosis_id: str | None = None
+
+
+class ApprovalList(StrictModel):
+    schema_version: int = 1
+    items: list[ApprovalResponse]
+
+
+class AgentReleaseResponse(StrictModel):
+    schema_version: int
+    agent_version: str
+    release_id: str
+    rag_version: str
+    kb_release_id: str
+    tool_manifest_hash: str
+    risk_policy_hash: str
+    prompt_version: str

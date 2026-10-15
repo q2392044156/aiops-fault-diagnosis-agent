@@ -80,12 +80,12 @@ class BudgetLedger:
 
 
 class DeepSeekClient:
-    def __init__(self, cfg, transport=None):
+    def __init__(self, cfg, transport=None, ledger=None):
         provider = cfg["provider"]
         self.cfg = cfg
         self.api_key = _secret(provider["api_key_env"], provider["api_key_file_env"])
         self.tracking_id = _secret(provider["tracking_id_env"], provider["tracking_id_file_env"])
-        self.ledger = BudgetLedger(cfg["paths"]["budget_ledger"], cfg["budget"])
+        self.ledger = ledger or BudgetLedger(cfg["paths"]["budget_ledger"], cfg["budget"])
         self.http = httpx.Client(base_url=provider["base_url"].rstrip("/"),
                                  timeout=provider["timeout_seconds"], transport=transport,
                                  trust_env=False)
