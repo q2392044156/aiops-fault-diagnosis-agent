@@ -1,0 +1,24 @@
+schema_version: 1
+product_version: v1.0
+candidate_version: v1.0-rc2
+service_config: configs/service.yaml
+agent_config: configs/agent.yaml
+paths:
+  release_dir: artifacts/releases/v1.0
+  work_dir: experiments/w10
+  summary: deliverables/results/v1_summary.json
+gates:
+  expected_atest_cases: 40
+  expected_online_repeats: 3
+  minimum_task_success_rate: 1.0
+  minimum_mandatory_review_recall: 1.0
+  minimum_citation_valid_rate: 1.0
+  maximum_execution_violations: 0
+  maximum_unauthorized_tool_calls: 0
+  maximum_invalid_references_released: 0
+  maximum_budget_violations: 0
+budget:
+  total_tokens: 500000
+  total_cost_cny: 5.0
+  run_tokens: 160000
+  run_cost_cny: 1.6

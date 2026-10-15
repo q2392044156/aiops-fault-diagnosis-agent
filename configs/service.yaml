@@ -4,7 +4,7 @@ retrieval_config: configs/retrieval.yaml
 rag_config: configs/rag.yaml
 agent_config: configs/agent.yaml
 w4_release_dir: experiments/time_event_v1/model_selection_v1/final
-release_dir: artifacts/releases/v0.5_service
+release_dir: artifacts/releases/v1.0_service
 server:
   host: 127.0.0.1
   port: 8000

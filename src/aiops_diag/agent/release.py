@@ -27,6 +27,7 @@ def publish(cfg):
     rag = verify_rag(cfg["rag"])
     release = {
         "schema_version": 1,
+        "product_version": "v1.0",
         "agent_version": cfg["agent_version"],
         "config_hash": cfg["config_hash"],
         "rag_version": rag["rag_version"],
@@ -37,8 +38,13 @@ def publish(cfg):
         "risk_policy": RISK_POLICY,
         "risk_policy_hash": key(RISK_POLICY),
         "prompt_version": "w9_agent_prompt_v1",
+        "evaluation_hashes": {
+            "adev": digest(cfg["paths"]["adev"]),
+            "atest": digest(cfg["paths"]["atest"]),
+        },
         "code_hashes": code_hashes(),
     }
+    release["candidate_hash"] = key(release)
     release["release_id"] = "agr_" + key(release)[:24]
     directory = Path(cfg["paths"]["release_dir"])
     directory.mkdir(parents=True, exist_ok=True)
@@ -57,6 +63,8 @@ def verify(cfg):
     release = json.loads((directory / "agent_release.json").read_text(encoding="utf-8"))
     if release.get("agent_version") != cfg["agent_version"]:
         raise ValueError("Agent release version changed")
+    if release.get("product_version") != "v1.0":
+        raise ValueError("Agent product version changed")
     if release.get("config_hash") != cfg["config_hash"]:
         raise ValueError("Agent configuration changed after publication")
     if release.get("tool_manifest_hash") != key(TOOLS):
@@ -65,6 +73,10 @@ def verify(cfg):
         raise ValueError("Agent risk policy changed")
     if release.get("code_hashes") != code_hashes():
         raise ValueError("Agent source code changed after publication")
+    expected_evaluations = {"adev": digest(cfg["paths"]["adev"]),
+                            "atest": digest(cfg["paths"]["atest"])}
+    if release.get("evaluation_hashes") != expected_evaluations:
+        raise ValueError("Agent evaluation protocol changed after publication")
     rag = verify_rag(cfg["rag"])
     if release.get("rag_release_hash") != key(rag):
         raise ValueError("Agent upstream RAG release changed")

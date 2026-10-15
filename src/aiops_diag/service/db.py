@@ -927,6 +927,32 @@ class Database:
             )
         return self.provider_usage(row["provider"])
 
+    def settle_provider_reservations_conservatively(self, provider, scope,
+                                                    reservation_id=None):
+        """Close ambiguous paid calls without allowing their reservation to disappear."""
+        stamp = now()
+        with self.transaction() as db:
+            params = [provider, scope]
+            clause = "provider=? AND scope=? AND status='RESERVED'"
+            if reservation_id:
+                clause += " AND reservation_id=?"
+                params.append(reservation_id)
+            rows = db.execute(
+                f"SELECT * FROM provider_reservations WHERE {clause}", params).fetchall()
+            if not rows:
+                return 0
+            tokens = sum(int(row["reserved_tokens"]) for row in rows)
+            cost = sum(float(row["reserved_cost_cny"]) for row in rows)
+            db.execute(
+                "UPDATE provider_usage SET input_tokens=input_tokens+?,"
+                "estimated_cost_cny=estimated_cost_cny+?,calls=calls+?,updated_at=? "
+                "WHERE provider=?", (tokens, cost, len(rows), stamp, provider))
+            ids = [row["reservation_id"] for row in rows]
+            db.executemany(
+                "UPDATE provider_reservations SET status='CONSERVATIVE',settled_at=? "
+                "WHERE reservation_id=?", [(stamp, value) for value in ids])
+        return len(rows)
+
     def provider_usage(self, provider):
         row = self.one("SELECT * FROM provider_usage WHERE provider=?", (provider,))
         if not row:

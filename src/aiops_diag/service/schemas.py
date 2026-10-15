@@ -307,7 +307,9 @@ class ApprovalList(StrictModel):
 
 class AgentReleaseResponse(StrictModel):
     schema_version: int
+    product_version: str
     agent_version: str
+    candidate_hash: str
     release_id: str
     rag_version: str
     kb_release_id: str

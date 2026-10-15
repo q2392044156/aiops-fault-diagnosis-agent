@@ -1,5 +1,8 @@
 .venv/
 .conda-env/
+.w10-env/
+.pptx-build/
+.pytest-tmp/
 .python/
 .uv-cache/
 __pycache__/

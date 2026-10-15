@@ -287,6 +287,22 @@ def test_provider_budget_reservation_is_atomic(tmp_path):
     assert state["calls"] == 1 and state["input_tokens"] == 40
 
 
+def test_ambiguous_provider_reservation_is_conservatively_settled(tmp_path):
+    db = Database(tmp_path / "service.sqlite3")
+    db.init()
+    reservation = db.reserve_provider_usage("deepseek", "w10", 11200, 0.0296,
+                                            500000, 5.0)
+    assert db.provider_usage("deepseek")["reserved_tokens"] == 11200
+    assert db.settle_provider_reservations_conservatively(
+        "deepseek", "w10", reservation) == 1
+    state = db.provider_usage("deepseek")
+    assert state["reserved_tokens"] == 0
+    assert state["input_tokens"] == 11200
+    assert state["estimated_cost_cny"] == pytest.approx(0.0296)
+    assert db.one("SELECT status FROM provider_reservations WHERE reservation_id=?",
+                  (reservation,))["status"] == "CONSERVATIVE"
+
+
 def test_retryable_tool_result_is_retried_once(tmp_path):
     db = Database(tmp_path / "service.sqlite3")
     db.init(); seed_event(db)

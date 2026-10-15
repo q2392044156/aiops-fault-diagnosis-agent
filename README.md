@@ -1,12 +1,39 @@
 # AIOps Fault Diagnosis Agent
 
-面向公开 HDFS 日志的可复现研究原型。W1 提供可追溯数据准备；W2 冻结时间/事件代理协议并建立传统基线；W3 实现小型监督式 LSTM；W4 完成统一评测和 v0.2 模型冻结；W5/W6 提供可恢复的 CPU 服务；W7 建立可追溯混合检索；W8 在严格证据门禁下生成需人工复核的知识报告。不执行自动修复。
+面向公开 HDFS 日志的可复现、可追溯故障诊断研究原型。项目从 1117 万行日志出发，依次完成数据协议、异常检测、知识检索、证据约束报告、受控单 Agent、人工复核和 CPU 容器部署。当前产品发布为 **v1.0**，冻结候选为 `v1.0-rc2`。
 
-当前状态：W1 全量数据 11,175,629 行、575,061 个 block 会话；W2/W3 使用 Dmain 100,000 个训练会话、Ddev 10,000 个训练会话及完整 38,504 个验证会话。W4 按预登记规则一次性评测 250,538 个测试会话，默认模型仍为 TF-IDF + Logistic Regression。W8 服务部署版本为 v0.4，绑定 `v0.2_lr`、`kb_v0.1` 和 `rag_v0.1`；LLM 输出不称为根因诊断，且始终要求人工复核。
+系统只提供异常线索、引用证据和只读排查建议。HDFS_v1 没有真实根因标签，因此不报告“根因准确率”；所有建议固定 `execution_allowed=false`，审批只代表报告被人工审核，不会执行重启、删除、切流或写库。
 
-## Conda 环境
+## 结果摘要
 
-唯一支持的环境是名为 `aiops-fault-diagnosis-agent` 的 Conda 环境，Python 3.11。旧 `.venv` 不再使用，但不会自动删除。
+| 项目 | 冻结结果 |
+|---|---|
+| 数据 | 11,175,629 行；575,061 个 block 会话；16,838 个异常会话 |
+| 默认检测模型 | TF-IDF + Logistic Regression，测试 F1 `0.883181`、AP `0.789731`、FPR `0.006374` |
+| 研究对照 | LSTM 三 seed 测试 F1 `0.883363 ± 0.000708`、AP `0.974166 ± 0.020106` |
+| 知识检索 | Hybrid Top-3；Rtest Recall `0.975`、MRR `0.9375`、nDCG `0.7827` |
+| W10 Atest | 40 例 × 3 次真实 DeepSeek；Task Success、强制复核 Recall、引用合法率均为 `100%` |
+| 报告稳定性 | Schema 通过率 `93.33% ± 11.55%`；模板降级率 `6.67% ± 11.55%` |
+| W10 在线成本 | 115,976 输入 tokens、17,104 输出 tokens，估算 `¥0.426384` |
+| 工程验收 | 100 项测试通过；全新 Python 3.11.17 环境与无缓存 Compose 验收通过 |
+
+模型测试指标来自冻结测试集的一次性评测。检索 Rtest 无答案误返回率为 20%，高于 Rdev 的 10%，未使用测试结果反向调参。W9 的 LLM 可选工具路由准确率仅 55%，低于 80% 门槛，v1.0 因而保持关闭，由确定性状态机控制工具。
+
+## 架构
+
+```text
+HDFS 日志 → 流式解析 / block 会话 → 冻结 Drain3 → TF-IDF + LR
+                                             ↓ 异常事件
+原创知识卡片 → BM25 + BGE ONNX + RRF → 受控 Agent → 证据报告
+                                             ↓
+                                      人工复核（不执行动作）
+```
+
+Compose 固定三个服务：`api` 负责接入与查询，`worker` 负责检测和 Agent 状态机，`ui` 提供 Streamlit 复核台。SQLite WAL、任务租约、幂等键和原子发布支持单机恢复；模型、知识库与密钥均采用只读挂载。
+
+## 快速开始
+
+唯一支持的研究环境为 Python 3.11 的 Conda 环境 `aiops-fault-diagnosis-agent`：
 
 ```powershell
 conda env create --file environment.yml
@@ -16,179 +43,70 @@ conda run --name aiops-fault-diagnosis-agent python -m pip check
 conda run --name aiops-fault-diagnosis-agent python -m pytest -q
 ```
 
-也可使用 `environment.yml` 创建环境；`requirements-lock.txt` 是本次 Windows 验收环境的精确 Python 包快照。所有命令须从项目根目录执行。
-
-## W1 数据命令
-
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data download --config configs/data.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data build --config configs/data.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data split --config configs/data.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data subset --config configs/data.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data audit --config configs/data.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data trace --config configs/data.yaml --log-id '<源文件SHA256>:<行号>'
-```
-
-全量运行前建议至少保留 20 GB 可用磁盘。数据输出位于 `data/`，按批处理并由 Git 忽略。
-
-## W2 建模命令
-
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling freeze --config configs/model_lr.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling templates --config configs/model_lr.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling train --config configs/model_lr.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling predict --config configs/model_lr.yaml --split validation
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling evaluate --config configs/model_lr.yaml --split validation
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling run --config configs/model_lr.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling inspect --config configs/model_lr.yaml --run-id <run_id> --session-id <block_id>
-```
-
-`predict` 和 `evaluate` 只接受 `dev` 或 `validation`，传入 `test` 会以非零状态失败。模型只从项目生成、哈希登记的实验目录加载；数据协议、Drain3、词表、模型或 manifest 被修改后会拒绝复用。
-
-本地大型制品写入 `artifacts/` 和 `experiments/`。`docs/` 中的本地报告、模型卡和审计材料也不纳入 Git；这些目录均由 `.gitignore` 整体忽略。
-
-## W3 LSTM 命令
-
-W3 默认优先使用 CUDA，CUDA 不可用时回退 CPU；可通过 `--device auto/cuda/cpu` 显式控制。
-
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-prepare --config configs/model_lstm.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-tune --config configs/model_lstm.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-train --config configs/model_lstm.yaml --device auto
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-predict --config configs/model_lstm.yaml --split validation
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-evaluate --config configs/model_lstm.yaml --split validation
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-run --config configs/model_lstm.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-inspect --config configs/model_lstm.yaml --run-id <run_id> --seed 42 --session-id <block_id>
-```
-
-模板序列最长块固定为 128；更长会话按连续、不重叠块完整处理，并以块级最大 logit 汇聚为会话异常分数。模型只接受模板、事件间隔和四项审计过的会话统计。W3 只评估 `dev`/`validation`；请求 `test` 会以非零状态失败。
-
-## W4 统一评测命令
-
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection preregister --config configs/model_selection.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection compare-parsing --config configs/model_selection.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection ablate --config configs/model_selection.yaml --device auto
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection finalize --config configs/model_selection.yaml --device auto
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection report --config configs/model_selection.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection inspect --config configs/model_selection.yaml --model-id logistic_regression --session-id <block_id>
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection run --config configs/model_selection.yaml --device auto
-```
-
-`finalize` 是测试集的唯一受控入口。测试阈值来自 W2/W3 验证结果；完成后相同输入只校验并复用同一套预测，配置或上游模型 hash 变化会被拒绝。W4 测试结果显示明显时间分布差异：LR 的 F1 为 0.883181、AP 为 0.789731；LSTM 三 seed 的 F1 为 0.882568–0.883925、AP 为 0.953322–0.993442。由于固定阈值下没有跨 seed 稳定提升，测试结果不改变预先冻结的 LR 默认选择。
-
-## 实验边界
-
-标签不参与日志解析、模板拟合或 Dmain/Ddev 抽样。Drain3 只按训练日志原始顺序拟合，验证、测试和服务推理只调用冻结 `match()`，未知模板映射为 `T_UNK`。IPv4 哈希主机事件簇只是降低泄漏或合并告警的保守代理，不是真实故障事件。HDFS 没有真实根因类别或可信故障开始时间，因此不报告根因准确率或生产 MTTD。W9 的审批只确认报告经过人工审核，所有建议固定 `execution_allowed=false`；系统不存在动作执行入口。
-
-## W5 服务命令
-
-W5/W6 默认只监听本机，使用 SQLite WAL。先发布并校验便携冻结制品；本地开发时分别启动 API 和 worker：
-
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service publish --config configs/service.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service init --config configs/service.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service verify --config configs/service.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service serve --config configs/service.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service worker --config configs/service.yaml
-```
-
-OpenAPI 页面为 `http://127.0.0.1:8000/docs`。`POST /api/v1/batches/uploads` 接受最大256 MiB的原始 HDFS 文本日志；`POST /api/v1/batches/registered` 只接受配置白名单中的批次 ID。任务返回202，随后可查询任务、批次、异常事件、会话和脱敏日志。相同内容、发布和处理配置会复用同一任务；可选 `Idempotency-Key` 冲突返回409。
-
-服务只加载发布清单中登记且哈希匹配的 Drain3、模板词表、TF-IDF 和 LR 制品，不触发训练或阈值搜索。运行数据库、上传和 Parquet 输出位于 `runtime/` 并由 Git 忽略。当前无鉴权和 TLS，只适用于本机研究演示。
-
-## W6 Docker Compose
-
-W6 使用不含 Torch/CUDA 的 Python 3.11 CPU 镜像。模型发布包只读挂载，SQLite、上传和任务制品保存在命名卷中。API、worker 和 UI 均以非 root 用户运行，根文件系统只读且不挂载 Docker socket。
-
-先在 Conda 环境中生成并校验自包含发布包，然后启动三服务：
+发布并启动 CPU 服务：
 
 ```powershell
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service publish --config configs/service.yaml
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service verify --config configs/service.yaml
 docker compose -f deployment/compose.yaml up --build -d
-docker compose -f deployment/compose.yaml ps
-docker compose -f deployment/compose.yaml logs --tail=100 api worker ui
 ```
 
-- API/OpenAPI：`http://127.0.0.1:8000/docs`
+- OpenAPI：`http://127.0.0.1:8000/docs`
 - Streamlit：`http://127.0.0.1:8501`
-- API readiness 同时检查发布包、数据库和最新 worker 心跳。
-- `docker compose -f deployment/compose.yaml down` 会保留命名卷；只有显式追加 `-v` 才删除运行数据。
-- `GET /api/v1/operations/summary` 返回队列、任务和 worker 摘要，不暴露本地路径。
+- 在线 DeepSeek：显式追加 `-f deployment/compose.online.yaml`；默认离线模板模式不消耗 Token。
+- 端口被占用时可设置 `AIOPS_API_BIND=127.0.0.1:18000`、`AIOPS_UI_BIND=127.0.0.1:18501`。
 
-W6 工程基准命令如下，结果保存到被忽略的 `experiments/w6/`：
+运行时不下载模型、不训练模型、不搜索阈值。镜像使用非 root UID 10001、只读根文件系统、删除全部 capabilities、启用 `no-new-privileges`，不含 Torch/CUDA，也不挂载 Docker socket。
 
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service benchmark --config configs/service.yaml --suite e1
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service benchmark --config configs/service.yaml --suite e2
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service benchmark --config configs/service.yaml --suite e3
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service benchmark --config configs/service.yaml --suite e4
-```
+## 复现实验
 
-若发布包或登记数据不在默认位置，可在启动 Compose 前设置 `AIOPS_RELEASE_DIR` 和 `AIOPS_REGISTERED_FILE` 为对应宿主机路径。容器运行阶段不会下载模型、训练模型或重新选择阈值。
-
-## W7 运维知识检索
-
-W7 提供30篇可追溯的中文原创知识卡片（24篇HDFS、6篇通用运维）、BM25、BGE Dense 与 RRF Hybrid 检索。Dense 模型固定为官方 `BAAI/bge-small-zh-v1.5` revision `7999e1d3359715c523056ef9478215996d62a620`，本地导出为FP32 ONNX；服务镜像不安装Torch，也不会在运行时联网下载模型。
+数据、建模、检索、RAG 和 Agent 均提供模块化 CLI；常用入口如下：
 
 ```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval validate --config configs/retrieval.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval fetch-model --config configs/retrieval.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval build --config configs/retrieval.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval tune --config configs/retrieval.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval publish --config configs/retrieval.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval finalize --config configs/retrieval.yaml
+# W1 数据
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data audit --config configs/data.yaml
+
+# W2/W3 模型
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling run --config configs/model_lr.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.modeling lstm-run --config configs/model_lstm.yaml
+
+# W4 一次性测试入口
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.selection finalize --config configs/model_selection.yaml --device auto
+
+# W7/W8
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval verify --config configs/retrieval.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval search --config configs/retrieval.yaml --query "NameNode安全模式如何只读排查？"
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.retrieval benchmark --config configs/retrieval.yaml
-```
-
-Rdev 冻结方案为固定切分、Hybrid、Top-3，证据门禁阈值为 `0.55043625831604`。冻结前Rdev的Hybrid Top-5取得 Recall 1.000、MRR 0.9333、nDCG 0.7854；一次性Rtest的Hybrid Top-5取得 Recall 0.975、MRR 0.9375、nDCG 0.7827。门禁在Rdev将无答案误返回控制为10%，但Rtest实测为20%，说明拒答校准仍有分布差异；该结果未用于反向调参，W8前应将其作为已知限制。
-
-服务新增 `POST /api/v1/retrieval/search`、`GET /api/v1/knowledge/chunks/{chunk_id}` 和 `GET /api/v1/knowledge/releases/current`。Streamlit“知识检索”页只通过这些API访问数据，可查看BM25、Dense、RRF分数和可点击证据。检索只返回现有卡片证据，不调用LLM，也不生成诊断结论或处置建议。
-
-本机 W6 验收中，W1 开发批次的 233,584 行日志和 10,000 个会话在约9.82秒内完成，得到502个异常事件；并发1/2/4下100次摘要查询均无错误，P95分别为4.60/8.23/16.03毫秒。五次完整容器启动为13.07–13.74秒，五次热重启为1.92–2.04秒。以上仅是当前机器的研究原型实测，不作为生产容量承诺。
-
-请只提交代码、配置、依赖文件和自制测试；不要提交 `data/`、`artifacts/`、`experiments/`、`docs/`、`.conda-env/` 或旧 `.venv/`。
-
-## W8 证据约束知识报告
-
-W8 使用 DeepSeek 官方 `deepseek-flash` 非思考模式与 JSON Output。问题先经过 W7 冻结检索：没有达到证据门禁时不调用 LLM；输出只能引用本次返回的 `chunk_id`，严格 Schema 或引用校验失败时最多修复一次，随后降级为确定性模板。密钥只允许从进程环境或 Docker secret 文件读取，SQLite、报告、日志和 Git 均不保存 Key、Tracking ID 或原始问题。
-
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag validate --config configs/rag.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag reranker --config configs/rag.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag tune --config configs/rag.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag publish --config configs/rag.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag finalize --config configs/rag.yaml
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag verify --config configs/rag.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.rag generate --config configs/rag.yaml --mode template --query "NameNode安全模式如何只读排查？"
+
+# W9/W10 Agent 评测
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent evaluate --config configs/agent.yaml --suite atest --mode replay
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent evaluate --config configs/agent.yaml --suite atest --mode online --repeat 3
+
+# v1.0 发布
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.release freeze --config configs/release.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.release verify --config configs/release.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.release accept --config configs/release.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.release export --config configs/release.yaml
 ```
 
-在线运行前设置 `DEEPSEEK_API_KEY_FILE`；`DEEPSEEK_TRACKING_ID_FILE` 仅作为本地凭据登记，不写入请求。硬上限为累计 2,000,000 tokens 和 ¥20，账本位于被忽略的 `runtime/`。Rdev 实测有答案题支持率80%、无答案拒答率90%、引用合法率100%；冻结后一次性Rtest分别为70%、80%和100%。这显示证据门禁仍有分布差异，不能据此宣称无幻觉或生产泛化。
+`finalize` 和 W10 在线评测均有冻结哈希、幂等与预算门禁。修改测试协议、源码或上游发布制品后，候选校验会失败。
 
-可选 `bge-reranker-base` 固定官方 revision 并导出FP32 ONNX。Rdev上其 Top-3 MRR/nDCG 从0.9333/0.7854提高至0.9583/0.7953，但Recall从1.000降至0.975，P50从约3.3ms升至约863ms，因此默认保持关闭。
+## 数据与安全边界
 
-新增接口为 `POST /api/v1/rag/reports`、`GET /api/v1/rag/reports/{report_id}` 和 `GET /api/v1/rag/releases/current`。默认 Compose 保持离线模板模式；显式启用在线 secret 覆盖层：
+- 标签不参与解析、Drain3 拟合、Dmain/Ddev 抽样或在线特征。
+- 模板只在训练区间拟合；验证、测试和服务仅执行冻结 `match()`。
+- 原始 IP、PID、路径和消息不进入公开 API；日志查询只返回脱敏内容。
+- DeepSeek Key 与 Tracking ID 只从环境或 Docker Secret 读取，不写入 Git、日志、SQLite 或报告。
+- 无证据时不调用 LLM；坏 JSON、非法引用、超预算和模型故障均安全降级并留下审计记录。
+- reviewer token 与哈希注册表分离，旧报告、过期、越权和幂等冲突会被阻断。
+- `docs/`、`data/`、`artifacts/`、`experiments/`、`runtime/` 和本地环境全部由 Git 忽略。
 
-```powershell
-docker compose -f deployment/compose.yaml -f deployment/compose.online.yaml up --build -d
-```
+## 最终成果
 
-Streamlit 的“知识报告”页可选择在线生成或确定性模板，并展示可点击证据、缺失信息、限制和报告哈希。所有报告都带 `requires_review=true`。
+- [技术报告](deliverables/AIOps_v1.0_技术报告.md)
+- [v1.0 验收清单](deliverables/v1_acceptance.md)
+- [机器可读摘要](deliverables/results/v1_summary.json)
+- [面试汇报 PPT](deliverables/AIOps故障诊断Agent_面试汇报.pptx)
+- [录屏脚本](deliverables/demo/录屏脚本.md)
+- [面试说明](deliverables/interview_notes.md)
 
-## W9 受控单 Agent 与人工复核
-
-W9 将已完成的异常事件组织为可恢复的确定性诊断流程，提供范围受限的只读工具、不可变报告、24小时审批、SQLite预算账本和崩溃恢复。每个状态节点完成后都会持久化并释放worker租约，使检测任务和Agent节点可以交替调度。审批使用独立 Bearer token 注册表；API只能读取token哈希，worker和模型不能访问审批token。批准报告不会执行重启、删除、切流、封禁或数据库修改。
-
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent publish --config configs/agent.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent verify --config configs/agent.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent evaluate --config configs/agent.yaml
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.agent evaluate --config configs/agent.yaml --online
-```
-
-评测集固定为20例。确定性回放的终态符合率和必须复核召回率均为100%；一次真实DeepSeek评测的可选工具选择准确率为55%，低于预登记的80%门槛，因此发布配置默认关闭LLM可选路由，保留确定性必需节点和模板安全降级。在线报告生成仍受每revision 8次工具、3次LLM、12,000 tokens、120秒以及全局/子预算硬限制。
-
-新增接口包括诊断提交与查询、工具轨迹、不可变报告、待审列表和审批决策。`approve/reject/request_more_evidence` 均绑定revision与report hash；旧版本、过期、越权及幂等冲突会被拒绝。在线Compose仍使用 `deployment/compose.online.yaml`，而reviewer token与哈希注册表只保存在 `E:\develop\docker\secrets`，不得提交到Git。
+完整逐例输出和本地审计报告仍保留在被忽略目录中。上述数字均来自冻结结果文件；未测内容明确标记为 N/A。

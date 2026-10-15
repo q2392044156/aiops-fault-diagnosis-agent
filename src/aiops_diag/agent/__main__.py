@@ -25,6 +25,9 @@ def main(argv=None):
     run_eval = sub.add_parser("evaluate")
     run_eval.add_argument("--config", required=True)
     run_eval.add_argument("--online", action="store_true")
+    run_eval.add_argument("--suite", choices=("adev", "atest"), default="adev")
+    run_eval.add_argument("--mode", choices=("replay", "online"))
+    run_eval.add_argument("--repeat", type=int, default=1)
     args = parser.parse_args(argv)
     if args.command == "init-reviewer":
         value = initialize_reviewer(args.registry, args.token_file, args.reviewer_id)
@@ -40,24 +43,32 @@ def main(argv=None):
     elif args.command == "verify":
         print(json.dumps(verify(cfg), ensure_ascii=False, indent=2))
     elif args.command == "evaluate":
+        online = args.online or args.mode == "online"
         client = None
-        if args.online:
+        if online:
             service_cfg = load_service_config(cfg["service_config_path"])
             database = Database(service_cfg["paths"]["database"])
             database.init()
             ledger = DatabaseBudgetLedger(
                 database, cfg["rag"]["provider"]["name"], cfg["rag"]["budget"],
-                cfg["rag"]["paths"].get("budget_ledger"), scope="w9_adev")
+                cfg["rag"]["paths"].get("budget_ledger"), scope=f"w10_{args.suite}")
             client = DeepSeekClient(cfg["rag"], ledger=ledger)
         try:
-            value = evaluate(cfg, online=args.online, client=client)
+            value = evaluate(cfg, online=online, client=client,
+                             suite=args.suite, repeat=args.repeat)
         finally:
             if client:
                 client.close()
-        print(json.dumps({name: value[name] for name in (
-            "cases", "terminal_accuracy", "mandatory_review_recall",
-            "optional_tool_accuracy", "online_calls", "elapsed_ms")},
-                         ensure_ascii=False, indent=2))
+        if "runs" in value:
+            shown = {name: value[name] for name in (
+                "suite", "mode", "requested_repeats", "completed_repeats", "aggregate")}
+        else:
+            shown = {name: value[name] for name in (
+                "suite", "cases", "terminal_accuracy", "task_success_rate",
+                "mandatory_review_recall", "review_precision", "schema_pass_rate",
+                "citation_valid_rate", "template_fallback_rate", "online_calls",
+                "elapsed_ms")}
+        print(json.dumps(shown, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

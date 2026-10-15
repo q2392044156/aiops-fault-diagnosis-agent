@@ -1,5 +1,5 @@
 schema_version: 1
-agent_version: agent_v0.1
+agent_version: agent_v0.2
 rag_config: configs/rag.yaml
 service_config: configs/service.yaml
 workflow:
@@ -23,7 +23,10 @@ approval:
 evaluation:
   max_tokens: 500000
   max_cost_cny: 5.0
+  run_max_tokens: 160000
+  run_max_cost_cny: 1.6
 paths:
-  release_dir: artifacts/releases/agent_v0.1
-  work_dir: experiments/w9
+  release_dir: artifacts/releases/agent_v0.2
+  work_dir: experiments/w10
   adev: evaluation/agent/adev.jsonl
+  atest: evaluation/agent/atest.jsonl

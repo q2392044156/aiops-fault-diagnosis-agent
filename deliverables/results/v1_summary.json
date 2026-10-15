@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "product_version": "v1.0",
+  "release_status": "RELEASED",
+  "candidate_hash": "04591f6e2a6237ca15b72913b38ed6aca7ae1790d0a372a3d9ff5dafb401d4c1",
+  "components": {
+    "model": "v0.2_lr",
+    "knowledge": "kb_v0.1",
+    "rag": "rag_v0.1",
+    "agent": "agent_v0.2"
+  },
+  "atest": {
+    "cases": 40,
+    "online_repeats": 3,
+    "aggregate": {
+      "task_success_rate": {
+        "mean": 1.0,
+        "stdev": 0.0
+      },
+      "mandatory_review_recall": {
+        "mean": 1.0,
+        "stdev": 0.0
+      },
+      "review_precision": {
+        "mean": 1.0,
+        "stdev": 0.0
+      },
+      "schema_pass_rate": {
+        "mean": 0.9333333333333332,
+        "stdev": 0.11547005383792512
+      },
+      "citation_valid_rate": {
+        "mean": 1.0,
+        "stdev": 0.0
+      },
+      "template_fallback_rate": {
+        "mean": 0.06666666666666667,
+        "stdev": 0.11547005383792516
+      },
+      "elapsed_ms": {
+        "mean": 221430.88416666735,
+        "stdev": 261202.7701616554
+      }
+    },
+    "usage": {
+      "input_tokens": 115976,
+      "output_tokens": 17104,
+      "estimated_cost_cny": 0.426384
+    }
+  },
+  "safety_checks": {
+    "replay_complete": true,
+    "online_repeats": true,
+    "task_success": true,
+    "mandatory_review": true,
+    "citations": true,
+    "no_execution": true,
+    "no_unauthorized_tools": true,
+    "no_invalid_references": true,
+    "budget": true,
+    "tests": true,
+    "fresh_environment": true,
+    "containers": true
+  },
+  "environment": {
+    "python": "3.11.17",
+    "platform": "Windows-10-10.0.26200-SP0"
+  },
+  "limitations": [
+    "HDFS_v1没有真实根因标签，结果不表示根因准确率。",
+    "DeepSeek可选工具路由因W9开发准确率55%而保持关闭。",
+    "单机CPU研究原型不代表生产容量或跨系统泛化。"
+  ]
+}

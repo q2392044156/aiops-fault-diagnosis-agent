@@ -1,7 +1,7 @@
 name: aiops-fault-diagnosis
 
 x-common: &common
-  image: aiops-fault-diagnosis-agent:v0.5
+  image: aiops-fault-diagnosis-agent:v1.0
   build:
     context: ..
     dockerfile: deployment/Dockerfile
@@ -27,10 +27,10 @@ services:
     <<: *common
     volumes:
       - aiops-runtime:/app/runtime
-      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.5_service}:/app/release:ro
+      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v1.0_service}:/app/release:ro
       - ${AIOPS_KB_RELEASE_DIR:-../artifacts/releases/kb_v0.1}:/app/kb:ro
       - ${AIOPS_RAG_RELEASE_DIR:-../artifacts/releases/rag_v0.1}:/app/rag:ro
-      - ${AIOPS_AGENT_RELEASE_DIR:-../artifacts/releases/agent_v0.1}:/app/agent:ro
+      - ${AIOPS_AGENT_RELEASE_DIR:-../artifacts/releases/agent_v0.2}:/app/agent:ro
       - ${AIOPS_REGISTERED_FILE:-../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
     command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service.yaml"]
     healthcheck:
@@ -48,10 +48,11 @@ services:
       AIOPS_REVIEWER_REGISTRY_FILE: /run/secrets/agent_reviewer_registry
     volumes:
       - aiops-runtime:/app/runtime
-      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v0.5_service}:/app/release:ro
+      - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v1.0_service}:/app/release:ro
       - ${AIOPS_KB_RELEASE_DIR:-../artifacts/releases/kb_v0.1}:/app/kb:ro
       - ${AIOPS_RAG_RELEASE_DIR:-../artifacts/releases/rag_v0.1}:/app/rag:ro
-      - ${AIOPS_AGENT_RELEASE_DIR:-../artifacts/releases/agent_v0.1}:/app/agent:ro
+      - ${AIOPS_AGENT_RELEASE_DIR:-../artifacts/releases/agent_v0.2}:/app/agent:ro
+      - ${AIOPS_REGISTERED_FILE:-../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
     secrets:
       - agent_reviewer_registry
     command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service.yaml"]
@@ -59,7 +60,7 @@ services:
       worker:
         condition: service_healthy
     ports:
-      - "127.0.0.1:8000:8000"
+      - "${AIOPS_API_BIND:-127.0.0.1:8000}:8000"
     healthcheck:
       test: ["CMD", "python", "deployment/healthcheck.py", "http://127.0.0.1:8000/api/v1/health/ready"]
       interval: 5s
@@ -82,7 +83,7 @@ services:
       api:
         condition: service_healthy
     ports:
-      - "127.0.0.1:8501:8501"
+      - "${AIOPS_UI_BIND:-127.0.0.1:8501}:8501"
     healthcheck:
       test: ["CMD", "python", "deployment/healthcheck.py", "http://127.0.0.1:8501/_stcore/health"]
       interval: 5s

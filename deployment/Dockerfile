@@ -19,6 +19,7 @@ ENV PYTHONPATH=/app/src
 
 COPY src ./src
 COPY configs ./configs
+COPY evaluation ./evaluation
 COPY deployment/healthcheck.py ./deployment/healthcheck.py
 
 USER 10001:10001

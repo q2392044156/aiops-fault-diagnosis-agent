@@ -14,7 +14,7 @@ from aiops_diag.modeling.templates import content, miner_config
 
 
 MODEL_RELEASE = "v0.2_lr"
-DEPLOYMENT_RELEASE = "v0.5"
+DEPLOYMENT_RELEASE = "v1.0"
 
 
 def _read(path):

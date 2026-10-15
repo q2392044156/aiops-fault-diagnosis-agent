@@ -95,6 +95,9 @@ class DeepSeekClient:
         return bool(self.api_key)
 
     def close(self):
+        close_ledger = getattr(self.ledger, "close", None)
+        if close_ledger:
+            close_ledger()
         self.http.close()
 
     def complete_json(self, messages):

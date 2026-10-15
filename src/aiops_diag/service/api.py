@@ -215,7 +215,8 @@ def create_app(cfg, start_worker=False, runtime=None):
         if runtime.agent_release is None:
             raise ServiceError(503, "AGENT_UNAVAILABLE", "Agent release is unavailable", True)
         return {name: runtime.agent_release[name] for name in (
-            "schema_version", "agent_version", "release_id", "rag_version",
+            "schema_version", "product_version", "agent_version", "candidate_hash",
+            "release_id", "rag_version",
             "kb_release_id", "tool_manifest_hash", "risk_policy_hash", "prompt_version")}
 
     @app.post("/api/v1/diagnoses", status_code=202, response_model=DiagnosisResponse)

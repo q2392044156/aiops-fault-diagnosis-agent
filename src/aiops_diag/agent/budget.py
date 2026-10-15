@@ -14,6 +14,7 @@ class DatabaseBudgetLedger:
         self.budget = budget
         self.scope = scope
         self.local = threading.local()
+        self.database.settle_provider_reservations_conservatively(provider, scope)
         legacy = {}
         if legacy_path and Path(legacy_path).is_file():
             legacy = json.loads(Path(legacy_path).read_text(encoding="utf-8"))
@@ -23,6 +24,7 @@ class DatabaseBudgetLedger:
         return self.database.provider_usage(self.provider)
 
     def reserve_check(self, reserved_output_tokens=0):
+        self.close()
         output = int(reserved_output_tokens)
         reserved_input = int(self.budget.get("max_input_tokens_per_call", 10000))
         tokens = output + reserved_input
@@ -35,6 +37,13 @@ class DatabaseBudgetLedger:
         except RuntimeError as exc:
             raise BudgetExceeded(str(exc)) from exc
         self.local.reservation = reservation
+
+    def close(self):
+        reservation = getattr(self.local, "reservation", None)
+        if reservation:
+            self.database.settle_provider_reservations_conservatively(
+                self.provider, self.scope, reservation)
+            self.local.reservation = None
 
     def record(self, input_tokens, output_tokens):
         reservation = getattr(self.local, "reservation", None)
