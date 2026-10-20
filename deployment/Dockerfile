@@ -7,9 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-COPY requirements-service-lock.txt ./
+COPY requirements-service-lock.txt requirements-framework.in requirements-framework-lock.txt requirements-lock.txt ./
 
-RUN python -m pip install --no-cache-dir -r requirements-service-lock.txt \
+RUN python -m pip install --no-cache-dir -r requirements-framework-lock.txt \
     && python -m pip check \
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin aiops \
     && mkdir -p /app/runtime /app/release /app/kb /app/data \
@@ -20,6 +20,10 @@ ENV PYTHONPATH=/app/src
 COPY src ./src
 COPY configs ./configs
 COPY evaluation ./evaluation
+COPY knowledge ./knowledge
+COPY pyproject.toml ./pyproject.toml
+COPY .dockerignore ./.dockerignore
+COPY deployment/Dockerfile deployment/compose.yaml deployment/compose.v11-candidate.yaml deployment/compose.framework-candidate.yaml ./deployment/
 COPY deployment/healthcheck.py ./deployment/healthcheck.py
 
 USER 10001:10001

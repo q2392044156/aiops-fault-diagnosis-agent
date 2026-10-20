@@ -1,0 +1,35 @@
+name: aiops-fault-diagnosis-legacy-rollback-rc2
+
+x-legacy-environment: &legacy-environment
+  AIOPS_V11_CALIBRATION: /app/v11-calibration.json
+  AIOPS_V11_AGENT_RELEASE_DIR: /app/v11-agent
+  DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+  DEEPSEEK_TRACKING_ID: ${DEEPSEEK_TRACKING_ID:-}
+
+x-legacy-volumes: &legacy-volumes
+  - ../experiments/v1_1/gate_calibration.json:/app/v11-calibration.json:ro
+  - ../artifacts/releases/agent_v11_framework_base_rc2:/app/v11-agent:ro
+
+services:
+  worker:
+    image: aiops-fault-diagnosis-agent:framework-rc2
+    environment: {<<: *legacy-environment}
+    volumes: *legacy-volumes
+    command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service_legacy_rollback_rc2.yaml"]
+  api:
+    image: aiops-fault-diagnosis-agent:framework-rc2
+    environment:
+      <<: *legacy-environment
+      AIOPS_HOST: 0.0.0.0
+      AIOPS_REVIEWER_REGISTRY_FILE: /run/secrets/agent_reviewer_registry
+    volumes: *legacy-volumes
+    command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service_legacy_rollback_rc2.yaml"]
+  ui:
+    image: aiops-fault-diagnosis-agent:framework-rc2
+    environment:
+      <<: *legacy-environment
+      AIOPS_API_URL: http://api:8000
+      AIOPS_PUBLIC_API_URL: http://127.0.0.1:8000
+      AIOPS_REVIEWER_TOKEN_FILE: /run/secrets/agent_reviewer_token
+    volumes: *legacy-volumes
+

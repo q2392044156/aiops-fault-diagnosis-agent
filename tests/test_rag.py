@@ -6,7 +6,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from aiops_diag.rag.client import (BudgetExceeded, BudgetLedger, DeepSeekClient,
-                                   DeepSeekJsonError)
+                                   DeepSeekError, DeepSeekJsonError)
 from aiops_diag.rag.config import load
 from aiops_diag.rag.engine import RagEngine
 from aiops_diag.rag.release import verify as verify_rag_release
@@ -133,6 +133,46 @@ def test_deepseek_client_sends_key_only_in_authorization(tmp_path, monkeypatch):
     assert captured["authorization"] == "Bearer secret-value"
     assert "secret-value" not in captured["body"]
     assert "secret-value" not in (tmp_path / "budget.json").read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("status", [429, 500, 503])
+def test_deepseek_client_retries_transient_http_failures_once_recovered(
+        tmp_path, monkeypatch, status):
+    cfg = config(tmp_path)
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "test-only-secret")
+    monkeypatch.setattr("aiops_diag.rag.client.time.sleep", lambda _seconds: None)
+    calls = []
+
+    def handler(request):
+        calls.append(request)
+        if len(calls) < 3:
+            return httpx.Response(status, request=request, json={"error": {"code": "busy"}})
+        return httpx.Response(200, request=request, json={
+            "choices": [{"message": {"content": json.dumps(valid_body())}}],
+            "usage": {"prompt_tokens": 2, "completion_tokens": 3}})
+
+    client = DeepSeekClient(cfg, transport=httpx.MockTransport(handler))
+    body, usage = client.complete_json([{"role": "user", "content": "JSON"}])
+    client.close()
+    assert body["summary"] and usage["input_tokens"] == 2
+    assert len(calls) == 3
+
+
+@pytest.mark.parametrize("failure", ["connect", "timeout"])
+def test_deepseek_client_degrades_after_repeated_network_failure(
+        tmp_path, monkeypatch, failure):
+    cfg = config(tmp_path)
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "test-only-secret")
+    monkeypatch.setattr("aiops_diag.rag.client.time.sleep", lambda _seconds: None)
+
+    def handler(request):
+        error = httpx.ConnectError if failure == "connect" else httpx.ReadTimeout
+        raise error("injected provider failure", request=request)
+
+    client = DeepSeekClient(cfg, transport=httpx.MockTransport(handler))
+    with pytest.raises(DeepSeekError, match="network failure"):
+        client.complete_json([{"role": "user", "content": "JSON"}])
+    client.close()
 
 
 class ApiRag:

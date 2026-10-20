@@ -1,0 +1,5 @@
+{"query_id":"v11_dev_001","family_id":"v11_dev_safemode_observation","split":"development","query":"HDFS 3.3.5 安全模式阻止写入时，先用哪些只读信息判断 block 汇报是否完成？","has_answer":true,"source_id":"apache_hdfs_335","product_version":"3.3.5"}
+{"query_id":"v11_dev_002","family_id":"v11_dev_checkpoint_observation","split":"development","query":"HDFS 3.3.5 中 edits 积累后，人工排查 checkpoint 应先收集什么观测证据？","has_answer":true,"source_id":"apache_hdfs_335","product_version":"3.3.5"}
+{"query_id":"v11_dev_003","family_id":"v11_dev_erasure_coding_policy","split":"development","query":"HDFS 3.3.5 纠删码策略每一个可用策略的完整参数表是什么？","has_answer":false,"source_id":"apache_hdfs_335","product_version":"3.3.5"}
+{"query_id":"v11_dev_004","family_id":"v11_dev_encryption_key_setup","split":"development","query":"HDFS 3.3.5 KMS 主密钥轮换所需的完整配置项和版本专属默认值是什么？","has_answer":false,"source_id":"apache_hdfs_335","product_version":"3.3.5"}
+

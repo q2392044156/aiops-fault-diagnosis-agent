@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_AND_EVALUATED_ONCE_PROCESS_ISOLATED_AI_ROLES",
+  "frozen_at": "2026-10-20T11:34:51+08:00",
+  "evaluated_at": "2026-10-20T11:35:02+08:00",
+  "candidate_release_id": "agr11_76ef77c41d756bdf0ea16cf4",
+  "candidate_hash": "76ef77c41d756bdf0ea16cf479cffd2cb5ddcce3d33eb7f0798bc26bf46be46b",
+  "kb_release_id": "kb_v0.1",
+  "gate_strategy": "top_result_dense_v11",
+  "gate_threshold": 0.558078944683075,
+  "protocol_sha256": "3dde02599b27c87c2fa5099d3459c6f42dc721d48cabb630ccba06b5dd575471",
+  "independent_test_sha256": "3f863990120339ac26831549144e94b1547f1b665cd9ab7e9332a4e146b8f487",
+  "independent_test_qrels_sha256": "f4c3d95d8ffc20444b56354f0ad6ba903fe14a14f47b9505247dc0932f48ac2c",
+  "calibration_sha256": "3a35e73d7922e536026616cf76da806c8e86849e7fdc147022f39a48c496a930",
+  "candidate_manifest_sha256": "6868e6ad712bc72d2490b32d7eda680f0e776347b2dbe88b015df4b9fb1f8915",
+  "evaluation_result_sha256": "856c79386cde9802eecd5f9218076e14d8a5b22c4f052c78f27ea63c57d2a12e",
+  "evaluation_manifest_sha256": "cd072c8ddd1eb2441c31cef7a10545217ce4340f51b83245edf8e3cb3277bc33",
+  "official_source_snapshots": [
+    {"url":"https://hadoop.apache.org/docs/r3.4.1/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html","retrieved_status":200,"content_sha256":"1d6dc645bfa024b4f8c4dfb7a212cf9a245856b070d0f25bd7a82afb6a6e9edf"},
+    {"url":"https://hadoop.apache.org/docs/r3.4.1/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html","retrieved_status":200,"content_sha256":"5b1812b705a12173b89a6539fd43750268f2471726d2f0188f1d24cdc66d795e"},
+    {"url":"https://hadoop.apache.org/docs/r3.4.2/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html","retrieved_status":200,"content_sha256":"494f1c029b5be2fe1497ce9aaecc3636d785ba255fc1bd7a5c71c9deb27ca0e4"},
+    {"url":"https://hadoop.apache.org/docs/r3.4.2/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html","retrieved_status":200,"content_sha256":"bda87f5c3e7ea1270660544f8275a93bdb845b0a9fa76371b07659d19276193b"}
+  ],
+  "evaluation_run_count": 1,
+  "post_result_code_kb_threshold_or_model_mutation": false,
+  "next_candidate_rule": "Any system change informed by this result requires a different unseen test set.",
+  "identity_limitation": "Process isolation does not replace verification of three independent natural persons."
+}

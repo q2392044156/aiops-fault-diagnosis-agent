@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "json_files_parsed": 8,
+  "markdown_files_checked": 2,
+  "missing_markdown_links": {},
+  "evidence_hash_mismatches": [],
+  "secret_scan": {
+    "env_file_scanned": false,
+    "finding_count": 0,
+    "findings": []
+  },
+  "raw_log_files_outside_excluded_runtime_or_data": [],
+  "acceptance_status": "FRAMEWORK_RC2_ACCEPTED_V1_2_ENTRY_READY",
+  "all_hard_gates_zero": true
+}

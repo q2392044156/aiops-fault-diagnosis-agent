@@ -1,0 +1,4 @@
+{"query_id":"v11_test_001","evidence_unit_id":"hdfs-missing-blocks:evidence","relevance":2}
+{"query_id":"v11_test_002","evidence_unit_id":"hdfs-checksum-mismatch:evidence","relevance":2}
+{"query_id":"v11_test_005","evidence_unit_id":"hdfs-disk-full:evidence","relevance":2}
+{"query_id":"v11_test_006","evidence_unit_id":"hdfs-network-timeout:evidence","relevance":2}

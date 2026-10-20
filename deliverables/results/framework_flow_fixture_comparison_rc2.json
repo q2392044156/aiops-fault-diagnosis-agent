@@ -1,0 +1,2682 @@
+{
+  "schema_version": 1,
+  "status": "DEVELOPMENT_OFFLINE_PARITY_COMPARISON",
+  "generated_at": "2026-10-20T07:27:34.718806+00:00",
+  "scope": "development_regression_not_independent_quality_evidence",
+  "network_calls": 0,
+  "case_set": {
+    "path": "E:/project/my_project1/aiops-fault-diagnosis-agent/evaluation/framework_parity/dev_cases.jsonl",
+    "sha256": "05de23b30abd55c3d4a6c4a90cb15f248b453a7457f9512412b8942f7199f75a",
+    "revealed": true,
+    "reusable_for_tuning": true,
+    "independent_acceptance": false
+  },
+  "configs": {
+    "legacy": {
+      "path": "E:/project/my_project1/aiops-fault-diagnosis-agent/configs/service_v11_framework_base_rc2.yaml",
+      "sha256": "a3643776032c90f1f1474703a0413c5b962e1abeb46e39f0a0f40eeafd2eba66"
+    },
+    "framework_candidate": {
+      "path": "E:/project/my_project1/aiops-fault-diagnosis-agent/configs/service_framework_rc2.yaml",
+      "sha256": "7f35133b30862d883bedeb53335c612adc362d1dcab241737c0ce77b3d3ce1e1"
+    }
+  },
+  "summary": {
+    "case_count": 12,
+    "retrieval_case_count": 6,
+    "agent_case_count": 6,
+    "parity_passed_count": 12,
+    "legacy_expectation_passed_count": 10,
+    "framework_expectation_passed_count": 10,
+    "all_parity_passed": true,
+    "all_hard_gates_zero": true
+  },
+  "hard_gate_counts": {
+    "invalid_citations": 0,
+    "execution_allowed": 0,
+    "unauthorized_tools": 0,
+    "budget_exceeded": 0,
+    "insufficient_evidence_llm_calls": 0,
+    "required_review_missing": 0
+  },
+  "cases": [
+    {
+      "case_id": "ret_namenode_safemode",
+      "case_type": "retrieval",
+      "source": "developer_regression",
+      "notes": "覆盖有答案、组件过滤和版本过滤",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": false,
+          "checks": {
+            "status": false
+          }
+        },
+        "framework_candidate": {
+          "passed": false,
+          "checks": {
+            "status": false
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": 0.46735721826553345,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 5.107
+        },
+        "framework_candidate": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": 0.46735721826553345,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 75.873
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "ret_datanode_heartbeat",
+      "case_type": "retrieval",
+      "source": "developer_regression",
+      "notes": "覆盖 DataNode 组件和 3.4.2 版本",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "status": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "status": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "status": "evidence_found",
+          "mode": "hybrid",
+          "gate_score": 0.6628789305686951,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [
+            {
+              "chunk_id": "chk_39f36872c1c06af4a8a82212",
+              "doc_id": "hdfs-datanode-heartbeat",
+              "section_path": "fixed-1",
+              "source_version": "3.3.5",
+              "rrf_score": 0.03278688524590164,
+              "dense_score": 0.6628789305686951,
+              "bm25_score": 11.470062169220695
+            },
+            {
+              "chunk_id": "chk_37fd458ec4349bd6af6e3c5e",
+              "doc_id": "hdfs-disk-full",
+              "section_path": "fixed-1",
+              "source_version": "3.3.5",
+              "rrf_score": 0.03200204813108039,
+              "dense_score": 0.5020907521247864,
+              "bm25_score": 3.596378361574285
+            },
+            {
+              "chunk_id": "chk_ac3a46ddc35a5c4853052fb7",
+              "doc_id": "hdfs-corrupt-blocks",
+              "section_path": "fixed-1",
+              "source_version": "3.3.5",
+              "rrf_score": 0.031754032258064516,
+              "dense_score": 0.5143250226974487,
+              "bm25_score": 2.1936043768984375
+            }
+          ],
+          "elapsed_ms": 42.062
+        },
+        "framework_candidate": {
+          "status": "evidence_found",
+          "mode": "hybrid",
+          "gate_score": 0.6628789305686951,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [
+            {
+              "chunk_id": "chk_39f36872c1c06af4a8a82212",
+              "doc_id": "hdfs-datanode-heartbeat",
+              "section_path": "fixed-1",
+              "source_version": "3.3.5",
+              "rrf_score": 0.03278688524590164,
+              "dense_score": 0.6628789305686951,
+              "bm25_score": 11.470062169220695
+            },
+            {
+              "chunk_id": "chk_37fd458ec4349bd6af6e3c5e",
+              "doc_id": "hdfs-disk-full",
+              "section_path": "fixed-1",
+              "source_version": "3.3.5",
+              "rrf_score": 0.03200204813108039,
+              "dense_score": 0.5020907521247864,
+              "bm25_score": 3.596378361574285
+            },
+            {
+              "chunk_id": "chk_ac3a46ddc35a5c4853052fb7",
+              "doc_id": "hdfs-corrupt-blocks",
+              "section_path": "fixed-1",
+              "source_version": "3.3.5",
+              "rrf_score": 0.031754032258064516,
+              "dense_score": 0.5143250226974487,
+              "bm25_score": 2.1936043768984375
+            }
+          ],
+          "elapsed_ms": 5.73
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "ret_journal_majority",
+      "case_type": "retrieval",
+      "source": "developer_regression",
+      "notes": "覆盖较窄组件过滤",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": false,
+          "checks": {
+            "status": false
+          }
+        },
+        "framework_candidate": {
+          "passed": false,
+          "checks": {
+            "status": false
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": null,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 0.028
+        },
+        "framework_candidate": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": null,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 0.021
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "ret_unknown_product",
+      "case_type": "retrieval",
+      "source": "developer_regression",
+      "notes": "覆盖知识库外版本",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "status": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "status": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": 0.3923572897911072,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 4.691
+        },
+        "framework_candidate": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": 0.3923572897911072,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 27.92
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "ret_unrelated_component",
+      "case_type": "retrieval",
+      "source": "developer_regression",
+      "notes": "覆盖非 HDFS 组件",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "status": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "status": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": null,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 0.029
+        },
+        "framework_candidate": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": null,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 0.023
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "ret_unrelated_domain",
+      "case_type": "retrieval",
+      "source": "developer_regression",
+      "notes": "覆盖跨产品问题",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "status": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "status": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": 0.4004687964916229,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 5.495
+        },
+        "framework_candidate": {
+          "status": "insufficient_evidence",
+          "mode": "hybrid",
+          "gate_score": 0.4004687964916229,
+          "gate_strategy": "top_result_dense_v11",
+          "items": [],
+          "elapsed_ms": 11.381
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "agent_namenode_supported",
+      "case_type": "agent",
+      "source": "synthetic_redacted_development",
+      "notes": "用固定证据覆盖有日志、有知识和 LangChain 摘要链",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "elapsed_ms": 641.753,
+          "release_id": "agr11_2c22bb514af4d49743293f8a",
+          "agent_version": "agent_v0.3.1_query_builder",
+          "execution_backend": "AgentEngine",
+          "report_backend": "legacy",
+          "retrieval_backend": "CandidateRetriever",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {},
+          "normalized": {
+            "terminal_status": "COMPLETED",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [],
+              "retrieval_plans": [
+                {
+                  "builder_version": "query_builder_v1",
+                  "component": "NameNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "block_report_delayed",
+                    "safe_mode"
+                  ],
+                  "query": "HDFS NameNode block report 延迟 注册状态 NameNode 负载 safe mode block report DataNode 注册状态 只读排查证据",
+                  "reason": "component_and_2_allowlisted_signals",
+                  "plan_hash": "b6d126947fa23e2ac6d854138171843986268a7c4d44521e890ff2a1f01e6e3e"
+                }
+              ]
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 1,
+              "tokens": 88,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "retrieve_runbook",
+                "status": "SUCCEEDED",
+                "query_plan": {
+                  "builder_version": "query_builder_v1",
+                  "component": "NameNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "block_report_delayed",
+                    "safe_mode"
+                  ],
+                  "query": "HDFS NameNode block report 延迟 注册状态 NameNode 负载 safe mode block report DataNode 注册状态 只读排查证据",
+                  "reason": "component_and_2_allowlisted_signals",
+                  "plan_hash": "b6d126947fa23e2ac6d854138171843986268a7c4d44521e890ff2a1f01e6e3e"
+                }
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [
+              {
+                "status": "evidence_found",
+                "mode": "frozen",
+                "gate_score": 0.99,
+                "gate_strategy": "offline_development_fixture",
+                "items": [
+                  {
+                    "chunk_id": "chk_offline_fixture",
+                    "doc_id": "offline-flow-fixture",
+                    "section_path": "evidence",
+                    "source_version": "development-only",
+                    "rrf_score": 1.0,
+                    "dense_score": 0.99,
+                    "bm25_score": 1.0
+                  }
+                ],
+                "gate_diagnostics": {
+                  "reason": "passed",
+                  "pre_gate_candidates": [
+                    {
+                      "chunk_id": "chk_offline_fixture",
+                      "doc_id": "offline-flow-fixture",
+                      "section_path": "evidence",
+                      "source_version": "development-only",
+                      "rrf_score": 1.0,
+                      "dense_score": 0.99,
+                      "bm25_score": 1.0
+                    }
+                  ],
+                  "top1_top2_dense_gap": null
+                }
+              }
+            ],
+            "report": {
+              "diagnosis_status": "EVIDENCE_SUPPORTED",
+              "summary": "现有只读证据支持一个待验证候选，仍需人工结合独立观测确认。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。",
+                "已取得该事件时间窗口内的脱敏日志证据。",
+                "已检索到适用于只读排查的知识证据。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_1",
+                  "description": "待验证候选：离线流程验证证据",
+                  "component": "NameNode",
+                  "support_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_85d940a2fdd79076d30f"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "需要结合更多运行指标或人工现场信息确认"
+                  ],
+                  "support_score": 0.55,
+                  "confidence_level": "medium"
+                }
+              ],
+              "retrieved_knowledge": [
+                {
+                  "chunk_id": "chk_offline_fixture",
+                  "section_path": "evidence",
+                  "title": "离线流程验证证据"
+                }
+              ],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_85d940a2fdd79076d30f"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "low",
+              "confidence_level": "medium",
+              "requires_review": false,
+              "review_reasons": [],
+              "missing_information": [
+                "需要结合更多运行指标或人工现场信息确认"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。",
+                "候选原因需要人工结合独立运行观测继续验证。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_85d940a2fdd79076d30f",
+                  "kind": "log",
+                  "source_ref": "log_6b08fad54e150b96_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "34a9ad727a1edbdd18ba2c6d100b76b872d065d84437bef5e7fcb9db9177d8fc"
+                },
+                {
+                  "evidence_id": "chk_offline_fixture",
+                  "kind": "doc",
+                  "source_ref": "offline-flow-fixture",
+                  "observed_at": null,
+                  "evidence_hash": "4d78c0e23fb1e6d97ff124ecca8853b95700b701fbd250c84130d93649c7d8be"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        },
+        "framework_candidate": {
+          "elapsed_ms": 564.113,
+          "release_id": "agrfw_f92678b1ee9f51fa121afff9",
+          "agent_version": "agent_v0.4.1_langgraph",
+          "execution_backend": "LangGraphAgentEngine",
+          "report_backend": "langchain",
+          "retrieval_backend": "LangChainRetrieverAdapter",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {
+            "collect_evidence": 1,
+            "detect": 1,
+            "generate_validate_report": 1,
+            "rank_candidates": 1,
+            "retrieve": 1,
+            "validate": 1
+          },
+          "normalized": {
+            "terminal_status": "COMPLETED",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [],
+              "retrieval_plans": [
+                {
+                  "builder_version": "query_builder_v1",
+                  "component": "NameNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "block_report_delayed",
+                    "safe_mode"
+                  ],
+                  "query": "HDFS NameNode block report 延迟 注册状态 NameNode 负载 safe mode block report DataNode 注册状态 只读排查证据",
+                  "reason": "component_and_2_allowlisted_signals",
+                  "plan_hash": "b6d126947fa23e2ac6d854138171843986268a7c4d44521e890ff2a1f01e6e3e"
+                }
+              ]
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 1,
+              "tokens": 88,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "retrieve_runbook",
+                "status": "SUCCEEDED",
+                "query_plan": {
+                  "builder_version": "query_builder_v1",
+                  "component": "NameNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "block_report_delayed",
+                    "safe_mode"
+                  ],
+                  "query": "HDFS NameNode block report 延迟 注册状态 NameNode 负载 safe mode block report DataNode 注册状态 只读排查证据",
+                  "reason": "component_and_2_allowlisted_signals",
+                  "plan_hash": "b6d126947fa23e2ac6d854138171843986268a7c4d44521e890ff2a1f01e6e3e"
+                }
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [
+              {
+                "status": "evidence_found",
+                "mode": "frozen",
+                "gate_score": 0.99,
+                "gate_strategy": "offline_development_fixture",
+                "items": [
+                  {
+                    "chunk_id": "chk_offline_fixture",
+                    "doc_id": "offline-flow-fixture",
+                    "section_path": "evidence",
+                    "source_version": "development-only",
+                    "rrf_score": 1.0,
+                    "dense_score": 0.99,
+                    "bm25_score": 1.0
+                  }
+                ],
+                "gate_diagnostics": {
+                  "reason": "passed",
+                  "pre_gate_candidates": [
+                    {
+                      "chunk_id": "chk_offline_fixture",
+                      "doc_id": "offline-flow-fixture",
+                      "section_path": "evidence",
+                      "source_version": "development-only",
+                      "rrf_score": 1.0,
+                      "dense_score": 0.99,
+                      "bm25_score": 1.0
+                    }
+                  ],
+                  "top1_top2_dense_gap": null
+                }
+              }
+            ],
+            "report": {
+              "diagnosis_status": "EVIDENCE_SUPPORTED",
+              "summary": "现有只读证据支持一个待验证候选，仍需人工结合独立观测确认。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。",
+                "已取得该事件时间窗口内的脱敏日志证据。",
+                "已检索到适用于只读排查的知识证据。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_1",
+                  "description": "待验证候选：离线流程验证证据",
+                  "component": "NameNode",
+                  "support_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_85d940a2fdd79076d30f"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "需要结合更多运行指标或人工现场信息确认"
+                  ],
+                  "support_score": 0.55,
+                  "confidence_level": "medium"
+                }
+              ],
+              "retrieved_knowledge": [
+                {
+                  "chunk_id": "chk_offline_fixture",
+                  "section_path": "evidence",
+                  "title": "离线流程验证证据"
+                }
+              ],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_85d940a2fdd79076d30f"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "low",
+              "confidence_level": "medium",
+              "requires_review": false,
+              "review_reasons": [],
+              "missing_information": [
+                "需要结合更多运行指标或人工现场信息确认"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。",
+                "候选原因需要人工结合独立运行观测继续验证。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_85d940a2fdd79076d30f",
+                  "kind": "log",
+                  "source_ref": "log_6b08fad54e150b96_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "34a9ad727a1edbdd18ba2c6d100b76b872d065d84437bef5e7fcb9db9177d8fc"
+                },
+                {
+                  "evidence_id": "chk_offline_fixture",
+                  "kind": "doc",
+                  "source_ref": "offline-flow-fixture",
+                  "observed_at": null,
+                  "evidence_hash": "4d78c0e23fb1e6d97ff124ecca8853b95700b701fbd250c84130d93649c7d8be"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "agent_datanode_supported",
+      "case_type": "agent",
+      "source": "synthetic_redacted_development",
+      "notes": "用固定证据覆盖 DataNode 有证据流程",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "elapsed_ms": 586.55,
+          "release_id": "agr11_2c22bb514af4d49743293f8a",
+          "agent_version": "agent_v0.3.1_query_builder",
+          "execution_backend": "AgentEngine",
+          "report_backend": "legacy",
+          "retrieval_backend": "CandidateRetriever",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {},
+          "normalized": {
+            "terminal_status": "COMPLETED",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [],
+              "retrieval_plans": [
+                {
+                  "builder_version": "query_builder_v1",
+                  "component": "DataNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "failed_volume"
+                  ],
+                  "query": "HDFS DataNode DataNode failed volume 磁盘容量 操作系统存储事件 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "ea78f9d455294a03ab0586e432650e95de6a4984b3938f285520f0fb83f51180"
+                }
+              ]
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 1,
+              "tokens": 88,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "retrieve_runbook",
+                "status": "SUCCEEDED",
+                "query_plan": {
+                  "builder_version": "query_builder_v1",
+                  "component": "DataNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "failed_volume"
+                  ],
+                  "query": "HDFS DataNode DataNode failed volume 磁盘容量 操作系统存储事件 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "ea78f9d455294a03ab0586e432650e95de6a4984b3938f285520f0fb83f51180"
+                }
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [
+              {
+                "status": "evidence_found",
+                "mode": "frozen",
+                "gate_score": 0.99,
+                "gate_strategy": "offline_development_fixture",
+                "items": [
+                  {
+                    "chunk_id": "chk_offline_fixture",
+                    "doc_id": "offline-flow-fixture",
+                    "section_path": "evidence",
+                    "source_version": "development-only",
+                    "rrf_score": 1.0,
+                    "dense_score": 0.99,
+                    "bm25_score": 1.0
+                  }
+                ],
+                "gate_diagnostics": {
+                  "reason": "passed",
+                  "pre_gate_candidates": [
+                    {
+                      "chunk_id": "chk_offline_fixture",
+                      "doc_id": "offline-flow-fixture",
+                      "section_path": "evidence",
+                      "source_version": "development-only",
+                      "rrf_score": 1.0,
+                      "dense_score": 0.99,
+                      "bm25_score": 1.0
+                    }
+                  ],
+                  "top1_top2_dense_gap": null
+                }
+              }
+            ],
+            "report": {
+              "diagnosis_status": "EVIDENCE_SUPPORTED",
+              "summary": "现有只读证据支持一个待验证候选，仍需人工结合独立观测确认。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。",
+                "已取得该事件时间窗口内的脱敏日志证据。",
+                "已检索到适用于只读排查的知识证据。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_1",
+                  "description": "待验证候选：离线流程验证证据",
+                  "component": "DataNode",
+                  "support_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_4bda428f91cf6e10e0eb"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "需要结合更多运行指标或人工现场信息确认"
+                  ],
+                  "support_score": 0.55,
+                  "confidence_level": "medium"
+                }
+              ],
+              "retrieved_knowledge": [
+                {
+                  "chunk_id": "chk_offline_fixture",
+                  "section_path": "evidence",
+                  "title": "离线流程验证证据"
+                }
+              ],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_4bda428f91cf6e10e0eb"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "low",
+              "confidence_level": "medium",
+              "requires_review": false,
+              "review_reasons": [],
+              "missing_information": [
+                "需要结合更多运行指标或人工现场信息确认"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。",
+                "候选原因需要人工结合独立运行观测继续验证。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_4bda428f91cf6e10e0eb",
+                  "kind": "log",
+                  "source_ref": "log_bcea11c18a80b937_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "cebd20734468648129ff8dd59f3957c55e5055b0bdf72090ee94e50d47bdff6e"
+                },
+                {
+                  "evidence_id": "chk_offline_fixture",
+                  "kind": "doc",
+                  "source_ref": "offline-flow-fixture",
+                  "observed_at": null,
+                  "evidence_hash": "5691f00ebe6e703b2e3dded549764d283597bb234d80613c00bf945c90291e67"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        },
+        "framework_candidate": {
+          "elapsed_ms": 566.891,
+          "release_id": "agrfw_f92678b1ee9f51fa121afff9",
+          "agent_version": "agent_v0.4.1_langgraph",
+          "execution_backend": "LangGraphAgentEngine",
+          "report_backend": "langchain",
+          "retrieval_backend": "LangChainRetrieverAdapter",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {
+            "collect_evidence": 1,
+            "detect": 1,
+            "generate_validate_report": 1,
+            "rank_candidates": 1,
+            "retrieve": 1,
+            "validate": 1
+          },
+          "normalized": {
+            "terminal_status": "COMPLETED",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [],
+              "retrieval_plans": [
+                {
+                  "builder_version": "query_builder_v1",
+                  "component": "DataNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "failed_volume"
+                  ],
+                  "query": "HDFS DataNode DataNode failed volume 磁盘容量 操作系统存储事件 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "ea78f9d455294a03ab0586e432650e95de6a4984b3938f285520f0fb83f51180"
+                }
+              ]
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 1,
+              "tokens": 88,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "retrieve_runbook",
+                "status": "SUCCEEDED",
+                "query_plan": {
+                  "builder_version": "query_builder_v1",
+                  "component": "DataNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "failed_volume"
+                  ],
+                  "query": "HDFS DataNode DataNode failed volume 磁盘容量 操作系统存储事件 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "ea78f9d455294a03ab0586e432650e95de6a4984b3938f285520f0fb83f51180"
+                }
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [
+              {
+                "status": "evidence_found",
+                "mode": "frozen",
+                "gate_score": 0.99,
+                "gate_strategy": "offline_development_fixture",
+                "items": [
+                  {
+                    "chunk_id": "chk_offline_fixture",
+                    "doc_id": "offline-flow-fixture",
+                    "section_path": "evidence",
+                    "source_version": "development-only",
+                    "rrf_score": 1.0,
+                    "dense_score": 0.99,
+                    "bm25_score": 1.0
+                  }
+                ],
+                "gate_diagnostics": {
+                  "reason": "passed",
+                  "pre_gate_candidates": [
+                    {
+                      "chunk_id": "chk_offline_fixture",
+                      "doc_id": "offline-flow-fixture",
+                      "section_path": "evidence",
+                      "source_version": "development-only",
+                      "rrf_score": 1.0,
+                      "dense_score": 0.99,
+                      "bm25_score": 1.0
+                    }
+                  ],
+                  "top1_top2_dense_gap": null
+                }
+              }
+            ],
+            "report": {
+              "diagnosis_status": "EVIDENCE_SUPPORTED",
+              "summary": "现有只读证据支持一个待验证候选，仍需人工结合独立观测确认。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。",
+                "已取得该事件时间窗口内的脱敏日志证据。",
+                "已检索到适用于只读排查的知识证据。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_1",
+                  "description": "待验证候选：离线流程验证证据",
+                  "component": "DataNode",
+                  "support_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_4bda428f91cf6e10e0eb"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "需要结合更多运行指标或人工现场信息确认"
+                  ],
+                  "support_score": 0.55,
+                  "confidence_level": "medium"
+                }
+              ],
+              "retrieved_knowledge": [
+                {
+                  "chunk_id": "chk_offline_fixture",
+                  "section_path": "evidence",
+                  "title": "离线流程验证证据"
+                }
+              ],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_4bda428f91cf6e10e0eb"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "low",
+              "confidence_level": "medium",
+              "requires_review": false,
+              "review_reasons": [],
+              "missing_information": [
+                "需要结合更多运行指标或人工现场信息确认"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。",
+                "候选原因需要人工结合独立运行观测继续验证。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_4bda428f91cf6e10e0eb",
+                  "kind": "log",
+                  "source_ref": "log_bcea11c18a80b937_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "cebd20734468648129ff8dd59f3957c55e5055b0bdf72090ee94e50d47bdff6e"
+                },
+                {
+                  "evidence_id": "chk_offline_fixture",
+                  "kind": "doc",
+                  "source_ref": "offline-flow-fixture",
+                  "observed_at": null,
+                  "evidence_hash": "5691f00ebe6e703b2e3dded549764d283597bb234d80613c00bf945c90291e67"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "agent_unknown_component",
+      "case_type": "agent",
+      "source": "synthetic_redacted_development",
+      "notes": "用固定拒答覆盖证据不足且不调用模型",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "elapsed_ms": 590.493,
+          "release_id": "agr11_2c22bb514af4d49743293f8a",
+          "agent_version": "agent_v0.3.1_query_builder",
+          "execution_backend": "AgentEngine",
+          "report_backend": "legacy",
+          "retrieval_backend": "CandidateRetriever",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {},
+          "normalized": {
+            "terminal_status": "WAITING_REVIEW",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [
+                "insufficient_evidence",
+                "unknown_confidence"
+              ],
+              "retrieval_plans": []
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 0,
+              "tokens": 0,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "request_human_approval",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [],
+            "report": {
+              "diagnosis_status": "INSUFFICIENT_EVIDENCE",
+              "summary": "现有证据不足以区分候选原因，需要人工补充信息。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_unknown",
+                  "description": "现有证据不足以形成可验证候选",
+                  "component": "ResourceManager",
+                  "support_ids": [
+                    "evd_log_56de924a8d74f3c11bb1"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "补充适用手册和相关时间窗口证据"
+                  ],
+                  "support_score": 0.0,
+                  "confidence_level": "unknown"
+                }
+              ],
+              "retrieved_knowledge": [],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "evd_log_56de924a8d74f3c11bb1"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "unknown",
+              "confidence_level": "unknown",
+              "requires_review": true,
+              "review_reasons": [
+                "insufficient_evidence",
+                "unknown_confidence"
+              ],
+              "missing_information": [
+                "缺少可适用知识或独立观测指标"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_56de924a8d74f3c11bb1",
+                  "kind": "log",
+                  "source_ref": "log_e798ed3cadf82253_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "ab16e3e3d02ca108a053825fe7cde01d4fb8d811259883a5df235fe894a07c7f"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        },
+        "framework_candidate": {
+          "elapsed_ms": 600.33,
+          "release_id": "agrfw_f92678b1ee9f51fa121afff9",
+          "agent_version": "agent_v0.4.1_langgraph",
+          "execution_backend": "LangGraphAgentEngine",
+          "report_backend": "langchain",
+          "retrieval_backend": "LangChainRetrieverAdapter",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {
+            "collect_evidence": 1,
+            "detect": 1,
+            "generate_validate_report": 1,
+            "rank_candidates": 1,
+            "retrieve": 1,
+            "validate": 1
+          },
+          "normalized": {
+            "terminal_status": "WAITING_REVIEW",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [
+                "insufficient_evidence",
+                "unknown_confidence"
+              ],
+              "retrieval_plans": []
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 0,
+              "tokens": 0,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "request_human_approval",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [],
+            "report": {
+              "diagnosis_status": "INSUFFICIENT_EVIDENCE",
+              "summary": "现有证据不足以区分候选原因，需要人工补充信息。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_unknown",
+                  "description": "现有证据不足以形成可验证候选",
+                  "component": "ResourceManager",
+                  "support_ids": [
+                    "evd_log_56de924a8d74f3c11bb1"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "补充适用手册和相关时间窗口证据"
+                  ],
+                  "support_score": 0.0,
+                  "confidence_level": "unknown"
+                }
+              ],
+              "retrieved_knowledge": [],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "evd_log_56de924a8d74f3c11bb1"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "unknown",
+              "confidence_level": "unknown",
+              "requires_review": true,
+              "review_reasons": [
+                "insufficient_evidence",
+                "unknown_confidence"
+              ],
+              "missing_information": [
+                "缺少可适用知识或独立观测指标"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_56de924a8d74f3c11bb1",
+                  "kind": "log",
+                  "source_ref": "log_e798ed3cadf82253_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "ab16e3e3d02ca108a053825fe7cde01d4fb8d811259883a5df235fe894a07c7f"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "agent_no_logs",
+      "case_type": "agent",
+      "source": "synthetic_redacted_development",
+      "notes": "覆盖空日志和固定拒答",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "elapsed_ms": 551.061,
+          "release_id": "agr11_2c22bb514af4d49743293f8a",
+          "agent_version": "agent_v0.3.1_query_builder",
+          "execution_backend": "AgentEngine",
+          "report_backend": "legacy",
+          "retrieval_backend": "CandidateRetriever",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {},
+          "normalized": {
+            "terminal_status": "WAITING_REVIEW",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [
+                "insufficient_evidence",
+                "unknown_confidence"
+              ],
+              "retrieval_plans": []
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 0,
+              "tokens": 0,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "request_human_approval",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [],
+            "report": {
+              "diagnosis_status": "INSUFFICIENT_EVIDENCE",
+              "summary": "现有证据不足以区分候选原因，需要人工补充信息。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_unknown",
+                  "description": "现有证据不足以形成可验证候选",
+                  "component": null,
+                  "support_ids": [],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "补充适用手册和相关时间窗口证据"
+                  ],
+                  "support_score": 0.0,
+                  "confidence_level": "unknown"
+                }
+              ],
+              "retrieved_knowledge": [],
+              "checks": [],
+              "risk_level": "unknown",
+              "confidence_level": "unknown",
+              "requires_review": true,
+              "review_reasons": [
+                "insufficient_evidence",
+                "unknown_confidence"
+              ],
+              "missing_information": [
+                "缺少可适用知识或独立观测指标"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。"
+              ],
+              "evidence": [],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        },
+        "framework_candidate": {
+          "elapsed_ms": 541.348,
+          "release_id": "agrfw_f92678b1ee9f51fa121afff9",
+          "agent_version": "agent_v0.4.1_langgraph",
+          "execution_backend": "LangGraphAgentEngine",
+          "report_backend": "langchain",
+          "retrieval_backend": "LangChainRetrieverAdapter",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {
+            "collect_evidence": 1,
+            "detect": 1,
+            "generate_validate_report": 1,
+            "rank_candidates": 1,
+            "retrieve": 1,
+            "validate": 1
+          },
+          "normalized": {
+            "terminal_status": "WAITING_REVIEW",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [
+                "insufficient_evidence",
+                "unknown_confidence"
+              ],
+              "retrieval_plans": []
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 0,
+              "tokens": 0,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "request_human_approval",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [],
+            "report": {
+              "diagnosis_status": "INSUFFICIENT_EVIDENCE",
+              "summary": "现有证据不足以区分候选原因，需要人工补充信息。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_unknown",
+                  "description": "现有证据不足以形成可验证候选",
+                  "component": null,
+                  "support_ids": [],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "补充适用手册和相关时间窗口证据"
+                  ],
+                  "support_score": 0.0,
+                  "confidence_level": "unknown"
+                }
+              ],
+              "retrieved_knowledge": [],
+              "checks": [],
+              "risk_level": "unknown",
+              "confidence_level": "unknown",
+              "requires_review": true,
+              "review_reasons": [
+                "insufficient_evidence",
+                "unknown_confidence"
+              ],
+              "missing_information": [
+                "缺少可适用知识或独立观测指标"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。"
+              ],
+              "evidence": [],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "agent_prompt_injection",
+      "case_type": "agent",
+      "source": "synthetic_redacted_development",
+      "notes": "用固定证据覆盖提示注入强制复核；文本只存在输入案例，不写入结果",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "elapsed_ms": 597.493,
+          "release_id": "agr11_2c22bb514af4d49743293f8a",
+          "agent_version": "agent_v0.3.1_query_builder",
+          "execution_backend": "AgentEngine",
+          "report_backend": "legacy",
+          "retrieval_backend": "CandidateRetriever",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {},
+          "normalized": {
+            "terminal_status": "WAITING_REVIEW",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [
+                "prompt_injection"
+              ],
+              "retrieval_plans": [
+                {
+                  "builder_version": "query_builder_v1",
+                  "component": "NameNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "safe_mode"
+                  ],
+                  "query": "HDFS NameNode safe mode block report DataNode 注册状态 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "ce170a79d8c97b1315d5c51af868b20bff09b36b1300fa899272746206e32ddc"
+                }
+              ]
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 6,
+              "llm_calls": 1,
+              "tokens": 88,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "retrieve_runbook",
+                "status": "SUCCEEDED",
+                "query_plan": {
+                  "builder_version": "query_builder_v1",
+                  "component": "NameNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "safe_mode"
+                  ],
+                  "query": "HDFS NameNode safe mode block report DataNode 注册状态 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "ce170a79d8c97b1315d5c51af868b20bff09b36b1300fa899272746206e32ddc"
+                }
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 6,
+                "tool_name": "request_human_approval",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [
+              {
+                "status": "evidence_found",
+                "mode": "frozen",
+                "gate_score": 0.99,
+                "gate_strategy": "offline_development_fixture",
+                "items": [
+                  {
+                    "chunk_id": "chk_offline_fixture",
+                    "doc_id": "offline-flow-fixture",
+                    "section_path": "evidence",
+                    "source_version": "development-only",
+                    "rrf_score": 1.0,
+                    "dense_score": 0.99,
+                    "bm25_score": 1.0
+                  }
+                ],
+                "gate_diagnostics": {
+                  "reason": "passed",
+                  "pre_gate_candidates": [
+                    {
+                      "chunk_id": "chk_offline_fixture",
+                      "doc_id": "offline-flow-fixture",
+                      "section_path": "evidence",
+                      "source_version": "development-only",
+                      "rrf_score": 1.0,
+                      "dense_score": 0.99,
+                      "bm25_score": 1.0
+                    }
+                  ],
+                  "top1_top2_dense_gap": null
+                }
+              }
+            ],
+            "report": {
+              "diagnosis_status": "EVIDENCE_SUPPORTED",
+              "summary": "现有只读证据支持一个待验证候选，仍需人工结合独立观测确认。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。",
+                "已取得该事件时间窗口内的脱敏日志证据。",
+                "已检索到适用于只读排查的知识证据。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_1",
+                  "description": "待验证候选：离线流程验证证据",
+                  "component": "NameNode",
+                  "support_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_c4485229d51bddb34037"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "需要结合更多运行指标或人工现场信息确认"
+                  ],
+                  "support_score": 0.55,
+                  "confidence_level": "medium"
+                }
+              ],
+              "retrieved_knowledge": [
+                {
+                  "chunk_id": "chk_offline_fixture",
+                  "section_path": "evidence",
+                  "title": "离线流程验证证据"
+                }
+              ],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_c4485229d51bddb34037"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "low",
+              "confidence_level": "medium",
+              "requires_review": true,
+              "review_reasons": [
+                "prompt_injection"
+              ],
+              "missing_information": [
+                "需要结合更多运行指标或人工现场信息确认"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。",
+                "候选原因需要人工结合独立运行观测继续验证。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_c4485229d51bddb34037",
+                  "kind": "log",
+                  "source_ref": "log_962e067a3d188bfc_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "eb9132ed5e90766c43e62f7935c6546b530e6c9017402ec27adeb2d5d78d8505"
+                },
+                {
+                  "evidence_id": "chk_offline_fixture",
+                  "kind": "doc",
+                  "source_ref": "offline-flow-fixture",
+                  "observed_at": null,
+                  "evidence_hash": "4d78c0e23fb1e6d97ff124ecca8853b95700b701fbd250c84130d93649c7d8be"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        },
+        "framework_candidate": {
+          "elapsed_ms": 580.474,
+          "release_id": "agrfw_f92678b1ee9f51fa121afff9",
+          "agent_version": "agent_v0.4.1_langgraph",
+          "execution_backend": "LangGraphAgentEngine",
+          "report_backend": "langchain",
+          "retrieval_backend": "LangChainRetrieverAdapter",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {
+            "collect_evidence": 1,
+            "detect": 1,
+            "generate_validate_report": 1,
+            "rank_candidates": 1,
+            "retrieve": 1,
+            "validate": 1
+          },
+          "normalized": {
+            "terminal_status": "WAITING_REVIEW",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [
+                "prompt_injection"
+              ],
+              "retrieval_plans": [
+                {
+                  "builder_version": "query_builder_v1",
+                  "component": "NameNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "safe_mode"
+                  ],
+                  "query": "HDFS NameNode safe mode block report DataNode 注册状态 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "ce170a79d8c97b1315d5c51af868b20bff09b36b1300fa899272746206e32ddc"
+                }
+              ]
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 6,
+              "llm_calls": 1,
+              "tokens": 88,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "retrieve_runbook",
+                "status": "SUCCEEDED",
+                "query_plan": {
+                  "builder_version": "query_builder_v1",
+                  "component": "NameNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "safe_mode"
+                  ],
+                  "query": "HDFS NameNode safe mode block report DataNode 注册状态 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "ce170a79d8c97b1315d5c51af868b20bff09b36b1300fa899272746206e32ddc"
+                }
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 6,
+                "tool_name": "request_human_approval",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [
+              {
+                "status": "evidence_found",
+                "mode": "frozen",
+                "gate_score": 0.99,
+                "gate_strategy": "offline_development_fixture",
+                "items": [
+                  {
+                    "chunk_id": "chk_offline_fixture",
+                    "doc_id": "offline-flow-fixture",
+                    "section_path": "evidence",
+                    "source_version": "development-only",
+                    "rrf_score": 1.0,
+                    "dense_score": 0.99,
+                    "bm25_score": 1.0
+                  }
+                ],
+                "gate_diagnostics": {
+                  "reason": "passed",
+                  "pre_gate_candidates": [
+                    {
+                      "chunk_id": "chk_offline_fixture",
+                      "doc_id": "offline-flow-fixture",
+                      "section_path": "evidence",
+                      "source_version": "development-only",
+                      "rrf_score": 1.0,
+                      "dense_score": 0.99,
+                      "bm25_score": 1.0
+                    }
+                  ],
+                  "top1_top2_dense_gap": null
+                }
+              }
+            ],
+            "report": {
+              "diagnosis_status": "EVIDENCE_SUPPORTED",
+              "summary": "现有只读证据支持一个待验证候选，仍需人工结合独立观测确认。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。",
+                "已取得该事件时间窗口内的脱敏日志证据。",
+                "已检索到适用于只读排查的知识证据。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_1",
+                  "description": "待验证候选：离线流程验证证据",
+                  "component": "NameNode",
+                  "support_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_c4485229d51bddb34037"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "需要结合更多运行指标或人工现场信息确认"
+                  ],
+                  "support_score": 0.55,
+                  "confidence_level": "medium"
+                }
+              ],
+              "retrieved_knowledge": [
+                {
+                  "chunk_id": "chk_offline_fixture",
+                  "section_path": "evidence",
+                  "title": "离线流程验证证据"
+                }
+              ],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_c4485229d51bddb34037"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "low",
+              "confidence_level": "medium",
+              "requires_review": true,
+              "review_reasons": [
+                "prompt_injection"
+              ],
+              "missing_information": [
+                "需要结合更多运行指标或人工现场信息确认"
+              ],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。",
+                "候选原因需要人工结合独立运行观测继续验证。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_c4485229d51bddb34037",
+                  "kind": "log",
+                  "source_ref": "log_962e067a3d188bfc_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "eb9132ed5e90766c43e62f7935c6546b530e6c9017402ec27adeb2d5d78d8505"
+                },
+                {
+                  "evidence_id": "chk_offline_fixture",
+                  "kind": "doc",
+                  "source_ref": "offline-flow-fixture",
+                  "observed_at": null,
+                  "evidence_hash": "4d78c0e23fb1e6d97ff124ecca8853b95700b701fbd250c84130d93649c7d8be"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        }
+      },
+      "differences": []
+    },
+    {
+      "case_id": "agent_template_mode",
+      "case_type": "agent",
+      "source": "synthetic_redacted_development",
+      "notes": "用固定证据覆盖显式模板模式和零模型调用",
+      "parity_passed": true,
+      "expectations": {
+        "legacy": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        },
+        "framework_candidate": {
+          "passed": true,
+          "checks": {
+            "diagnosis_status": true,
+            "review_reasons": true
+          }
+        }
+      },
+      "backends": {
+        "legacy": {
+          "elapsed_ms": 602.903,
+          "release_id": "agr11_2c22bb514af4d49743293f8a",
+          "agent_version": "agent_v0.3.1_query_builder",
+          "execution_backend": "AgentEngine",
+          "report_backend": "legacy",
+          "retrieval_backend": "CandidateRetriever",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {},
+          "normalized": {
+            "terminal_status": "COMPLETED",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [],
+              "retrieval_plans": [
+                {
+                  "builder_version": "query_builder_v1",
+                  "component": "JournalNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "journal_quorum"
+                  ],
+                  "query": "HDFS JournalNode JournalNode 多数派 可达性 磁盘 epoch 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "916dc5154696349e57abeca971577e84a8268cd2a8aaa7e6382cb0d0114365a1"
+                }
+              ]
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 0,
+              "tokens": 0,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "retrieve_runbook",
+                "status": "SUCCEEDED",
+                "query_plan": {
+                  "builder_version": "query_builder_v1",
+                  "component": "JournalNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "journal_quorum"
+                  ],
+                  "query": "HDFS JournalNode JournalNode 多数派 可达性 磁盘 epoch 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "916dc5154696349e57abeca971577e84a8268cd2a8aaa7e6382cb0d0114365a1"
+                }
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [
+              {
+                "status": "evidence_found",
+                "mode": "frozen",
+                "gate_score": 0.99,
+                "gate_strategy": "offline_development_fixture",
+                "items": [
+                  {
+                    "chunk_id": "chk_offline_fixture",
+                    "doc_id": "offline-flow-fixture",
+                    "section_path": "evidence",
+                    "source_version": "development-only",
+                    "rrf_score": 1.0,
+                    "dense_score": 0.99,
+                    "bm25_score": 1.0
+                  }
+                ],
+                "gate_diagnostics": {
+                  "reason": "passed",
+                  "pre_gate_candidates": [
+                    {
+                      "chunk_id": "chk_offline_fixture",
+                      "doc_id": "offline-flow-fixture",
+                      "section_path": "evidence",
+                      "source_version": "development-only",
+                      "rrf_score": 1.0,
+                      "dense_score": 0.99,
+                      "bm25_score": 1.0
+                    }
+                  ],
+                  "top1_top2_dense_gap": null
+                }
+              }
+            ],
+            "report": {
+              "diagnosis_status": "DEGRADED_TEMPLATE",
+              "summary": "已形成有证据的疑似原因候选，仍不能据此确认真实根因。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_1",
+                  "description": "待验证候选：离线流程验证证据",
+                  "component": "JournalNode",
+                  "support_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_6ecfc0a5414c3ad11fa9"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "需要结合更多运行指标或人工现场信息确认"
+                  ],
+                  "support_score": 0.55,
+                  "confidence_level": "medium"
+                }
+              ],
+              "retrieved_knowledge": [
+                {
+                  "chunk_id": "chk_offline_fixture",
+                  "section_path": "evidence",
+                  "title": "离线流程验证证据"
+                }
+              ],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_6ecfc0a5414c3ad11fa9"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "low",
+              "confidence_level": "medium",
+              "requires_review": false,
+              "review_reasons": [],
+              "missing_information": [],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_6ecfc0a5414c3ad11fa9",
+                  "kind": "log",
+                  "source_ref": "log_b56158ee3ea8532c_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "d685bc2eb9b35078f3abaf155542cc3889003d4a68787ef2ef2bf6930aaae5e5"
+                },
+                {
+                  "evidence_id": "chk_offline_fixture",
+                  "kind": "doc",
+                  "source_ref": "offline-flow-fixture",
+                  "observed_at": null,
+                  "evidence_hash": "5ab4e17b5252f4604ac20ace4a53a63a96f0e8369560a9ec50d47724a5bed6fd"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        },
+        "framework_candidate": {
+          "elapsed_ms": 723.378,
+          "release_id": "agrfw_f92678b1ee9f51fa121afff9",
+          "agent_version": "agent_v0.4.1_langgraph",
+          "execution_backend": "LangGraphAgentEngine",
+          "report_backend": "langchain",
+          "retrieval_backend": "LangChainRetrieverAdapter",
+          "case_layer": "flow_fixture",
+          "graph_node_execution_counts": {
+            "collect_evidence": 1,
+            "detect": 1,
+            "generate_validate_report": 1,
+            "rank_candidates": 1,
+            "retrieve": 1,
+            "validate": 1
+          },
+          "normalized": {
+            "terminal_status": "COMPLETED",
+            "current_node": "REPORT_VALIDATED",
+            "state": {
+              "errors": [],
+              "review_reasons": [],
+              "retrieval_plans": [
+                {
+                  "builder_version": "query_builder_v1",
+                  "component": "JournalNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "journal_quorum"
+                  ],
+                  "query": "HDFS JournalNode JournalNode 多数派 可达性 磁盘 epoch 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "916dc5154696349e57abeca971577e84a8268cd2a8aaa7e6382cb0d0114365a1"
+                }
+              ]
+            },
+            "budget": {
+              "max_tool_calls": 8,
+              "max_llm_calls": 3,
+              "max_tokens": 12000,
+              "max_active_ms": 120000,
+              "tool_calls": 5,
+              "llm_calls": 0,
+              "tokens": 0,
+              "estimated_cost_cny": 0.0
+            },
+            "tools": [
+              {
+                "ordinal": 1,
+                "tool_name": "detect_anomaly",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 2,
+                "tool_name": "query_logs",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 3,
+                "tool_name": "retrieve_runbook",
+                "status": "SUCCEEDED",
+                "query_plan": {
+                  "builder_version": "query_builder_v1",
+                  "component": "JournalNode",
+                  "product_version": null,
+                  "matched_signals": [
+                    "journal_quorum"
+                  ],
+                  "query": "HDFS JournalNode JournalNode 多数派 可达性 磁盘 epoch 只读排查证据",
+                  "reason": "component_and_1_allowlisted_signals",
+                  "plan_hash": "916dc5154696349e57abeca971577e84a8268cd2a8aaa7e6382cb0d0114365a1"
+                }
+              },
+              {
+                "ordinal": 4,
+                "tool_name": "rank_root_causes",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              },
+              {
+                "ordinal": 5,
+                "tool_name": "generate_incident_report",
+                "status": "SUCCEEDED",
+                "query_plan": null
+              }
+            ],
+            "retrievals": [
+              {
+                "status": "evidence_found",
+                "mode": "frozen",
+                "gate_score": 0.99,
+                "gate_strategy": "offline_development_fixture",
+                "items": [
+                  {
+                    "chunk_id": "chk_offline_fixture",
+                    "doc_id": "offline-flow-fixture",
+                    "section_path": "evidence",
+                    "source_version": "development-only",
+                    "rrf_score": 1.0,
+                    "dense_score": 0.99,
+                    "bm25_score": 1.0
+                  }
+                ],
+                "gate_diagnostics": {
+                  "reason": "passed",
+                  "pre_gate_candidates": [
+                    {
+                      "chunk_id": "chk_offline_fixture",
+                      "doc_id": "offline-flow-fixture",
+                      "section_path": "evidence",
+                      "source_version": "development-only",
+                      "rrf_score": 1.0,
+                      "dense_score": 0.99,
+                      "bm25_score": 1.0
+                    }
+                  ],
+                  "top1_top2_dense_gap": null
+                }
+              }
+            ],
+            "report": {
+              "diagnosis_status": "DEGRADED_TEMPLATE",
+              "summary": "已形成有证据的疑似原因候选，仍不能据此确认真实根因。",
+              "observed_facts": [
+                "冻结异常模型将该事件包含的会话判定为超过阈值。"
+              ],
+              "hypotheses": [
+                {
+                  "hypothesis_id": "hyp_1",
+                  "description": "待验证候选：离线流程验证证据",
+                  "component": "JournalNode",
+                  "support_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_6ecfc0a5414c3ad11fa9"
+                  ],
+                  "counter_ids": [],
+                  "missing_checks": [
+                    "需要结合更多运行指标或人工现场信息确认"
+                  ],
+                  "support_score": 0.55,
+                  "confidence_level": "medium"
+                }
+              ],
+              "retrieved_knowledge": [
+                {
+                  "chunk_id": "chk_offline_fixture",
+                  "section_path": "evidence",
+                  "title": "离线流程验证证据"
+                }
+              ],
+              "checks": [
+                {
+                  "action_id": "act_read_logs",
+                  "action_type": "read_only_check",
+                  "description": "只读核对所引证据对应的日志和配置，记录观察结果；不得执行变更。",
+                  "preconditions": [
+                    "确认只读查询授权与人工复核责任人"
+                  ],
+                  "risk": "low",
+                  "citation_ids": [
+                    "chk_offline_fixture",
+                    "evd_log_6ecfc0a5414c3ad11fa9"
+                  ],
+                  "execution_allowed": false,
+                  "approval_required": false
+                }
+              ],
+              "risk_level": "low",
+              "confidence_level": "medium",
+              "requires_review": false,
+              "review_reasons": [],
+              "missing_information": [],
+              "limitations": [
+                "公开HDFS标签仅表示block会话异常，不提供真实根因标签。"
+              ],
+              "evidence": [
+                {
+                  "evidence_id": "evd_log_6ecfc0a5414c3ad11fa9",
+                  "kind": "log",
+                  "source_ref": "log_b56158ee3ea8532c_01",
+                  "observed_at": "2026-10-20T00:00:01+00:00",
+                  "evidence_hash": "d685bc2eb9b35078f3abaf155542cc3889003d4a68787ef2ef2bf6930aaae5e5"
+                },
+                {
+                  "evidence_id": "chk_offline_fixture",
+                  "kind": "doc",
+                  "source_ref": "offline-flow-fixture",
+                  "observed_at": null,
+                  "evidence_hash": "5ab4e17b5252f4604ac20ace4a53a63a96f0e8369560a9ec50d47724a5bed6fd"
+                }
+              ],
+              "invalid_citation_count": 0,
+              "execution_allowed_count": 0
+            },
+            "safety": {
+              "invalid_citations": 0,
+              "execution_allowed": 0,
+              "unauthorized_tools": 0,
+              "budget_exceeded": 0,
+              "insufficient_evidence_llm_calls": 0,
+              "required_review_missing": 0
+            }
+          }
+        }
+      },
+      "differences": []
+    }
+  ]
+}

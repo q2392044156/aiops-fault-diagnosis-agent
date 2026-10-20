@@ -10,5 +10,8 @@ artifacts
 experiments
 runtime
 docs
+.env
+.env.*
+!.env.example
 *.pyc
 *.pyo

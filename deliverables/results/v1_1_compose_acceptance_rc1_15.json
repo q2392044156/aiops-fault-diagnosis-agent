@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "status": "COMPOSE_ACCEPTANCE_PASSED",
+  "tested_at": "2026-10-19",
+  "candidate_release_id": "agr11_b992eb6f0c657cce088c6f57",
+  "candidate_status": "RESEARCH_CANDIDATE",
+  "candidate_manifest_sha256": "e69b76a3f6272a3c13e799e967d18a63a5b4450927b86a9dc0e05a0b7c030a0d",
+  "candidate_artifact_sha256": "a7bdb9e079754f4385bd49ea24c9dffac33a95ff17a728a047481d34e6e46989",
+  "compose_project": "aiops-v11-rc1-15",
+  "image": "aiops-fault-diagnosis-agent:v1.1-rc1",
+  "image_id": "sha256:534fac814e7393443a106d4890b4c90c90b8ca9302595255de508ebea41b38b4",
+  "services": {
+    "worker": "healthy",
+    "api": "healthy",
+    "ui": "healthy",
+    "api_endpoint": "http://127.0.0.1:18000",
+    "ui_endpoint": "http://127.0.0.1:18501"
+  },
+  "container_controls": {
+    "run_as": "10001:10001",
+    "read_only_rootfs": true,
+    "restart_policy": "unless-stopped",
+    "candidate_release_mount_writable": false,
+    "service_release_mount_writable": false,
+    "dot_env_present_in_image": false,
+    "release_inputs_present": true,
+    "deepseek_credentials_mounted_as_secret_files": true,
+    "credential_values_recorded": false
+  },
+  "restart_and_idempotency_test": {
+    "input_kind": "synthetic_event",
+    "mode": "template",
+    "worker_stopped_before_submit": true,
+    "status_while_worker_stopped": "QUEUED",
+    "same_key_returned_same_diagnosis": true,
+    "same_key_deduplicated": true,
+    "same_key_changed_request_http_status": 409,
+    "worker_restarted": true,
+    "final_status": "WAITING_REVIEW",
+    "diagnosis_rows": 1,
+    "report_rows": 1,
+    "approval_rows": 1,
+    "tool_call_rows": 6,
+    "approval_tool_call_rows": 1,
+    "llm_calls": 0,
+    "conflicting_reports": 0
+  },
+  "coexistence": {
+    "v1_0_api_status": "ready",
+    "v1_0_ui_http_status": 200,
+    "v1_1_api_status": "ready",
+    "v1_1_ui_http_status": 200
+  },
+  "limitations": [
+    "The restart test uses a synthetic event and template mode; it does not measure root-cause accuracy or online model quality.",
+    "Online DeepSeek stability is recorded in deliverables/results/v1_1_online_acceptance_rc1_15.json.",
+    "The candidate remains a research candidate until independent retrieval labels are reviewed and frozen."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "status": "RC2_FAULT_RECOVERY_ACCEPTANCE",
+  "generated_at": "2026-10-20T07:27:12.118147+00:00",
+  "matrix": {
+    "query_safety": [
+      "tests/test_query_builder_v11.py"
+    ],
+    "report_validation_and_fallback": [
+      "tests/test_agent.py::test_agent_report_skips_llm_without_log_and_document_evidence",
+      "tests/test_agent.py::test_agent_report_rejects_model_controlled_citations_and_repairs_summary",
+      "tests/test_agent.py::test_agent_report_degrades_when_repair_keeps_extra_model_fields",
+      "tests/test_agent.py::test_v11_candidate_rewrites_executable_actions_to_read_only_review",
+      "tests/test_agent.py::test_v11_candidate_discards_executable_text_hidden_in_read_only_action",
+      "tests/test_agent.py::test_v11_candidate_repairs_operational_text_hidden_in_summary",
+      "tests/test_agent.py::test_v11_candidate_degrades_if_operational_narrative_persists",
+      "tests/test_agent.py::test_v11_candidate_repairs_reflected_prompt_injection_and_url",
+      "tests/test_framework_v12.py::test_candidate_langchain_backend_repairs_once_through_existing_llm_budget_path"
+    ],
+    "provider_failures": [
+      "tests/test_rag.py::test_deepseek_client_retries_transient_http_failures_once_recovered",
+      "tests/test_rag.py::test_deepseek_client_degrades_after_repeated_network_failure",
+      "tests/test_agent.py::test_invalid_llm_json_still_counts_tokens"
+    ],
+    "tool_and_budget_failures": [
+      "tests/test_agent.py::test_retryable_tool_result_is_retried_once",
+      "tests/test_agent.py::test_provider_budget_reservation_is_atomic",
+      "tests/test_agent.py::test_ambiguous_provider_reservation_is_conservatively_settled"
+    ],
+    "recovery_and_idempotency": [
+      "tests/test_agent.py::test_v11_candidate_recovers_to_review_without_logs_or_paid_llm",
+      "tests/test_agent.py::test_agent_queue_idempotency_and_lease_recovery",
+      "tests/test_agent.py::test_recovered_tool_cache_restores_trace_and_budget",
+      "tests/test_agent.py::test_cached_paid_tool_restores_revision_budget",
+      "tests/test_agent.py::test_same_evidence_can_be_recorded_for_revision_two",
+      "tests/test_agent.py::test_approval_is_version_bound_and_never_executes",
+      "tests/test_agent.py::test_request_more_evidence_creates_only_revision_two",
+      "tests/test_agent.py::test_approval_expiry_is_persisted_and_idempotency_binds_decision"
+    ],
+    "langgraph_and_real_index": [
+      "tests/test_framework_v12.py::test_langgraph_candidate_runs_all_database_nodes_to_review",
+      "tests/test_offline_framework_comparison.py::test_offline_comparison_runs_real_retrieval_and_both_agent_paths"
+    ]
+  },
+  "pytest_exit_code": 0,
+  "pytest_output_tail": "................................                                         [100%]\n============================== warnings summary ===============================\n.w10-env\\Lib\\site-packages\\_pytest\\config\\__init__.py:1464\n  E:\\project\\my_project1\\aiops-fault-diagnosis-agent\\.w10-env\\Lib\\site-packages\\_pytest\\config\\__init__.py:1464: PytestConfigWarning: Unknown config option: cache_dir\n  \n    self._warn_or_fail_if_strict(f\"Unknown config option: {key}\\n\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n32 passed, 1 warning in 14.92s",
+  "hard_gate_counts": {
+    "invalid_citations": 0,
+    "unauthorized_tools": 0,
+    "execution_allowed": 0,
+    "budget_exceeded": 0,
+    "insufficient_evidence_llm_calls": 0,
+    "required_review_missing": 0,
+    "duplicate_paid_calls_after_recovery": 0,
+    "conflicting_reports_or_approvals_after_recovery": 0
+  },
+  "passed": true,
+  "scope": "automated_fault_and_recovery_assertions"
+}

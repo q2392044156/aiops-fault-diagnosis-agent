@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "RC2_LEGACY_ROLLBACK_DRILL",
+  "generated_at": "2026-10-20T07:36:05.176844+00:00",
+  "source_database_sha256": "df4eb4b634053b750d32e025c2c058d02c7cfd67f936a4f4d612848c5bd5cff6",
+  "backup_database_sha256": "f12d0c759ce37fbfa6b49b131653e1d69bc9b0f9ab800d361eed895be64a0d9a",
+  "legacy_release_id": "agr11_2c22bb514af4d49743293f8a",
+  "report_count": 30,
+  "approval_count": 14,
+  "pending_approval_count": 14,
+  "database_migration_performed": false,
+  "checks": {
+    "sqlite_backup_integrity": true,
+    "legacy_backend_loaded": true,
+    "existing_reports_readable": true,
+    "report_hashes_and_revisions_unchanged": true,
+    "no_duplicate_approvals": true,
+    "pending_approvals_survive_backend_switch": true
+  },
+  "passed": true
+}

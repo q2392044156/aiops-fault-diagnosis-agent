@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "status": "COVERAGE_ONLY_NO_RELEVANCE_LABELS",
+  "fixture_manifest_sha256": "56aee35fbb5835d0f271199ad4eebec927b70196f0175730afa21b49c6909fcf",
+  "fixture_cases_sha256": "79d5791ab87d3756d7ffb2c4507479e1f77913b31ce1dd4dd79d3253ec78390c",
+  "candidate_release_id": "agr11_7d2f7438e8a218ebb5db0a01",
+  "kb_release_id": "kb_v0.1",
+  "baseline_returned": 40,
+  "candidate_returned": 2,
+  "query_count": 40,
+  "cases": [
+    {
+      "case_id": "evt_66886dc6a521ef5b6dfb1080",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 5
+    },
+    {
+      "case_id": "evt_6415b1a5c89638e9ed9cf4b5",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_33b7bbdfb8278d9eae092524",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_661aeb131bc0abbda5e1db7b",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_7abd3f4599d8fbdb4b22fc00",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 5
+    },
+    {
+      "case_id": "evt_d17c3288c7777d53f27f4b67",
+      "baseline_returned": true,
+      "candidate_returned": true,
+      "has_log": true,
+      "component_count": 6
+    },
+    {
+      "case_id": "evt_0a9f247b2b99185deca04bdf",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 5
+    },
+    {
+      "case_id": "evt_682163460c2967bb02317245",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 5
+    },
+    {
+      "case_id": "evt_26fe6a8b114f5bec774744ee",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 5
+    },
+    {
+      "case_id": "evt_578049759254101a9621ae83",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 5
+    },
+    {
+      "case_id": "evt_12c7703fdc983cc586450fbb",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 4
+    },
+    {
+      "case_id": "evt_82db232f5019df85eaf693aa",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 5
+    },
+    {
+      "case_id": "evt_2fd5a9179d3f3c3a2de7013c",
+      "baseline_returned": true,
+      "candidate_returned": true,
+      "has_log": true,
+      "component_count": 6
+    },
+    {
+      "case_id": "evt_99990cb9d5ec6aa9a1508ed7",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 4
+    },
+    {
+      "case_id": "evt_a23a4e8b6f4278ca22e59bf4",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 5
+    },
+    {
+      "case_id": "evt_725a6b70b81016129d42d065",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_5f7a8e23088cf3bcbf5f6465",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 5
+    },
+    {
+      "case_id": "evt_3973725057c00c8b36c689b9",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_353192b7439754b5e6d45c66",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_0dc6d17c81c09523efb762d6",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 4
+    },
+    {
+      "case_id": "evt_bbb91ed0ee0bd8b7fdde3e43",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_465c296147d4be132db8a6dd",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 4
+    },
+    {
+      "case_id": "evt_b6d9aa0ae700fbccff02526f",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 4
+    },
+    {
+      "case_id": "evt_23fada44b777adaedfe41fc1",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_d55bbd3e7a1646fe4561001b",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_a1e915dec835564497b1ee7e",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_52cd21b09fa81b30c4af7c95",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_9f287cf9b75a20ef2f958828",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_16617e569736d1fe399f06a7",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_cf39ef2e555a7d184cd28d1f",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_ffa45ec05788bf51ed654dab",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_8c40b8170ca1f3c58144ce82",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 4
+    },
+    {
+      "case_id": "evt_8db28fa74c882dab8b86e3af",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 4
+    },
+    {
+      "case_id": "evt_5828e2cea03852997d0848c0",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_343b11e8654b49050b80dc7c",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_478ab21307289f6f0ace8224",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_aa4413256f7f5506cf7bfa78",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_4a50729a592af49a899e22bb",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_8808e7dc14c6900027876fb3",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    },
+    {
+      "case_id": "evt_460384c9bb03ee22ba13303d",
+      "baseline_returned": true,
+      "candidate_returned": false,
+      "has_log": true,
+      "component_count": 2
+    }
+  ],
+  "limitation": "No relevance labels or true root-cause labels; return coverage is not accuracy."
+}

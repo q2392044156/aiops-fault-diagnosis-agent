@@ -41,6 +41,10 @@ CREATE TABLE IF NOT EXISTS events(
   status TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_events_batch_time ON events(batch_id, start_time, event_id);
+CREATE TABLE IF NOT EXISTS event_metadata(
+  event_id TEXT NOT NULL REFERENCES events(event_id), name TEXT NOT NULL, value TEXT NOT NULL,
+  PRIMARY KEY(event_id,name)
+);
 CREATE TABLE IF NOT EXISTS event_sessions(
   event_id TEXT NOT NULL REFERENCES events(event_id), batch_id TEXT NOT NULL,
   session_id TEXT NOT NULL, PRIMARY KEY(event_id, session_id),
@@ -173,6 +177,7 @@ class Database:
         db = self.connect()
         try:
             db.executescript(SCHEMA)
+
             evidence_info = db.execute("PRAGMA table_info(agent_evidence)").fetchall()
             evidence_pk = [row[1] for row in sorted(
                 (row for row in evidence_info if row[5]), key=lambda row: row[5])]
@@ -203,6 +208,25 @@ class Database:
                 db.execute("UPDATE schema_meta SET version=4")
         finally:
             db.close()
+
+    def set_event_metadata(self, event_id, values):
+        allowed = {"product_version"}
+        unknown = set(values) - allowed
+        if unknown:
+            raise ValueError("Unsupported event metadata")
+        with self.transaction() as db:
+            if not db.execute("SELECT 1 FROM events WHERE event_id=?", (event_id,)).fetchone():
+                raise FileNotFoundError("Event was not found")
+            db.executemany(
+                "INSERT INTO event_metadata(event_id,name,value) VALUES (?,?,?) "
+                "ON CONFLICT(event_id,name) DO UPDATE SET value=excluded.value",
+                ((event_id, name, str(value)) for name, value in values.items()
+                 if value is not None),
+            )
+
+    def get_event_metadata(self, event_id):
+        return {row["name"]: row["value"] for row in self.all(
+            "SELECT name,value FROM event_metadata WHERE event_id=? ORDER BY name", (event_id,))}
 
     @contextmanager
     def transaction(self):
@@ -413,6 +437,9 @@ class Database:
                 raise LeaseLost("Task lease was lost before completion")
             batch_id = task["batch_id"]
             db.execute("DELETE FROM event_sessions WHERE batch_id=?", (batch_id,))
+            db.execute(
+                "DELETE FROM event_metadata WHERE event_id IN "
+                "(SELECT event_id FROM events WHERE batch_id=?)", (batch_id,))
             db.execute("DELETE FROM events WHERE batch_id=?", (batch_id,))
             db.execute("DELETE FROM sessions WHERE batch_id=?", (batch_id,))
             db.execute("DELETE FROM artifacts WHERE batch_id=?", (batch_id,))

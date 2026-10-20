@@ -49,16 +49,67 @@ class ServiceRuntime:
                 self.release = ReleaseMetadata(cfg, verify_rag=(role == "api"))
             if role in ("api", "worker") and cfg.get("retrieval"):
                 self.retriever = FrozenRetriever(cfg["retrieval"])
+            if cfg.get("agent_backend") in ("v11_candidate", "framework_candidate"):
+                from aiops_diag.agent_v11.release import verify as verify_v11
+                from aiops_diag.retrieval.gate_v11 import CandidateRetriever
+
+                candidate = cfg["v11_candidate"]
+                base_service_config = cfg["config_path"]
+                if cfg.get("agent_backend") == "framework_candidate":
+                    base_service_config = cfg["framework_candidate"]["base_service_config"]
+                base_release = verify_v11(
+                    cfg["agent"], candidate["protocol"], candidate["calibration"],
+                    base_service_config, candidate["release_dir"])
+                if self.retriever is None:
+                    raise ValueError("v1.1 candidate requires frozen retrieval")
+                self.retriever = CandidateRetriever(
+                    self.retriever, base_release["gate_threshold"])
+                if cfg.get("agent_backend") == "framework_candidate":
+                    from aiops_diag.framework_v12.release import verify as verify_framework
+
+                    framework = cfg["framework_candidate"]
+                    self.agent_release = verify_framework(
+                        cfg["agent"], candidate, framework, cfg["config_path"],
+                        framework["release_dir"])
+                    if cfg.get("retrieval_backend") == "langchain":
+                        from aiops_diag.framework_v12.retriever import LangChainRetrieverAdapter
+
+                        self.retriever = LangChainRetrieverAdapter(backend=self.retriever)
+                else:
+                    self.agent_release = base_release
             if role == "api" and cfg.get("rag"):
+                rag_cfg = cfg["rag"]
+                if cfg.get("agent_backend") in ("v11_candidate", "framework_candidate"):
+                    rag_cfg = {**rag_cfg, "rag_version": self.agent_release["rag_version"],
+                               "config_hash": key({"legacy_rag_config": rag_cfg["config_hash"],
+                                                   "candidate_gate": self.agent_release["release_id"]})}
                 ledger = DatabaseBudgetLedger(
-                    self.db, cfg["rag"]["provider"]["name"], cfg["rag"]["budget"],
-                    cfg["rag"]["paths"].get("budget_ledger"), scope="w8_w9_shared")
-                self.rag = RagEngine(cfg["rag"], retriever=self.retriever,
-                                     client=DeepSeekClient(cfg["rag"], ledger=ledger))
+                    self.db, rag_cfg["provider"]["name"], rag_cfg["budget"],
+                    rag_cfg["paths"].get("budget_ledger"), scope="w8_w9_shared")
+                self.rag = RagEngine(rag_cfg, retriever=self.retriever,
+                                     client=DeepSeekClient(rag_cfg, ledger=ledger))
             if cfg.get("agent"):
-                self.agent_release = verify_agent(cfg["agent"])
+                if cfg.get("agent_backend") not in ("v11_candidate", "framework_candidate"):
+                    self.agent_release = verify_agent(cfg["agent"])
                 if role == "worker":
-                    self.agent = AgentEngine(cfg["agent"], self.db, self.retriever,
+                    agent_class = AgentEngine
+                    agent_cfg = cfg["agent"]
+                    if cfg.get("agent_backend") in ("v11_candidate", "framework_candidate"):
+                        from aiops_diag.agent_v11.engine import AgentEngine as CandidateAgentEngine
+                        from aiops_diag.agent_v11.query_builder import load_config as load_query
+
+                        agent_class = CandidateAgentEngine
+                        agent_cfg = {**agent_cfg,
+                                     "agent_version": self.agent_release["agent_version"],
+                                     "report_backend": cfg.get("report_backend", "legacy"),
+                                     "query_builder": load_query(
+                                         cfg["query_builder_config"])}
+                    if (cfg.get("agent_backend") == "framework_candidate"
+                            and cfg.get("execution_backend") == "langgraph"):
+                        from aiops_diag.framework_v12.graph import LangGraphAgentEngine
+
+                        agent_class = LangGraphAgentEngine
+                    self.agent = agent_class(agent_cfg, self.db, self.retriever,
                                              self.manifest, self.agent_release)
                 if role == "api" and cfg["agent"]["approval"].get("reviewer_registry"):
                     self.reviewer_registry = ReviewerRegistry(

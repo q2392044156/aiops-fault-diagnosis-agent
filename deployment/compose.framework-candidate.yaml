@@ -1,0 +1,42 @@
+name: aiops-fault-diagnosis-framework-candidate
+
+x-framework-environment: &framework-environment
+  AIOPS_V11_CALIBRATION: /app/v11-calibration.json
+  AIOPS_V11_AGENT_RELEASE_DIR: /app/v11-agent
+  AIOPS_FRAMEWORK_RELEASE_DIR: /app/framework-agent
+  DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+  DEEPSEEK_TRACKING_ID: ${DEEPSEEK_TRACKING_ID:-}
+
+x-framework-volumes: &framework-volumes
+  - ../experiments/v1_1/gate_calibration.json:/app/v11-calibration.json:ro
+  - ../artifacts/releases/agent_v11_framework_base_rc1:/app/v11-agent:ro
+  - ../artifacts/releases/framework_v12_rc1_02:/app/framework-agent:ro
+  - ../experiments/v1_2/blind_cde_20261020_once/result.json:/app/experiments/v1_2/blind_cde_20261020_once/result.json:ro
+
+services:
+  worker:
+    image: aiops-fault-diagnosis-agent:framework-rc1
+    environment:
+      <<: *framework-environment
+    volumes: *framework-volumes
+    command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service_framework_candidate.yaml"]
+    healthcheck:
+      test: ["CMD", "python", "-m", "aiops_diag.service", "worker-health", "--config", "configs/service_framework_candidate.yaml"]
+
+  api:
+    image: aiops-fault-diagnosis-agent:framework-rc1
+    environment:
+      <<: *framework-environment
+      AIOPS_HOST: 0.0.0.0
+      AIOPS_REVIEWER_REGISTRY_FILE: /run/secrets/agent_reviewer_registry
+    volumes: *framework-volumes
+    command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service_framework_candidate.yaml"]
+
+  ui:
+    image: aiops-fault-diagnosis-agent:framework-rc1
+    environment:
+      <<: *framework-environment
+      AIOPS_API_URL: http://api:8000
+      AIOPS_PUBLIC_API_URL: http://127.0.0.1:8000
+      AIOPS_REVIEWER_TOKEN_FILE: /run/secrets/agent_reviewer_token
+    volumes: *framework-volumes

@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "status": "FRAMEWORK_RC2_ACCEPTED_V1_2_ENTRY_READY",
+  "generated_at": "2026-10-20T14:33:01.178221+00:00",
+  "scope": "research_backend_release_acceptance_not_production_effect_evidence",
+  "production_ready": false,
+  "default_research_backend": {
+    "agent_backend": "framework_candidate",
+    "execution_backend": "langgraph",
+    "report_backend": "langchain",
+    "retrieval_backend": "langchain",
+    "service_config": "configs/service_framework_rc2.yaml"
+  },
+  "versions": {
+    "product_version": "v1.1-framework-rc2",
+    "package_version": "1.1.0rc2",
+    "agent_version": "agent_v0.4.1_langgraph",
+    "rag_version": "rag_v0.3.1_query_builder",
+    "query_builder_version": "query_builder_v1",
+    "framework_release_id": "agrfw_f92678b1ee9f51fa121afff9",
+    "base_release_id": "agr11_2c22bb514af4d49743293f8a"
+  },
+  "acceptance": {
+    "offline_development": {
+      "passed": true,
+      "flow_fixture_cases": 12,
+      "real_index_cases": 12,
+      "real_index_parity": 12,
+      "real_index_expectations": 12
+    },
+    "online_deepseek": {
+      "passed": true,
+      "completed": 18,
+      "schema_valid": 18,
+      "template_fallback": 0,
+      "llm_calls": 18,
+      "tokens": 22318,
+      "estimated_cost_cny": 0.049388,
+      "p50_ms": 1613.9975,
+      "p95_ms": 2000.7123
+    },
+    "fault_and_recovery": {
+      "passed": true,
+      "pytest_result": "32 passed, 1 warning in 14.92s"
+    },
+    "sealed_once": {
+      "passed": true,
+      "flow_completed": 30,
+      "parity": 30,
+      "answer_false_refusal_count": 0,
+      "no_answer_false_return_count": 0,
+      "recall": 1.0,
+      "mrr": 0.8888888888888888,
+      "ndcg": 0.9043416469423293,
+      "identity_verified_human_reviewers": false,
+      "reusable_for_tuning_or_acceptance": false
+    },
+    "rollback": {
+      "passed": true,
+      "reports_preserved": 30,
+      "pending_approvals_preserved": 14,
+      "database_migration_performed": false
+    },
+    "full_test_suite": {
+      "passed": true,
+      "tests_passed": 158,
+      "warnings": 1
+    },
+    "python_311_clean_install": {
+      "passed": true,
+      "evidence": "deployment/Dockerfile runs locked install and pip check; image build completed",
+      "image": "aiops-fault-diagnosis-agent:framework-rc2",
+      "image_manifest_digest": "sha256:998ab625f0025b657b00c032ccdbb547b160cc26567c97d70d97daccecaf10b5"
+    },
+    "compose_validation": {
+      "framework_exit_code": 0,
+      "legacy_rollback_exit_code": 0,
+      "shared_runtime_volume": "aiops-fault-diagnosis-framework-rc2_aiops-runtime"
+    },
+    "release_verification": {
+      "base_release_verified": true,
+      "framework_release_verified": true
+    }
+  },
+  "hard_gate_counts": {
+    "invalid_citations": 0,
+    "unauthorized_tools": 0,
+    "execution_allowed": 0,
+    "budget_exceeded": 0,
+    "insufficient_evidence_llm_calls": 0,
+    "required_review_missing": 0,
+    "duplicate_paid_calls_after_recovery": 0,
+    "conflicting_reports_or_approvals_after_recovery": 0
+  },
+  "all_hard_gates_zero": true,
+  "v1_2_data_protocol": {
+    "status": "FROZEN_FOR_V1_2_DATA_COLLECTION",
+    "protocol_hash": "b89e0d0f3738c31e3535c242cd291b9af46eae87eb1356d8b81f350cbb1497b5",
+    "requires_real_human_signoff": true,
+    "metrics_without_qualified_labels_or_timestamps": "N/A"
+  },
+  "operational_files": {
+    "framework_compose": "deployment/compose.framework-rc2.yaml",
+    "runtime_mounts": "deployment/compose.rc2-runtime-mounts.yaml",
+    "verified_legacy_rollback": "deployment/compose.legacy-rollback-verified.yaml",
+    "switch_script": "deployment/switch-to-framework-rc2.ps1",
+    "rollback_script": "deployment/rollback-to-legacy-rc2.ps1"
+  },
+  "evidence_hashes": {
+    "base_release": {
+      "path": "artifacts/releases/agent_v11_framework_base_rc2/agent_v11_candidate.json",
+      "sha256": "9577a3dad7cfeae1310682d23d12205c1ee9f7432fc67091282e5423b0a58a10"
+    },
+    "framework_release": {
+      "path": "artifacts/releases/framework_v12_rc2/framework_candidate.json",
+      "sha256": "e6d5165d94fcbf4ca6fca48dd491edbd67be565fde03087ffddebede1b3d47f5"
+    },
+    "query_signals": {
+      "path": "configs/query_builder_v1.yaml",
+      "sha256": "d793482714fad16fb4c743dba9bca8758e1114a36680084208de48db58e463d1"
+    },
+    "real_index_development_set": {
+      "path": "evaluation/framework_parity/real_index_agent_cases.jsonl",
+      "sha256": "be641caae11df176ca24176551627662241152b48fa4ba1b6e92e63263b35fd0"
+    },
+    "sealed_set": {
+      "path": "evaluation/v1.1/framework_rc2_sealed_20261020/independent_test.jsonl",
+      "sha256": "5a8936aabb711b14041da64993ed8f9ee5fa7385eb4b11164536631dedd9ebff"
+    },
+    "sealed_protocol": {
+      "path": "evaluation/v1.1/framework_rc2_sealed_20261020/protocol.json",
+      "sha256": "bb2b78466f3387230285a1f50717143e926ff02f202d7602dc9b76137f54257c"
+    },
+    "sealed_freeze": {
+      "path": "evaluation/v1.1/framework_rc2_sealed_20261020/freeze_manifest.json",
+      "sha256": "7e8f7a2d79883d3b49e51c87f519a3a90eb3b8159bbe0729a88bbab013e8a62e"
+    },
+    "offline_report": {
+      "path": "deliverables/results/framework_offline_acceptance_rc2.json",
+      "sha256": "9ccd95bd4111d13ea755ed47a0ac7ab465ea9ece1fb2adfe33c35bebb495d7d4"
+    },
+    "online_report": {
+      "path": "deliverables/results/framework_online_acceptance_rc2.json",
+      "sha256": "78f5a0f30f38eb14e62c819237271f428bf416dfd5537cffac50e807d39d8b43"
+    },
+    "fault_recovery_report": {
+      "path": "deliverables/results/framework_fault_recovery_acceptance_rc2.json",
+      "sha256": "b6ae86c6a3cb35e13fec9cd4aa19a1d87300b4da63eab28c11a67599f78cfa93"
+    },
+    "sealed_result": {
+      "path": "deliverables/results/framework_sealed_acceptance_rc2_once.json",
+      "sha256": "07728a8a219285f1408d78ccccbecf959688ee2015e2f85c47771f474af81bbf"
+    },
+    "rollback_report": {
+      "path": "deliverables/results/framework_rollback_drill_rc2_pending.json",
+      "sha256": "26f19192ec0d363ea93cbf85b994eb7e502ff7922881220ddb736184c53f0600"
+    },
+    "dockerfile": {
+      "path": "deployment/Dockerfile",
+      "sha256": "a22525a3d87ea7726e3fb266160cfd4d584d968aa2863d30c8fc0c2ef077bbb7"
+    },
+    "base_compose": {
+      "path": "deployment/compose.yaml",
+      "sha256": "f08521dedb0a9748e9f1b8c3254e49f260de667b1d273a160f69456eb8b14b59"
+    },
+    "framework_compose": {
+      "path": "deployment/compose.framework-rc2.yaml",
+      "sha256": "6908980df00f4a4acefe26c3fb05c380a99c99b684d82da737acfc2b352ed992"
+    },
+    "runtime_mounts": {
+      "path": "deployment/compose.rc2-runtime-mounts.yaml",
+      "sha256": "db57ef84a1705d2a5a86465fdcf6525858e897da4ce303ee5a29a29c3741e0ea"
+    },
+    "verified_legacy_rollback": {
+      "path": "deployment/compose.legacy-rollback-verified.yaml",
+      "sha256": "89c9d9a638f0ca9a4d2801eaab676effc49187a77d245bdc29a05515fd383849"
+    },
+    "switch_script": {
+      "path": "deployment/switch-to-framework-rc2.ps1",
+      "sha256": "37cb7426cba20de15cd81e1d7cda648d6582f1a42a038dae13bdc3c847eb61a8"
+    },
+    "rollback_script": {
+      "path": "deployment/rollback-to-legacy-rc2.ps1",
+      "sha256": "3464b53b258d3d5938adf9383da0314d38a161f55f7170fe3a0d25bf5c53d0de"
+    },
+    "v1_2_protocol_manifest": {
+      "path": "evaluation/v1.2/real_incident_protocol/manifest.json",
+      "sha256": "6508ead4d42acb43f5e0570c5d57bfbd5a71ee8bc4731d964c9377a4c835ee44"
+    }
+  },
+  "boundaries": {
+    "old_revealed_60_reused": false,
+    "sealed_30_reusable_after_reveal": false,
+    "langgraph_checkpoint_deferred_to_v1_2": true,
+    "automatic_change_execution_enabled": false,
+    "production_effect_claimed": false
+  }
+}

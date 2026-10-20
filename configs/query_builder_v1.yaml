@@ -1,0 +1,53 @@
+schema_version: 1
+builder_version: query_builder_v1
+max_plans: 3
+trusted_components:
+  - DataNode
+  - JournalNode
+  - NameNode
+  - SecondaryNameNode
+  - StandbyNameNode
+severity_order:
+  FATAL: 5
+  ERROR: 4
+  WARN: 3
+  INFO: 2
+  DEBUG: 1
+signals:
+  safe_mode:
+    patterns: ["safe mode", "safemode", "安全模式"]
+    query_terms: "safe mode block report DataNode 注册状态"
+  heartbeat_missing:
+    patterns: ["heartbeat", "heart beat", "心跳", "lost datanode", "dead datanode"]
+    query_terms: "DataNode 心跳缺失 节点状态 网络连通性"
+  block_report_delayed:
+    patterns: ["block report", "blockreport", "块报告"]
+    query_terms: "block report 延迟 注册状态 NameNode 负载"
+  failed_volume:
+    patterns: ["failed volume", "volume failure", "磁盘卷故障", "卷故障"]
+    query_terms: "DataNode failed volume 磁盘容量 操作系统存储事件"
+  under_replicated:
+    patterns: ["under replicated", "under-replicated", "副本不足"]
+    query_terms: "副本不足 DataNode 健康 磁盘可用量 复制队列"
+  journal_quorum:
+    patterns: ["journalnode", "journal node", "quorum", "多数派", "法定人数"]
+    query_terms: "JournalNode 多数派 可达性 磁盘 epoch"
+  namenode_unavailable:
+    patterns: ["namenode unavailable", "connection refused", "rpc unavailable", "namenode 不可用", "连接 namenode 失败"]
+    query_terms: "NameNode 不可用 RPC 端口 HA 角色 客户端错误"
+  standby_lag:
+    patterns: ["standby lag", "standby namenode", "同步滞后"]
+    query_terms: "Standby NameNode 同步滞后 事务进度 JournalNode"
+  write_pipeline:
+    patterns: ["datastreamer", "write pipeline", "pipeline", "写入管道"]
+    query_terms: "DataStreamer write pipeline ack DataNode 日志"
+  lease_recovery:
+    patterns: ["lease recovery", "recover lease", "租约恢复"]
+    query_terms: "HDFS 租约恢复 文件状态 NameNode 日志 pipeline"
+component_defaults:
+  DataNode: "DataNode 心跳 磁盘 block report 只读证据"
+  JournalNode: "JournalNode 多数派 可达性 磁盘 epoch 只读证据"
+  NameNode: "NameNode 状态 RPC HA block report 只读证据"
+  SecondaryNameNode: "SecondaryNameNode checkpoint 元数据 只读证据"
+  StandbyNameNode: "Standby NameNode 同步 事务 JournalNode 只读证据"
+

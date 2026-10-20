@@ -93,6 +93,7 @@ services:
 
 volumes:
   aiops-runtime:
+    name: ${AIOPS_RUNTIME_VOLUME:-aiops-fault-diagnosis-framework-rc2_aiops-runtime}
 
 secrets:
   agent_reviewer_registry:

@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "status": "candidate_self_reviewed",
+  "knowledge_cards_dir": "../../knowledge/cards",
+  "sources": [
+    {
+      "source_id": "apache_hdfs_335",
+      "product_version": "3.3.5",
+      "published_at": "2023-03-22",
+      "url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+      "release_url": "https://hadoop.apache.org/release/3.3.5.html"
+    },
+    {
+      "source_id": "apache_hdfs_336",
+      "product_version": "3.3.6",
+      "published_at": "2023-06-23",
+      "url": "https://hadoop.apache.org/docs/r3.3.6/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+      "release_url": "https://hadoop.apache.org/release/3.3.6.html"
+    },
+    {
+      "source_id": "apache_hdfs_341",
+      "product_version": "3.4.1",
+      "published_at": "2024-10-18",
+      "url": "https://hadoop.apache.org/docs/r3.4.1/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+      "release_url": "https://hadoop.apache.org/releases.html"
+    },
+    {
+      "source_id": "apache_hdfs_342",
+      "product_version": "3.4.2",
+      "published_at": "2025-08-29",
+      "url": "https://hadoop.apache.org/docs/r3.4.2/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+      "release_url": "https://hadoop.apache.org/releases.html"
+    },
+    {
+      "source_id": "apache_hdfs_design_341",
+      "product_version": "3.4.1",
+      "published_at": "2024-10-18",
+      "url": "https://hadoop.apache.org/docs/r3.4.1/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html",
+      "release_url": "https://hadoop.apache.org/release/3.4.1.html"
+    },
+    {
+      "source_id": "apache_hdfs_design_342",
+      "product_version": "3.4.2",
+      "published_at": "2025-08-29",
+      "url": "https://hadoop.apache.org/docs/r3.4.2/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html",
+      "release_url": "https://hadoop.apache.org/release/3.4.2.html"
+    }
+  ],
+  "legacy_query_files": [
+    "../../knowledge/evaluation/rdev.jsonl",
+    "../../knowledge/evaluation/rtest.jsonl"
+  ],
+  "splits": {
+    "development": {
+      "queries": "development.jsonl",
+      "queries_sha256": "420be678e2dc1b83b735e144a7e7f293f61a4d50309feab66a026e15b9f7b4a5",
+      "qrels": "development_qrels.jsonl",
+      "qrels_sha256": "e8364829b2e9a26c78d5ee92b36b3d8d3d2e59a88fbbb59fc20d7f30d8a80563",
+      "annotation_status": "self_reviewed"
+    },
+    "calibration": {
+      "queries": "calibration.jsonl",
+      "queries_sha256": "673e9ed6c39c73265bb825b208d902e154f7a46cc2bebbef5e0ab2cbefdf9bc2",
+      "qrels": "calibration_qrels.jsonl",
+      "qrels_sha256": "9a45fc38892ce84688d67b081a169508f560dc216a733156837623b26b1f59bf",
+      "annotation_status": "self_reviewed"
+    },
+    "independent_test": {
+      "queries": "independent_test.jsonl",
+      "queries_sha256": "9a08bb99c34bcd217c1ee38845fc65e18860fbff015caa7cf6ed0dab2a20a6f5",
+      "qrels": "independent_test_qrels.jsonl",
+      "qrels_sha256": "313ad9309c0e2ef44911405ca7c10e66a27052fafdae7bc9d74d62a6eee31392",
+      "annotation_status": "self_reviewed"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": 2,
+  "status": "candidate_independently_reviewed",
+  "knowledge_cards_dir": "../../../knowledge/cards",
+  "sources": [
+    {"source_id":"apache_hdfs_335","product_version":"3.3.5","published_at":"2023-03-22","url":"https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html","release_url":"https://hadoop.apache.org/release/3.3.5.html"},
+    {"source_id":"apache_hdfs_336","product_version":"3.3.6","published_at":"2023-06-23","url":"https://hadoop.apache.org/docs/r3.3.6/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html","release_url":"https://hadoop.apache.org/release/3.3.6.html"},
+    {"source_id":"apache_hdfs_341","product_version":"3.4.1","published_at":"2024-10-18","url":"https://hadoop.apache.org/docs/r3.4.1/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html","release_url":"https://hadoop.apache.org/release/3.4.1.html"},
+    {"source_id":"apache_hdfs_342","product_version":"3.4.2","published_at":"2025-08-29","url":"https://hadoop.apache.org/docs/r3.4.2/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html","release_url":"https://hadoop.apache.org/releases.html"},
+    {"source_id":"apache_hdfs_design_341","product_version":"3.4.1","published_at":"2024-10-18","url":"https://hadoop.apache.org/docs/r3.4.1/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html","release_url":"https://hadoop.apache.org/release/3.4.1.html"},
+    {"source_id":"apache_hdfs_design_342","product_version":"3.4.2","published_at":"2025-08-29","url":"https://hadoop.apache.org/docs/r3.4.2/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html","release_url":"https://hadoop.apache.org/releases.html"}
+  ],
+  "legacy_query_files": [
+    "../../../knowledge/evaluation/rdev.jsonl",
+    "../../../knowledge/evaluation/rtest.jsonl"
+  ],
+  "splits": {
+    "development": {
+      "queries": "development.jsonl",
+      "queries_sha256": "9e4e3578d0e41944e94e0d73f8c32b192ea5d7e9793c3295e9884688001e8a95",
+      "qrels": "development_qrels.jsonl",
+      "qrels_sha256": "da6a619b0637a0abadd7dad3aefd25ad7cb1b69c500e875b3ffc3193a45fb225",
+      "annotation_status": "self_reviewed"
+    },
+    "calibration": {
+      "queries": "calibration.jsonl",
+      "queries_sha256": "12736f21890a487364363069c51627ac2381bae545a7d6fdd1c2914aadbb9383",
+      "qrels": "calibration_qrels.jsonl",
+      "qrels_sha256": "a228e166f03e73b84cedccc110c36c37758f3840cf7ee4e57633454f21477bf5",
+      "annotation_status": "self_reviewed"
+    },
+    "independent_test": {
+      "queries": "independent_test.jsonl",
+      "queries_sha256": "3f863990120339ac26831549144e94b1547f1b665cd9ab7e9332a4e146b8f487",
+      "qrels": "independent_test_qrels.jsonl",
+      "qrels_sha256": "f4c3d95d8ffc20444b56354f0ad6ba903fe14a14f47b9505247dc0932f48ac2c",
+      "annotation_status": "independently_reviewed"
+    }
+  },
+  "review_provenance": {
+    "author_id": "hdfs_author_c_20261019",
+    "reviewer_id": "hdfs_reviewer_d_20261019",
+    "adjudicator_id": "hdfs_adjudicator_e_20261020",
+    "identity_verification": "process_isolated_ai_roles_human_verification_required"
+  }
+}

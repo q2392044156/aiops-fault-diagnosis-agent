@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "source_sha256": "bd2d7e3dedf105eee387af16d00a7dcbe9fbed4f83da4d0dd52de06422640a5f",
+  "source_suite": "atest",
+  "run_count": 3,
+  "total_cases": 120,
+  "failure_categories": {
+    "provider_error": 8
+  },
+  "schema_returned_count": 112,
+  "schema_passed_returned_count": 112,
+  "schema_pass_rate_returned": 1.0,
+  "runs": [
+    {
+      "schema_version": 1,
+      "run_id": "atest_online_01",
+      "cases": 40,
+      "failure_categories": {
+        "provider_error": 8
+      },
+      "schema_returned_count": 32,
+      "schema_passed_returned_count": 32,
+      "schema_pass_rate_returned": 1.0,
+      "schema_pass_rate_end_to_end": 0.8,
+      "template_fallback_rate": 0.2
+    },
+    {
+      "schema_version": 1,
+      "run_id": "atest_online_02",
+      "cases": 40,
+      "failure_categories": {},
+      "schema_returned_count": 40,
+      "schema_passed_returned_count": 40,
+      "schema_pass_rate_returned": 1.0,
+      "schema_pass_rate_end_to_end": 1.0,
+      "template_fallback_rate": 0.0
+    },
+    {
+      "schema_version": 1,
+      "run_id": "atest_online_03",
+      "cases": 40,
+      "failure_categories": {},
+      "schema_returned_count": 40,
+      "schema_passed_returned_count": 40,
+      "schema_pass_rate_returned": 1.0,
+      "schema_pass_rate_end_to_end": 1.0,
+      "template_fallback_rate": 0.0
+    }
+  ]
+}

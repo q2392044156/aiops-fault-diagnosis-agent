@@ -1,0 +1,27 @@
+name: aiops-fault-diagnosis-v11-candidate
+
+services:
+  worker:
+    image: aiops-fault-diagnosis-agent:v1.1-rc1
+    environment:
+      AIOPS_V11_CALIBRATION: /app/v11-calibration.json
+      AIOPS_V11_AGENT_RELEASE_DIR: /app/v11-agent
+    volumes:
+      - ../experiments/v1_1/gate_calibration.json:/app/v11-calibration.json:ro
+      - ../artifacts/releases/agent_v11_rc1_15:/app/v11-agent:ro
+    command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service_v11_candidate.yaml"]
+    healthcheck:
+      test: ["CMD", "python", "-m", "aiops_diag.service", "worker-health", "--config", "configs/service_v11_candidate.yaml"]
+
+  api:
+    image: aiops-fault-diagnosis-agent:v1.1-rc1
+    environment:
+      AIOPS_V11_CALIBRATION: /app/v11-calibration.json
+      AIOPS_V11_AGENT_RELEASE_DIR: /app/v11-agent
+    volumes:
+      - ../experiments/v1_1/gate_calibration.json:/app/v11-calibration.json:ro
+      - ../artifacts/releases/agent_v11_rc1_15:/app/v11-agent:ro
+    command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service_v11_candidate.yaml"]
+
+  ui:
+    image: aiops-fault-diagnosis-agent:v1.1-rc1

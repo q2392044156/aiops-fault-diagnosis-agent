@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "SERVICE_ENVIRONMENT_PASSED_RESEARCH_SUITE_SEPARATE",
+  "candidate_release_id": "agr11_b992eb6f0c657cce088c6f57",
+  "python_version": "3.11.17",
+  "environment_isolated": true,
+  "include_system_site_packages": false,
+  "installer": "uv 0.12.11",
+  "service_lock_sha256": "c36580e3239a0671a008923b42ea51ca760fde6bd430f2ce648c4a00dcf42b9f",
+  "pyproject_sha256": "aed3ce0d7087e01bf9dcc52564f494d421473cea3f54e0c4101fa1b4626befbe",
+  "candidate_service_config_sha256": "7bea4c44446194b3414b8076153e425892a991a877b3b79b1ae7bb2097e8b0e5",
+  "candidate_wheel": "aiops_fault_diagnosis_agent-1.1.0rc1-py3-none-any.whl",
+  "candidate_wheel_sha256": "793cae2d795e377b2ef15fd39acaf8904fe3b6da17440540d883d4e361f17796",
+  "candidate_wheel_file_count": 85,
+  "candidate_wheel_includes_v11_agent": true,
+  "candidate_wheel_includes_experiments": false,
+  "installed_package_version": "1.1.0rc1",
+  "dependency_check": "77 packages compatible after candidate wheel installation",
+  "service_test_command": "python -m pytest -q --ignore=tests/test_lstm.py --ignore=tests/test_selection.py",
+  "service_test_result": "119 passed, 2 warnings",
+  "candidate_worker_ready": true,
+  "candidate_worker_loaded_from_installed_wheel": true,
+  "research_test_files_excluded_from_service_environment": [
+    "tests/test_lstm.py",
+    "tests/test_selection.py"
+  ],
+  "research_test_reason": "PyTorch is absent from the service dependency lock; the full 135-test suite passed in the existing research environment.",
+  "limitations": [
+    "This evidence is for a Windows clean Python environment, not the Linux Compose image.",
+    "Linux Compose and online DeepSeek acceptance are recorded separately; independent relevance review is still pending."
+  ]
+}

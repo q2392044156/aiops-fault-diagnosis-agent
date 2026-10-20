@@ -1,0 +1,6 @@
+{"schema_version":1,"case_id":"rc2_sealed_008","role":"H","decision_has_answer":true,"decision_expected_chunk_ids":["chk_39f36872c1c06af4a8a82212"],"reason":"conflicting observations still permit evidence retrieval; force review"}
+{"schema_version":1,"case_id":"rc2_sealed_010","role":"H","decision_has_answer":false,"decision_expected_chunk_ids":[],"reason":"the only component-specific card is version-scoped to 3.3.5"}
+{"schema_version":1,"case_id":"rc2_sealed_011","role":"H","decision_has_answer":false,"decision_expected_chunk_ids":[],"reason":"the only component-specific card is version-scoped to 3.3.5"}
+{"schema_version":1,"case_id":"rc2_sealed_023","role":"H","decision_has_answer":true,"decision_expected_chunk_ids":["chk_39f36872c1c06af4a8a82212"],"reason":"conflicting observations still permit evidence retrieval; force review"}
+{"schema_version":1,"case_id":"rc2_sealed_025","role":"H","decision_has_answer":false,"decision_expected_chunk_ids":[],"reason":"the only component-specific card is version-scoped to 3.3.5"}
+{"schema_version":1,"case_id":"rc2_sealed_026","role":"H","decision_has_answer":false,"decision_expected_chunk_ids":[],"reason":"the only component-specific card is version-scoped to 3.3.5"}

@@ -15,3 +15,6 @@ __pycache__/
 /runtime/
 .env
 docs/
+.env
+.env.*
+!.env.example

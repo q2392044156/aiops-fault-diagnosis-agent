@@ -1,0 +1,552 @@
+{
+  "schema_version": 1,
+  "status": "RC2_ONLINE_SERVICE_ACCEPTANCE",
+  "generated_at": "2026-10-20T07:30:20.306539+00:00",
+  "framework_release_id": "agrfw_f92678b1ee9f51fa121afff9",
+  "uses_real_deepseek": true,
+  "secret_values_recorded": false,
+  "scope": "synthetic_redacted_service_flow_not_production_effect",
+  "metrics": {
+    "completed": 18,
+    "schema_valid": 18,
+    "template_fallback": 0,
+    "llm_calls": 18,
+    "tokens": 22318,
+    "estimated_cost_cny": 0.049388,
+    "p50_ms": 1613.9975,
+    "p95_ms": 2000.7123
+  },
+  "hard_gate_counts": {
+    "invalid_citations": 0,
+    "unauthorized_tools": 0,
+    "execution_allowed": 0,
+    "budget_exceeded": 0,
+    "insufficient_evidence_llm_calls": 0,
+    "required_review_missing": 0
+  },
+  "passed": true,
+  "cases": [
+    {
+      "case_id": "online_1_real_namenode_safemode",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1353,
+        "active_ms": 1421,
+        "estimated_cost_cny": 0.002928
+      },
+      "elapsed_ms": 1992.51
+    },
+    {
+      "case_id": "online_1_real_datanode_heartbeat",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1367,
+        "active_ms": 1199,
+        "estimated_cost_cny": 0.003082
+      },
+      "elapsed_ms": 1776.962
+    },
+    {
+      "case_id": "online_1_real_datanode_failed_volume",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1345,
+        "active_ms": 1087,
+        "estimated_cost_cny": 0.002954
+      },
+      "elapsed_ms": 1676.195
+    },
+    {
+      "case_id": "online_1_real_journal_quorum",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 694,
+        "active_ms": 1045,
+        "estimated_cost_cny": 0.001616
+      },
+      "elapsed_ms": 1593.279
+    },
+    {
+      "case_id": "online_1_real_namenode_unavailable",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1344,
+        "active_ms": 698,
+        "estimated_cost_cny": 0.002946
+      },
+      "elapsed_ms": 1241.314
+    },
+    {
+      "case_id": "online_1_real_block_report",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1334,
+        "active_ms": 1037,
+        "estimated_cost_cny": 0.002968
+      },
+      "elapsed_ms": 1590.154
+    },
+    {
+      "case_id": "online_2_real_namenode_safemode",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1360,
+        "active_ms": 869,
+        "estimated_cost_cny": 0.002942
+      },
+      "elapsed_ms": 1426.315
+    },
+    {
+      "case_id": "online_2_real_datanode_heartbeat",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1342,
+        "active_ms": 1099,
+        "estimated_cost_cny": 0.002948
+      },
+      "elapsed_ms": 1638.876
+    },
+    {
+      "case_id": "online_2_real_datanode_failed_volume",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1343,
+        "active_ms": 751,
+        "estimated_cost_cny": 0.00295
+      },
+      "elapsed_ms": 1312.775
+    },
+    {
+      "case_id": "online_2_real_journal_quorum",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 696,
+        "active_ms": 963,
+        "estimated_cost_cny": 0.00162
+      },
+      "elapsed_ms": 1521.086
+    },
+    {
+      "case_id": "online_2_real_namenode_unavailable",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1340,
+        "active_ms": 1125,
+        "estimated_cost_cny": 0.002938
+      },
+      "elapsed_ms": 1668.104
+    },
+    {
+      "case_id": "online_2_real_block_report",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1349,
+        "active_ms": 1092,
+        "estimated_cost_cny": 0.002998
+      },
+      "elapsed_ms": 1624.589
+    },
+    {
+      "case_id": "online_3_real_namenode_safemode",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1384,
+        "active_ms": 1068,
+        "estimated_cost_cny": 0.003026
+      },
+      "elapsed_ms": 1632.46
+    },
+    {
+      "case_id": "online_3_real_datanode_heartbeat",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1348,
+        "active_ms": 1451,
+        "estimated_cost_cny": 0.002984
+      },
+      "elapsed_ms": 2047.192
+    },
+    {
+      "case_id": "online_3_real_datanode_failed_volume",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1328,
+        "active_ms": 886,
+        "estimated_cost_cny": 0.00292
+      },
+      "elapsed_ms": 1465.096
+    },
+    {
+      "case_id": "online_3_real_journal_quorum",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 704,
+        "active_ms": 882,
+        "estimated_cost_cny": 0.001636
+      },
+      "elapsed_ms": 1448.285
+    },
+    {
+      "case_id": "online_3_real_namenode_unavailable",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1344,
+        "active_ms": 1121,
+        "estimated_cost_cny": 0.002946
+      },
+      "elapsed_ms": 1679.33
+    },
+    {
+      "case_id": "online_3_real_block_report",
+      "http_submit_status": 202,
+      "terminal_status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_valid": true,
+      "invalid_citations": 0,
+      "execution_allowed": 0,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "review_required": false,
+      "budget": {
+        "max_tool_calls": 8,
+        "max_llm_calls": 3,
+        "max_tokens": 12000,
+        "max_active_ms": 120000,
+        "tool_calls": 5,
+        "llm_calls": 1,
+        "tokens": 1343,
+        "active_ms": 1056,
+        "estimated_cost_cny": 0.002986
+      },
+      "elapsed_ms": 1603.406
+    }
+  ]
+}

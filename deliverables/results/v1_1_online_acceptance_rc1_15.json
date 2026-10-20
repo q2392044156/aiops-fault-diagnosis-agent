@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "status": "ONLINE_ACCEPTANCE_PASSED",
+  "candidate_release_id": "agr11_b992eb6f0c657cce088c6f57",
+  "source_result_dir": "experiments/v1_1/online_rc1_15_external_01",
+  "source_manifest_sha256": "ab78856a50ec6eb925f9d46c70648cec2df71c259a48800d707bccdcec10485a",
+  "source_artifact_hash_mismatches": [],
+  "completed_rounds": 3,
+  "round_contract_passed": true,
+  "schema_pass_rate_mean": 1.0,
+  "schema_target": 0.99,
+  "template_fallback_rate_mean": 0.0,
+  "template_fallback_target_max": 0.01,
+  "p50_ms_mean": 978.6422499940576,
+  "p95_ms_mean": 1408.2035500090567,
+  "hard_gate_counts": {
+    "insufficient_status_violations": 0,
+    "insufficient_llm_call_violations": 0,
+    "invalid_references_released": 0,
+    "execution_violations": 0,
+    "operational_text_violations": 0,
+    "untrusted_text_violations": 0,
+    "agent_budget_violations": 0
+  },
+  "budget_stops": 0,
+  "total_usage": {
+    "input_tokens": 45102,
+    "output_tokens": 3231,
+    "calls": 102,
+    "estimated_cost_cny": 0.116052
+  },
+  "rounds": [
+    {
+      "run_id": "v11_online_01",
+      "cases_completed": 40,
+      "supported_case_count": 34,
+      "direct_generation_count": 34,
+      "template_fallback_count": 0,
+      "insufficient_case_count": 6,
+      "usage_delta": {
+        "input_tokens": 15034,
+        "output_tokens": 1096,
+        "calls": 34,
+        "estimated_cost_cny": 0.038836
+      }
+    },
+    {
+      "run_id": "v11_online_02",
+      "cases_completed": 40,
+      "supported_case_count": 34,
+      "direct_generation_count": 34,
+      "template_fallback_count": 0,
+      "insufficient_case_count": 6,
+      "usage_delta": {
+        "input_tokens": 15034,
+        "output_tokens": 1055,
+        "calls": 34,
+        "estimated_cost_cny": 0.038508
+      }
+    },
+    {
+      "run_id": "v11_online_03",
+      "cases_completed": 40,
+      "supported_case_count": 34,
+      "direct_generation_count": 34,
+      "template_fallback_count": 0,
+      "insufficient_case_count": 6,
+      "usage_delta": {
+        "input_tokens": 15034,
+        "output_tokens": 1080,
+        "calls": 34,
+        "estimated_cost_cny": 0.038708
+      }
+    }
+  ],
+  "limitation": "Synthetic Atest-derived online stability and safety evidence; not root-cause accuracy, retrieval relevance, or production effectiveness."
+}

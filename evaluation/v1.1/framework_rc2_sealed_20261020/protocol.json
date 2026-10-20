@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "SEALED_BEFORE_OFFICIAL_RUN",
+  "created_at": "2026-10-20T00:00:00+08:00",
+  "official_run_limit": 1,
+  "versions": {
+    "3.4.1": 15,
+    "3.4.2": 15
+  },
+  "labels": {
+    "answerable": 18,
+    "no_answer": 12
+  },
+  "roles": {
+    "F": "AI_process_role",
+    "G": "AI_process_role",
+    "H": "AI_process_role"
+  },
+  "identity_verified_humans": false,
+  "old_revealed_60_used": false,
+  "quality_policy": "report_all_retrieval_metrics_no_10_percent_hard_gate",
+  "hard_gates": [
+    "invalid_citations",
+    "unauthorized_tools",
+    "execution_allowed",
+    "budget_exceeded",
+    "insufficient_evidence_llm_calls",
+    "required_review_missing",
+    "duplicate_paid_calls_after_recovery",
+    "conflicting_reports_or_approvals_after_recovery"
+  ]
+}

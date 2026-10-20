@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "status": "ONLINE_ACCEPTANCE_PASSED",
+  "candidate_release_id": "agr11_3712af4e67bef4866eabde37",
+  "source_result_dir": "experiments/v1_1/online_rc1_12_external_01",
+  "source_manifest_sha256": "b893a02a6b53f894468449d3a955314559a1d932e224db00e1d6774cdc537302",
+  "source_artifact_hash_mismatches": [],
+  "completed_rounds": 3,
+  "round_contract_passed": true,
+  "schema_pass_rate_mean": 1.0,
+  "schema_target": 0.99,
+  "template_fallback_rate_mean": 0.0,
+  "template_fallback_target_max": 0.01,
+  "p50_ms_mean": 996.9389500135245,
+  "p95_ms_mean": 1228.4060366713672,
+  "hard_gate_counts": {
+    "insufficient_status_violations": 0,
+    "insufficient_llm_call_violations": 0,
+    "invalid_references_released": 0,
+    "execution_violations": 0,
+    "operational_text_violations": 0,
+    "untrusted_text_violations": 0,
+    "agent_budget_violations": 0
+  },
+  "budget_stops": 0,
+  "rounds": [
+    {
+      "run_id": "v11_online_01",
+      "cases_completed": 40,
+      "supported_case_count": 34,
+      "direct_generation_count": 34,
+      "template_fallback_count": 0,
+      "insufficient_case_count": 6,
+      "usage_delta": {
+        "input_tokens": 15034,
+        "output_tokens": 1059,
+        "calls": 34,
+        "estimated_cost_cny": 0.03854
+      }
+    },
+    {
+      "run_id": "v11_online_02",
+      "cases_completed": 40,
+      "supported_case_count": 34,
+      "direct_generation_count": 34,
+      "template_fallback_count": 0,
+      "insufficient_case_count": 6,
+      "usage_delta": {
+        "input_tokens": 15034,
+        "output_tokens": 1047,
+        "calls": 34,
+        "estimated_cost_cny": 0.038444
+      }
+    },
+    {
+      "run_id": "v11_online_03",
+      "cases_completed": 40,
+      "supported_case_count": 34,
+      "direct_generation_count": 34,
+      "template_fallback_count": 0,
+      "insufficient_case_count": 6,
+      "usage_delta": {
+        "input_tokens": 15034,
+        "output_tokens": 1031,
+        "calls": 34,
+        "estimated_cost_cny": 0.038316
+      }
+    }
+  ],
+  "limitation": "Synthetic Atest-derived online stability and safety evidence; not root-cause accuracy, retrieval relevance, or production effectiveness."
+}

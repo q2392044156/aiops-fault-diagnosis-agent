@@ -1,0 +1,42 @@
+schema_version: 4
+model_config: configs/model_lr.yaml
+retrieval_config: configs/retrieval.yaml
+rag_config: configs/rag.yaml
+agent_config: configs/agent.yaml
+agent_backend: v11_candidate
+v11_candidate:
+  protocol: evaluation/v1.1/protocol.json
+  calibration: experiments/v1_1/gate_calibration.json
+  release_dir: artifacts/releases/agent_v11_framework_base_rc1
+w4_release_dir: experiments/time_event_v1/model_selection_v1/final
+release_dir: artifacts/releases/v1.0_service
+server:
+  host: 127.0.0.1
+  port: 8000
+  workers: 1
+upload:
+  max_bytes: 268435456
+  chunk_bytes: 1048576
+processing:
+  max_line_bytes: 1048576
+  parquet_batch_rows: 10000
+  inference_batch_sessions: 2048
+  event_max_gap_seconds: 300
+  event_max_span_seconds: 1800
+worker:
+  poll_seconds: 0.2
+  heartbeat_seconds: 5
+  heartbeat_max_age_seconds: 15
+  lease_seconds: 30
+  queue_capacity: 32
+  agent_queue_capacity: 16
+ui:
+  api_url: http://127.0.0.1:8000
+  refresh_seconds: 2
+paths:
+  runtime_dir: runtime/v1_1_framework_base
+  database: runtime/v1_1_framework_base/service.sqlite3
+registered_batches:
+  w1_dev:
+    kind: w1_parquet
+    path: data/processed/b6ec93dcf0ef27974252/dev_logs.parquet

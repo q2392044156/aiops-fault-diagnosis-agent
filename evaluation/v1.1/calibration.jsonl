@@ -1,0 +1,4 @@
+{"query_id":"v11_cal_001","family_id":"v11_cal_heartbeat_window","split":"calibration","query":"HDFS 3.3.6 DataNode 心跳消失后，如何只读核对节点状态和时间窗口？","has_answer":true,"source_id":"apache_hdfs_336","product_version":"3.3.6"}
+{"query_id":"v11_cal_002","family_id":"v11_cal_lease_evidence","split":"calibration","query":"HDFS 3.3.6 文件租约恢复迟缓时，应保留哪些日志和客户端证据？","has_answer":true,"source_id":"apache_hdfs_336","product_version":"3.3.6"}
+{"query_id":"v11_cal_003","family_id":"v11_cal_rbf_rdbms_token","split":"calibration","query":"HDFS 3.3.6 Router Federation 使用 MySQL 保存委托令牌的完整 JDBC 配置是什么？","has_answer":false,"source_id":"apache_hdfs_336","product_version":"3.3.6"}
+{"query_id":"v11_cal_004","family_id":"v11_cal_safe_mode_api","split":"calibration","query":"Hadoop 3.3.6 新增 SafeMode 接口的 Java 方法签名和异常定义全文是什么？","has_answer":false,"source_id":"apache_hdfs_336","product_version":"3.3.6"}

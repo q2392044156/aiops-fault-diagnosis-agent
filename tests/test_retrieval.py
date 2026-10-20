@@ -11,6 +11,7 @@ from aiops_diag.data.common import digest
 from aiops_diag.retrieval.config import load
 from aiops_diag.retrieval.corpus import chunk_structured, load_sources, validate_corpus
 from aiops_diag.retrieval.engine import BM25, Retriever, reciprocal_rank_fusion, tokenize
+from aiops_diag.retrieval.gate_v11 import choose_gate_candidate
 from aiops_diag.retrieval.release import FrozenRetriever, verify
 from aiops_diag.retrieval.workflow import validate
 import aiops_diag.retrieval.workflow as retrieval_workflow
@@ -80,6 +81,20 @@ def test_retriever_gate_and_version_filter():
                        gate_threshold=0.9)
     assert engine.search("safe mode", component="NameNode", product_version="3.3.5")["items"][0]["chunk_id"] == "a"
     assert engine.search("safe mode", component="NameNode", product_version="2.0")["status"] == "insufficient_evidence"
+
+
+def test_gate_calibration_uses_query_product_version():
+    seen = []
+
+    class ScoredEngine:
+        def search(self, _query, **kwargs):
+            seen.append(kwargs["product_version"])
+            return {"gate_score": 0.8 if kwargs["product_version"] == "3.3.5" else 0.2}
+
+    queries = [{"query": "supported", "has_answer": True, "product_version": "3.3.5"},
+               {"query": "other", "has_answer": False, "product_version": "3.4.1"}]
+    assert choose_gate_candidate(ScoredEngine(), queries, 0.0) == 0.8
+    assert seen == ["3.3.5", "3.4.1"]
 
 
 def test_release_verification_rejects_tampering(tmp_path):

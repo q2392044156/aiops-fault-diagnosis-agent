@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/aiops/v1.2/incident.schema.json",
+  "title": "AIOps v1.2 real incident record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "incident_id", "cluster_alias", "product_version",
+    "authorization", "timestamps", "diagnosis_snapshot", "labels"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "incident_id": {"type": "string", "pattern": "^inc_[A-Za-z0-9_-]{8,64}$"},
+    "cluster_alias": {"type": "string", "pattern": "^cluster_[A-Za-z0-9_-]+$"},
+    "product_version": {"type": ["string", "null"], "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "fault_family": {"type": ["string", "null"]},
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorization_id", "approved_at", "retention_until", "deletion_contact"],
+      "properties": {
+        "authorization_id": {"type": "string"},
+        "approved_at": {"type": "string", "format": "date-time"},
+        "retention_until": {"type": "string", "format": "date-time"},
+        "deletion_contact": {"type": "string"}
+      }
+    },
+    "timestamps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fault_start", "first_observable_signal", "agent_detected", "human_confirmed", "recovered"],
+      "properties": {
+        "fault_start": {"type": ["string", "null"], "format": "date-time"},
+        "first_observable_signal": {"type": ["string", "null"], "format": "date-time"},
+        "agent_detected": {"type": ["string", "null"], "format": "date-time"},
+        "human_confirmed": {"type": ["string", "null"], "format": "date-time"},
+        "recovered": {"type": ["string", "null"], "format": "date-time"},
+        "timezone_source": {"type": ["string", "null"]}
+      }
+    },
+    "diagnosis_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cutoff_time", "log_refs", "metric_refs", "ticket_refs"],
+      "properties": {
+        "cutoff_time": {"type": "string", "format": "date-time"},
+        "log_refs": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}},
+        "metric_refs": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}},
+        "ticket_refs": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root_cause_code", "confidence", "review_status", "evidence_refs"],
+      "properties": {
+        "root_cause_code": {"type": ["string", "null"]},
+        "confidence": {"enum": ["confirmed", "high", "medium", "low", "unknown"]},
+        "review_status": {"enum": ["draft", "reviewed", "adjudicated", "unresolved"]},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}},
+        "creator_id": {"type": ["string", "null"]},
+        "reviewer_id": {"type": ["string", "null"]},
+        "adjudicator_id": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "$defs": {
+    "evidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref_id", "content_sha256", "redaction_status", "observed_at"],
+      "properties": {
+        "ref_id": {"type": "string"},
+        "content_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "redaction_status": {"const": "approved_redacted"},
+        "observed_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "status": "INITIAL_CONTROLLED_VOCABULARY",
+  "categories": [
+    {"code": "NN_AVAILABILITY", "component": "NameNode"},
+    {"code": "NN_SAFE_MODE", "component": "NameNode"},
+    {"code": "DN_HEARTBEAT", "component": "DataNode"},
+    {"code": "DN_VOLUME", "component": "DataNode"},
+    {"code": "BLOCK_REPLICATION", "component": "BlockManager"},
+    {"code": "BLOCK_REPORT", "component": "DataNode"},
+    {"code": "JOURNAL_QUORUM", "component": "JournalNode"},
+    {"code": "HA_STANDBY_LAG", "component": "StandbyNameNode"},
+    {"code": "CLIENT_WRITE_PIPELINE", "component": "HDFS Client"},
+    {"code": "NETWORK_CONNECTIVITY", "component": "cross-component"},
+    {"code": "UNKNOWN", "component": null}
+  ],
+  "rule": "A label identifies an evidenced root cause, not merely an observed symptom."
+}

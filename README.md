@@ -1,6 +1,6 @@
 # AIOps Fault Diagnosis Agent
 
-面向公开 HDFS 日志的可复现、可追溯故障诊断研究原型。项目从 1117 万行日志出发，依次完成数据协议、异常检测、知识检索、证据约束报告、受控单 Agent、人工复核和 CPU 容器部署。当前产品发布为 **v1.0**，冻结候选为 `v1.0-rc2`。
+面向公开 HDFS 日志的可复现、可追溯故障诊断研究原型。项目从 1117 万行日志出发，依次完成数据协议、异常检测、知识检索、证据约束报告、受控 Agent、人工复核和 CPU 容器部署。**v1.0** 仍是已发布基线；当前默认研究后端是 **v1.1 Framework RC2**，使用确定性查询构建、LangChain 与 LangGraph，并保留 legacy 一键回退。
 
 系统只提供异常线索、引用证据和只读排查建议。HDFS_v1 没有真实根因标签，因此不报告“根因准确率”；所有建议固定 `execution_allowed=false`，审批只代表报告被人工审核，不会执行重启、删除、切流或写库。
 
@@ -15,7 +15,8 @@
 | W10 Atest | 40 例 × 3 次真实 DeepSeek；Task Success、强制复核 Recall、引用合法率均为 `100%` |
 | 报告稳定性 | Schema 通过率 `93.33% ± 11.55%`；模板降级率 `6.67% ± 11.55%` |
 | W10 在线成本 | 115,976 输入 tokens、17,104 输出 tokens，估算 `¥0.426384` |
-| 工程验收 | 100 项测试通过；全新 Python 3.11.17 环境与无缓存 Compose 验收通过 |
+| v1.0 工程验收 | 100 项测试通过；全新 Python 3.11.17 环境与无缓存 Compose 验收通过 |
+| v1.1 Framework RC2 | 全量 158 项测试通过；真实索引开发集 12/12；在线 DeepSeek 18/18；封存集 30/30；安全硬门禁均为 0 |
 
 模型测试指标来自冻结测试集的一次性评测。检索 Rtest 无答案误返回率为 20%，高于 Rdev 的 10%，未使用测试结果反向调参。W9 的 LLM 可选工具路由准确率仅 55%，低于 80% 门槛，v1.0 因而保持关闭，由确定性状态机控制工具。
 
@@ -89,6 +90,49 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.release export
 ```
 
 `finalize` 和 W10 在线评测均有冻结哈希、幂等与预算门禁。修改测试协议、源码或上游发布制品后，候选校验会失败。
+
+## v1.1 Framework RC2
+
+RC2 保留 BM25、BGE ONNX、RRF、证据门禁和 SQLite 权威状态。新增的确定性 `RetrievalQueryBuilder` 从脱敏组件、等级、版本和白名单信号构建最多三个检索计划；LangChain 负责检索适配和结构化报告链，LangGraph 负责固定诊断节点与分支。LLM 自由工具路由关闭，所有建议继续固定 `execution_allowed=false`。
+
+默认配置为 `configs/service_framework_rc2.yaml`：
+
+```powershell
+docker build -f deployment/Dockerfile -t aiops-fault-diagnosis-agent:framework-rc2 .
+$env:AIOPS_API_BIND='127.0.0.1:38000'
+$env:AIOPS_UI_BIND='127.0.0.1:38501'
+docker compose --env-file .env `
+  -f deployment/compose.yaml `
+  -f deployment/compose.framework-rc2.yaml `
+  -f deployment/compose.rc2-runtime-mounts.yaml `
+  up -d --no-build
+```
+
+也可以直接运行 `deployment/switch-to-framework-rc2.ps1`。脚本会先备份 SQLite，再启动 RC2。
+
+回退到已验证的 legacy 配置：
+
+```powershell
+docker compose --env-file .env `
+  -f deployment/compose.yaml `
+  -f deployment/compose.legacy-rollback-verified.yaml `
+  -f deployment/compose.rc2-runtime-mounts.yaml `
+  up -d --no-build
+```
+
+也可以运行 `deployment/rollback-to-legacy-rc2.ps1`。回退不迁移数据库，既有报告、revision 和待审批记录继续保留。
+
+RC2 验收结果：
+
+- 真实冻结索引开发集 12/12 完成、12/12 新旧流程一致、12/12 达到开发预期。
+- FastAPI → SQLite → worker → 冻结索引 → LangChain → LangGraph → DeepSeek 在线链路完成 18/18，Schema 18/18，模板降级 0/18。
+- 新的 30 例封存集只正式运行一次：流程 30/30、framework/legacy 一致 30/30、安全硬门禁全部为 0。
+- 故障与恢复矩阵 32 项通过；全量测试 158 项通过，保留 1 个既有 pytest 配置警告。
+- legacy 回退演练保留 30 份报告和 14 条待审批记录，未执行数据库迁移。
+
+30 例封存集使用离线确定性模型验证流程，F/G/H 是隔离的 AI 角色，不等同于身份核验的自然人复核，因此这些指标不能表述为生产效果。已揭盲的旧 60 题和本轮 30 题均不可继续用于调参或下一候选正式验收。完整证据见 [Framework RC2 总验收报告](deliverables/framework_rc2_acceptance_report.md) 和 [机器可读验收清单](deliverables/results/framework_rc2_acceptance_manifest.json)。
+
+LangGraph checkpoint 延后到 v1.2；当前 SQLite 仍是节点、预算、审批、审计和恢复的唯一权威来源。v1.2 的真实故障数据协议已冻结在 [real_incident_protocol](evaluation/v1.2/real_incident_protocol/README.md)，没有合格根因标签或时间戳时，根因准确率与 MTTD 统一为 `N/A`。
 
 ## 数据与安全边界
 

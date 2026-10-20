@@ -1,0 +1,6 @@
+-r requirements-service-lock.txt
+
+# Framework candidate dependencies. The provider client remains the project's
+# existing audited DeepSeekClient during the parallel-validation phase.
+langchain-core==1.6.12
+langgraph==1.2.16

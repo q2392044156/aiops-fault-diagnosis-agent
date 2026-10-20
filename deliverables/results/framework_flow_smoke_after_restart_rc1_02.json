@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "status": "FRAMEWORK_FLOW_SMOKE",
+  "health": "ready",
+  "release_id": "agrfw_ae81d2f59c07a4bd67f36bc9",
+  "agent_version": "agent_v0.4_langgraph_candidate",
+  "rag_version": "rag_v0.3_langchain_candidate",
+  "task": {
+    "task_id": "tsk_2bbfe05718cb343e309e0ebb",
+    "batch_id": "bat_2bbfe05718cb343e309e0ebb",
+    "status": "SUCCEEDED",
+    "deduplicated": true
+  },
+  "diagnosis": {
+    "diagnosis_id": "dia_21daba465538a8d875c6d318",
+    "status": "WAITING_REVIEW",
+    "current_node": "REPORT_VALIDATED",
+    "deduplicated": true,
+    "llm_calls": 0,
+    "tool_calls": 6
+  },
+  "tool_names": [
+    "detect_anomaly",
+    "query_logs",
+    "retrieve_runbook",
+    "rank_root_causes",
+    "generate_incident_report",
+    "request_human_approval"
+  ],
+  "report": {
+    "report_id": "irpt_ca989c7229c6f48d544dbb46",
+    "diagnosis_status": "INSUFFICIENT_EVIDENCE",
+    "requires_review": true,
+    "execution_allowed_count": 0,
+    "invalid_citation_count": 0,
+    "agent_version": "agent_v0.4_langgraph_candidate"
+  }
+}

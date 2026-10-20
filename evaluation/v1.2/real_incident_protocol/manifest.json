@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_FOR_V1_2_DATA_COLLECTION",
+  "frozen_at": "2026-10-20T00:00:00+08:00",
+  "requires_real_human_signoff": true,
+  "minimum_incident_count_for_start": null,
+  "metrics_without_qualified_labels_or_timestamps": "N/A",
+  "files": {
+    "README.md": "cc7fccbd9a091aba19caafcca2ddbb2d604215c0689a7f4b514986861f8ceedc",
+    "incident.schema.json": "dafc2144cd5c7504bf7ffd814bcaccda60673989b642e59dc848098fceaf7444",
+    "review_and_split.md": "2820e49ad3009a1d84f8921f86eb6f68729f383082073d28f7722036127b9e3c",
+    "metrics.md": "a58138b7c247071ea6c9262418a28a5d42748f904e96b0d92cf197b54ae25a2d",
+    "privacy_and_retention.md": "abf498a3924788241d0faa875c9b81288cd2002451e6a2e57fa176c4e5373527",
+    "root_cause_taxonomy.json": "4e2e59e18bbf568b744900e4d9508d852b0a700a63cbf52300115de19828843f"
+  },
+  "protocol_hash": "b89e0d0f3738c31e3535c242cd291b9af46eae87eb1356d8b81f350cbb1497b5"
+}

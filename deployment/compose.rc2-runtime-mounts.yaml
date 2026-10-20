@@ -1,0 +1,9 @@
+services:
+  worker:
+    volumes: &release-verification-mounts
+      - ./compose.framework-rc2.yaml:/app/deployment/compose.framework-rc2.yaml:ro
+      - ./compose.legacy-rollback-rc2.yaml:/app/deployment/compose.legacy-rollback-rc2.yaml:ro
+  api:
+    volumes: *release-verification-mounts
+  ui:
+    volumes: *release-verification-mounts

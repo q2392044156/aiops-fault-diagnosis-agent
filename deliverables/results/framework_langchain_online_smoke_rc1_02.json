@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "status": "FRAMEWORK_LANGCHAIN_ONLINE_SMOKE",
+  "diagnosis_status": "EVIDENCE_SUPPORTED",
+  "summary_schema_valid": true,
+  "model_controlled_citation_count": 0,
+  "execution_allowed_count": 0,
+  "agent_budget": {
+    "max_tool_calls": 8,
+    "max_llm_calls": 3,
+    "max_tokens": 12000,
+    "max_active_ms": 120000,
+    "tool_calls": 0,
+    "llm_calls": 1,
+    "tokens": 481,
+    "active_ms": 552,
+    "estimated_cost_cny": 0.001172
+  },
+  "errors": [],
+  "provider_usage_delta": {
+    "input_tokens": 446,
+    "output_tokens": 35,
+    "estimated_cost_cny": 0.001172,
+    "calls": 1
+  },
+  "synthetic_input": true
+}
