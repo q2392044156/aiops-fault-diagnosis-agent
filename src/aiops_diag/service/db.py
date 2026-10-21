@@ -129,6 +129,37 @@ CREATE TABLE IF NOT EXISTS provider_reservations(
   scope TEXT NOT NULL, reserved_tokens INTEGER NOT NULL, reserved_cost_cny REAL NOT NULL,
   status TEXT NOT NULL, created_at TEXT NOT NULL, settled_at TEXT
 );
+CREATE TABLE IF NOT EXISTS external_event_imports(
+  event_id TEXT PRIMARY KEY REFERENCES events(event_id), dataset TEXT NOT NULL,
+  split TEXT NOT NULL, adapter_version TEXT NOT NULL, snapshot_hash TEXT NOT NULL,
+  source_hash TEXT NOT NULL, imported_at TEXT NOT NULL,
+  UNIQUE(event_id,adapter_version,snapshot_hash)
+);
+CREATE TABLE IF NOT EXISTS event_trace_evidence(
+  event_id TEXT PRIMARY KEY REFERENCES events(event_id), summary_json TEXT NOT NULL,
+  evidence_hash TEXT NOT NULL, source_version TEXT NOT NULL,
+  observed_at TEXT, observed_until TEXT
+);
+CREATE TABLE IF NOT EXISTS incident_registry(
+  incident_id TEXT PRIMARY KEY, record_hash TEXT NOT NULL, record_json TEXT NOT NULL,
+  authorization_id TEXT NOT NULL, retention_until TEXT NOT NULL, status TEXT NOT NULL,
+  imported_at TEXT NOT NULL, deleted_at TEXT, deletion_reason TEXT
+);
+CREATE TABLE IF NOT EXISTS langgraph_checkpoints(
+  thread_id TEXT NOT NULL, checkpoint_ns TEXT NOT NULL, checkpoint_id TEXT NOT NULL,
+  parent_checkpoint_id TEXT, checkpoint_type TEXT NOT NULL, checkpoint_blob BLOB NOT NULL,
+  metadata_type TEXT NOT NULL, metadata_blob BLOB NOT NULL, state_hash TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  PRIMARY KEY(thread_id,checkpoint_ns,checkpoint_id)
+);
+CREATE INDEX IF NOT EXISTS idx_langgraph_checkpoints_latest
+  ON langgraph_checkpoints(thread_id,checkpoint_ns,checkpoint_id DESC);
+CREATE TABLE IF NOT EXISTS langgraph_writes(
+  thread_id TEXT NOT NULL, checkpoint_ns TEXT NOT NULL, checkpoint_id TEXT NOT NULL,
+  task_id TEXT NOT NULL, task_path TEXT NOT NULL, write_index INTEGER NOT NULL,
+  channel TEXT NOT NULL, value_type TEXT NOT NULL, value_blob BLOB NOT NULL,
+  PRIMARY KEY(thread_id,checkpoint_ns,checkpoint_id,task_id,write_index)
+);
 """
 
 
@@ -201,16 +232,17 @@ class Database:
                     db.execute(f"ALTER TABLE tasks ADD COLUMN {name} TEXT")
             rows = db.execute("SELECT version FROM schema_meta").fetchall()
             if not rows:
-                db.execute("INSERT INTO schema_meta(version) VALUES (4)")
-            elif len(rows) != 1 or rows[0][0] not in (1, 2, 3, 4):
+                db.execute("INSERT INTO schema_meta(version) VALUES (5)")
+            elif len(rows) != 1 or rows[0][0] not in (1, 2, 3, 4, 5):
                 raise ValueError("Unsupported service database schema")
             else:
-                db.execute("UPDATE schema_meta SET version=4")
+                db.execute("UPDATE schema_meta SET version=5")
         finally:
             db.close()
 
     def set_event_metadata(self, event_id, values):
-        allowed = {"product_version"}
+        allowed = {"product_version", "source_type", "dataset", "split",
+                   "snapshot_hash", "cluster_alias"}
         unknown = set(values) - allowed
         if unknown:
             raise ValueError("Unsupported event metadata")

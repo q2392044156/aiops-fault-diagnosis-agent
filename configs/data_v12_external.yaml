@@ -1,0 +1,10 @@
+schema_version: 1
+adapter_version: v12_open_data_v1
+source_root: data/external/loghub
+seed: 20261021
+split_protocol: public_group_isolated_v1
+raw_data_mode: read_only
+export_raw_messages: false
+export_host_or_network_identifiers: false
+production_root_cause_metrics: N/A
+mttd: N/A

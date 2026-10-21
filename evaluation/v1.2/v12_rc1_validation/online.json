@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "status": "V12_ONLINE_ENGINEERING_VALIDATION",
+  "formal_independent_evaluation": false,
+  "case_count": 3,
+  "passed": true,
+  "cases": [
+    {
+      "case_id": "online_01",
+      "event_id": "evt_ext_hdfs_v3_tracebench_006f12b28dfa043d09b1",
+      "diagnosis_id": "dia_16a4cdbf669a3e36b36614ef",
+      "status": "WAITING_REVIEW",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_version": 2,
+      "requires_review": true,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "read_trace_summary",
+        "retrieve_runbook",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report",
+        "request_human_approval"
+      ],
+      "tool_calls": 8,
+      "llm_calls": 1,
+      "tokens": 1976,
+      "estimated_cost_cny": 0.004288,
+      "error_code": null
+    },
+    {
+      "case_id": "online_02",
+      "event_id": "evt_ext_hdfs_v3_tracebench_01d76fad7e225afe798f",
+      "diagnosis_id": "dia_c6c2dacbeb0f124428aacb74",
+      "status": "COMPLETED",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_version": 2,
+      "requires_review": false,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "read_trace_summary",
+        "retrieve_runbook",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report"
+      ],
+      "tool_calls": 7,
+      "llm_calls": 1,
+      "tokens": 2014,
+      "estimated_cost_cny": 0.00434,
+      "error_code": null
+    },
+    {
+      "case_id": "online_03",
+      "event_id": "evt_ext_hdfs_v3_tracebench_01fc9e0e39a6b99b70d6",
+      "diagnosis_id": "dia_d656a5b7f880aefd9cd84390",
+      "status": "WAITING_REVIEW",
+      "diagnosis_status": "EVIDENCE_SUPPORTED",
+      "schema_version": 2,
+      "requires_review": true,
+      "tool_names": [
+        "detect_anomaly",
+        "query_logs",
+        "read_trace_summary",
+        "retrieve_runbook",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report",
+        "request_human_approval"
+      ],
+      "tool_calls": 8,
+      "llm_calls": 1,
+      "tokens": 1968,
+      "estimated_cost_cny": 0.004182,
+      "error_code": null
+    }
+  ]
+}

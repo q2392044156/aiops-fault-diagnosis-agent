@@ -15,6 +15,10 @@ __pycache__/
 /runtime/
 .env
 docs/
-.env
 .env.*
 !.env.example
+
+# Non-project interview/demo materials
+/deliverables/*面试*.pptx
+/deliverables/interview_*.md
+/deliverables/demo/

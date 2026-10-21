@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "status": "IMPLEMENTATION_CANDIDATE",
+  "product_version": "v1.2-rc1",
+  "package_version": "1.2.0rc1",
+  "release_id": "agr12_e02792621c34f36d377e179c",
+  "release_directory": "artifacts/releases/v1_2_rc1_09",
+  "public_data": {
+    "events": 419,
+    "loghub_hadoop": 55,
+    "hdfs_v3_tracebench": 364,
+    "development": 265,
+    "calibration": 87,
+    "public_independent_test": 67,
+    "strict_blind_test": false
+  },
+  "validation": {
+    "pytest_passed": 164,
+    "pytest_warnings": 1,
+    "online_engineering_cases": 3,
+    "online_engineering_passed": 3,
+    "online_tokens": 5958,
+    "online_estimated_cost_cny": 0.01281,
+    "report_schema_failures": 0,
+    "runtime_hard_gate_failures": 0,
+    "docker_image": "aiops-fault-diagnosis-agent:v1.2-rc1",
+    "docker_build_passed": true,
+    "compose_api_ready": true,
+    "compose_worker_ready": true,
+    "compose_ui_ready": true
+  },
+  "metrics": {
+    "production_root_cause_top1": "N/A",
+    "production_root_cause_top3": "N/A",
+    "production_root_cause_mrr": "N/A",
+    "production_false_positive_rate": "N/A",
+    "production_mttd": "N/A"
+  },
+  "limitations": [
+    "Public fault-injection labels are not independently confirmed production root causes.",
+    "The public independent_test partition is group-isolated but already public.",
+    "The three online cases are engineering validation cases from the development partition."
+  ]
+}

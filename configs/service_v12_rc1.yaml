@@ -1,0 +1,52 @@
+schema_version: 4
+model_config: configs/model_lr.yaml
+retrieval_config: configs/retrieval.yaml
+rag_config: configs/rag.yaml
+agent_config: configs/agent.yaml
+query_builder_config: configs/query_builder_v1.yaml
+agent_backend: framework_candidate
+execution_backend: langgraph
+report_backend: langchain
+retrieval_backend: langchain
+v11_candidate:
+  protocol: evaluation/v1.1/protocol.json
+  calibration: experiments/v1_1/gate_calibration.json
+  release_dir: artifacts/releases/agent_v11_framework_base_rc2
+framework_candidate:
+  base_service_config: configs/service_v11_framework_base_rc2.yaml
+  release_dir: artifacts/releases/framework_v12_rc2
+  prior_blind_observation: experiments/v1_2/blind_cde_20261020_once/result.json
+v12:
+  enabled: true
+  release_dir: artifacts/releases/v1_2_rc1_09
+  data_config: configs/data_v12_external.yaml
+  incident_protocol: evaluation/v1.2/real_incident_protocol/incident.schema.json
+  checkpoint:
+    enabled: true
+    backend: sqlite
+    namespace: agent-v12
+w4_release_dir: experiments/time_event_v1/model_selection_v1/final
+release_dir: artifacts/releases/v1.0_service
+server: {host: 127.0.0.1, port: 8000, workers: 1}
+upload: {max_bytes: 268435456, chunk_bytes: 1048576}
+processing:
+  max_line_bytes: 1048576
+  parquet_batch_rows: 10000
+  inference_batch_sessions: 2048
+  event_max_gap_seconds: 300
+  event_max_span_seconds: 1800
+worker:
+  poll_seconds: 0.2
+  heartbeat_seconds: 5
+  heartbeat_max_age_seconds: 15
+  lease_seconds: 30
+  queue_capacity: 32
+  agent_queue_capacity: 16
+ui: {api_url: "http://127.0.0.1:8000", refresh_seconds: 2}
+paths:
+  runtime_dir: runtime/framework_v12_rc1
+  database: runtime/framework_v12_rc1/service.sqlite3
+registered_batches:
+  w1_dev:
+    kind: w1_parquet
+    path: data/processed/b6ec93dcf0ef27974252/dev_logs.parquet

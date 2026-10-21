@@ -1,6 +1,6 @@
 [project]
 name = "aiops-fault-diagnosis-agent"
-version = "1.1.0rc2"
+version = "1.2.0rc1"
 description = "Reproducible HDFS data pipeline for an AIOps research prototype"
 requires-python = ">=3.11,<3.12"
 dependencies = [

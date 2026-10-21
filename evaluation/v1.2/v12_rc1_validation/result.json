@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "public_data": {
+    "schema_version": 1,
+    "status": "PUBLIC_DATA_FLOW_EVALUATION",
+    "events": 419,
+    "labels": 419,
+    "schema_valid": 838,
+    "event_label_identity_match": true,
+    "datasets": {
+      "hdfs_v3_tracebench": {
+        "events": 364,
+        "splits": {
+          "calibration": 82,
+          "development": 235,
+          "independent_test": 47
+        },
+        "log_snapshot_events": 0,
+        "trace_snapshot_events": 364,
+        "anomaly_labels": {
+          "anomaly": 258,
+          "mixed": 18,
+          "normal": 88
+        }
+      },
+      "loghub_hadoop": {
+        "events": 55,
+        "splits": {
+          "calibration": 5,
+          "development": 30,
+          "independent_test": 20
+        },
+        "log_snapshot_events": 55,
+        "trace_snapshot_events": 0,
+        "anomaly_labels": {
+          "anomaly": 44,
+          "normal": 11
+        }
+      }
+    },
+    "public_injection_metrics": "N/A_NO_PREDICTION_FILE",
+    "production_root_cause_metrics": "N/A",
+    "mttd": "N/A",
+    "limitations": [
+      "Public injection labels are not independently confirmed production root causes.",
+      "The public independent_test split is group-isolated but not a sealed blind test."
+    ]
+  },
+  "runtime": {
+    "schema_version": 1,
+    "status": "V12_RUNTIME_SAFETY_EVALUATION",
+    "runs": 3,
+    "reports": 3,
+    "approvals": 2,
+    "report_schema_failures": 0,
+    "report_statuses": {
+      "EVIDENCE_SUPPORTED": 3
+    },
+    "checkpoint_count": 54,
+    "hard_gates": {
+      "illegal_reference_release": 0,
+      "unauthorized_tool_call": 0,
+      "execution_allowed_true": 0,
+      "budget_breakthrough": 0,
+      "insufficient_evidence_llm_call": 0,
+      "mandatory_review_missed": 0,
+      "duplicate_paid_call_after_recovery": 0,
+      "conflicting_report_after_recovery": 0,
+      "duplicate_approval_after_recovery": 0,
+      "evaluation_label_leakage": 0
+    },
+    "passed": true
+  }
+}

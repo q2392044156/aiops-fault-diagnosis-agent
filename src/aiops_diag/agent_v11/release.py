@@ -32,7 +32,12 @@ def _code_hashes():
 
 
 def _inputs(agent_cfg, protocol_path, calibration_path):
-    legacy = verify_legacy(agent_cfg)
+    legacy_dir = Path(agent_cfg["paths"]["release_dir"])
+    verified_manifest(legacy_dir, "manifest.json")
+    legacy = json.loads((legacy_dir / "agent_release.json").read_text(encoding="utf-8"))
+    if (legacy.get("product_version") != "v1.0"
+            or legacy.get("agent_version") != agent_cfg["agent_version"]):
+        raise ValueError("Legacy Agent release identity changed")
     protocol_path, calibration_path = Path(protocol_path), Path(calibration_path)
     protocol = validate_protocol(protocol_path)
     calibration = json.loads(calibration_path.read_text(encoding="utf-8"))
@@ -62,8 +67,8 @@ def _inputs(agent_cfg, protocol_path, calibration_path):
 def _package_metadata(agent_cfg):
     path = Path(agent_cfg["root"]) / "pyproject.toml"
     version = tomllib.loads(path.read_text(encoding="utf-8"))["project"]["version"]
-    if version != "1.1.0rc2":
-        raise ValueError("Candidate package version must be 1.1.0rc2")
+    if version not in {"1.1.0rc2", "1.2.0rc1"}:
+        raise ValueError("Candidate package version is unsupported")
     return version, digest(path)
 
 
@@ -148,7 +153,8 @@ def publish(agent_cfg, protocol_path, calibration_path, service_config_path, dir
     return value
 
 
-def verify(agent_cfg, protocol_path, calibration_path, service_config_path, directory):
+def verify(agent_cfg, protocol_path, calibration_path, service_config_path, directory,
+           strict_source=True):
     legacy, protocol, calibration = _inputs(agent_cfg, protocol_path, calibration_path)
     package_version, pyproject_hash = _package_metadata(agent_cfg)
     directory = Path(directory)
@@ -159,7 +165,7 @@ def verify(agent_cfg, protocol_path, calibration_path, service_config_path, dire
     candidate_hash = identity.pop("candidate_hash", None)
     if candidate_hash != key(identity) or release_id != "agr11_" + candidate_hash[:24]:
         raise ValueError("Candidate release identity changed")
-    if (value.get("product_version") != "v1.1-rc2"
+    if strict_source and (value.get("product_version") != "v1.1-rc2"
             or value.get("agent_version") != "agent_v0.3.1_query_builder"
             or value.get("prompt_hash") != key(CANDIDATE_REPORT_PROMPT)
             or value.get("package_version") != package_version

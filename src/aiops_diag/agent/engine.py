@@ -84,7 +84,10 @@ class AgentEngine:
         raise AgentYield(node)
 
     def _invoke(self, run, state, budget, name, args, function):
-        if name not in TOOLS:
+        registered = set(TOOLS)
+        if getattr(self, "cfg", {}).get("v12", {}).get("enabled"):
+            registered.add("read_trace_summary")
+        if name not in registered:
             raise ValueError("Tool is not registered")
         if budget["active_ms"] >= budget["max_active_ms"]:
             state["review_reasons"].append("budget_exhausted")

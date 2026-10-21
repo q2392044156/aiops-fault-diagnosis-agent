@@ -94,6 +94,10 @@ class AgentEngine(LegacyAgentEngine):
                     merged.append(item)
         return merged
 
+    def _collect_framework_evidence(self, run, state, budget, event_id):
+        """Extension point used by v1.2; v1.1 keeps its original tool sequence."""
+        return [], []
+
     def _run_candidate(self, run):
         """Run the v1.1 workflow with deterministic, auditable query plans."""
         state = json.loads(run["state_json"])
@@ -116,7 +120,13 @@ class AgentEngine(LegacyAgentEngine):
         log_rows = logs.get("data", {}).get("items", [])
         log_items = [log_evidence(row, self.service_manifest["release_id"])
                      for row in log_rows]
+        framework_items, framework_query_rows = self._collect_framework_evidence(
+            run, state, budget, event_id)
+        observational_items = [*log_items, *framework_items]
+        query_rows = [*log_rows, *framework_query_rows]
         components = sorted({row.get("component") for row in log_rows if row.get("component")})
+        components = sorted(set(components).union(
+            row.get("component") for row in framework_items if row.get("component")))
         summary = {"event_id": event_id, "components": components,
                    "levels": sorted({row.get("level") for row in log_rows if row.get("level")}),
                    "log_count": logs.get("data", {}).get("total", 0),
@@ -140,7 +150,9 @@ class AgentEngine(LegacyAgentEngine):
                         self.cfg["tools"]["similar_incidents_limit"]))
         self._save(run, state, budget, "EVIDENCE_COLLECTED")
 
-        plans = self.query_builder.build(log_rows, event.get("product_version"))
+        plans = self.query_builder.build(query_rows, event.get("product_version"))
+        if framework_items:
+            plans = plans[:2]
         state["retrieval_plans"] = plans
         retrieval_results = []
         for plan in plans:
@@ -155,10 +167,10 @@ class AgentEngine(LegacyAgentEngine):
         doc_rows = self._merge_documents(retrieval_results)
         doc_items = [document_evidence(row, self.retriever.manifest["kb_release_id"])
                      for row in doc_rows]
-        evidence = [*log_items, *doc_items]
+        evidence = [*observational_items, *doc_items]
         self.db.save_agent_evidence(diagnosis_id, evidence)
         state["evidence_ids"] = [row["evidence_id"] for row in evidence]
-        if not log_items or not doc_items:
+        if not observational_items or not doc_items:
             state["review_reasons"].append("insufficient_evidence")
         if any(INJECTION.search(row.get("redacted_message") or "") for row in log_rows):
             state["review_reasons"].append("prompt_injection")
@@ -166,11 +178,11 @@ class AgentEngine(LegacyAgentEngine):
 
         ranked = self._invoke(run, state, budget, "rank_root_causes", {
             "evidence_ids": state["evidence_ids"]},
-            lambda: self.tools.rank_root_causes(log_items, doc_items, components))
+            lambda: self.tools.rank_root_causes(observational_items, doc_items, components))
         hypotheses = ranked.get("data", {}).get("hypotheses", [])
         if not hypotheses:
             hypotheses = self.tools.rank_root_causes(
-                log_items, [], components)["data"]["hypotheses"]
+                observational_items, [], components)["data"]["hypotheses"]
         self._save(run, state, budget, "HYPOTHESES_RANKED")
 
         def generate_call():
@@ -207,13 +219,15 @@ class AgentEngine(LegacyAgentEngine):
         requires_review = bool(state["review_reasons"])
         risk = "high" if any(item.risk == "high" for item in actions) else (
             "unknown" if confidence == "unknown" else "low")
-        clean_evidence = [Evidence.model_validate({name: row[name] for name in (
+        clean_evidence = [Evidence.model_validate({name: row.get(name) for name in (
             "evidence_id", "kind", "source_ref", "version", "observed_at",
-            "excerpt_redacted", "evidence_hash")}).model_dump() for row in evidence]
+            "observed_until", "excerpt_redacted", "evidence_hash")
+            if name in row or name == "observed_until"}).model_dump() for row in evidence]
         identity = key([diagnosis_id, run["revision"], event_id, state["evidence_ids"],
                         self.release["release_id"]])
         report_id = "irpt_" + identity[:24]
         report = IncidentReport(
+            schema_version=2 if self.cfg.get("v12", {}).get("enabled") else 1,
             report_id=report_id, diagnosis_id=diagnosis_id, incident_id=event_id,
             revision=run["revision"], diagnosis_status=diagnosis_status,
             summary=body.summary,
@@ -331,9 +345,11 @@ class AgentEngine(LegacyAgentEngine):
 
     @staticmethod
     def _deterministic_facts(evidence):
-        facts = ["冻结异常模型将该事件包含的会话判定为超过阈值。"]
+        facts = ["系统已按当前发布配置登记该事件的观察窗口。"]
         if any(row["kind"] == "log" for row in evidence):
             facts.append("已取得该事件时间窗口内的脱敏日志证据。")
+        if any(row["kind"] == "trace" for row in evidence):
+            facts.append("已取得该事件时间窗口内的脱敏调用链摘要证据。")
         if any(row["kind"] == "doc" for row in evidence):
             facts.append("已检索到适用于只读排查的知识证据。")
         return facts
@@ -366,7 +382,7 @@ class AgentEngine(LegacyAgentEngine):
 
     def _generate(self, run, state, budget, event, hypotheses, evidence):
         allowed = {row["evidence_id"] for row in evidence}
-        enough = (any(row["kind"] == "log" for row in evidence)
+        enough = (any(row["kind"] in {"log", "trace"} for row in evidence)
                   and any(row["kind"] == "doc" for row in evidence))
         if not enough:
             return self._template_body(hypotheses, sorted(allowed), False), \

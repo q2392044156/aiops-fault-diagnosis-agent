@@ -1,0 +1,15 @@
+name: aiops-fault-diagnosis-v12-rollback
+
+services:
+  worker:
+    image: aiops-fault-diagnosis-agent:framework-rc2
+    command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service_framework_rc2.yaml"]
+  api:
+    image: aiops-fault-diagnosis-agent:framework-rc2
+    command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service_framework_rc2.yaml"]
+  ui:
+    image: aiops-fault-diagnosis-agent:framework-rc2
+
+volumes:
+  aiops-runtime:
+    name: ${AIOPS_ROLLBACK_RUNTIME_VOLUME:-aiops-fault-diagnosis-framework-rc2_aiops-runtime}

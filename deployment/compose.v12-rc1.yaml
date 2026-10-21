@@ -1,0 +1,56 @@
+name: aiops-fault-diagnosis-v12-rc1
+
+x-v12-environment: &v12-environment
+  AIOPS_V11_CALIBRATION: /app/v11-calibration.json
+  AIOPS_V11_AGENT_RELEASE_DIR: /app/v11-agent
+  AIOPS_FRAMEWORK_RELEASE_DIR: /app/framework-rc2
+  AIOPS_V12_RELEASE_DIR: /app/framework-v12
+  DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+  DEEPSEEK_TRACKING_ID: ${DEEPSEEK_TRACKING_ID:-}
+
+x-v12-volumes: &v12-volumes
+  - aiops-runtime:/app/runtime
+  - ${AIOPS_RELEASE_DIR:-../artifacts/releases/v1.0_service}:/app/release:ro
+  - ${AIOPS_KB_RELEASE_DIR:-../artifacts/releases/kb_v0.1}:/app/kb:ro
+  - ${AIOPS_RAG_RELEASE_DIR:-../artifacts/releases/rag_v0.1}:/app/rag:ro
+  - ${AIOPS_REGISTERED_FILE:-../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
+  - ../experiments/v1_1/gate_calibration.json:/app/v11-calibration.json:ro
+  - ../artifacts/releases/agent_v11_framework_base_rc2:/app/v11-agent:ro
+  - ../artifacts/releases/framework_v12_rc2:/app/framework-rc2:ro
+  - ../artifacts/releases/v1_2_rc1_09:/app/framework-v12:ro
+  - ../experiments/v1_2/blind_cde_20261020_once/result.json:/app/experiments/v1_2/blind_cde_20261020_once/result.json:ro
+
+services:
+  worker:
+    image: aiops-fault-diagnosis-agent:v1.2-rc1
+    environment: {<<: *v12-environment}
+    volumes: *v12-volumes
+    command: ["python", "-m", "aiops_diag.service", "worker", "--config", "configs/service_v12_rc1.yaml"]
+    healthcheck:
+      test: ["CMD", "python", "-m", "aiops_diag.service", "worker-health", "--config", "configs/service_v12_rc1.yaml"]
+
+  api:
+    image: aiops-fault-diagnosis-agent:v1.2-rc1
+    environment:
+      <<: *v12-environment
+      AIOPS_HOST: 0.0.0.0
+      AIOPS_REVIEWER_REGISTRY_FILE: /run/secrets/agent_reviewer_registry
+    volumes: *v12-volumes
+    command: ["python", "-m", "aiops_diag.service", "serve", "--config", "configs/service_v12_rc1.yaml"]
+    ports: !override
+      - "${AIOPS_V12_API_BIND:-127.0.0.1:8012}:8000"
+
+  ui:
+    image: aiops-fault-diagnosis-agent:v1.2-rc1
+    environment:
+      <<: *v12-environment
+      AIOPS_API_URL: http://api:8000
+      AIOPS_PUBLIC_API_URL: http://127.0.0.1:8012
+      AIOPS_REVIEWER_TOKEN_FILE: /run/secrets/agent_reviewer_token
+    volumes: *v12-volumes
+    ports: !override
+      - "${AIOPS_V12_UI_BIND:-127.0.0.1:8512}:8501"
+
+volumes:
+  aiops-runtime:
+    name: ${AIOPS_RUNTIME_VOLUME:-aiops-fault-diagnosis-v12-rc1-runtime}

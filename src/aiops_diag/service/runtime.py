@@ -46,7 +46,9 @@ class ServiceRuntime:
                 self.model = FrozenRelease(cfg)
                 self.release = self.model
             else:
-                self.release = ReleaseMetadata(cfg, verify_rag=(role == "api"))
+                verify_base_integrations = (role == "api" and cfg.get(
+                    "agent_backend", "legacy") == "legacy")
+                self.release = ReleaseMetadata(cfg, verify_rag=verify_base_integrations)
             if role in ("api", "worker") and cfg.get("retrieval"):
                 self.retriever = FrozenRetriever(cfg["retrieval"])
             if cfg.get("agent_backend") in ("v11_candidate", "framework_candidate"):
@@ -54,16 +56,6 @@ class ServiceRuntime:
                 from aiops_diag.retrieval.gate_v11 import CandidateRetriever
 
                 candidate = cfg["v11_candidate"]
-                base_service_config = cfg["config_path"]
-                if cfg.get("agent_backend") == "framework_candidate":
-                    base_service_config = cfg["framework_candidate"]["base_service_config"]
-                base_release = verify_v11(
-                    cfg["agent"], candidate["protocol"], candidate["calibration"],
-                    base_service_config, candidate["release_dir"])
-                if self.retriever is None:
-                    raise ValueError("v1.1 candidate requires frozen retrieval")
-                self.retriever = CandidateRetriever(
-                    self.retriever, base_release["gate_threshold"])
                 if cfg.get("agent_backend") == "framework_candidate":
                     from aiops_diag.framework_v12.release import verify as verify_framework
 
@@ -71,6 +63,23 @@ class ServiceRuntime:
                     self.agent_release = verify_framework(
                         cfg["agent"], candidate, framework, cfg["config_path"],
                         framework["release_dir"])
+                    base_release = self.agent_release
+                    if cfg.get("v12", {}).get("enabled"):
+                        from aiops_diag.framework_v12.release_v12 import verify as verify_v12
+
+                        self.agent_release = verify_v12(
+                            cfg, cfg["v12"]["release_dir"])
+                        base_release = self.agent_release
+                else:
+                    base_release = verify_v11(
+                        cfg["agent"], candidate["protocol"], candidate["calibration"],
+                        cfg["config_path"], candidate["release_dir"],
+                        strict_source=False)
+                if self.retriever is None:
+                    raise ValueError("v1.1 candidate requires frozen retrieval")
+                self.retriever = CandidateRetriever(
+                    self.retriever, base_release["gate_threshold"])
+                if cfg.get("agent_backend") == "framework_candidate":
                     if cfg.get("retrieval_backend") == "langchain":
                         from aiops_diag.framework_v12.retriever import LangChainRetrieverAdapter
 
@@ -104,6 +113,8 @@ class ServiceRuntime:
                                      "report_backend": cfg.get("report_backend", "legacy"),
                                      "query_builder": load_query(
                                          cfg["query_builder_config"])}
+                        if cfg.get("v12", {}).get("enabled"):
+                            agent_cfg["v12"] = cfg["v12"]
                     if (cfg.get("agent_backend") == "framework_candidate"
                             and cfg.get("execution_backend") == "langgraph"):
                         from aiops_diag.framework_v12.graph import LangGraphAgentEngine

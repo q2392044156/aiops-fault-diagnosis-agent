@@ -18,10 +18,11 @@ class ToolResult(StrictModel):
 
 class Evidence(StrictModel):
     evidence_id: str
-    kind: Literal["log", "metric", "doc", "incident", "model"]
+    kind: Literal["log", "metric", "doc", "incident", "model", "trace"]
     source_ref: str
     version: str
     observed_at: str | None = None
+    observed_until: str | None = None
     excerpt_redacted: str
     evidence_hash: str
 

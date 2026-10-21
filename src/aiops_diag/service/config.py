@@ -29,6 +29,14 @@ def load(path):
     if backend == "framework_candidate" and set(raw.get("framework_candidate", {})) != {
             "base_service_config", "release_dir", "prior_blind_observation"}:
         raise ValueError("Framework candidate requires base, release and observation paths")
+    if raw.get("v12", {}).get("enabled"):
+        v12 = raw["v12"]
+        if set(v12) != {"enabled", "release_dir", "data_config", "incident_protocol",
+                        "checkpoint"}:
+            raise ValueError("v1.2 configuration has unsupported fields")
+        if v12["checkpoint"] != {"enabled": True, "backend": "sqlite",
+                                 "namespace": "agent-v12"}:
+            raise ValueError("v1.2 requires the frozen SQLite checkpoint configuration")
     execution_backend = raw.get("execution_backend", "legacy")
     report_backend = raw.get("report_backend", "legacy")
     retrieval_backend = raw.get("retrieval_backend", "legacy")
@@ -64,6 +72,13 @@ def load(path):
         if os.environ.get("AIOPS_FRAMEWORK_RELEASE_DIR"):
             cfg["framework_candidate"]["release_dir"] = str(
                 Path(os.environ["AIOPS_FRAMEWORK_RELEASE_DIR"]).resolve())
+    if raw.get("v12", {}).get("enabled"):
+        cfg["v12"] = json.loads(json.dumps(raw["v12"]))
+        for name in ("release_dir", "data_config", "incident_protocol"):
+            cfg["v12"][name] = str((root / raw["v12"][name]).resolve())
+        if os.environ.get("AIOPS_V12_RELEASE_DIR"):
+            cfg["v12"]["release_dir"] = str(Path(
+                os.environ["AIOPS_V12_RELEASE_DIR"]).resolve())
     if backend in ("v11_candidate", "framework_candidate"):
         query_builder_path = raw.get("query_builder_config")
         if not query_builder_path:

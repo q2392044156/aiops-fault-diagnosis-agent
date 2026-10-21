@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/aiops/v1.2/external-open-event.schema.json",
+  "title": "AIOps v1.2 normalized public dataset event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "adapter_version", "dataset", "event_id", "source_unit_id",
+    "group_id", "cluster_alias", "product_version", "workload", "scenario_kind",
+    "anomaly_label", "injection_label", "root_cause_label", "label_provenance",
+    "timestamps", "components", "signals", "observations", "evidence_refs",
+    "benchmark_target", "metric_eligibility"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "adapter_version": {"const": "v12_open_data_v1"},
+    "dataset": {"enum": ["loghub_hadoop", "hdfs_v3_tracebench"]},
+    "event_id": {"type": "string", "pattern": "^ext_[a-z0-9_]+_[a-f0-9]{20}$"},
+    "source_unit_id": {"type": "string", "minLength": 1},
+    "group_id": {"type": "string", "minLength": 1},
+    "cluster_alias": {"type": "string", "pattern": "^cluster_[a-z0-9_]+$"},
+    "product_version": {"type": ["string", "null"]},
+    "workload": {"type": "string"},
+    "scenario_kind": {"enum": ["normal", "injected_fault", "compound"]},
+    "anomaly_label": {"enum": ["normal", "anomaly", "mixed"]},
+    "injection_label": {"type": ["string", "null"]},
+    "root_cause_label": {"type": "null"},
+    "label_provenance": {
+      "type": "object",
+      "required": ["kind", "confidence", "source_ref"]
+    },
+    "timestamps": {
+      "type": "object",
+      "required": [
+        "start", "end", "format", "timezone_source", "semantics",
+        "fault_start", "first_observable_signal"
+      ],
+      "properties": {
+        "start": {"type": ["string", "null"]},
+        "end": {"type": ["string", "null"]},
+        "format": {"type": "string"},
+        "timezone_source": {"type": "null"},
+        "semantics": {"type": "string"},
+        "fault_start": {"type": "null"},
+        "first_observable_signal": {"type": "null"}
+      }
+    },
+    "components": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "signals": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "observations": {"type": "object"},
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ref_id", "relative_path", "content_sha256", "bytes"],
+        "properties": {
+          "ref_id": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+          "relative_path": {"type": "string"},
+          "content_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "bytes": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "benchmark_target": {"const": "injection_label"},
+    "metric_eligibility": {
+      "type": "object",
+      "required": ["public_injection_benchmark", "production_root_cause_ranking", "mttd", "reasons"],
+      "properties": {
+        "public_injection_benchmark": {"type": "boolean"},
+        "production_root_cause_ranking": {"const": false},
+        "mttd": {"const": false},
+        "reasons": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

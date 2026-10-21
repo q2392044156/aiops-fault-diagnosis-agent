@@ -116,7 +116,8 @@ def publish(agent_cfg, v11, framework, service_config_path, directory):
     value = _value(agent_cfg, v11, framework, service_config_path)
     directory = Path(directory)
     if directory.exists():
-        existing = verify(agent_cfg, v11, framework, service_config_path, directory)
+        existing = verify(agent_cfg, v11, framework, service_config_path, directory,
+                          strict_source=True)
         if existing != value:
             raise ValueError("Existing framework candidate differs; use a new directory")
         return existing
@@ -135,14 +136,23 @@ def publish(agent_cfg, v11, framework, service_config_path, directory):
     return value
 
 
-def verify(agent_cfg, v11, framework, service_config_path, directory):
-    expected = _value(agent_cfg, v11, framework, service_config_path)
+def verify(agent_cfg, v11, framework, service_config_path, directory,
+           strict_source=False):
     directory = Path(directory)
     verified_manifest(directory, "manifest.json")
     actual = json.loads((directory / "framework_candidate.json").read_text(
         encoding="utf-8"))
-    if actual != expected:
-        raise ValueError("Framework candidate source or frozen input changed")
+    identity = dict(actual)
+    release_id = identity.pop("release_id", None)
+    candidate_hash = identity.pop("candidate_hash", None)
+    if (candidate_hash != key(identity)
+            or release_id != "agrfw_" + candidate_hash[:24]
+            or actual.get("product_version") != PRODUCT_VERSION):
+        raise ValueError("Framework candidate release identity changed")
+    if strict_source:
+        expected = _value(agent_cfg, v11, framework, service_config_path)
+        if actual != expected:
+            raise ValueError("Framework candidate source or frozen input changed")
     return actual
 
 
