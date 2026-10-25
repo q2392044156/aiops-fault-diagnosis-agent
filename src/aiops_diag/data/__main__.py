@@ -1,3 +1,6 @@
+"""
+数据准备工具
+"""
 import argparse
 import json
 import sys
@@ -6,7 +9,7 @@ from pathlib import Path
 import yaml
 
 from .audit import audit
-from .common import config
+from .common import config, config_root
 from .download import download
 from .incident_v12 import (audit_incident, delete_incident, import_incident,
                            load_incident, validate_incident)
@@ -14,13 +17,13 @@ from .pipeline import build, split, subset, trace
 from .v12_external import (DEFAULT_SEED, audit_external_outputs,
                            prepare_external_datasets)
 from .v12_import import import_snapshots
-from aiops_diag.service.db import Database
+from aiops_diag.platform.db import Database
 
-
+# 主入口函数, 根据命令行参数调用不同的数据准备功能
 def _legacy(argv):
     parser = argparse.ArgumentParser(description="W1 HDFS data preparation")
     parser.add_argument("command", choices=["download", "build", "split", "subset", "audit", "trace"])
-    parser.add_argument("--config", default="configs/data.yaml")
+    parser.add_argument("--config", default="resources/configs/data.yaml")
     parser.add_argument("--log-id")
     args = parser.parse_args(argv)
     cfg = config(args.config)
@@ -32,10 +35,11 @@ def _legacy(argv):
             "subset": subset, "audit": audit}[args.command](cfg)
 
 
+# 方法说明：`_external` 完成当前步骤的业务处理；参数为 `argv`。
 def _external(argv):
     parser = argparse.ArgumentParser(description="v1.2 public dataset workflow")
     parser.add_argument("command", choices=["prepare", "audit", "import-service"])
-    parser.add_argument("--config", default="configs/data_v12_external.yaml")
+    parser.add_argument("--config", default="resources/configs/data_v12_external.yaml")
     parser.add_argument("--source-root")
     parser.add_argument("--seed", type=int)
     parser.add_argument("--split", choices=["development", "calibration", "independent_test"])
@@ -44,7 +48,7 @@ def _external(argv):
     args = parser.parse_args(argv)
     config_path = Path(args.config).resolve()
     raw = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-    root = config_path.parent.parent
+    root = config_root(config_path)
     source = Path(args.source_root).resolve() if args.source_root else (
         root / raw.get("source_root", "data/external/loghub")).resolve()
     if args.command == "prepare":
@@ -60,6 +64,7 @@ def _external(argv):
         source / "processed/evaluation_labels.jsonl", args.split, args.artifact_root)
 
 
+# 方法说明：`_incident` 完成当前步骤的业务处理；参数为 `argv`。
 def _incident(argv):
     parser = argparse.ArgumentParser(description="v1.2 authorized incident lifecycle")
     parser.add_argument("command", choices=["validate", "import", "audit", "delete"])
@@ -91,6 +96,7 @@ def _incident(argv):
     return delete_incident(db, target, args.reason)
 
 
+# 方法说明：`main` 完成当前步骤的业务处理；参数为 `argv`。
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     try:

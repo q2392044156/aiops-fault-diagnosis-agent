@@ -114,34 +114,32 @@ SQLite 是任务、预算、工具缓存、报告、审批和审计的业务真�
 
 v1.2 的三个在线案例来自开发分区，只能证明工程链路能够工作，不能证明生产诊断效果。公开 `independent_test` 是组隔离分区，但数据和标签已经公开，不是严格封存盲测。TraceBench 的故障注入标签也没有经过真实工单和独立人员确认，因此生产根因 Top-1、Top-3、MRR、误报率和 MTTD 均为 `N/A`。
 
-详细证据见 [v1.2 RC1 实施报告](deliverables/v1.2_RC1_实施报告.md)、[v1.2 评测摘要](evaluation/v1.2/v12_rc1_validation/report.md) 和 [机器可读结果](evaluation/v1.2/v12_rc1_validation/result.json)。
+详细证据见 [v1.2 RC1 实施报告](documentation/v1.2_RC1_实施报告.md)、[v1.2 评测摘要](resources/evaluation/v1.2/v12_rc1_validation/report.md) 和 [机器可读结果](resources/evaluation/v1.2/v12_rc1_validation/result.json)。
 
 ## 项目结构
 
 ```text
 aiops-fault-diagnosis-agent/
-├─ configs/                    # 数据、模型、检索、Agent 和服务配置
-├─ deployment/                 # Dockerfile、Compose、切换与回退配置
-├─ evaluation/                 # 冻结评测集、v1.2 协议和可提交的验证摘要
-├─ knowledge/                  # 原创运维知识卡片、来源与检索评测数据
-├─ scripts/                    # 验收、评测、公开数据准备和在线验证脚本
 ├─ src/aiops_diag/
-│  ├─ data/                    # 数据下载、解析、审计、v1.2 适配与真实故障生命周期
-│  ├─ modeling/                # LR、LSTM、统一指标和冻结协议
-│  ├─ retrieval/               # BM25/BGE/RRF 检索、评测与发布
-│  ├─ rag/                     # DeepSeek 客户端、结构化报告和预算控制
-│  ├─ agent/                   # v1.0 受控 Agent
-│  ├─ agent_v11/               # v1.1 查询构建、候选流程和评测
-│  ├─ framework_v12/           # LangChain/LangGraph、v1.2 Trace 与 checkpoint
-│  ├─ service/                 # FastAPI、worker、SQLite、Streamlit 和发布验证
-│  └─ release/                 # 发布冻结、校验和导出
-├─ tests/                      # 单元、集成、恢复、安全和 v1.2 定向测试
-├─ deliverables/               # 与项目实现直接相关的验收报告和机器可读清单
-├─ pyproject.toml              # 包元数据与依赖声明
+│  ├─ data/                       # 数据接入、脱敏、审计和标准化
+│  ├─ detection/                  # LR/LSTM 检测与模型选择
+│  ├─ knowledge/                  # BM25/BGE/RRF 检索与证据约束报告生成
+│  ├─ diagnosis/                  # Agent、查询规划和 LangChain/LangGraph 编排
+│  ├─ evaluation/                 # legacy/framework 离线对照
+│  ├─ platform/                   # FastAPI、worker、SQLite 和 Streamlit
+│  └─ release/                    # 发布冻结、校验和导出
+├─ resources/                     # 配置、知识卡和冻结评测协议
+├─ ops/                           # Docker、Compose、运维和验收脚本
+├─ documentation/                 # 技术报告、验收结果和演示资料
+├─ tests/                         # 自动化测试
+├─ PROJECT_STRUCTURE.md           # 依赖方向、模块边界和兼容约定
+├─ pyproject.toml                 # 包元数据与依赖声明
 └─ README.md
 ```
 
 `data/`、`artifacts/`、`experiments/`、`runtime/` 和本地环境目录默认不提交 Git：它们分别保存原始/处理数据、冻结制品、实验中间结果和运行时数据库。复现实验时需要在本地准备这些内容。
+
+每个源码模块均带有独立 `README.md`，逐个说明目录内 Python 文件的职责和主要入口。完整依赖方向见 [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)。
 
 ## 如何运行
 
@@ -173,6 +171,12 @@ conda run --name aiops-fault-diagnosis-agent python -m pip check
 conda run --name aiops-fault-diagnosis-agent python -m pytest -q
 ```
 
+检查功能目录、模块 README、旧包引用和中文源码说明：
+
+```powershell
+conda run --name aiops-fault-diagnosis-agent python ops/scripts/validate_project_structure.py
+```
+
 只验证 v1.2：
 
 ```powershell
@@ -182,14 +186,14 @@ conda run --name aiops-fault-diagnosis-agent python -m pytest -q `
 
 ### 4. 准备并审计 v1.2 公开数据
 
-先按 `configs/data_v12_external.yaml` 中的 `source_root` 放置 LogHub Hadoop 与 HDFS v3 TraceBench 数据，再运行：
+先按 `resources/configs/data_v12_external.yaml` 中的 `source_root` 放置 LogHub Hadoop 与 HDFS v3 TraceBench 数据，再运行：
 
 ```powershell
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data `
-  v12-external prepare --config configs/data_v12_external.yaml
+  v12-external prepare --config resources/configs/data_v12_external.yaml
 
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data `
-  v12-external audit --config configs/data_v12_external.yaml
+  v12-external audit --config resources/configs/data_v12_external.yaml
 ```
 
 将某个分区导入服务 SQLite：
@@ -197,7 +201,7 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data `
 ```powershell
 conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data `
   v12-external import-service `
-  --config configs/data_v12_external.yaml `
+  --config resources/configs/data_v12_external.yaml `
   --split development `
   --database runtime/v12/service.sqlite3 `
   --artifact-root runtime/v12/imports
@@ -206,32 +210,32 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data `
 ### 5. 运行 v1.2 评测
 
 ```powershell
-conda run --name aiops-fault-diagnosis-agent python scripts/evaluate_v12.py `
+conda run --name aiops-fault-diagnosis-agent python ops/scripts/evaluate_v12.py `
   --database runtime/v12/service.sqlite3 `
-  --output evaluation/v1.2/v12_rc1_validation
+  --output resources/evaluation/v1.2/v12_rc1_validation
 ```
 
 在线小规模验证需要在当前 shell 中设置 `DEEPSEEK_API_KEY` 和 `DEEPSEEK_TRACKING_ID`，或按 `.env.example` 准备本地 `.env`；密钥文件不会提交 Git。
 
 ```powershell
-conda run --name aiops-fault-diagnosis-agent python scripts/validate_v12_online.py --count 3
+conda run --name aiops-fault-diagnosis-agent python ops/scripts/validate_v12_online.py --count 3
 ```
 
 ### 6. 本地启动 API 与 worker
 
-发布制品和数据路径由 `configs/service_v12_rc1.yaml` 指定。准备好相应的本地制品后执行：
+发布制品和数据路径由 `resources/configs/service_v12_rc1.yaml` 指定。准备好相应的本地制品后执行：
 
 ```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service `
-  verify --config configs/service_v12_rc1.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.platform `
+  verify --config resources/configs/service_v12_rc1.yaml
 
 # 终端 1
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service `
-  worker --config configs/service_v12_rc1.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.platform `
+  worker --config resources/configs/service_v12_rc1.yaml
 
 # 终端 2
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service `
-  serve --config configs/service_v12_rc1.yaml
+conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.platform `
+  serve --config resources/configs/service_v12_rc1.yaml
 ```
 
 本地 API 默认监听 `http://127.0.0.1:8000`，接口文档位于 `http://127.0.0.1:8000/docs`。
@@ -239,12 +243,12 @@ conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.service `
 ### 7. 使用 Docker Compose 启动 v1.2
 
 ```powershell
-docker build -f deployment/Dockerfile `
+docker build -f ops/deployment/Dockerfile `
   -t aiops-fault-diagnosis-agent:v1.2-rc1 .
 
 docker compose --env-file .env `
-  -f deployment/compose.yaml `
-  -f deployment/compose.v12-rc1.yaml `
+  -f ops/deployment/compose.yaml `
+  -f ops/deployment/compose.v12-rc1.yaml `
   up -d --no-build
 ```
 
@@ -253,11 +257,11 @@ docker compose --env-file .env `
 - OpenAPI：`http://127.0.0.1:8012/docs`
 - Streamlit：`http://127.0.0.1:8512`
 
-v1.2 使用独立运行卷。需要回退时，在同一组 Compose 命令中再追加 `-f deployment/compose.v12-rollback.yaml`，即可切回 Framework RC2 镜像和独立回退卷；该过程不会迁移或覆盖 v1.2 数据库。
+v1.2 使用独立运行卷。需要回退时，在同一组 Compose 命令中再追加 `-f ops/deployment/compose.v12-rollback.yaml`，即可切回 Framework RC2 镜像和独立回退卷；该过程不会迁移或覆盖 v1.2 数据库。
 
 ## 真实故障数据生命周期
 
-真实故障记录必须符合 [冻结 Schema](evaluation/v1.2/real_incident_protocol/incident.schema.json)。常用命令如下：
+真实故障记录必须符合 [冻结 Schema](resources/evaluation/v1.2/real_incident_protocol/incident.schema.json)。常用命令如下：
 
 ```powershell
 # 只校验文件，不写数据库

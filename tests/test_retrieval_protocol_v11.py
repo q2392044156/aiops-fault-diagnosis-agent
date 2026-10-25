@@ -1,21 +1,25 @@
+"""模块说明：验证 retrieval protocol v11 相关功能、边界和回归行为。"""
+
 import json
 from pathlib import Path
 
 import pytest
 
 from aiops_diag.data.common import digest
-from aiops_diag.retrieval.gate_v11 import CandidateRetriever, calibrate_candidate
-import aiops_diag.retrieval.gate_v11 as gate_v11
-import aiops_diag.retrieval.blind_v11 as blind_v11
-from aiops_diag.retrieval.protocol_v11 import validate_protocol
-from aiops_diag.retrieval.blind_v11 import run as run_blind
+from aiops_diag.knowledge.gate_v11 import CandidateRetriever, calibrate_candidate
+import aiops_diag.knowledge.gate_v11 as gate_v11
+import aiops_diag.knowledge.blind_v11 as blind_v11
+from aiops_diag.knowledge.protocol_v11 import validate_protocol
+from aiops_diag.knowledge.blind_v11 import run as run_blind
 
 
+# 方法说明：`_write_jsonl` 完成当前步骤的业务处理；参数为 `path`、`rows`。
 def _write_jsonl(path, rows):
     path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
                     encoding="utf-8")
 
 
+# 方法说明：`_protocol` 完成当前步骤的业务处理；参数为 `tmp_path`、`reviewed`。
 def _protocol(tmp_path, reviewed=True):
     sources = [
         {"source_id": "old", "product_version": "3.3.5", "published_at": "2022-01-01", "url": "https://example.org/old"},
@@ -61,6 +65,7 @@ def _protocol(tmp_path, reviewed=True):
     return path
 
 
+# 方法说明：`test_v11_protocol_requires_sealed_cross_time_version_independent_review` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_v11_protocol_requires_sealed_cross_time_version_independent_review(tmp_path):
     path = _protocol(tmp_path)
     result = validate_protocol(path, require_release_ready=True)
@@ -72,6 +77,7 @@ def test_v11_protocol_requires_sealed_cross_time_version_independent_review(tmp_
         validate_protocol(path)
 
 
+# 方法说明：`test_v11_protocol_refuses_small_reviewed_test` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_v11_protocol_refuses_small_reviewed_test(tmp_path):
     path = _protocol(tmp_path)
     manifest = json.loads(path.read_text(encoding="utf-8"))
@@ -86,6 +92,7 @@ def test_v11_protocol_refuses_small_reviewed_test(tmp_path):
         validate_protocol(path, require_release_ready=True)
 
 
+# 方法说明：`test_v11_protocol_rejects_leakage_and_unreviewed_release` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_v11_protocol_rejects_leakage_and_unreviewed_release(tmp_path):
     path = _protocol(tmp_path, reviewed=False)
     assert validate_protocol(path)["release_ready"] is False
@@ -102,8 +109,9 @@ def test_v11_protocol_rejects_leakage_and_unreviewed_release(tmp_path):
         validate_protocol(path)
 
 
+# 方法说明：`test_public_apache_candidate_is_structurally_valid_but_not_a_blind_release_set` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_public_apache_candidate_is_structurally_valid_but_not_a_blind_release_set():
-    manifest = Path(__file__).resolve().parents[1] / "evaluation/v1.1/protocol.json"
+    manifest = Path(__file__).resolve().parents[1] / "resources/evaluation/v1.1/protocol.json"
     result = validate_protocol(manifest)
     assert result["release_ready"] is False
     assert result["splits"]["independent_test"]["versions"] == ["3.4.1", "3.4.2"]
@@ -111,16 +119,18 @@ def test_public_apache_candidate_is_structurally_valid_but_not_a_blind_release_s
         validate_protocol(manifest, require_release_ready=True)
 
 
+# 方法说明：`test_blind_evaluator_does_not_open_current_unreviewed_test_or_write_result` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_blind_evaluator_does_not_open_current_unreviewed_test_or_write_result(tmp_path):
     root = Path(__file__).resolve().parents[1]
     output = tmp_path / "result"
     with pytest.raises(ValueError, match="Independent review"):
-        run_blind(root / "configs/agent.yaml", root / "evaluation/v1.1/protocol.json",
-                  tmp_path / "calibration.json", root / "configs/service_v11_candidate.yaml",
+        run_blind(root / "resources/configs/agent.yaml", root / "resources/evaluation/v1.1/protocol.json",
+                  tmp_path / "calibration.json", root / "resources/configs/service_v11_candidate.yaml",
                   tmp_path / "candidate", output)
     assert not output.exists()
 
 
+# 方法说明：`test_blind_evaluator_writes_immutable_release_bound_comparison` 完成当前步骤的业务处理；参数为 `tmp_path`、`monkeypatch`。
 def test_blind_evaluator_writes_immutable_release_bound_comparison(tmp_path, monkeypatch):
     protocol = _protocol(tmp_path)
     output = tmp_path / "blind_result"
@@ -130,19 +140,25 @@ def test_blind_evaluator_writes_immutable_release_bound_comparison(tmp_path, mon
         "status": "READY_FOR_ACCEPTANCE", "release_id": "candidate_123",
         "kb_release_id": "kb_123", "gate_threshold": 0.5})
 
+    # 类说明：`Frozen` 封装本模块内聚的数据和行为。
     class Frozen:
+        # 变量说明：`manifest` 保存本模块或数据模型使用的稳定值。
         manifest = {"default_mode": "hybrid", "default_k": 3}
 
+        # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `_cfg`。
         def __init__(self, _cfg):
             pass
 
+    # 类说明：`Gated` 封装本模块内聚的数据和行为。
     class Gated:
+        # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `_frozen`、`_threshold`。
         def __init__(self, _frozen, _threshold):
             pass
 
     monkeypatch.setattr(blind_v11, "FrozenRetriever", Frozen)
     monkeypatch.setattr(blind_v11, "CandidateRetriever", Gated)
 
+    # 方法说明：`fake_evaluate` 完成当前步骤的业务处理；参数为 `engine`、`queries`、`_qrels`、`_mode`、`_top_k`、`apply_gate`。
     def fake_evaluate(engine, queries, _qrels, _mode, _top_k, apply_gate):
         assert apply_gate is True
         rows = [{"query_id": query["query_id"], "family_id": query["family_id"],
@@ -167,10 +183,14 @@ def test_blind_evaluator_writes_immutable_release_bound_comparison(tmp_path, mon
                   tmp_path / "service.yaml", tmp_path / "release", output)
 
 
+# 方法说明：`test_candidate_gate_checks_returned_evidence_and_keeps_version_filter` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_candidate_gate_checks_returned_evidence_and_keeps_version_filter():
+    # 类说明：`Frozen` 封装本模块内聚的数据和行为。
     class Frozen:
+        # 变量说明：`manifest` 保存本模块或数据模型使用的稳定值。
         manifest = {"kb_release_id": "kb_v0.1"}
 
+        # 方法说明：`search` 完成当前步骤的业务处理；参数为 `_query`、`**kwargs`。
         def search(self, _query, **kwargs):
             assert kwargs["product_version"] == "3.4.1"
             assert kwargs["apply_gate"] is False
@@ -186,12 +206,15 @@ def test_candidate_gate_checks_returned_evidence_and_keeps_version_filter():
     assert [row["chunk_id"] for row in ungated["items"]] == ["ranked_first", "ranked_second"]
 
 
+# 方法说明：`test_candidate_calibration_never_opens_test_cases` 完成当前步骤的业务处理；参数为 `tmp_path`、`monkeypatch`。
 def test_candidate_calibration_never_opens_test_cases(tmp_path, monkeypatch):
     path = _protocol(tmp_path)
     (tmp_path / "independent_test.jsonl").unlink()
     (tmp_path / "independent_test_qrels.jsonl").unlink()
 
+    # 类说明：`Frozen` 封装本模块内聚的数据和行为。
     class Frozen:
+        # 变量说明：`manifest` 保存本模块或数据模型使用的稳定值。
         manifest = {"kb_release_id": "kb_v0.1", "default_mode": "hybrid",
                     "default_k": 3}
 

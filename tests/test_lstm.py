@@ -1,13 +1,16 @@
+"""模块说明：验证 lstm 相关功能、边界和回归行为。"""
+
 import pytest
 import torch
 
 from aiops_diag.data.common import digest, save
-from aiops_diag.modeling.lstm_model import LSTMClassifier, collate_sequences
-from aiops_diag.modeling.lstm_workflow import (evaluate_lstm, inspect_lstm,
+from aiops_diag.detection.lstm_model import LSTMClassifier, collate_sequences
+from aiops_diag.detection.lstm_workflow import (evaluate_lstm, inspect_lstm,
                                                predict_lstm, training_weight)
-from aiops_diag.modeling.sequences import role_for
+from aiops_diag.detection.sequences import role_for
 
 
+# 方法说明：`_item` 完成当前步骤的业务处理；参数为 `block_id`、`length`、`label`。
 def _item(block_id, length, label=0.0):
     return {
         "block_id": block_id,
@@ -20,6 +23,7 @@ def _item(block_id, length, label=0.0):
     }
 
 
+# 方法说明：`test_contiguous_chunk_boundaries_keep_the_complete_session` 完成当前步骤的业务处理；参数为 `length`、`chunks`。
 @pytest.mark.parametrize("length,chunks", [(128, 1), (129, 2), (256, 2), (280, 3)])
 def test_contiguous_chunk_boundaries_keep_the_complete_session(length, chunks):
     batch = collate_sequences([_item("b", length)], max_length=128)
@@ -30,6 +34,7 @@ def test_contiguous_chunk_boundaries_keep_the_complete_session(length, chunks):
     assert restored == _item("b", length)["template_ids"]
 
 
+# 方法说明：`test_empty_and_misaligned_sequences_are_rejected` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_empty_and_misaligned_sequences_are_rejected():
     with pytest.raises(ValueError, match="Empty"):
         collate_sequences([_item("empty", 0)])
@@ -39,6 +44,7 @@ def test_empty_and_misaligned_sequences_are_rejected():
         collate_sequences([broken])
 
 
+# 方法说明：`test_padding_does_not_change_cpu_prediction` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_padding_does_not_change_cpu_prediction():
     torch.manual_seed(42)
     model = LSTMClassifier(vocabulary_size=8, embedding_dim=32, hidden_dim=32,
@@ -54,6 +60,7 @@ def test_padding_does_not_change_cpu_prediction():
     assert float(torch.abs(one - many)) <= 1e-6
 
 
+# 方法说明：`test_padding_does_not_change_cuda_prediction` 完成当前步骤的业务处理；参数为 无显式业务参数。
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is not available")
 def test_padding_does_not_change_cuda_prediction():
     torch.manual_seed(42)
@@ -73,6 +80,7 @@ def test_padding_does_not_change_cuda_prediction():
     assert float(torch.abs(one - many)) <= 1e-5
 
 
+# 方法说明：`test_group_role_is_deterministic_and_label_independent` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_group_role_is_deterministic_and_label_independent():
     before = role_for("g1", "ddev", 42, 0.8)
     after_label_change = role_for("g1", "ddev", 42, 0.8)
@@ -80,6 +88,7 @@ def test_group_role_is_deterministic_and_label_independent():
     assert before in {"fit", "holdout"}
 
 
+# 方法说明：`test_pos_weight_uses_only_current_training_members` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_pos_weight_uses_only_current_training_members():
     rows = [{"block_id": "a"}, {"block_id": "b"}, {"block_id": "c"}]
     labels = {"a": 1, "b": 0, "c": 0, "outside": 1}
@@ -90,6 +99,7 @@ def test_pos_weight_uses_only_current_training_members():
     assert training_weight(rows, labels, "capped", 1.5)[0] == 1.5
 
 
+# 方法说明：`test_lstm_test_split_is_sealed_before_artifact_access` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_lstm_test_split_is_sealed_before_artifact_access():
     with pytest.raises(ValueError, match="sealed"):
         predict_lstm({}, "test")
@@ -97,6 +107,7 @@ def test_lstm_test_split_is_sealed_before_artifact_access():
         evaluate_lstm({}, "test")
 
 
+# 方法说明：`test_lstm_inspect_rejects_tampered_registered_artifact` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_lstm_inspect_rejects_tampered_registered_artifact(tmp_path):
     run = tmp_path / "w3_demo"
     run.mkdir()

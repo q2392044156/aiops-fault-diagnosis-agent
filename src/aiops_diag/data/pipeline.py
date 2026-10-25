@@ -1,3 +1,29 @@
+"""
+管道模块
+HDFS 故障诊断数据集的离线处理流水线核心
+
+负责把原始的 HDFS.log 文本文件转换成可用于机器学习训练的、经过严格划分和校验的结构化数据集
+模块整体呈现一个清晰的 4 阶段流水线：
+HDFS.log 原始文本
+      │
+      ▼
+┌─ build() ─────────────────┐
+│ 逐行解析 + 索引构建       │ → SQLite + Parquet
+└──────────┬───────────────┘
+           ▼
+┌─ split() ────────────────┐
+│ Union-Find 分组 + 时间    │ → train / validation / test
+│ 划分 + embargo 隔离       │
+└──────────┬───────────────┘
+           ▼
+┌─ subset() ────────────────┐
+│ 确定性抽样 + 开发子集     │ → dev_logs.parquet
+└──────────┬───────────────┘
+           ▼
+┌─ trace() ────────────────┐
+│ 日志行溯源（查询接口）    │ → 验证完整性
+└───────────────────────────┘
+"""
 import hashlib
 import json
 import shutil
@@ -15,37 +41,39 @@ import pyarrow.parquet as pq
 from .common import digest, key, save, verified_manifest
 from .parser import normalized, parse
 
+# 定义日志记录的 Parquet 格式
 LOG_SCHEMA = pa.schema([(name, typ) for name, typ in [
     ("log_id", pa.string()), ("raw_line_no", pa.int64()), ("byte_offset", pa.int64()),
     ("byte_length", pa.int64()), ("raw_hash", pa.string()), ("timestamp_original", pa.string()),
     ("timestamp_local", pa.string()), ("timestamp_utc", pa.string()), ("timezone_assumption", pa.string()),
     ("pid", pa.string()), ("level", pa.string()), ("component", pa.string()), ("message", pa.string()),
     ("session_ids", pa.list_(pa.string())), ("parse_status", pa.string())]])
+# 变量说明：`LINK_SCHEMA` 保存本模块或数据模型使用的稳定值。
 LINK_SCHEMA = pa.schema([("block_id", pa.string()), ("raw_line_no", pa.int64())])
 
-
+# 定义数据集的存储位置
 def location(c):
     source = Path(c["raw_dir"]) / "HDFS.log"
     h = digest(source)
     version = key({"schema": 1, "source": h, "config": semantic_config(c)})[:20]
     return source, h, Path(c["output_dir"]) / version
 
-
+# 定义数据集的语义配置, 用于唯一标识数据集的版本
 def semantic_config(c):
     return {k: v for k, v in c.items() if k not in ("raw_dir", "output_dir", "min_free_gb")}
 
-
+# 连接 SQLite 数据库
 def connect(folder):
     db = sqlite3.connect(Path(folder) / "index.sqlite")
     db.execute("PRAGMA cache_size=-65536")
     return db
 
-
+# 完成数据集的构建, 保存元数据和校验和
 def finish(folder, name, details, files):
     save(folder / name, {"schema_version": 1, **details,
                         "artifacts": {f: digest(folder / f) for f in files}})
 
-
+# 构建数据集, 逐行解析日志记录并构建 SQLite 数据库
 def build(c):
     source, h, folder = location(c)
     if (folder / "build.json").exists():
@@ -69,6 +97,7 @@ def build(c):
     min_time, max_time = None, None
     rows, links, locators = [], [], []
 
+    # 方法说明：`flush` 完成当前步骤的业务处理；参数为 `lw`、`aw`。
     def flush(lw, aw):
         nonlocal peak
         lw.write_table(pa.Table.from_pylist(rows, schema=LOG_SCHEMA))
@@ -127,7 +156,7 @@ def build(c):
            "peak_sampled_rss_bytes": peak}, ["index.sqlite", "logs.parquet", "links.parquet"])
     return folder
 
-
+# 对数据集进行分组, 根据会话 ID 进行分组
 def split(c):
     _, _, folder = location(c)
     build_info = verified_manifest(folder, "build.json")
@@ -140,6 +169,7 @@ def split(c):
         raise ValueError("No block sessions")
     parent = {b: b for b in sessions}
 
+    # 方法说明：`find` 完成当前步骤的业务处理；参数为 `b`。
     def find(b):
         while parent[b] != b:
             parent[b] = parent[parent[b]]
@@ -188,7 +218,7 @@ def split(c):
            "counts": dict(Counter(r["split"] for r in assignments)), "membership_hash": key(assignments)},
            ["splits.parquet", "groups.json"])
 
-
+# 从数据集中提取训练集和验证集
 def subset(c):
     _, h, folder = location(c)
     verified_manifest(folder, "build.json")
@@ -228,7 +258,7 @@ def subset(c):
            "membership_hash": key(members), "line_membership_hash": key(sorted(numbers))},
            ["dev_members.json", "dev_logs.parquet"])
 
-
+# 从日志记录 ID 中提取原始移量和长度, 并验证哈希值
 def trace(c, log_id):
     source, h, folder = location(c)
     prefix, n = log_id.rsplit(":", 1)

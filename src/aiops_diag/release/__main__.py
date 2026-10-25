@@ -1,3 +1,5 @@
+"""模块说明：实现 `python -m` 命令行入口和参数分发。"""
+
 import argparse
 import json
 
@@ -5,6 +7,7 @@ from .config import load
 from .workflow import accept, export, freeze, verify
 
 
+# 方法说明：`main` 完成当前步骤的业务处理；参数为 `argv`。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="W10 v1.0 release acceptance")
     sub = parser.add_subparsers(dest="command", required=True)

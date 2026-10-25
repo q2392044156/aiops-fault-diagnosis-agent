@@ -1,16 +1,20 @@
+"""模块说明：验证 runbook review v11 相关功能、边界和回归行为。"""
+
 import json
 
 import pytest
 
-import aiops_diag.retrieval.runbook_review_v11 as review
+import aiops_diag.knowledge.runbook_review_v11 as review
 from aiops_diag.data.common import digest
 
 
+# 方法说明：`_write_jsonl` 完成当前步骤的业务处理；参数为 `path`、`rows`。
 def _write_jsonl(path, rows):
     path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n"
                             for row in rows), encoding="utf-8")
 
 
+# 方法说明：`test_blind_packet_and_sealed_relevance_scoring` 完成当前步骤的业务处理；参数为 `tmp_path`、`monkeypatch`。
 def test_blind_packet_and_sealed_relevance_scoring(tmp_path, monkeypatch):
     fixtures = tmp_path / "fixtures"
     fixtures.mkdir()
@@ -26,16 +30,21 @@ def test_blind_packet_and_sealed_relevance_scoring(tmp_path, monkeypatch):
     monkeypatch.setattr(review, "load_agent", lambda _: {
         "rag": {"retrieval": "frozen"}, "tools": {"runbook_top_k": 3}})
 
+    # 类说明：`Frozen` 封装本模块内聚的数据和行为。
     class Frozen:
+        # 变量说明：`manifest` 保存本模块或数据模型使用的稳定值。
         manifest = {"kb_release_id": "kb_test"}
 
+        # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `_`。
         def __init__(self, _):
             pass
 
+        # 方法说明：`search` 完成当前步骤的业务处理；参数为 `query`、`**kwargs`。
         def search(self, query, **kwargs):
             assert "DataNode" in query
             return {"status": "evidence_found", "items": [{"chunk_id": "doc_1"}]}
 
+        # 方法说明：`chunk` 完成当前步骤的业务处理；参数为 `chunk_id`。
         def chunk(self, chunk_id):
             return {"chunk_id": chunk_id, "title": "DataNode checks",
                     "section_path": "checks", "source_url": "https://example.org",

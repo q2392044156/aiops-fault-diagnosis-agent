@@ -14,11 +14,11 @@ __pycache__/
 /experiments/
 /runtime/
 .env
-docs/
+/documentation/archive/
 .env.*
 !.env.example
 
 # Non-project interview/demo materials
-/deliverables/*面试*.pptx
-/deliverables/interview_*.md
-/deliverables/demo/
+/documentation/*面试*.pptx
+/documentation/interview_*.md
+/documentation/demo/

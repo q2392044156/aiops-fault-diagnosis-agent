@@ -1,3 +1,5 @@
+"""模块说明：验证 v12 runtime 相关功能、边界和回归行为。"""
+
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -10,14 +12,16 @@ from aiops_diag.data.incident_v12 import (audit_incident, delete_incident,
 from aiops_diag.data.v12_contracts import (DiagnosticSnapshotV12,
                                             IncidentRecordV1)
 from aiops_diag.data.v12_import import import_snapshots
-from aiops_diag.framework_v12.checkpoint import DatabaseCheckpointSaver
-from aiops_diag.service.db import Database
+from aiops_diag.diagnosis.framework.checkpoint import DatabaseCheckpointSaver
+from aiops_diag.platform.db import Database
 
 
+# 方法说明：`_jsonl` 完成当前步骤的业务处理；参数为 `path`、`rows`。
 def _jsonl(path, rows):
     path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
 
 
+# 方法说明：`_trace_snapshot` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def _trace_snapshot():
     summary = {"task_count": 1, "report_count": 2, "edge_count": 1,
                "operation_count": 3, "operation_type_count": 1,
@@ -39,6 +43,7 @@ def _trace_snapshot():
     return DiagnosticSnapshotV12.model_validate(base).model_dump(mode="json")
 
 
+# 方法说明：`_label` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def _label():
     return {"schema_version": 1, "event_id": "evt_ext_tracebench_test",
             "dataset": "hdfs_v3_tracebench", "group_id": "g1", "split": "development",
@@ -49,6 +54,7 @@ def _label():
                 "reasons": ["root_cause_not_independently_confirmed"]}}
 
 
+# 方法说明：`test_external_snapshot_import_is_idempotent_and_keeps_labels_out` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_external_snapshot_import_is_idempotent_and_keeps_labels_out(tmp_path):
     db = Database(tmp_path / "service.sqlite3")
     db.init()
@@ -68,11 +74,13 @@ def test_external_snapshot_import_is_idempotent_and_keeps_labels_out(tmp_path):
     assert "test_injection" not in stored["summary_json"]
 
 
+# 方法说明：`test_database_checkpointer_survives_new_graph_instance` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_database_checkpointer_survives_new_graph_instance(tmp_path):
     db = Database(tmp_path / "service.sqlite3")
     db.init()
     saver = DatabaseCheckpointSaver(db)
 
+    # 方法说明：`build` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def build():
         graph = StateGraph(dict)
         graph.add_node("step", lambda state: {**state, "count": state.get("count", 0) + 1})
@@ -87,6 +95,7 @@ def test_database_checkpointer_survives_new_graph_instance(tmp_path):
     assert db.one("SELECT COUNT(*) AS value FROM langgraph_checkpoints")["value"] >= 2
 
 
+# 方法说明：`_incident` 完成当前步骤的业务处理；参数为 `now`。
 def _incident(now):
     cutoff = now - timedelta(minutes=2)
     return {"schema_version": 1, "incident_id": "inc_example_0001",
@@ -107,6 +116,7 @@ def _incident(now):
                        "adjudicator_id": None}}
 
 
+# 方法说明：`test_real_incident_lifecycle_keeps_unqualified_metrics_na` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_real_incident_lifecycle_keeps_unqualified_metrics_na(tmp_path):
     now = datetime.now(timezone.utc)
     value = _incident(now)

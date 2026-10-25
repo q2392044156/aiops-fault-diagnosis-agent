@@ -1,3 +1,8 @@
+"""
+下载模块
+
+用于从远程 URL 下载 HDFS 日志归档文件，并进行验证和解压。
+"""
 import json
 import shutil
 import time
@@ -8,8 +13,9 @@ from pathlib import Path, PurePosixPath
 
 from .common import digest, save
 
-
+# 主要用于从远程 URL 下载归档文件（如 ZIP），并确保下载完整性。
 def fetch(url, target, size, md5, attempts=4):
+    # 前置检查
     target = Path(target)
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.exists():
@@ -17,6 +23,7 @@ def fetch(url, target, size, md5, attempts=4):
             return
         raise ValueError("Existing archive failed verification; preserve and inspect it")
     partial = target.with_suffix(target.suffix + ".partial")
+    # 下载尝试循环
     for attempt in range(attempts):
         try:
             offset = partial.stat().st_size if partial.exists() else 0
@@ -58,7 +65,7 @@ def fetch(url, target, size, md5, attempts=4):
                 raise
             time.sleep(2 ** attempt)
 
-
+#用于从下载好的 ZIP 文件中提取指定的白名单文件到目标目录
 def extract(archive, raw):
     raw = Path(raw)
     allowed = {"HDFS.log": "HDFS.log", "preprocessed/anomaly_label.csv": "anomaly_label.csv"}
@@ -77,7 +84,7 @@ def extract(archive, raw):
                 shutil.copyfileobj(src, dst, 1024 * 1024)
             tmp.replace(target)
 
-
+# 核心职责是并发保护 + 流程编排——本身不执行实际下载逻辑，而是做前置防护、调用内部实现、收尾清理
 def download(c):
     raw = Path(c["raw_dir"])
     raw.mkdir(parents=True, exist_ok=True)
@@ -92,20 +99,26 @@ def download(c):
     finally:
         lock.unlink()
 
-
+# 串联了磁盘检查 → 远程元数据校验 → 下载 → 解压 → 存证五个阶段，是整个下载管道的中枢
 def _download(c, raw):
+    # 磁盘检查， 确保有足够的空间来存储下载的文件
     if shutil.disk_usage(raw).free < c["min_free_gb"] * 1024 ** 3:
         raise ValueError("Less than required free disk space")
+    # 远程元数据校验， 确保下载的文件与配置中的元数据一致
     with urllib.request.urlopen(f'https://zenodo.org/api/records/{c["record"]}', timeout=90) as r:
         metadata = json.load(r)
+    # 查找指定的文件条目，并验证其大小和校验和是否与配置一致
     entry = next(f for f in metadata["files"] if f["key"] == "HDFS_v1.zip")
     if entry["size"] != c["size"] or entry["checksum"] != "md5:" + c["md5"]:
         raise ValueError("Pinned metadata differs from Zenodo")
+    # 下载文件
     archive = raw / "HDFS_v1.zip"
     fetch(c["url"], archive, c["size"], c["md5"])
     extract(archive, raw)
+    # 存证，记录下载的文件信息和校验结果
     save(raw / "download.json", {"schema_version": 1, "record": c["record"], "url": c["url"],
          "verified_at": datetime.now(timezone.utc).isoformat(),
          "size": c["size"], "md5": c["md5"], "artifacts": {
              p.name: digest(p) for p in (archive, raw / "HDFS.log", raw / "anomaly_label.csv")}})
+    # 返回结果，指示下载和验证成功，并提供存证文件的路径
     return {"status": "verified", "manifest": str(raw / "download.json")}

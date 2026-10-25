@@ -1,3 +1,8 @@
+"""
+审计数据集的完整性
+在构建数据集之后, 但在训练之前, 进行审计
+验数据：它会对构建好的数据集做多维度交叉验证、反泄漏检查、端到端往返验证，不通过就直接阻断下游训练
+"""
 import csv
 import hashlib
 import platform
@@ -14,7 +19,7 @@ from .common import digest, save, verified_manifest
 from .parser import parse
 from .pipeline import connect, location
 
-
+# 审计数据集的完整性, 验证构建好的数据集是否符合预期
 def audit(c):
     source, h, folder = location(c)
     build = verified_manifest(folder, "build.json")

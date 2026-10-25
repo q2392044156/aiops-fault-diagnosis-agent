@@ -1,5 +1,10 @@
-"""Validation and lifecycle management for authorized v1.2 incidents."""
+"""
+Validation and lifecycle management for authorized v1.2 incidents.
 
+v1.2 事件记录验证和生命周期管理
+此文件是 v1.2 版本故障事件（Incident）的生命周期管理模块，负责从加载、验证、入库、审计到删除的完整闭环。
+
+"""
 from __future__ import annotations
 
 import json
@@ -9,11 +14,11 @@ from pathlib import Path
 from aiops_diag.data.common import key
 from aiops_diag.data.v12_contracts import IncidentRecordV1
 
-
+# 从 JSON 文件加载 v1.2 事件记录
 def load_incident(path: str | Path) -> IncidentRecordV1:
     return IncidentRecordV1.model_validate_json(Path(path).read_text(encoding="utf-8"))
 
-
+# 计算 v1.2 事件记录的指标资格
 def metric_eligibility(record: IncidentRecordV1) -> dict:
     root_reasons = []
     labels = record.labels
@@ -57,7 +62,7 @@ def metric_eligibility(record: IncidentRecordV1) -> dict:
         },
     }
 
-
+# 验证 v1.2 事件记录的授权状态
 def validate_incident(record: IncidentRecordV1, *, at: datetime | None = None) -> dict:
     at = at or datetime.now(timezone.utc)
     if record.authorization.approved_at > at:
@@ -79,7 +84,7 @@ def validate_incident(record: IncidentRecordV1, *, at: datetime | None = None) -
         "metric_eligibility": metric_eligibility(record),
     }
 
-
+# 导入 v1.2 事件记录到数据库
 def import_incident(database, path: str | Path) -> dict:
     record = load_incident(path)
     validation = validate_incident(record)
@@ -102,7 +107,7 @@ def import_incident(database, path: str | Path) -> dict:
         )
     return {**validation, "deduplicated": False, "status": "ACTIVE"}
 
-
+# 审计 v1.2 事件记录的生命周期
 def audit_incident(database, incident_id: str) -> dict:
     row = database.one("SELECT * FROM incident_registry WHERE incident_id=?", (incident_id,))
     if not row:
@@ -113,7 +118,7 @@ def audit_incident(database, incident_id: str) -> dict:
     value["content_retained"] = row["record_json"] != "{}"
     return {"schema_version": 1, **value}
 
-
+# 删除 v1.2 事件记录
 def delete_incident(database, incident_id: str, reason: str) -> dict:
     if not reason.strip():
         raise ValueError("Deletion reason is required")

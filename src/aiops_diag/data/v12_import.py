@@ -1,4 +1,10 @@
-"""Idempotent import of label-free v1.2 diagnostic snapshots into the service."""
+"""
+Idempotent import of label-free v1.2 diagnostic snapshots into the service.
+
+负责把v1.2 版本的外部诊断快照（已经模板化的日志 JSONL）导入到服务端的运行时数据库中。
+它不走原始日志的 download → parser → pipeline 流水线，而是直接吃上游已经清洗好、模板化好的数据，
+属于"标准化外部数据→内部服务模型"的桥接层
+"""
 
 from __future__ import annotations
 
@@ -12,14 +18,14 @@ import pyarrow.parquet as pq
 
 from aiops_diag.data.common import key
 from aiops_diag.data.v12_contracts import DiagnosticSnapshotV12, EvaluationLabelV12
-from aiops_diag.service.pipeline import LOG_SCHEMA
+from aiops_diag.platform.pipeline import LOG_SCHEMA
 
-
+# 从 JSONL 文件加载 v1.2 诊断快照
 def _read_jsonl(path: Path) -> list[dict]:
     with path.open("r", encoding="utf-8") as stream:
         return [json.loads(line) for line in stream if line.strip()]
 
-
+# 将 v1.2 诊断快照的日志模板写入 Parquet 文件
 def _write_logs(path: Path, snapshots: Iterable[DiagnosticSnapshotV12]) -> int:
     rows = []
     for snapshot in snapshots:
@@ -41,7 +47,7 @@ def _write_logs(path: Path, snapshots: Iterable[DiagnosticSnapshotV12]) -> int:
     pq.write_table(table, path, compression="zstd")
     return len(rows)
 
-
+# 导入 v1.2 诊断快照到数据库
 def import_snapshots(database, snapshots_path: str | Path, labels_path: str | Path,
                      split: str, artifact_root: str | Path) -> dict:
     snapshots_path = Path(snapshots_path)

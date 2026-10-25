@@ -1,3 +1,5 @@
+"""模块说明：验证 service 相关功能、边界和回归行为。"""
+
 from io import BytesIO
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
@@ -8,32 +10,42 @@ import pyarrow.parquet as pq
 import pytest
 
 from aiops_diag.data.common import digest
-from aiops_diag.service.api import ServiceError, create_app
-from aiops_diag.service.db import Database, IdempotencyConflict
-from aiops_diag.service.pipeline import _event_groups, process
-from aiops_diag.service.runtime import ServiceRuntime
-from aiops_diag.service import release as release_module
+from aiops_diag.platform.api import ServiceError, create_app
+from aiops_diag.platform.db import Database, IdempotencyConflict
+from aiops_diag.platform.pipeline import _event_groups, process
+from aiops_diag.platform.runtime import ServiceRuntime
+from aiops_diag.platform import release as release_module
 
 
+# 变量说明：`LINE_1` 保存本模块或数据模型使用的稳定值。
 LINE_1 = b"081109 203518 143 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1 src: /10.0.0.1:1\n"
+# 变量说明：`LINE_2` 保存本模块或数据模型使用的稳定值。
 LINE_2 = b"081109 203519 144 ERROR dfs.DataNode$DataXceiver: Failed block blk_-1 at /10.0.0.1:1\n"
+# 变量说明：`NO_BLOCK` 保存本模块或数据模型使用的稳定值。
 NO_BLOCK = b"081109 203520 145 INFO dfs.DataNode: heartbeat ok\n"
 
 
+# 类说明：`FakeModel` 封装本模块内聚的数据和行为。
 class FakeModel:
+    # 变量说明：`manifest` 保存本模块或数据模型使用的稳定值。
     manifest = {"release_id": "test_release"}
+    # 变量说明：`threshold` 保存本模块或数据模型使用的稳定值。
     threshold = 1.0
 
+    # 方法说明：`template` 完成当前步骤的业务处理；参数为 `row`。
     def template(self, row):
         return 2 if row.get("level") == "ERROR" else 1
 
+    # 方法说明：`score` 完成当前步骤的业务处理；参数为 `sequences`。
     def score(self, sequences):
         scores = np.asarray([2.0 if 2 in row else -2.0 for row in sequences])
         return scores, (scores >= self.threshold).astype(np.int8)
 
+    # 方法说明：`assert_unchanged` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def assert_unchanged(self):
         return None
 
+    # 方法说明：`public` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def public(self):
         return {"schema_version": 1, "release_id": "test_release",
                 "model_id": "logistic_regression", "model_family": "tfidf_lr",
@@ -42,6 +54,7 @@ class FakeModel:
                 "protocol_hash": "protocol", "template_manifest_hash": "templates"}
 
 
+# 方法说明：`config` 完成当前步骤的业务处理；参数为 `tmp_path`、`max_bytes`。
 def config(tmp_path, max_bytes=1024):
     runtime = tmp_path / "runtime"
     release_dir = tmp_path / "release"
@@ -58,6 +71,7 @@ def config(tmp_path, max_bytes=1024):
     }
 
 
+# 方法说明：`runtime` 完成当前步骤的业务处理；参数为 `tmp_path`、`max_bytes`。
 def runtime(tmp_path, max_bytes=1024):
     value = ServiceRuntime(config(tmp_path, max_bytes), load_model=False)
     value.model = FakeModel()
@@ -65,20 +79,25 @@ def runtime(tmp_path, max_bytes=1024):
     return value
 
 
+# 类说明：`DummyUpload` 封装本模块内聚的数据和行为。
 class DummyUpload:
+    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `data`、`content_type`。
     def __init__(self, data, content_type="text/plain"):
         self.file = BytesIO(data)
         self.filename = "sample.log"
         self.content_type = content_type
 
+    # 方法说明：`read` 完成当前步骤的业务处理；参数为 `size`。
     async def read(self, size):
         return self.file.read(size)
 
 
+# 方法说明：`upload` 完成当前步骤的业务处理；参数为 `data`、`content_type`。
 def upload(data, content_type="text/plain"):
     return DummyUpload(data, content_type)
 
 
+# 方法说明：`drive` 完成当前步骤的业务处理；参数为 `coroutine`。
 def drive(coroutine):
     try:
         coroutine.send(None)
@@ -87,6 +106,7 @@ def drive(coroutine):
     raise AssertionError("Test coroutine unexpectedly required an external event loop")
 
 
+# 方法说明：`test_database_idempotency_and_recovery` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_database_idempotency_and_recovery(tmp_path):
     db = Database(tmp_path / "service.sqlite3")
     db.init()
@@ -103,9 +123,11 @@ def test_database_idempotency_and_recovery(tmp_path):
     assert db.one("SELECT status FROM tasks WHERE task_id='t1'")["status"] == "QUEUED"
 
 
+# 方法说明：`test_four_concurrent_submissions_create_one_task` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_four_concurrent_submissions_create_one_task(tmp_path):
     service = runtime(tmp_path)
 
+    # 方法说明：`submit` 完成当前步骤的业务处理；参数为 `_`。
     def submit(_):
         return drive(service.submit_upload(upload(b"same-content")))[0]["task_id"]
 
@@ -115,6 +137,7 @@ def test_four_concurrent_submissions_create_one_task(tmp_path):
     assert service.db.one("SELECT COUNT(*) AS n FROM tasks")["n"] == 1
 
 
+# 方法说明：`test_upload_validation_and_content_deduplication` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_upload_validation_and_content_deduplication(tmp_path):
     service = runtime(tmp_path, max_bytes=8)
     with pytest.raises(EOFError):
@@ -130,6 +153,7 @@ def test_upload_validation_and_content_deduplication(tmp_path):
     assert not duplicate and duplicate2 and first["task_id"] == second["task_id"]
 
 
+# 方法说明：`test_idempotency_key_conflict_for_different_uploads` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_idempotency_key_conflict_for_different_uploads(tmp_path):
     service = runtime(tmp_path)
     drive(service.submit_upload(upload(b"one"), "same"))
@@ -137,6 +161,7 @@ def test_idempotency_key_conflict_for_different_uploads(tmp_path):
         drive(service.submit_upload(upload(b"two"), "same"))
 
 
+# 方法说明：`test_event_groups_obey_gap_span_and_missing_host` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_event_groups_obey_gap_span_and_missing_host():
     base = {"prediction": 1, "host_alias": "host", "threshold": 1.0,
             "anomaly_score": 2.0, "end_time": "2020-01-01T00:00:01"}
@@ -152,6 +177,7 @@ def test_event_groups_obey_gap_span_and_missing_host():
         ["a", "b"], ["c"], ["d"]]
 
 
+# 方法说明：`test_pipeline_writes_traceable_artifacts` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_pipeline_writes_traceable_artifacts(tmp_path):
     cfg = config(tmp_path)
     source = tmp_path / "input.log"
@@ -173,6 +199,7 @@ def test_pipeline_writes_traceable_artifacts(tmp_path):
     assert "blk_-1" not in logs[0]["redacted_message"]
 
 
+# 方法说明：`test_pipeline_bounds_long_lines_and_reuses_verified_completion` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_pipeline_bounds_long_lines_and_reuses_verified_completion(tmp_path):
     cfg = config(tmp_path)
     cfg["processing"]["max_line_bytes"] = 128
@@ -188,6 +215,7 @@ def test_pipeline_bounds_long_lines_and_reuses_verified_completion(tmp_path):
     assert reused == directory and second == manifest and stages == []
 
 
+# 方法说明：`test_release_verification_rejects_changed_component` 完成当前步骤的业务处理；参数为 `tmp_path`、`monkeypatch`。
 def test_release_verification_rejects_changed_component(tmp_path, monkeypatch):
     files = {}
     for name in ("drain3_state", "template_vocab", "tfidf", "logistic_regression",
@@ -213,6 +241,7 @@ def test_release_verification_rejects_changed_component(tmp_path, monkeypatch):
         release_module.verify(cfg)
 
 
+# 方法说明：`test_database_completion_is_atomic` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_database_completion_is_atomic(tmp_path):
     service = runtime(tmp_path)
     source = tmp_path / "input.log"
@@ -225,6 +254,7 @@ def test_database_completion_is_atomic(tmp_path):
     assert service.db.one("SELECT COUNT(*) AS n FROM sessions")["n"] == 1
 
 
+# 方法说明：`test_api_routes_upload_queries_and_redaction` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_api_routes_upload_queries_and_redaction(tmp_path):
     service = runtime(tmp_path)
     app = create_app(service.cfg, start_worker=False, runtime=service)
@@ -249,6 +279,7 @@ def test_api_routes_upload_queries_and_redaction(tmp_path):
             ids["batch_id"], None, "2020-01-02T00:00:00", "2020-01-01T00:00:00", 50, None)
 
 
+# 方法说明：`test_api_upload_routes_map_domain_errors` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_api_upload_routes_map_domain_errors(tmp_path):
     service = runtime(tmp_path, max_bytes=4)
     app = create_app(service.cfg, start_worker=False, runtime=service)
@@ -262,6 +293,7 @@ def test_api_upload_routes_map_domain_errors(tmp_path):
     assert archive.value.status == 415 and archive.value.code == "UNSUPPORTED_MEDIA"
 
 
+# 方法说明：`test_registered_batch_is_allowlisted` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_registered_batch_is_allowlisted(tmp_path):
     service = runtime(tmp_path)
     with pytest.raises(FileNotFoundError):

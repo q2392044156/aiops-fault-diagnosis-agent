@@ -1,14 +1,17 @@
+"""模块说明：验证 selection 相关功能、边界和回归行为。"""
+
 import numpy as np
 import pytest
 import torch
 from sklearn.metrics import average_precision_score
 
 from aiops_diag.data.common import digest, save
-from aiops_diag.modeling.lstm_model import LSTMClassifier, collate_sequences
-from aiops_diag.selection.workflow import (_stage, _variant_rows, _weighted_ap,
+from aiops_diag.detection.lstm_model import LSTMClassifier, collate_sequences
+from aiops_diag.detection.selection.workflow import (_stage, _variant_rows, _weighted_ap,
                                            paired_bootstrap)
 
 
+# 方法说明：`test_weighted_ap_matches_sklearn` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_weighted_ap_matches_sklearn():
     labels = np.asarray([1, 0, 1, 0, 1], dtype=np.int8)
     scores = np.asarray([0.9, 0.7, 0.7, 0.2, 0.1], dtype=np.float64)
@@ -17,6 +20,7 @@ def test_weighted_ap_matches_sklearn():
         average_precision_score(labels, scores, sample_weight=weights))
 
 
+# 方法说明：`test_group_paired_bootstrap_is_deterministic` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_group_paired_bootstrap_is_deterministic():
     rows = []
     values = [
@@ -41,6 +45,7 @@ def test_group_paired_bootstrap_is_deterministic():
     assert first["delta_f1"]["mean"] > 0
 
 
+# 方法说明：`test_shuffle_ablation_is_stable_and_preserves_membership` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_shuffle_ablation_is_stable_and_preserves_membership():
     rows = [{"block_id": "a", "template_ids": [1, 2, 3, 4],
              "gap_seconds": [0.0, 1.0, 2.0, 3.0], "label": 1}]
@@ -53,6 +58,7 @@ def test_shuffle_ablation_is_stable_and_preserves_membership():
     assert first[0]["label"] == 1 and first[0]["block_id"] == "a"
 
 
+# 方法说明：`test_lstm_can_remove_safe_feature_branch` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_lstm_can_remove_safe_feature_branch():
     item = {"block_id": "a", "template_ids": [1, 2], "gaps": [0.0, 1.0],
             "session_features": [100.0, 200.0, 0.5, 0.5], "label": 1.0,
@@ -66,6 +72,7 @@ def test_lstm_can_remove_safe_feature_branch():
     assert score.shape == (1,) and torch.isfinite(score).all()
 
 
+# 方法说明：`test_stage_manifest_tamper_is_rejected` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_stage_manifest_tamper_is_rejected(tmp_path):
     artifact = tmp_path / "result.json"
     artifact.write_text("{}", encoding="utf-8")

@@ -9,7 +9,7 @@ data
 artifacts
 experiments
 runtime
-docs
+documentation/archive
 .env
 .env.*
 !.env.example

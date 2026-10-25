@@ -1,3 +1,5 @@
+"""模块说明：验证 v12 external data 相关功能、边界和回归行为。"""
+
 import json
 from pathlib import Path
 
@@ -11,6 +13,7 @@ from aiops_diag.data.v12_external import (
 )
 
 
+# 方法说明：`test_hadoop_adapter_keeps_injection_separate_from_root_cause` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_hadoop_adapter_keeps_injection_separate_from_root_cause(tmp_path):
     source = tmp_path / "loghub"
     dataset = source / "Hadoop"
@@ -41,6 +44,7 @@ Machine down:
     assert audit["source_units"] == 2
 
 
+# 方法说明：`_write_tracebench_scenario` 完成当前步骤的业务处理；参数为 `root`、`name`。
 def _write_tracebench_scenario(root: Path, name: str):
     folder = root / name
     folder.mkdir(parents=True)
@@ -61,6 +65,7 @@ def _write_tracebench_scenario(root: Path, name: str):
     )
 
 
+# 方法说明：`test_tracebench_adapter_exports_hashes_without_hosts` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_tracebench_adapter_exports_hashes_without_hosts(tmp_path):
     source = tmp_path / "loghub"
     dataset = source / "HDFS_v3_TraceBench"
@@ -82,6 +87,7 @@ def test_tracebench_adapter_exports_hashes_without_hosts(tmp_path):
     assert audit["normalized_exports_host_or_network_identifiers"] is False
 
 
+# 方法说明：`test_group_isolated_split_is_deterministic` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_group_isolated_split_is_deterministic():
     records = []
     for dataset, kind, groups in (

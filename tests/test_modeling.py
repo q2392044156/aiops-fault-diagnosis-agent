@@ -1,3 +1,5 @@
+"""模块说明：验证 modeling 相关功能、边界和回归行为。"""
+
 import json
 from datetime import timedelta
 
@@ -5,12 +7,13 @@ import pytest
 from drain3.template_miner import TemplateMiner
 
 from aiops_diag.data.common import digest, save, verified_manifest
-from aiops_diag.modeling.metrics import classification_metrics, select_threshold
-from aiops_diag.modeling.models import _document, _isolation_features, predictions
-from aiops_diag.modeling.protocol import _event_clusters, _sample_groups
-from aiops_diag.modeling.templates import content, miner_config
+from aiops_diag.detection.metrics import classification_metrics, select_threshold
+from aiops_diag.detection.models import _document, _isolation_features, predictions
+from aiops_diag.detection.protocol import _event_clusters, _sample_groups
+from aiops_diag.detection.templates import content, miner_config
 
 
+# 方法说明：`test_event_proxy_clustering_gap_span_and_singletons` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_event_proxy_clustering_gap_span_and_singletons():
     blocks = {
         "a": {"host_alias": "h", "start": "2000-01-01T00:00:00"},
@@ -23,6 +26,7 @@ def test_event_proxy_clustering_gap_span_and_singletons():
         frozenset({"a", "b"}), frozenset({"c"}), frozenset({"d"})}
 
 
+# 方法说明：`test_sampling_ignores_labels_and_keeps_groups_complete` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_sampling_ignores_labels_and_keeps_groups_complete():
     rows = [
         {"block_id": "a", "split": "train", "sampling_group": "g1", "label": 0},
@@ -35,6 +39,7 @@ def test_sampling_ignores_labels_and_keeps_groups_complete():
     assert not ({"a", "b"} & selected) or {"a", "b"} <= selected
 
 
+# 方法说明：`test_redaction_and_feature_document_exclude_forbidden_values` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_redaction_and_feature_document_exclude_forbidden_values():
     row = {"level": "ERROR", "component": "DataNode", "message":
            "blk_-123 from 10.1.2.3 pid 456 at /var/lib/hdfs/x 0xCAFE"}
@@ -44,6 +49,7 @@ def test_redaction_and_feature_document_exclude_forbidden_values():
     assert _document({"template_ids": [2, 4]}) == "T2 T4"
 
 
+# 方法说明：`test_frozen_match_does_not_create_templates` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_frozen_match_does_not_create_templates():
     cfg = {"parser": {"depth": 4, "max_children": 100}}
     miner = TemplateMiner(None, miner_config(cfg, 0.4))
@@ -53,6 +59,7 @@ def test_frozen_match_does_not_create_templates():
     assert len(miner.drain.clusters) == count
 
 
+# 方法说明：`test_metrics_and_constrained_threshold_boundary` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_metrics_and_constrained_threshold_boundary():
     metrics, curve = select_threshold([1, 0, 1, 0], [0.9, 0.8, 0.7, 0.1], 0.0)
     assert metrics["threshold"] == 0.9
@@ -66,6 +73,7 @@ def test_metrics_and_constrained_threshold_boundary():
     assert unavailable["threshold"] is None and not unavailable["useful"]
 
 
+# 方法说明：`test_isolation_features_have_only_declared_numeric_values` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_isolation_features_have_only_declared_numeric_values():
     rows = [{"template_ids": [1, 1, 9], "line_count": 3, "warn_count": 1,
              "error_count": 1, "duration_seconds": 10, "block_id": "secret", "label": 1}]
@@ -74,11 +82,13 @@ def test_isolation_features_have_only_declared_numeric_values():
     assert matrix[0, 0] == 2 and matrix[0, 1] == 0
 
 
+# 方法说明：`test_test_prediction_is_sealed_before_artifact_access` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_test_prediction_is_sealed_before_artifact_access():
     with pytest.raises(ValueError, match="sealed"):
         predictions({}, "test")
 
 
+# 方法说明：`test_manifest_tamper_is_rejected` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_manifest_tamper_is_rejected(tmp_path):
     artifact = tmp_path / "model.joblib"
     artifact.write_bytes(b"registered")

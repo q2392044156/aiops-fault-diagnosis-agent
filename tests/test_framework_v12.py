@@ -1,3 +1,5 @@
+"""模块说明：验证 framework v12 相关功能、边界和回归行为。"""
+
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -5,30 +7,35 @@ from types import SimpleNamespace
 
 import pytest
 
-from aiops_diag.agent_v11.engine import AgentEngine as CandidateAgentEngine
-from aiops_diag.agent.engine import AgentYield
-from aiops_diag.framework_v12.graph import (GRAPH_NODE_BY_CURRENT,
+from aiops_diag.diagnosis.query_v11.engine import AgentEngine as CandidateAgentEngine
+from aiops_diag.diagnosis.engine import AgentYield
+from aiops_diag.diagnosis.framework.graph import (GRAPH_NODE_BY_CURRENT,
                                             LangGraphAgentEngine)
-from aiops_diag.framework_v12.release import verify as verify_framework
-from aiops_diag.framework_v12.report_chain import CandidateSummaryChain
-from aiops_diag.framework_v12.retriever import LangChainRetrieverAdapter
-from aiops_diag.service.config import load as load_service
-from aiops_diag.service.runtime import ServiceRuntime
+from aiops_diag.diagnosis.framework.release import verify as verify_framework
+from aiops_diag.diagnosis.framework.report_chain import CandidateSummaryChain
+from aiops_diag.diagnosis.framework.retriever import LangChainRetrieverAdapter
+from aiops_diag.platform.config import load as load_service
+from aiops_diag.platform.runtime import ServiceRuntime
 
 
+# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[1]
 
 
+# 类说明：`FakeRetriever` 封装本模块内聚的数据和行为。
 class FakeRetriever:
+    # 变量说明：`manifest` 保存本模块或数据模型使用的稳定值。
     manifest = {
         "kb_release_id": "kb_test", "corpus_hash": "corpus_hash",
         "index_hash": "index_hash", "model_hash": "model_hash",
     }
 
+    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `status`。
     def __init__(self, status="evidence_found"):
         self.status = status
         self.calls = []
 
+    # 方法说明：`search` 完成当前步骤的业务处理；参数为 `query`、`**kwargs`。
     def search(self, query, **kwargs):
         self.calls.append((query, kwargs))
         items = [] if self.status == "insufficient_evidence" else [{
@@ -39,27 +46,33 @@ class FakeRetriever:
         return {"status": self.status, "mode": kwargs["mode"], "items": items,
                 "gate_score": 0.8, "gate_strategy": "top_result_dense_v11"}
 
+    # 方法说明：`verify_integrity` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def verify_integrity(self):
         return True
 
+    # 方法说明：`public` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def public(self):
         return {"kb_release_id": "kb_test"}
 
+    # 方法说明：`chunk` 完成当前步骤的业务处理；参数为 `chunk_id`。
     def chunk(self, chunk_id):
         return {"chunk_id": chunk_id}
 
 
+# 方法说明：`_budget` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def _budget():
     return {"max_tool_calls": 8, "max_llm_calls": 3, "max_tokens": 12000,
             "max_active_ms": 120000, "tool_calls": 0, "llm_calls": 0,
             "tokens": 0, "active_ms": 0, "estimated_cost_cny": 0.0}
 
 
+# 方法说明：`_evidence` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def _evidence():
     return [{"evidence_id": "ev_log", "kind": "log", "excerpt_redacted": "log"},
             {"evidence_id": "ev_doc", "kind": "doc", "excerpt_redacted": "doc"}]
 
 
+# 方法说明：`test_framework_dependencies_have_an_independent_exact_lock` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_framework_dependencies_have_an_independent_exact_lock():
     lock = (ROOT / "requirements-framework-lock.txt").read_text(encoding="utf-8")
     assert "langchain-core==1.6.12" in lock
@@ -67,6 +80,7 @@ def test_framework_dependencies_have_an_independent_exact_lock():
     assert not any(line.startswith("-r ") for line in lock.splitlines())
 
 
+# 方法说明：`test_langchain_retriever_preserves_raw_search_and_release_metadata` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_langchain_retriever_preserves_raw_search_and_release_metadata():
     backend = FakeRetriever()
     adapter = LangChainRetrieverAdapter(
@@ -87,15 +101,18 @@ def test_langchain_retriever_preserves_raw_search_and_release_metadata():
     assert all(call[1]["product_version"] == "3.4.1" for call in backend.calls)
 
 
+# 方法说明：`test_langchain_retriever_keeps_fail_closed_empty_result` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_langchain_retriever_keeps_fail_closed_empty_result():
     adapter = LangChainRetrieverAdapter(
         backend=FakeRetriever("insufficient_evidence"), mode="hybrid", top_k=3)
     assert adapter.invoke("outside knowledge") == []
 
 
+# 方法说明：`test_langchain_summary_chain_uses_audited_callback_and_strict_parser` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_langchain_summary_chain_uses_audited_callback_and_strict_parser():
     messages_seen = []
 
+    # 方法说明：`invoke_json` 完成当前步骤的业务处理；参数为 `messages`。
     def invoke_json(messages):
         messages_seen.append(messages)
         return {"summary": "现有证据支持一个待验证候选，仍需人工确认。"}
@@ -107,6 +124,7 @@ def test_langchain_summary_chain_uses_audited_callback_and_strict_parser():
     assert json.loads(messages_seen[0][1]["content"])["allowed_evidence_ids"] == ["ev_doc"]
 
 
+# 方法说明：`test_candidate_langchain_backend_repairs_once_through_existing_llm_budget_path` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_candidate_langchain_backend_repairs_once_through_existing_llm_budget_path():
     engine = object.__new__(CandidateAgentEngine)
     engine.client = SimpleNamespace(configured=True)
@@ -117,6 +135,7 @@ def test_candidate_langchain_backend_repairs_once_through_existing_llm_budget_pa
     ])
     messages_seen = []
 
+    # 方法说明：`llm` 完成当前步骤的业务处理；参数为 `_budget_value`、`messages`。
     def llm(_budget_value, messages):
         messages_seen.append(messages)
         return next(replies)
@@ -134,11 +153,13 @@ def test_candidate_langchain_backend_repairs_once_through_existing_llm_budget_pa
     assert state["errors"][0]["reason"] == "operational_text"
 
 
+# 方法说明：`test_langgraph_routes_each_persisted_node_to_a_fixed_named_node` 完成当前步骤的业务处理；参数为 `monkeypatch`。
 def test_langgraph_routes_each_persisted_node_to_a_fixed_named_node(monkeypatch):
     engine = object.__new__(LangGraphAgentEngine)
     engine.graph = engine._build_graph()
     seen = []
 
+    # 方法说明：`legacy_step` 完成当前步骤的业务处理；参数为 `_engine`、`run`。
     def legacy_step(_engine, run):
         seen.append(run["current_node"])
         raise AgentYield("DETECTED")
@@ -152,14 +173,16 @@ def test_langgraph_routes_each_persisted_node_to_a_fixed_named_node(monkeypatch)
         "__start__", *GRAPH_NODE_BY_CURRENT.values(), "__end__"}
 
 
+# 方法说明：`test_langgraph_has_no_framework_checkpointer_in_database_authority_phase` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_langgraph_has_no_framework_checkpointer_in_database_authority_phase():
     engine = object.__new__(LangGraphAgentEngine)
     engine.graph = engine._build_graph()
     assert engine.graph.checkpointer is None
 
 
+# 方法说明：`test_framework_candidate_release_and_runtime_are_bound_to_new_backends` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_framework_candidate_release_and_runtime_are_bound_to_new_backends(tmp_path):
-    cfg = load_service(ROOT / "configs/service_framework_rc2.yaml")
+    cfg = load_service(ROOT / "resources/configs/service_framework_rc2.yaml")
     release = verify_framework(
         cfg["agent"], cfg["v11_candidate"], cfg["framework_candidate"],
         cfg["config_path"], cfg["framework_candidate"]["release_dir"])
@@ -180,8 +203,9 @@ def test_framework_candidate_release_and_runtime_are_bound_to_new_backends(tmp_p
         runtime.stop()
 
 
+# 方法说明：`test_langgraph_candidate_runs_all_database_nodes_to_review` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_langgraph_candidate_runs_all_database_nodes_to_review(tmp_path):
-    cfg = load_service(ROOT / "configs/service_framework_rc2.yaml")
+    cfg = load_service(ROOT / "resources/configs/service_framework_rc2.yaml")
     cfg["paths"]["runtime_dir"] = str(tmp_path / "runtime")
     cfg["paths"]["database"] = str(tmp_path / "runtime/service.sqlite3")
     runtime = ServiceRuntime(cfg, role="worker")

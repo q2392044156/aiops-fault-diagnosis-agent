@@ -3,6 +3,9 @@
 The adapters deliberately keep injected-fault labels separate from production
 root-cause labels.  Raw logs and traces are referenced by hashes; they are not
 copied into the normalized JSONL records.
+
+这是数据层的 ETL（Extract-Transform-Load）适配器，把外部世界的不同格式"翻译"成内部统一的 v12_contracts.py 模型
+
 """
 
 from __future__ import annotations
@@ -19,30 +22,41 @@ from aiops_diag.data.v12_contracts import (DiagnosticSnapshotV12,
                                             EvaluationLabelV12,
                                             ExternalEventV12)
 
-
+# 定义数据模型的版本号
 SCHEMA_VERSION = 1
+# 变量说明：`ADAPTER_VERSION` 保存本模块或数据模型使用的稳定值。
 ADAPTER_VERSION = "v12_open_data_v1"
+# 变量说明：`DEFAULT_SEED` 保存本模块或数据模型使用的稳定值。
 DEFAULT_SEED = 20261021
-
+# 定义 LogHub Hadoop 日志的时间戳正则表达式
 HADOOP_TIMESTAMP_RE = re.compile(r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})")
+# 变量说明：`HADOOP_LOG_RE` 保存本模块或数据模型使用的稳定值。
 HADOOP_LOG_RE = re.compile(
     r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\s+"
     r"(?P<level>TRACE|DEBUG|INFO|WARN|ERROR|FATAL)\s+"
     r"(?:\[[^]]*\]\s+)?(?P<logger>[\w.$-]+):"
 )
+# 变量说明：`APPLICATION_RE` 保存本模块或数据模型使用的稳定值。
 APPLICATION_RE = re.compile(r"^application_(\d+)_(\d+)$")
+# 变量说明：`BLOCK_RE` 保存本模块或数据模型使用的稳定值。
 BLOCK_RE = re.compile(r"\bblk_-?\d+\b", re.IGNORECASE)
+# 变量说明：`IP_RE` 保存本模块或数据模型使用的稳定值。
 IP_RE = re.compile(r"(?<![0-9])(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?::\d+)?(?![0-9])")
+# 变量说明：`PATH_RE` 保存本模块或数据模型使用的稳定值。
 PATH_RE = re.compile(r"(?<![A-Za-z0-9])(?:[/\\][A-Za-z0-9._-]+){2,}")
+# 变量说明：`SECRET_RE` 保存本模块或数据模型使用的稳定值。
 SECRET_RE = re.compile(
     r"(?i)(?:api[_-]?key|token|authorization|cookie|password)\s*[:=]\s*\S+"
 )
+# 变量说明：`UNTRUSTED_RE` 保存本模块或数据模型使用的稳定值。
 UNTRUSTED_RE = re.compile(
     r"(?i)ignore\s+(?:all\s+)?previous|system\s+prompt|https?://|file://|"
     r"\b(?:curl|wget|powershell|cmd\.exe|sudo|kubectl|systemctl)\b|\brm\s+-"
 )
+# 变量说明：`NUMBER_RE` 保存本模块或数据模型使用的稳定值。
 NUMBER_RE = re.compile(r"(?<![A-Za-z])[-+]?\d+(?:\.\d+)?")
 
+# 定义安全信号的正则表达式模式
 SAFE_SIGNAL_PATTERNS = {
     "safe_mode": ("safe mode", "safemode"),
     "heartbeat_missing": ("heartbeat", "heart beat", "lost datanode", "dead datanode"),
@@ -56,6 +70,7 @@ SAFE_SIGNAL_PATTERNS = {
     "lease_recovery": ("lease recovery", "recover lease"),
 }
 
+# 定义 HDFS v3 TraceBench 注入标签的映射关系
 TRACEBENCH_INJECTION_LABELS = {
     "AN_Data_corruptBlk": "data_corrupt_block",
     "AN_Data_corruptMeta": "data_corrupt_metadata",
@@ -73,7 +88,7 @@ TRACEBENCH_INJECTION_LABELS = {
     "AN_Sys_readOnlyDN": "system_read_only_datanode",
 }
 
-
+# 计算文件的 SHA-256 哈希值
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -81,7 +96,7 @@ def sha256_file(path: Path) -> str:
             digest.update(chunk)
     return digest.hexdigest()
 
-
+# 计算文件的 MD5 哈希值
 def md5_file(path: Path) -> str:
     digest = hashlib.md5()  # noqa: S324 - upstream dataset integrity metadata uses MD5.
     with path.open("rb") as stream:
@@ -89,33 +104,33 @@ def md5_file(path: Path) -> str:
             digest.update(chunk)
     return digest.hexdigest()
 
-
+# 计算任意值的规范化哈希值
 def canonical_hash(value: Any) -> str:
     encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
-
+# 以原子方式写入文本文件，确保写入过程不会被中断
 def _atomic_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     staged = path.with_suffix(path.suffix + ".tmp")
     staged.write_text(text, encoding="utf-8", newline="\n")
     staged.replace(path)
 
-
+# 将任意值写入 JSON 文件，确保内容格式化为可读的 JSON
 def _write_json(path: Path, value: Any) -> None:
     _atomic_text(path, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
-
+# 将多行 JSONL 写入文件，每行表示一个 JSON 对象
 def _write_jsonl(path: Path, rows: Iterable[dict[str, Any]]) -> None:
     content = "".join(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n" for row in rows)
     _atomic_text(path, content)
 
-
+# 生成外部事件的唯一 ID
 def _event_id(dataset: str, source_unit_id: str) -> str:
     suffix = hashlib.sha256(f"{dataset}\0{source_unit_id}".encode()).hexdigest()[:20]
     return f"evt_ext_{dataset}_{suffix}"
 
-
+# 生成外部证据的唯一 ID
 def _evidence_ref(path: Path, source_root: Path) -> dict[str, Any]:
     content_sha256 = sha256_file(path)
     return {
@@ -127,7 +142,7 @@ def _evidence_ref(path: Path, source_root: Path) -> dict[str, Any]:
         "observed_at": None,
     }
 
-
+# 安全模板替换，将敏感信息替换为占位符
 def _safe_template(message: str) -> str:
     if UNTRUSTED_RE.search(message):
         return "<UNTRUSTED_TEXT_REDACTED>"
@@ -138,13 +153,13 @@ def _safe_template(message: str) -> str:
     message = NUMBER_RE.sub("<NUM>", message)
     return " ".join(message.split())[:500]
 
-
+# 从日志模板中提取信号名称
 def _signals(values: Iterable[str]) -> list[str]:
     joined = " ".join(values).casefold()
     return sorted(name for name, patterns in SAFE_SIGNAL_PATTERNS.items()
                   if any(pattern in joined for pattern in patterns))
 
-
+# 根据日志记录的 logger 字段确定组件名称
 def _component(logger: str) -> str:
     lowered = logger.lower()
     if "datanode" in lowered:
@@ -163,7 +178,7 @@ def _component(logger: str) -> str:
         return "HDFS Client"
     return "Other"
 
-
+# 解析 Hadoop 应用标签文件，提取应用 ID、工作负载和故障类型
 def parse_hadoop_labels(path: Path) -> dict[str, dict[str, str]]:
     """Parse the public README-like label file into application-level labels."""
     workload: str | None = None
@@ -193,7 +208,7 @@ def parse_hadoop_labels(path: Path) -> dict[str, dict[str, str]]:
         raise ValueError(f"No Hadoop labels found in {path}")
     return labels
 
-
+# 扫描 Hadoop 应用目录，提取日志文件和标签文件
 def _scan_hadoop_application(application_dir: Path, source_root: Path) -> dict[str, Any]:
     first_timestamp: str | None = None
     last_timestamp: str | None = None
@@ -238,7 +253,7 @@ def _scan_hadoop_application(application_dir: Path, source_root: Path) -> dict[s
         "templates": templates,
     }
 
-
+# 构建 Hadoop 应用记录，包括事件、证据和日志模板
 def build_hadoop_records(dataset_dir: Path, source_root: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     labels_path = dataset_dir / "abnormal_label.txt"
     labels = parse_hadoop_labels(labels_path)
@@ -358,14 +373,14 @@ def build_hadoop_records(dataset_dir: Path, source_root: Path) -> tuple[list[dic
     }
     return records, audit
 
-
+# 从 TraceBench 场景名称中提取场景家族
 def tracebench_family(scenario_name: str) -> str:
     parts = scenario_name.split("_")
     if len(parts) < 3 or parts[0] not in {"AN", "COM", "NM"}:
         raise ValueError(f"Unexpected TraceBench scenario name: {scenario_name}")
     return "_".join(parts[:3])
 
-
+# 解析 TraceBench 场景名称，提取场景类型、异常标签、注入标签和标签来源
 def _tracebench_labels(family: str) -> tuple[str, str, str | None, str]:
     if family.startswith("AN_"):
         return "injected_fault", "anomaly", TRACEBENCH_INJECTION_LABELS.get(family, family.lower()), "injected_fault_family"
@@ -373,7 +388,7 @@ def _tracebench_labels(family: str) -> tuple[str, str, str | None, str]:
         return "normal", "normal", None, "dataset_declared_normal"
     return "compound", "mixed", family.lower(), "compound_scenario_family"
 
-
+# 从 TraceBench 场景家族中提取组件名称
 def _tracebench_components(family: str) -> list[str]:
     lowered = family.lower()
     values: set[str] = set()
@@ -387,7 +402,7 @@ def _tracebench_components(family: str) -> list[str]:
         values.add("cross-component")
     return sorted(values)
 
-
+# 读取 TraceBench 场景的跟踪摘要文件，提取任务、报告、边和无效行数
 def _read_trace_summary(path: Path) -> dict[str, Any]:
     tasks = reports = edges = invalid_rows = 0
     first_seen: str | None = None
@@ -420,7 +435,7 @@ def _read_trace_summary(path: Path) -> dict[str, Any]:
         "title_counts": dict(titles.most_common(20)),
     }
 
-
+# 读取 TraceBench 场景的操作摘要文件，提取操作类型、操作数量和无效行数
 def _read_operation_summary(path: Path) -> dict[str, Any]:
     operation_types = invalid_rows = 0
     total_operations = 0
@@ -443,7 +458,7 @@ def _read_operation_summary(path: Path) -> dict[str, Any]:
         "top_operations": dict(operations.most_common(20)),
     }
 
-
+# 读取 TraceBench 场景的事件摘要文件，提取组件名称、失败事件数量和无效行数
 def _read_event_summary(path: Path) -> dict[str, Any]:
     component_counts: Counter[str] = Counter()
     failed = invalid = 0
@@ -469,7 +484,7 @@ def _read_event_summary(path: Path) -> dict[str, Any]:
     return {"component_counts": dict(sorted(component_counts.items())),
             "failed_event_count": failed, "invalid_event_rows": invalid}
 
-
+# 构建 TraceBench 场景记录，包括事件、证据和日志模板
 def build_tracebench_records(dataset_dir: Path, source_root: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     tracebench_dir = dataset_dir / "tracebench"
     scenario_dirs = sorted(path for path in tracebench_dir.iterdir() if path.is_dir())
@@ -539,7 +554,7 @@ def build_tracebench_records(dataset_dir: Path, source_root: Path) -> tuple[list
                 },
             }
         )
-
+    # 如果有缺失的文件，抛出异常，提示缺失的 TraceBench 场景文件
     if missing_files:
         raise ValueError(f"TraceBench scenarios missing required files: {missing_files}")
     audit = {
@@ -574,7 +589,7 @@ def build_tracebench_records(dataset_dir: Path, source_root: Path) -> tuple[list
     }
     return records, audit
 
-
+# 将组名列表拆分为开发、校准和独立测试集，确保每个组完整地分配到一个集合中
 def _split_group_names(group_names: list[str], seed: int) -> dict[str, str]:
     ordered = sorted(group_names, key=lambda value: canonical_hash([seed, value]))
     count = len(ordered)
@@ -595,7 +610,7 @@ def _split_group_names(group_names: list[str], seed: int) -> dict[str, str]:
             result[name] = "independent_test"
     return result
 
-
+# Assign整个集合组；没有源单元或故障脚本家族被拆分。
 def assign_splits(records: list[dict[str, Any]], seed: int = DEFAULT_SEED) -> list[dict[str, Any]]:
     """Assign whole collection groups; no source unit or fault-script family is split."""
     assignments: dict[str, str] = {}
@@ -625,7 +640,7 @@ def assign_splits(records: list[dict[str, Any]], seed: int = DEFAULT_SEED) -> li
         )
     return rows
 
-
+# 审计拆分分配，检查组是否被拆分、重复记录、缺失事件和哈希不匹配
 def audit_split_assignments(records: list[dict[str, Any]], assignments: list[dict[str, Any]]) -> dict[str, Any]:
     event_ids = [row["event_id"] for row in records]
     assigned_ids = [row["event_id"] for row in assignments]
@@ -668,7 +683,7 @@ def audit_split_assignments(records: list[dict[str, Any]], assignments: list[dic
         "warning": "The public independent_test partition is group-isolated but not a sealed blind test.",
     }
 
-
+# 构建诊断快照，包括事件、证据和日志模板
 def build_diagnostic_snapshot(record: dict[str, Any]) -> dict[str, Any]:
     """Build the label-free object consumed by the service and Agent."""
     ExternalEventV12.model_validate(record)
@@ -709,7 +724,7 @@ def build_diagnostic_snapshot(record: dict[str, Any]) -> dict[str, Any]:
     value["snapshot_hash"] = canonical_hash(value)
     return DiagnosticSnapshotV12.model_validate(value).model_dump(mode="json")
 
-
+# 构建评估标签，包括事件、数据集、分区和异常标签
 def build_evaluation_label(record: dict[str, Any], split: str) -> dict[str, Any]:
     value = {
         "schema_version": 1,
@@ -724,7 +739,7 @@ def build_evaluation_label(record: dict[str, Any], split: str) -> dict[str, Any]
     }
     return EvaluationLabelV12.model_validate(value).model_dump(mode="json")
 
-
+# 验证下载清单，确保所有归档文件的大小和 MD5 校验和匹配
 def _verify_download_manifest(source_root: Path) -> dict[str, Any]:
     manifest_path = source_root / "DOWNLOAD_MANIFEST.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -736,7 +751,7 @@ def _verify_download_manifest(source_root: Path) -> dict[str, Any]:
             raise ValueError(f"Archive MD5 mismatch: {archive_path}")
     return manifest
 
-
+# 构建数据集清单，包括事件、审计和清单文件
 def _dataset_manifest(output_dir: Path, records: list[dict[str, Any]], audit: dict[str, Any]) -> dict[str, Any]:
     events_path = output_dir / "events.jsonl"
     audit_path = output_dir / "dataset_audit.json"
@@ -756,7 +771,7 @@ def _dataset_manifest(output_dir: Path, records: list[dict[str, Any]], audit: di
     _write_json(output_dir / "manifest.json", manifest)
     return manifest
 
-
+# 准备外部数据集，包括 Hadoop 和 TraceBench 数据集，生成处理后的数据、拆分和清单
 def prepare_external_datasets(source_root: Path, seed: int = DEFAULT_SEED) -> dict[str, Any]:
     source_root = source_root.resolve()
     download_manifest = _verify_download_manifest(source_root)
@@ -848,7 +863,7 @@ def prepare_external_datasets(source_root: Path, seed: int = DEFAULT_SEED) -> di
     _write_json(source_root / "processing_manifest.json", result)
     return result
 
-
+# 审计外部输出，包括诊断快照和评估标签
 def audit_external_outputs(source_root: str | Path) -> dict[str, Any]:
     source_root = Path(source_root).resolve()
     manifest_path = source_root / "processing_manifest.json"
