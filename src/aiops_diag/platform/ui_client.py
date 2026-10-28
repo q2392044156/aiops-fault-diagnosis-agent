@@ -124,6 +124,10 @@ class ApiClient:
     def diagnosis_tools(self, diagnosis_id):
         return self._value(self.client.get(f"/api/v1/diagnoses/{diagnosis_id}/tool-calls"))
 
+    # 方法说明：trace 读取一次诊断的调用瀑布（span 列表）。
+    def trace(self, diagnosis_id):
+        return self._value(self.client.get(f"/api/v1/diagnoses/{diagnosis_id}/trace"))
+
     # 方法说明：`incident_report` 完成当前步骤的业务处理；参数为 `report_id`。
     def incident_report(self, report_id):
         return self._value(self.client.get(f"/api/v1/reports/{report_id}"))

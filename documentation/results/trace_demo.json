@@ -1,0 +1,409 @@
+{
+  "diagnosis_id": "dia_c5a9d720d27ea4bcb4cb2971",
+  "trace_id": "f4d382043cb54012a7f8cb6c4520ca09",
+  "spans": [
+    {
+      "span_id": "863a4a20fed548cf",
+      "parent_id": null,
+      "name": "agent.node",
+      "kind": "node",
+      "started_at": "2026-10-28T10:18:34.679006+00:00",
+      "duration_ms": 0.017,
+      "status": "yielded",
+      "attributes": {
+        "llm_calls": 0,
+        "node": "VALIDATED",
+        "revision": 1,
+        "tokens": 0,
+        "tool_calls": 0
+      }
+    },
+    {
+      "span_id": "31b78f95df8d48f8",
+      "parent_id": "863a4a20fed548cf",
+      "name": "agent.node",
+      "kind": "node",
+      "started_at": "2026-10-28T10:18:35.053642+00:00",
+      "duration_ms": 284.909,
+      "status": "yielded",
+      "attributes": {
+        "llm_calls": 0,
+        "node": "DETECTED",
+        "revision": 1,
+        "tokens": 0,
+        "tool_calls": 1
+      }
+    },
+    {
+      "span_id": "3512699264f24bb6",
+      "parent_id": "31b78f95df8d48f8",
+      "name": "tool.detect_anomaly",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:35.163770+00:00",
+      "duration_ms": 86.571,
+      "status": "ok",
+      "attributes": {
+        "attempts": 1,
+        "reused": false,
+        "tool": "detect_anomaly"
+      }
+    },
+    {
+      "span_id": "9d533f1a9f3b47ae",
+      "parent_id": "31b78f95df8d48f8",
+      "name": "agent.node",
+      "kind": "node",
+      "started_at": "2026-10-28T10:18:35.711614+00:00",
+      "duration_ms": 118.47,
+      "status": "yielded",
+      "attributes": {
+        "llm_calls": 0,
+        "node": "EVIDENCE_COLLECTED",
+        "revision": 1,
+        "tokens": 0,
+        "tool_calls": 2
+      }
+    },
+    {
+      "span_id": "6276a81d7b544b36",
+      "parent_id": "9d533f1a9f3b47ae",
+      "name": "tool.detect_anomaly",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:35.713611+00:00",
+      "duration_ms": 0.027,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "detect_anomaly"
+      }
+    },
+    {
+      "span_id": "74460468696040e9",
+      "parent_id": "9d533f1a9f3b47ae",
+      "name": "tool.query_logs",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:35.799406+00:00",
+      "duration_ms": 16.938,
+      "status": "ok",
+      "attributes": {
+        "attempts": 1,
+        "reused": false,
+        "tool": "query_logs"
+      }
+    },
+    {
+      "span_id": "263fe4d4a6454231",
+      "parent_id": "9d533f1a9f3b47ae",
+      "name": "agent.node",
+      "kind": "node",
+      "started_at": "2026-10-28T10:18:35.876667+00:00",
+      "duration_ms": 74.828,
+      "status": "yielded",
+      "attributes": {
+        "llm_calls": 0,
+        "node": "RETRIEVED",
+        "revision": 1,
+        "tokens": 0,
+        "tool_calls": 3
+      }
+    },
+    {
+      "span_id": "2cf407ef36884a4a",
+      "parent_id": "263fe4d4a6454231",
+      "name": "tool.detect_anomaly",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:35.878677+00:00",
+      "duration_ms": 0.035,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "detect_anomaly"
+      }
+    },
+    {
+      "span_id": "c61aec936ca94d35",
+      "parent_id": "263fe4d4a6454231",
+      "name": "tool.query_logs",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:35.891488+00:00",
+      "duration_ms": 0.028,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "query_logs"
+      }
+    },
+    {
+      "span_id": "25556026399e4001",
+      "parent_id": "263fe4d4a6454231",
+      "name": "tool.retrieve_runbook",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:35.914723+00:00",
+      "duration_ms": 12.064,
+      "status": "ok",
+      "attributes": {
+        "attempts": 1,
+        "reused": false,
+        "tool": "retrieve_runbook"
+      }
+    },
+    {
+      "span_id": "950621c831cc4353",
+      "parent_id": "263fe4d4a6454231",
+      "name": "agent.node",
+      "kind": "node",
+      "started_at": "2026-10-28T10:18:35.998254+00:00",
+      "duration_ms": 77.859,
+      "status": "yielded",
+      "attributes": {
+        "llm_calls": 0,
+        "node": "HYPOTHESES_RANKED",
+        "revision": 1,
+        "tokens": 0,
+        "tool_calls": 4
+      }
+    },
+    {
+      "span_id": "f8d48cb0f0814f93",
+      "parent_id": "950621c831cc4353",
+      "name": "tool.detect_anomaly",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:36.000253+00:00",
+      "duration_ms": 0.027,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "detect_anomaly"
+      }
+    },
+    {
+      "span_id": "ab64dbf3233b4b72",
+      "parent_id": "950621c831cc4353",
+      "name": "tool.query_logs",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:36.012783+00:00",
+      "duration_ms": 0.024,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "query_logs"
+      }
+    },
+    {
+      "span_id": "318a308355aa4f72",
+      "parent_id": "950621c831cc4353",
+      "name": "tool.retrieve_runbook",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:36.027021+00:00",
+      "duration_ms": 0.023,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "retrieve_runbook"
+      }
+    },
+    {
+      "span_id": "290df249606f4bbd",
+      "parent_id": "950621c831cc4353",
+      "name": "tool.rank_root_causes",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:36.051564+00:00",
+      "duration_ms": 12.111,
+      "status": "ok",
+      "attributes": {
+        "attempts": 1,
+        "reused": false,
+        "tool": "rank_root_causes"
+      }
+    },
+    {
+      "span_id": "e88ad060da044293",
+      "parent_id": "950621c831cc4353",
+      "name": "agent.node",
+      "kind": "node",
+      "started_at": "2026-10-28T10:18:36.123694+00:00",
+      "duration_ms": 6731.264,
+      "status": "yielded",
+      "attributes": {
+        "llm_calls": 1,
+        "node": "REPORT_VALIDATED",
+        "revision": 1,
+        "tokens": 2554,
+        "tool_calls": 6
+      }
+    },
+    {
+      "span_id": "aac9a47ad3b5490c",
+      "parent_id": "e88ad060da044293",
+      "name": "tool.detect_anomaly",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:36.126693+00:00",
+      "duration_ms": 0.024,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "detect_anomaly"
+      }
+    },
+    {
+      "span_id": "8be19ebfdb72461b",
+      "parent_id": "e88ad060da044293",
+      "name": "tool.query_logs",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:36.140185+00:00",
+      "duration_ms": 0.027,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "query_logs"
+      }
+    },
+    {
+      "span_id": "3ed3d980f3bf4783",
+      "parent_id": "e88ad060da044293",
+      "name": "tool.retrieve_runbook",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:36.154722+00:00",
+      "duration_ms": 0.021,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "retrieve_runbook"
+      }
+    },
+    {
+      "span_id": "7432fa261f044abb",
+      "parent_id": "e88ad060da044293",
+      "name": "tool.rank_root_causes",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:36.168973+00:00",
+      "duration_ms": 0.026,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "rank_root_causes"
+      }
+    },
+    {
+      "span_id": "75e3ae06fc70471a",
+      "parent_id": "e88ad060da044293",
+      "name": "tool.generate_incident_report",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:36.192057+00:00",
+      "duration_ms": 6612.205,
+      "status": "ok",
+      "attributes": {
+        "attempts": 1,
+        "reused": false,
+        "tool": "generate_incident_report"
+      }
+    },
+    {
+      "span_id": "1a04331b835d4456",
+      "parent_id": "e88ad060da044293",
+      "name": "llm.call",
+      "kind": "llm",
+      "started_at": "2026-10-28T10:18:36.192057+00:00",
+      "duration_ms": 6589.602,
+      "status": "ok",
+      "attributes": {
+        "cost": 0.012596,
+        "stage": "report",
+        "tokens": 2554
+      }
+    },
+    {
+      "span_id": "3e9ba19d4b504623",
+      "parent_id": "e88ad060da044293",
+      "name": "tool.request_human_approval",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:42.832072+00:00",
+      "duration_ms": 11.936,
+      "status": "ok",
+      "attributes": {
+        "attempts": 1,
+        "reused": false,
+        "tool": "request_human_approval"
+      }
+    },
+    {
+      "span_id": "52807a99b9684a7b",
+      "parent_id": "039348ab2ad642c6",
+      "name": "tool.detect_anomaly",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:42.905984+00:00",
+      "duration_ms": 0.026,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "detect_anomaly"
+      }
+    },
+    {
+      "span_id": "4bbd7335e35541a9",
+      "parent_id": "039348ab2ad642c6",
+      "name": "tool.query_logs",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:42.919181+00:00",
+      "duration_ms": 0.027,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "query_logs"
+      }
+    },
+    {
+      "span_id": "6bdfa01205d94b53",
+      "parent_id": "039348ab2ad642c6",
+      "name": "tool.retrieve_runbook",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:42.933020+00:00",
+      "duration_ms": 0.024,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "retrieve_runbook"
+      }
+    },
+    {
+      "span_id": "58af352697814080",
+      "parent_id": "039348ab2ad642c6",
+      "name": "tool.rank_root_causes",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:42.946533+00:00",
+      "duration_ms": 0.027,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "rank_root_causes"
+      }
+    },
+    {
+      "span_id": "eef1f5fade6d4fb8",
+      "parent_id": "039348ab2ad642c6",
+      "name": "tool.generate_incident_report",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:42.960439+00:00",
+      "duration_ms": 0.028,
+      "status": "reused",
+      "attributes": {
+        "reused": true,
+        "tool": "generate_incident_report"
+      }
+    },
+    {
+      "span_id": "68cbc64fcec14d78",
+      "parent_id": "039348ab2ad642c6",
+      "name": "tool.request_human_approval",
+      "kind": "tool",
+      "started_at": "2026-10-28T10:18:42.982801+00:00",
+      "duration_ms": 11.895,
+      "status": "ok",
+      "attributes": {
+        "attempts": 1,
+        "reused": false,
+        "tool": "request_human_approval"
+      }
+    }
+  ]
+}

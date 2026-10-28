@@ -146,7 +146,7 @@ v1.2 的三个在线案例来自开发分区，只能证明工程链路能够工
 
 完整分层、模块边界与四条不变量见 [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md)（含可编辑的 Mermaid 源）；图示文件为 [architecture.png](documentation/architecture.png)（2000×1280）与 [architecture.svg](documentation/architecture.svg)，可直接插入 PPT 或简历。
 
-工具路由的 30 例对照实验（确定性 / 自由 / 规则 / 受控 function calling）见 [P0-1 报告](documentation/P0-1_工具路由.md)；诊断过程的轨迹指标（步数、重试、证据覆盖、拒答分类）见 [P0-2 报告](documentation/P0-2_轨迹评测.md)；上下文压缩的消融（省 36.5% token、质量持平）见 [P0-3 报告](documentation/P0-3_上下文工程.md)。
+工具路由的 30 例对照实验（确定性 / 自由 / 规则 / 受控 function calling）见 [P0-1 报告](documentation/P0-1_工具路由.md)；诊断过程的轨迹指标（步数、重试、证据覆盖、拒答分类）见 [P0-2 报告](documentation/P0-2_轨迹评测.md)；上下文压缩的消融（省 36.5% token、质量持平）见 [P0-3 报告](documentation/P0-3_上下文工程.md)；诊断链路的 trace/span 与调用瀑布见 [P1-4 报告](documentation/P1-4_可观测性.md)。
 
 ## 项目结构
 

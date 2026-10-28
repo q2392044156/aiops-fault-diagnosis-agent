@@ -157,6 +157,13 @@ CREATE TABLE IF NOT EXISTS langgraph_checkpoints(
 );
 CREATE INDEX IF NOT EXISTS idx_langgraph_checkpoints_latest
   ON langgraph_checkpoints(thread_id,checkpoint_ns,checkpoint_id DESC);
+CREATE TABLE IF NOT EXISTS trace_spans(
+  trace_id TEXT NOT NULL, span_id TEXT NOT NULL, parent_id TEXT, subject_id TEXT,
+  name TEXT NOT NULL, kind TEXT NOT NULL, started_at TEXT NOT NULL, ended_at TEXT NOT NULL,
+  duration_ms REAL NOT NULL, status TEXT NOT NULL, attributes_json TEXT NOT NULL,
+  PRIMARY KEY(trace_id, span_id)
+);
+CREATE INDEX IF NOT EXISTS idx_trace_spans_subject ON trace_spans(subject_id, started_at);
 CREATE TABLE IF NOT EXISTS langgraph_writes(
   thread_id TEXT NOT NULL, checkpoint_ns TEXT NOT NULL, checkpoint_id TEXT NOT NULL,
   task_id TEXT NOT NULL, task_path TEXT NOT NULL, write_index INTEGER NOT NULL,
@@ -862,6 +869,25 @@ class Database:
                 raise LeaseLost("Agent lease was lost before failure could be recorded")
             self._agent_audit(db, diagnosis_id, "worker", None, "AGENT_FAILED",
                               {"code": code}, stamp)
+
+    # 方法说明：add_span 把一条 span 写入追踪表。
+    def add_span(self, trace_id, subject_id, record):
+        with self.transaction() as db:
+            db.execute(
+                "INSERT OR REPLACE INTO trace_spans(trace_id,span_id,parent_id,subject_id,name,"
+                "kind,started_at,ended_at,duration_ms,status,attributes_json) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                (trace_id, record.span_id, record.parent_id, subject_id, record.name,
+                 record.kind, record.started_at, now(), record.duration_ms, record.status,
+                 json.dumps(record.attributes, ensure_ascii=False, sort_keys=True)),
+            )
+
+    # 方法说明：spans 返回某次诊断的 span，按开始时间排序。
+    def spans(self, subject_id):
+        return self.all(
+            "SELECT trace_id,span_id,parent_id,name,kind,started_at,ended_at,duration_ms,"
+            "status,attributes_json FROM trace_spans WHERE subject_id=? "
+            "ORDER BY started_at, duration_ms DESC", (subject_id,))
 
     # 方法说明：`get_agent_run` 完成当前步骤的业务处理；参数为 `diagnosis_id`。
     def get_agent_run(self, diagnosis_id):

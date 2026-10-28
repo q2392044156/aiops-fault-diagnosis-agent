@@ -10,6 +10,7 @@ from pydantic import ValidationError
 
 from aiops_diag.data.common import key
 from aiops_diag.knowledge.generation.client import DeepSeekClient, DeepSeekError, DeepSeekJsonError
+from aiops_diag.platform.tracing import NullTrace, SpanRecord, Tracer, elapsed_ms, now
 
 from .budget import DatabaseBudgetLedger
 from .context_builder import build_context
@@ -76,6 +77,7 @@ class AgentEngine:
             client = DeepSeekClient(cfg["rag"], ledger=ledger)
         self.client = client
         self.tools = AgentTools(database, cfg, retriever, service_manifest)
+        self.tracer = Tracer(database)
 
     # 方法说明：`configured` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @property
@@ -93,10 +95,38 @@ class AgentEngine:
             "schema_version", "agent_version", "release_id", "rag_version",
             "kb_release_id", "tool_manifest_hash", "risk_policy_hash", "prompt_version")}
 
-    # 方法说明：`_save` 完成当前步骤的业务处理；参数为 `run`、`state`、`budget`、`node`。
+    # 方法说明：_trace 返回当前诊断绑定的 Trace，并在首次调用时生成 trace_id。
+    def _trace(self, state, diagnosis_id=None):
+        tracer = getattr(self, "tracer", None)
+        if tracer is None or not tracer.enabled:
+            return NullTrace()
+        trace_id = state.get("trace_id")
+        if not trace_id:
+            trace_id = tracer.new_trace()
+            state["trace_id"] = trace_id
+        return tracer.bind(trace_id, diagnosis_id or state.get("diagnosis_id"))
+
+    # 方法说明：_record_span 写入一条已完成 span，不影响主流程。
+    def _record_span(self, state, name, kind, parent_id, started_at, started_perf,
+                     status="ok", **attributes):
+        record = SpanRecord(name, kind, parent_id=parent_id, attributes=attributes,
+                            started_at=started_at)
+        record.finish(elapsed_ms(started_perf), status=status)
+        self._trace(state).record(record)
+
+    # 方法说明：_save 完成当前步骤的业务处理；参数为 run、state、budget、node。
     def _save(self, run, state, budget, node):
         if NODE_ORDER[node] <= NODE_ORDER.get(run["current_node"], -1):
             return
+        record = SpanRecord("agent.node", "node", parent_id=state.get("last_node_span"),
+                            attributes={"node": node, "revision": run.get("revision")},
+                            span_id=state.get("node_span_id"),
+                            started_at=state.get("node_started_at") or now())
+        record.finish(elapsed_ms(state.get("node_started_perf") or time.perf_counter()),
+                      status="yielded", tool_calls=budget.get("tool_calls", 0),
+                      llm_calls=budget.get("llm_calls", 0), tokens=budget.get("tokens", 0))
+        self._trace(state).record(record)
+        state["last_node_span"] = record.span_id
         self.db.update_agent_state(run["diagnosis_id"], run["lease_token"],
                                    node, state, budget)
         raise AgentYield(node)
@@ -121,6 +151,9 @@ class AgentEngine:
             if call["tool_call_id"] not in state["tool_calls"]:
                 state["tool_calls"].append(call["tool_call_id"])
             budget["tool_calls"] = max(budget["tool_calls"], int(call["ordinal"]))
+            self._record_span(state, "tool." + name, "tool", state.get("node_span_id"),
+                              now(), time.perf_counter(), status="reused",
+                              tool=name, reused=True)
             if call["status"] == "SUCCEEDED" and call.get("result_json"):
                 cached = json.loads(call["result_json"])
                 snapshot = cached.get("provenance", {}).get("budget_snapshot", {})
@@ -135,6 +168,7 @@ class AgentEngine:
                 "retryable": False}, "provenance": {}, "elapsed_ms": 0.0,
                 "truncated": False}
         budget["tool_calls"] += 1
+        started_at = now()
         started = time.perf_counter()
         active_before = budget["active_ms"]
         try:
@@ -180,10 +214,15 @@ class AgentEngine:
         budget["active_ms"] += max(0, elapsed_ms - internally_counted)
         if budget["active_ms"] > budget["max_active_ms"]:
             state["review_reasons"].append("budget_exhausted")
+        self._record_span(state, "tool." + name, "tool", state.get("node_span_id"),
+                          started_at, started,
+                          status="ok" if value.get("ok") else "error",
+                          tool=name, reused=False,
+                          attempts=value.get("provenance", {}).get("attempts"))
         return value
 
     # 方法说明：`_llm` 完成当前步骤的业务处理；参数为 `budget`、`messages`。
-    def _llm(self, budget, messages):
+    def _llm(self, budget, messages, state=None, stage="llm"):
         if budget["llm_calls"] >= budget["max_llm_calls"]:
             raise DeepSeekError("Agent LLM call budget was exhausted")
         if budget["tokens"] >= budget["max_tokens"]:
@@ -191,6 +230,7 @@ class AgentEngine:
         if budget["active_ms"] >= budget["max_active_ms"]:
             raise DeepSeekError("Agent active processing budget was exhausted")
         budget["llm_calls"] += 1
+        started_at = now()
         started = time.perf_counter()
         try:
             value, usage = self.client.complete_json(messages)
@@ -214,6 +254,11 @@ class AgentEngine:
             raise DeepSeekError("Agent active processing budget was exhausted")
         if budget["tokens"] > budget["max_tokens"]:
             raise DeepSeekError("Agent revision token budget was exhausted")
+        if state is not None:
+            self._record_span(state, "llm.call", "llm", state.get("node_span_id"),
+                              started_at, started, stage=stage,
+                              tokens=int(usage["input_tokens"]) + int(usage["output_tokens"]),
+                              cost=float(usage["estimated_cost_cny"]))
         return value
 
     # 方法说明：`_route` 按配置选择 v1 JSON 路由或 v2 受控工具调用路由。
@@ -226,7 +271,8 @@ class AgentEngine:
         messages = [{"role": "system", "content": ROUTER_PROMPT},
                     {"role": "user", "content": json.dumps(summary, ensure_ascii=False)}]
         try:
-            return RouterDecision.model_validate(self._llm(budget, messages)).next_tools
+            return RouterDecision.model_validate(
+                self._llm(budget, messages, state, "router")).next_tools
         except (DeepSeekError, DeepSeekJsonError, ValidationError, ValueError) as exc:
             state["errors"].append({"stage": "router", "type": type(exc).__name__})
             return []
@@ -238,7 +284,7 @@ class AgentEngine:
             allowlist.append("read_trace_summary")
         router = ToolRouter(allowlist, max_tools=2)
         outcome = router.route(
-            summary, lambda messages, tools: self._llm_tools(budget, messages, tools))
+            summary, lambda messages, tools: self._llm_tools(budget, messages, tools, state))
         state["router"] = {"version": "v2", "policy": outcome["policy"],
                            "names": outcome["names"], "blocked": outcome["blocked"],
                            "usage": outcome["usage"], "elapsed_ms": outcome["elapsed_ms"]}
@@ -247,7 +293,7 @@ class AgentEngine:
         return outcome["names"]
 
     # 方法说明：`_llm_tools` 在预算内执行一次工具调用请求并累计用量。
-    def _llm_tools(self, budget, messages, tools):
+    def _llm_tools(self, budget, messages, tools, state=None, stage="router"):
         if budget["llm_calls"] >= budget["max_llm_calls"]:
             raise DeepSeekError("Agent LLM call budget was exhausted")
         if budget["tokens"] >= budget["max_tokens"]:
@@ -255,6 +301,7 @@ class AgentEngine:
         if budget["active_ms"] >= budget["max_active_ms"]:
             raise DeepSeekError("Agent active processing budget was exhausted")
         budget["llm_calls"] += 1
+        started_at = now()
         started = time.perf_counter()
         try:
             calls, usage = self.client.complete_tool_calls(messages, tools)
@@ -268,6 +315,11 @@ class AgentEngine:
             raise DeepSeekError("Agent active processing budget was exhausted")
         if budget["tokens"] > budget["max_tokens"]:
             raise DeepSeekError("Agent revision token budget was exhausted")
+        if state is not None:
+            self._record_span(state, "llm.call", "llm", state.get("node_span_id"),
+                              started_at, started, stage=stage,
+                              tokens=int(usage["input_tokens"]) + int(usage["output_tokens"]),
+                              cost=float(usage["estimated_cost_cny"]))
         return calls, usage
 
     # 方法说明：`_template_body` 完成当前步骤的业务处理；参数为 `hypotheses`、`allowed_ids`、`enough`。
@@ -306,7 +358,7 @@ class AgentEngine:
         messages = [{"role": "system", "content": REPORT_PROMPT},
                     {"role": "user", "content": json.dumps(package, ensure_ascii=False)}]
         try:
-            raw = self._llm(budget, messages)
+            raw = self._llm(budget, messages, state, "report")
             body = GeneratedReportBody.model_validate(raw)
         except (DeepSeekError, DeepSeekJsonError, ValidationError, ValueError) as first:
             state["errors"].append({"stage": "report", "type": type(first).__name__})
@@ -315,7 +367,8 @@ class AgentEngine:
                     raw if "raw" in locals() else {}, ensure_ascii=False)},
                     {"role": "user", "content": "上一个输出未通过严格Schema，请仅返回修正后的JSON。"}]
                 try:
-                    body = GeneratedReportBody.model_validate(self._llm(budget, repair))
+                    body = GeneratedReportBody.model_validate(
+                    self._llm(budget, repair, state, "repair"))
                 except (DeepSeekError, DeepSeekJsonError, ValidationError, ValueError) as second:
                     state["errors"].append({"stage": "repair", "type": type(second).__name__})
                     return self._template_body(hypotheses, sorted(allowed), enough), \
@@ -360,6 +413,11 @@ class AgentEngine:
     # 方法说明：`run` 完成当前步骤的业务处理；参数为 `run`。
     def run(self, run):
         state = json.loads(run["state_json"])
+        state["diagnosis_id"] = run["diagnosis_id"]
+        trace = self._trace(state)
+        state["node_span_id"] = trace.new_span()
+        state["node_started_at"] = now()
+        state["node_started_perf"] = time.perf_counter()
         budget = json.loads(run["budget_json"])
         diagnosis_id, event_id = run["diagnosis_id"], run["event_id"]
         self._save(run, state, budget, "VALIDATED")
@@ -493,6 +551,7 @@ class AgentEngine:
             missing_information=body.missing_information, limitations=body.limitations,
             evidence=clean_evidence,
             provenance={"agent_version": self.cfg["agent_version"],
+                        "trace_id": state.get("trace_id"),
                         "agent_release_id": self.release["release_id"],
                         "model_release_id": self.service_manifest["release_id"],
                         "kb_release_id": self.retriever.manifest["kb_release_id"],

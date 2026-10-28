@@ -201,6 +201,15 @@ with tab_agent:
                 st.dataframe([{name: row[name] for name in (
                     "ordinal", "tool_name", "status", "started_at", "finished_at")}
                               for row in calls], use_container_width=True)
+            trace = client.trace(diagnosis_id)
+            if trace.get("spans"):
+                with st.expander(f"调用瀑布（{len(trace['spans'])} 个 span）"):
+                    slowest = max(span["duration_ms"] for span in trace["spans"]) or 1.0
+                    for span in trace["spans"]:
+                        width = max(1, int(span["duration_ms"] / slowest * 24))
+                        st.text(f"{'█' * width:<24} {span['name']:<26} "
+                                f"{span['duration_ms']:>8.1f} ms  {span['status']}")
+                    st.caption(f"trace_id: {trace['trace_id']}")
             if diagnosis.get("report_id"):
                 report = client.incident_report(diagnosis["report_id"])
                 st.subheader(report["summary"])

@@ -285,6 +285,21 @@ def create_app(cfg, start_worker=False, runtime=None):
             "finished_at")}, "result": json.loads(row["result_json"])
             if row["result_json"] else None} for row in rows]}
 
+    # 方法说明：diagnosis_trace 返回一次诊断的 span 瀑布与 trace 标识。
+    @app.get("/api/v1/diagnoses/{diagnosis_id}/trace")
+    def diagnosis_trace(diagnosis_id: str):
+        if runtime.db.get_agent_run(diagnosis_id) is None:
+            raise ServiceError(404, "DIAGNOSIS_NOT_FOUND", "Diagnosis was not found")
+        rows = runtime.db.spans(diagnosis_id)
+        return {"diagnosis_id": diagnosis_id,
+                "trace_id": rows[0]["trace_id"] if rows else None,
+                "spans": [{"span_id": row["span_id"], "parent_id": row["parent_id"],
+                           "name": row["name"], "kind": row["kind"],
+                           "started_at": row["started_at"],
+                           "duration_ms": row["duration_ms"], "status": row["status"],
+                           "attributes": json.loads(row["attributes_json"])}
+                          for row in rows]}
+
     # 方法说明：`incident_report` 完成当前步骤的业务处理；参数为 `report_id`、`format`。
     @app.get("/api/v1/reports/{report_id}")
     def incident_report(report_id: str, format: Literal["json", "markdown"] = Query("json")):
