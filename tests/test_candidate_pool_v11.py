@@ -68,7 +68,9 @@ def test_public_candidate_pool_is_blinded_complete_and_nonduplicate():
 def test_public_candidate_packet_builder_refuses_overwrite(tmp_path):
     output = tmp_path / "packet.jsonl"
     assert build_packet(POOL, output)["queries"] == 60
-    assert output.read_bytes() == PACKET.read_bytes()
+    # 仓库中的 packet 以 CRLF 提交，生成端使用平台默认换行；按行比较可跨平台一致。
+    assert output.read_text(encoding="utf-8").splitlines() == PACKET.read_text(
+        encoding="utf-8").splitlines()
     with pytest.raises(FileExistsError):
         build_packet(POOL, output)
 
