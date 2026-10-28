@@ -58,6 +58,8 @@ dn1 以 `privileged: true` 运行，由 `lab-init` 创建 64MB ext4 镜像，启
 - `df` 从 1% 涨到 97%，证明数据确实落在 dn1 的 loop 卷上。
 
 > 自动化说明：当前 loop 镜像由 `lab-init` 创建，dn1 重启只做挂载；要在 harness 里批量跑卷满，还需要一个含 `e2fsprogs` 的自定义 DataNode 镜像（每例重建卷），本轮未完成。
+>
+> 2026-10-29 复测：Docker Desktop VM 重启后，Hadoop 镜像内 `losetup` / `mount -o loop` 均返回 rc=1 且无错误输出，loop 基础设施在该 VM 上已不可用。因此 `compose.yaml` 默认回退 tmpfs；`bin/start-datanode-loop.sh` 与 `mkfs/Dockerfile` 作为可选资产保留，建议在真实 Linux 主机使用。
 
 ## 设计约束
 

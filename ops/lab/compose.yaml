@@ -14,12 +14,6 @@ x-hadoop: &hadoop
   networks: [hdfs]
 
 services:
-  lab-init:
-    image: alpine:3.20
-    command: ["/bin/sh", "-c", "apk add --no-cache e2fsprogs >/dev/null && dd if=/dev/zero of=/data/data.img bs=1M count=64 status=none && mkfs.ext4 -q -F /data/data.img"]
-    volumes:
-      - dn1-data:/data
-
   namenode:
     <<: *hadoop
     container_name: aiops-lab-namenode
@@ -39,20 +33,9 @@ services:
     <<: *hadoop
     container_name: aiops-lab-dn1
     hostname: datanode1
-    privileged: true
-    environment:
-      HADOOP_HEAPSIZE: "512"
-      HADOOP_LOG_DIR: /tmp/logs
-    command: ["/bin/bash", "/lab/bin/start-datanode-loop.sh"]
-    volumes:
-      - ./conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
-      - ./conf/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
-      - ./bin:/lab/bin:ro
-      - ./inject:/lab/inject:ro
-      - dn1-data:/data
-    depends_on:
-      lab-init:
-        condition: service_completed_successfully
+    command: ["/bin/bash", "/lab/bin/start-datanode.sh"]
+    tmpfs:
+      - /tmp/hadoop-root/dfs/data:size=128m
 
   datanode2:
     <<: *hadoop
@@ -84,6 +67,5 @@ networks:
 
 volumes:
   namenode-data:
-  dn1-data:
   dn2-data:
   dn3-data:
