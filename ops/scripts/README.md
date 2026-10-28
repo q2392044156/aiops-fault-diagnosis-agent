@@ -15,6 +15,8 @@
 | `acceptance_w10.py` | 执行评测或验收并输出机器可读结果。 | `wait_for`、`main` |
 | `benchmark_w6_containers.py` | 运行基准测试并记录耗时与资源指标。 | `wait_ready`、`compose`、`main` |
 | `build_framework_rc2_acceptance_manifest.py` | 执行评测或验收并输出机器可读结果。 | `load_json`、`sha256`、`evidence`、`main` |
+| `run_redteam.py` | 运行红队用例并输出拦截率与误杀率。 | `main` |
+| `mcp_smoke.py` | 以子进程方式冒烟验证 MCP 服务器。 | `_rpc`、`main` |
 | `evaluate_context.py` | 对同一批报告做上下文策略消融并输出对比表。 | `_load_env`、`_client`、`_cases`、`_citation_check`、`main` |
 | `evaluate_trajectory.py` | 读取服务数据库并输出诊断轨迹指标。 | `_rows`、`main` |
 | `evaluate_router.py` | 运行工具路由三模式对照实验并输出对比表。 | `_load_env`、`_client`、`_deterministic`、`_constrained`、`_free`、`main` |

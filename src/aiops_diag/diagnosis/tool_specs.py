@@ -10,6 +10,29 @@ EVENT_ID = re.compile(r"^evt_[A-Za-z0-9_-]{1,64}$")
 
 # 变量说明：TOOL_SPECS 是 OpenAI 风格的工具定义，name 与 AgentTools 方法一一对应。
 TOOL_SPECS = {
+    "detect_anomaly": {
+        "name": "detect_anomaly",
+        "description": "读取事件及其会话的异常判定结果（分数、阈值、会话清单）。",
+        "parameters": {
+            "type": "object",
+            "properties": {"event_id": {"type": "string", "pattern": EVENT_ID.pattern}},
+            "required": ["event_id"],
+            "additionalProperties": False,
+        },
+    },
+    "query_logs": {
+        "name": "query_logs",
+        "description": "按事件时间窗读取该事件包含的脱敏日志行，最多返回 500 行。",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "event_id": {"type": "string", "pattern": EVENT_ID.pattern},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 500},
+            },
+            "required": ["event_id"],
+            "additionalProperties": False,
+        },
+    },
     "query_metrics": {
         "name": "query_metrics",
         "description": "查询该事件时间窗内的指标序列（磁盘使用率、CPU、网络延迟等），"

@@ -17,6 +17,8 @@
 | `conftest.py` | 为依赖本地发布制品的用例提供统一的跳过策略。 | `requires_artifacts` |
 | `test_agent.py` | 验证 agent 相关功能、边界和回归行为。 | `V11EvalLedger`、`V11EvalClient`、`test_v11_online_report_evaluation_runs_three_release_bound_rounds`、`test_v11_online_report_evaluation_requires_configured_client`、`candidate_calibration`、`seed_event`、`budget`、`test_adev_is_fixed_and_deterministic` 等 |
 | `test_candidate_pool_v11.py` | 验证 candidate pool v11 相关功能、边界和回归行为。 | `_reviewed_rows`、`_write_rows`、`test_public_candidate_pool_is_blinded_complete_and_nonduplicate`、`test_public_candidate_packet_builder_refuses_overwrite`、`test_public_candidate_pool_rejects_label_leak`、`test_public_candidate_pool_accepts_complete_external_review_structure`、`test_reviewed_candidate_pool_freezes_to_release_ready_protocol`、`test_review_disagreement_cannot_be_frozen` |
+| `test_redteam.py` | 验证红队用例全部拦截且不误杀正常样本。 | `test_redteam_blocks_all_attacks_without_false_positives` |
+| `test_mcp.py` | 验证 MCP 握手、工具清单、调用与参数校验。 | `test_mcp_initialize_and_list`、`test_mcp_call_returns_text_and_rejects_bad_input` |
 | `test_tracing.py` | 验证 span 落库、父子关系与空实现降级。 | `test_tracer_records_parent_and_attributes`、`test_tracer_disabled_without_database_support` |
 | `test_context_builder.py` | 验证上下文预算、压缩策略与引擎集成。 | `test_full_strategy_keeps_every_evidence`、`test_compressed_strategy_respects_budget_and_keeps_kinds`、`test_engine_generate_uses_context_strategy` |
 | `test_trajectory.py` | 验证轨迹指标、失败分类、汇总与 pass^k。 | `test_clean_run_has_no_flags`、`test_retry_loop_is_detected`、`test_failed_tool_with_report_is_recovered`、`test_aggregate_and_pass_pow_k` |

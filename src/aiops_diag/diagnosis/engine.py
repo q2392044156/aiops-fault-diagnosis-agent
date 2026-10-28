@@ -38,7 +38,7 @@ execution_allowed必须为false。action_type只能是read_only_check、observe�
 
 # 变量说明：`INJECTION` 保存本模块或数据模型使用的稳定值。
 INJECTION = re.compile(
-    r"ignore\s+(all\s+)?previous|system\s+prompt|api[_ -]?key|忽略.{0,8}(规则|指令)|"
+    r"ignore\s+(all\s+)?previous|system[\s_-]*prompt|api[_ -]?key|忽略.{0,8}(规则|指令)|"
     r"调用.{0,6}工具|泄露.{0,6}(密钥|令牌)", re.I,
 )
 # 变量说明：`UNSAFE_ACTIONS` 保存本模块或数据模型使用的稳定值。
@@ -376,13 +376,21 @@ class AgentEngine:
             else:
                 return self._template_body(hypotheses, sorted(allowed), enough), \
                     "DEGRADED_TEMPLATE"
-        for hypothesis in body.hypotheses:
-            if not set(hypothesis.support_ids + hypothesis.counter_ids) <= allowed:
-                raise ValueError("Generated hypothesis contains an unauthorized citation")
-        for action in body.checks:
-            if not set(action.citation_ids) <= allowed:
-                raise ValueError("Generated action contains an unauthorized citation")
+        unauthorized = self.citation_errors(body, allowed)
+        if unauthorized:
+            raise ValueError("Generated report contains an unauthorized citation")
         return body, "EVIDENCE_SUPPORTED" if enough else "INSUFFICIENT_EVIDENCE"
+
+    # 方法说明：citation_errors 返回报告中不在允许集合内的引用编号。
+    @staticmethod
+    def citation_errors(body, allowed):
+        cited = set()
+        for hypothesis in body.hypotheses:
+            cited.update(hypothesis.support_ids)
+            cited.update(hypothesis.counter_ids)
+        for action in body.checks:
+            cited.update(action.citation_ids)
+        return sorted(cited - set(allowed))
 
     # 方法说明：`_normalize_actions` 完成当前步骤的业务处理；参数为 `actions`。
     @staticmethod
