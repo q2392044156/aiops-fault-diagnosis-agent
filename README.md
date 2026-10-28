@@ -146,7 +146,34 @@ v1.2 的三个在线案例来自开发分区，只能证明工程链路能够工
 
 完整分层、模块边界与四条不变量见 [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md)（含可编辑的 Mermaid 源）；图示文件为 [architecture.png](documentation/architecture.png)（2000×1280）与 [architecture.svg](documentation/architecture.svg)，可直接插入 PPT 或简历。
 
-工具路由的 30 例对照实验（确定性 / 自由 / 规则 / 受控 function calling）见 [P0-1 报告](documentation/P0-1_工具路由.md)；诊断过程的轨迹指标（步数、重试、证据覆盖、拒答分类）见 [P0-2 报告](documentation/P0-2_轨迹评测.md)；上下文压缩的消融（省 36.5% token、质量持平）见 [P0-3 报告](documentation/P0-3_上下文工程.md)；诊断链路的 trace/span 与调用瀑布见 [P1-4 报告](documentation/P1-4_可观测性.md)；50 例红队评测（拦截率 / 误杀率）见 [P1-5 报告](documentation/P1-5_红队评测.md)；只读工具的 MCP 接入见 [P2-6 报告](documentation/P2-6_MCP服务.md)。
+## 能力增强（P0-1 ～ P2-6）
+
+在 v1.2 冻结之后，围绕 LLM/Agent 工程补了六块能力，每块都有可运行的代码、单测和实测数字：
+
+| 项 | 做了什么 | 关键结果 | 报告 |
+| --- | --- | --- | --- |
+| **P0-1 工具路由** | `query_metrics` 接真实指标；function calling + JSON Schema + 白名单 + 回落 | 规则 93.3% > 受控 90.0% > 自由 66.7%；受控参数 100% 结构化，成本 3.6× | [报告](documentation/P0-1_工具路由.md) |
+| **P0-2 轨迹评测** | 步骤、工具、重试、证据覆盖、拒答/失败分类、`pass^k` | 30 例封存：18 clean + 12 abstained，0 重试、0 越权引用 | [报告](documentation/P0-2_轨迹评测.md) |
+| **P0-3 上下文工程** | token 预算、证据压缩、种子证据、引用裁剪 | 省 36.5% 上下文 token，Schema/引用/双类证据持平 | [报告](documentation/P0-3_上下文工程.md) |
+| **P1-4 可观测性** | SQLite trace/span、`/diagnoses/{id}/trace` API、Streamlit 瀑布 | 单次诊断 29 个 span；生成阶段占 6.59s / 6.73s | [报告](documentation/P1-4_可观测性.md) |
+| **P1-5 红队评测** | 50 例打在真实防御函数上（注入/引用/参数/结构/动作/预算） | 40/40 拦截（100%），0/10 误杀（0%） | [报告](documentation/P1-5_红队评测.md) |
+| **P2-6 MCP 服务** | 零依赖 stdio JSON-RPC，暴露 5 个只读工具 | `initialize` / `tools/list` / `tools/call` 冒烟通过 | [报告](documentation/P2-6_MCP服务.md) |
+
+复现命令（其中路由与上下文消融需要 `DEEPSEEK_API_KEY`）：
+
+```powershell
+python ops/scripts/evaluate_router.py
+python ops/scripts/evaluate_trajectory.py --database runtime/v12/service.sqlite3
+python ops/scripts/evaluate_context.py --database runtime/v12/service.sqlite3
+python ops/scripts/run_redteam.py
+python ops/scripts/mcp_smoke.py
+```
+
+单个工具也可以通过 MCP 直接被 Claude Desktop / Cursor 调用：
+
+```powershell
+python -m aiops_diag.platform.mcp_server --database runtime/v12/service.sqlite3
+```
 
 ## 项目结构
 
@@ -157,11 +184,11 @@ aiops-fault-diagnosis-agent/
 │  ├─ detection/                  # LR/LSTM 检测与模型选择
 │  ├─ knowledge/                  # BM25/BGE/RRF 检索与证据约束报告生成
 │  ├─ diagnosis/                  # Agent、查询规划和 LangChain/LangGraph 编排
-│  ├─ evaluation/                 # legacy/framework 离线对照
+│  ├─ evaluation/                 # 轨迹、路由、红队与框架对照评测
 │  ├─ platform/                   # FastAPI、worker、SQLite 和 Streamlit
 │  └─ release/                    # 发布冻结、校验和导出
-├─ resources/                     # 配置、知识卡和冻结评测协议
-├─ ops/                           # Docker、Compose、运维和验收脚本
+├─ resources/                     # 配置、知识卡与评测结果
+├─ ops/                           # Docker、运维/验收脚本与红队用例
 ├─ documentation/                 # 技术报告、验收结果和演示资料
 ├─ tests/                         # 自动化测试
 ├─ demo/                          # 离线端到端演示（无需 Key 与大数据集）
