@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-block-report",
+  "root_cause_codes": ["BLOCK_REPORT"],
   "title": "block report延迟或失败",
   "category": "hdfs",
   "content_origin": "original",

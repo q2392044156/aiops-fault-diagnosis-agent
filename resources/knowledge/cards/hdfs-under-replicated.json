@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-under-replicated",
+  "root_cause_codes": ["BLOCK_REPLICATION"],
   "title": "副本不足告警排查",
   "category": "hdfs",
   "content_origin": "original",

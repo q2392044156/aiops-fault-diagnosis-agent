@@ -36,7 +36,7 @@ FAULTS = {
     },
     "DN_HEARTBEAT": {
         "component": "DataNode", "container": "aiops-lab-dn2", "mode": "kill",
-        "signal": r"Lost DataNode|dead datanode|heartbeat",
+        "signal": r"Lost DataNode|dead datanode|heartbeat", "signal_container": "aiops-lab-namenode",
         "inject": None, "recover": None,
         "dry": ["WARN dfs.FSNamesystem: Lost DataNode datanode2",
                 "INFO dfs.FSNamesystem: BLOCK* ask datanode2 to replicate"],
@@ -78,6 +78,8 @@ def _capture_logs(containers, since, until):
     chunks = []
     for name in containers:
         text = _docker("logs", "--since", since, "--until", until, name, check=False)
+        if not text.strip():
+            text = _docker("logs", "--until", until, "--tail", "20", name, check=False)
         for line in text.splitlines():
             chunks.append(f"[{name}] {line}")
     return redact("\n".join(chunks)) + "\n"
@@ -109,8 +111,9 @@ def _metrics(containers):
 def _wait_signal(spec, since, timeout):
     deadline = time.monotonic() + timeout
     pattern = re.compile(spec["signal"], re.I)
+    target = spec.get("signal_container", spec["container"])
     while time.monotonic() < deadline:
-        text = _docker("logs", "--since", since, spec["container"], check=False)
+        text = _docker("logs", "--since", since, target, check=False)
         if pattern.search(text):
             return datetime.now(timezone.utc)
         time.sleep(3)
@@ -162,15 +165,16 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         if spec["mode"] == "kill":
             _docker("kill", spec["container"])
         else:
-            _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['inject']}")
+            _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['inject']}",
+                    check=False)
         signal_at = _wait_signal(spec, t0.isoformat(), observe_seconds)
         window_end = t0 + timedelta(seconds=observe_seconds)
         remaining = (window_end - datetime.now(timezone.utc)).total_seconds()
         if remaining > 0:
             time.sleep(remaining)
         cutoff = window_end
-        logs = _capture_logs(["aiops-lab-namenode", "aiops-lab-dn1", "aiops-lab-dn2",
-                              "aiops-lab-dn3"], t0.isoformat(), cutoff.isoformat())
+        logs = _capture_logs(sorted({spec["container"], "aiops-lab-namenode"}),
+                              t0.isoformat(), cutoff.isoformat())
         metrics = _metrics(["aiops-lab-namenode", "aiops-lab-dn1", "aiops-lab-dn2",
                             "aiops-lab-dn3"])
         if spec["mode"] == "kill":
@@ -178,6 +182,9 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         else:
             _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['recover']}",
                     check=False)
+            if fault == "DN_VOLUME":
+                time.sleep(2)
+                _docker("restart", spec["container"])
         _wait_ready(180)
         recovered = datetime.now(timezone.utc)
         human = recovered + timedelta(seconds=10)
@@ -197,7 +204,8 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
     ingest_mapping = None
     if ingest_db:
         ingest_mapping = ingest_log(case_id, logs_path, ingest_db, t0.isoformat(),
-                                    signal_at.isoformat(), "template")
+                                    signal_at.isoformat(), "template",
+                                    focus_component=spec["component"])
         agent_detected = datetime.fromisoformat(ingest_mapping["agent_detected"])
 
     record = build_incident(

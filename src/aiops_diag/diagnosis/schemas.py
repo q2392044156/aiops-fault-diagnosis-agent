@@ -45,6 +45,8 @@ class Evidence(StrictModel):
     excerpt_redacted: str
     # 变量说明：`evidence_hash` 保存本模块或数据模型使用的稳定值。
     evidence_hash: str
+    # 变量说明：root_cause_code 是知识卡携带的根因码，可为空。
+    root_cause_code: str | None = None
 
 
 # 类说明：`Hypothesis` 封装本模块内聚的数据和行为。
@@ -55,6 +57,8 @@ class Hypothesis(StrictModel):
     description: str = Field(min_length=1, max_length=800)
     # 变量说明：`component` 保存本模块或数据模型使用的稳定值。
     component: str | None = None
+    # 变量说明：root_cause_code 是候选原因对应的受控根因码。
+    root_cause_code: str | None = None
     # 变量说明：`support_ids` 保存本模块或数据模型使用的稳定值。
     support_ids: list[str] = Field(max_length=12)
     # 变量说明：`counter_ids` 保存本模块或数据模型使用的稳定值。
@@ -65,6 +69,13 @@ class Hypothesis(StrictModel):
     support_score: float = Field(ge=0, le=1)
     # 变量说明：`confidence_level` 保存本模块或数据模型使用的稳定值。
     confidence_level: Literal["high", "medium", "low", "unknown"]
+
+
+# 变量说明：ROOT_CAUSE_CODES 是受控根因码枚举，与 real_incident_protocol 保持一致。
+ROOT_CAUSE_CODES = ("NN_AVAILABILITY", "NN_SAFE_MODE", "DN_HEARTBEAT", "DN_VOLUME",
+                    "BLOCK_REPLICATION", "BLOCK_REPORT", "JOURNAL_QUORUM",
+                    "HA_STANDBY_LAG", "CLIENT_WRITE_PIPELINE", "NETWORK_CONNECTIVITY",
+                    "UNKNOWN")
 
 
 # 变量说明：`ActionType` 保存本模块或数据模型使用的稳定值。

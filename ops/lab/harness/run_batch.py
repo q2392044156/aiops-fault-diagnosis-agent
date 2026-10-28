@@ -34,6 +34,7 @@ def main(argv=None):
     parser.add_argument("--cases", default=str(ROOT / "ops/lab/cases"))
     parser.add_argument("--output", default=str(ROOT / "resources/evaluation/lab/batch"))
     parser.add_argument("--real", action="store_true")
+    parser.add_argument("--observe", type=int, default=15)
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -43,8 +44,9 @@ def main(argv=None):
     for fault in faults:
         count = args.per_fault if fault != "NN_SAFE_MODE" else max(1, args.per_fault - 1)
         for _ in range(count):
-            runs.append(run_case(fault, dry_run=not args.real, import_db=args.database,
-                                 case_root=args.cases, ingest_db=args.database))
+            runs.append(run_case(fault, args.observe, dry_run=not args.real,
+                                 import_db=args.database, case_root=args.cases,
+                                 ingest_db=args.database))
     evaluator = _evaluator()
     from aiops_diag.platform.db import Database
     result = evaluator.evaluate(Database(args.database), args.cases)

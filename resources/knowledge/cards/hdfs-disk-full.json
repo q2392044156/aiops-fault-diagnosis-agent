@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-disk-full",
+  "root_cause_codes": ["DN_VOLUME"],
   "title": "DataNode磁盘空间不足",
   "category": "hdfs",
   "content_origin": "original",

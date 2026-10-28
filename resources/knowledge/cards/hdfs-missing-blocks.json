@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-missing-blocks",
+  "root_cause_codes": ["BLOCK_REPLICATION"],
   "title": "缺失block证据核对",
   "category": "hdfs",
   "content_origin": "original",

@@ -192,11 +192,12 @@ docker compose -f ops/lab/compose.yaml up -d
 python ops/lab/harness/run_case.py --fault NN_SAFE_MODE --observe 25 --import-db runtime/lab/mvp.sqlite3
 python ops/lab/harness/ingest.py --case ops/lab/cases/<incident_id> --database runtime/lab/mvp.sqlite3
 python ops/lab/harness/run_batch.py --per-fault 7 --database runtime/lab/batch.sqlite3
+python ops/lab/harness/run_batch.py --real --per-fault 7 --observe 15 --database runtime/lab/real_batch.sqlite3
 python ops/scripts/evaluate_incidents.py --database runtime/lab/mvp.sqlite3 --cases ops/lab/cases
 docker compose -f ops/lab/compose.yaml down -v
 ```
 
-接入诊断后：**20 例批量 Top-1 100%、Top-3 100%、MRR 1.0**；**真实集群案例 MTTD 31s**（含 20s 观测窗，属上限）。20 例为 dry-run 生成，1 例为真实 Docker 集群。详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
+**真实集群 20 例**（7 卷满 + 7 心跳丢失 + 6 安全模式）：**Top-1 50%、Top-3 100%、MRR 0.69、MTTD 26.8s**。分族看：安全模式 6/6、卷满 4/7、心跳 0/7（15s 窗口抓不到 dead datanode 信号）。根因已到代码级（`DN_VOLUME` / `NN_SAFE_MODE`），不再只是组件。详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
 
 ## 项目结构
 

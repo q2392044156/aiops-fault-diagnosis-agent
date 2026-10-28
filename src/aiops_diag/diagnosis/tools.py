@@ -151,7 +151,8 @@ class AgentTools:
             hypotheses.append({
                 "hypothesis_id": f"hyp_{index}",
                 "description": "待验证候选：" + document.get("title", "知识条目所述异常"),
-                "component": component, "support_ids": support[:12], "counter_ids": [],
+                "component": component, "root_cause_code": document.get("root_cause_code"),
+                "support_ids": support[:12], "counter_ids": [],
                 "missing_checks": ["需要结合更多运行指标或人工现场信息确认"],
                 "support_score": score, "confidence_level": confidence,
             })
@@ -182,8 +183,10 @@ def document_evidence(row, version):
     component = row.get("component")
     if isinstance(component, list):
         component = component[0] if component else None
+    codes = row.get("root_cause_codes") or []
     return {"evidence_id": row["chunk_id"], "kind": "doc",
             "source_ref": row["doc_id"], "version": version, "observed_at": None,
             "excerpt_redacted": row["text"], "evidence_hash": key(row),
             "component": component, "title": row.get("title"),
+            "root_cause_code": row.get("root_cause_code") or (codes[0] if codes else None),
             "section_path": row.get("section_path"), "source_url": row.get("source_url")}

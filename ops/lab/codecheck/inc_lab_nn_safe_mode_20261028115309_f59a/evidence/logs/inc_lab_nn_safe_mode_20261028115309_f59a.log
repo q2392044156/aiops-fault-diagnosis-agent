@@ -1,0 +1,12 @@
+[aiops-lab-namenode] 2026-10-28 11:51:09 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 0
+[aiops-lab-namenode] 2026-10-28 11:51:10 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 1
+[aiops-lab-namenode] 2026-10-28 11:51:11 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 2
+[aiops-lab-namenode] 2026-10-28 11:51:12 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 3
+[aiops-lab-namenode] 2026-10-28 11:51:13 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 4
+[aiops-lab-namenode] 2026-10-28 11:51:14 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 5
+[aiops-lab-namenode] 2026-10-28 11:51:15 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 6
+[aiops-lab-namenode] 2026-10-28 11:51:16 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 7
+[aiops-lab-namenode] 2026-10-28 11:51:17 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 8
+[aiops-lab-namenode] 2026-10-28 11:51:18 INFO  lab.Workload: case 2026-10-28T11:51:09.074208+00:00 normal workload line 9
+[aiops-lab-namenode] 2026-10-28 11:51:30 INFO  lab.Fault: dfs.FSNamesystem: Entering safe mode
+[aiops-lab-namenode] 2026-10-28 11:51:31 WARN  lab.Fault: dfs.FSNamesystem: Safe mode is ON. The reported blocks needs additional blocks to reach the threshold

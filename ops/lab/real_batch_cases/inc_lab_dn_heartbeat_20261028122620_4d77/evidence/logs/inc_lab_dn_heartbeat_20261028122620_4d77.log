@@ -1,0 +1,40 @@
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  FsDatasetImpl:420 - Scanning block pool BP-1198949553-<:IP:>-1793188420516 on volume <:PATH:>
+[aiops-lab-dn2] 2026-10-28 12:26:25 WARN  FsDatasetImpl:342 - dfsUsed file missing in <:PATH:><:IP:>-1793188420516/current, will proceed with Du for space computation calculation, 
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  FsDatasetImpl:425 - Time taken to scan block pool BP-1198949553-<:IP:>-1793188420516 on <:PATH:>: 30ms
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  FsDatasetImpl:445 - Total time to scan all replicas for block pool BP-1198949553-<:IP:>-1793188420516: 31ms
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  FsDatasetImpl:213 - Adding replicas to map for block pool BP-1198949553-<:IP:>-1793188420516 on volume <:PATH:>
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  BlockPoolSlice:958 - Replica Cache file: <:PATH:><:IP:>-1793188420516/current/replicas doesn't exist 
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  FsDatasetImpl:218 - Time to add replicas to map for block pool BP-1198949553-<:IP:>-1793188420516 on volume <:PATH:>: 2ms
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  FsDatasetImpl:239 - Total time to add all replicas to map for block pool BP-1198949553-<:IP:>-1793188420516: 4ms
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  ThrottledAsyncChecker:137 - Scheduling a check for <:PATH:>
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  DatasetVolumeChecker:224 - Scheduled health check for volume <:PATH:>
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  VolumeScanner:402 - VolumeScanner(<:PATH:>, DS-221b5ec9-c74f-48de-baaa-0d4870575bed): no suitable block pools found to scan.  Waiting 1812441704 ms.
+[aiops-lab-dn2] 2026-10-28 12:26:25 WARN  DirectoryScanner:301 - dfs.datanode.directoryscan.throttle.limit.ms.per.sec set to value above 1000 ms/sec. Assuming default value of -1
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  DirectoryScanner:330 - Periodic Directory Tree Verification scan starting in 6237115ms with interval of 21600000ms and throttle limit of -1ms/s
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  DataNode:825 - Block pool BP-1198949553-<:IP:>-1793188420516 (Datanode Uuid 7353446d-b355-4e3b-9b02-c1e9b35a9f94) service to namenode/<:IP:> beginning handshake with NN
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  DataNode:853 - Block pool BP-1198949553-<:IP:>-1793188420516 (Datanode Uuid 7353446d-b355-4e3b-9b02-c1e9b35a9f94) service to namenode/<:IP:> successfully registered with NN
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  DataNode:674 - For namenode namenode/<:IP:> using BLOCKREPORT_INTERVAL of 21600000msecs CACHEREPORT_INTERVAL of 10000msecs Initial delay: 0msecs; heartBeatInterval=2000
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  DataNode:1154 - Starting IBR Task Handler.
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  DataNode:736 - After receiving heartbeat response, updating state of namenode namenode:9000 to active
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  DataNode:456 - Successfully sent block report <:HEX:> with lease ID <:HEX:> to namenode: namenode/<:IP:>,  containing 1 storage report(s), of which we sent 1. The reports had 0 total blocks and used 1 RPC(s). This took 4 msecs to generate and 15 msecs for RPC and NN processing. Got back one command: FinalizeCommand/5.
+[aiops-lab-dn2] 2026-10-28 12:26:25 INFO  DataNode:768 - Got finalize command for block pool BP-1198949553-<:IP:>-1793188420516
+[aiops-lab-namenode] 2026-10-28 12:26:22 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=slowDataNodesReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 12:26:23 INFO  StateChange:880 - BLOCK* removeDeadDatanode: lost heartbeat from <:IP:>, removeBlocksFromBlockMap true
+[aiops-lab-namenode] 2026-10-28 12:26:23 INFO  NetworkTopology:229 - Removing a node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-28 12:26:25 INFO  StateChange:1168 - BLOCK* registerDatanode: from DatanodeRegistration(<:IP:>, datanodeUuid=7353446d-b355-4e3b-9b02-c1e9b35a9f94, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-e0502ca1-9bb4-487f-8b54-9fa55d386183;nsid=1652564363;c=1793188420516) storage 7353446d-b355-4e3b-9b02-c1e9b35a9f94
+[aiops-lab-namenode] 2026-10-28 12:26:25 INFO  NetworkTopology:229 - Removing a node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-28 12:26:25 INFO  NetworkTopology:156 - Adding a new node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-28 12:26:25 INFO  DatanodeDescriptor:569 - [DISK]DS-221b5ec9-c74f-48de-baaa-0d4870575bed:NORMAL:<:IP:> failed.
+[aiops-lab-namenode] 2026-10-28 12:26:25 INFO  DatanodeDescriptor:555 - Removed storage [DISK]DS-221b5ec9-c74f-48de-baaa-0d4870575bed:FAILED:<:IP:> from DataNode <:IP:>
+[aiops-lab-namenode] 2026-10-28 12:26:25 INFO  DatanodeDescriptor:1010 - Adding new storage ID DS-221b5ec9-c74f-48de-baaa-0d4870575bed for DN <:IP:>
+[aiops-lab-namenode] 2026-10-28 12:26:25 WARN  BlockReportLeaseManager:226 - DN 7353446d-b355-4e3b-9b02-c1e9b35a9f94 (<:IP:>) requested a lease even though it wasn't yet registered.  Registering now.
+[aiops-lab-namenode] 2026-10-28 12:26:25 INFO  BlockReportLeaseManager:200 - Registered DN 7353446d-b355-4e3b-9b02-c1e9b35a9f94 (<:IP:>).
+[aiops-lab-namenode] 2026-10-28 12:26:25 INFO  BlockStateChange:2811 - BLOCK* processReport <:HEX:> with lease ID <:HEX:>: Processing first storage report for DS-221b5ec9-c74f-48de-baaa-0d4870575bed from datanode DatanodeRegistration(<:IP:>, datanodeUuid=7353446d-b355-4e3b-9b02-c1e9b35a9f94, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-e0502ca1-9bb4-487f-8b54-9fa55d386183;nsid=1652564363;c=1793188420516)
+[aiops-lab-namenode] 2026-10-28 12:26:25 INFO  BlockStateChange:2843 - BLOCK* processReport <:HEX:> with lease ID <:HEX:>: from storage DS-221b5ec9-c74f-48de-baaa-0d4870575bed node DatanodeRegistration(<:IP:>, datanodeUuid=7353446d-b355-4e3b-9b02-c1e9b35a9f94, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-e0502ca1-9bb4-487f-8b54-9fa55d386183;nsid=1652564363;c=1793188420516), blocks: 0, hasStaleStorage: false, processing time: 0 msecs, invalidatedBlocks: 0
+[aiops-lab-namenode] 2026-10-28 12:26:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=safemode_get	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 12:26:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 12:26:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 12:26:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 12:26:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 12:26:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 12:26:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=slowDataNodesReport	src=null	dst=null	perm=null	proto=rpc

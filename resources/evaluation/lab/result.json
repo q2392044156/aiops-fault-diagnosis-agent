@@ -1,44 +1,25 @@
 {
   "summary": {
-    "incidents": 3,
-    "eligible": 3,
-    "diagnosed": 3,
-    "top1": 0.6667,
+    "incidents": 1,
+    "eligible": 1,
+    "diagnosed": 1,
+    "top1": 1.0,
     "top3": 1.0,
-    "mrr": 0.8333,
+    "mrr": 1.0,
     "mttd_seconds": 120.5,
     "excluded": 0,
     "exclusion_reasons": {}
   },
   "rows": [
     {
-      "incident_id": "inc_lab_dn_heartbeat_20261028111914",
-      "expected": "DataNode",
-      "rank": 1,
-      "top1": true,
-      "top3": true,
-      "mrr": 1.0,
-      "mttd_seconds": 120.455898,
-      "diagnosed": true
-    },
-    {
-      "incident_id": "inc_lab_dn_volume_20261028111912",
-      "expected": "DataNode",
-      "rank": 1,
-      "top1": true,
-      "top3": true,
-      "mrr": 1.0,
-      "mttd_seconds": 120.595571,
-      "diagnosed": true
-    },
-    {
-      "incident_id": "inc_lab_nn_safe_mode_20261028111916",
+      "incident_id": "inc_lab_nn_safe_mode_20261028115309_f59a",
       "expected": "NameNode",
-      "rank": 2,
-      "top1": false,
+      "rank": 1,
+      "matched_by": "code",
+      "top1": true,
       "top3": true,
-      "mrr": 0.5,
-      "mttd_seconds": 120.459793,
+      "mrr": 1.0,
+      "mttd_seconds": 120.527666,
       "diagnosed": true
     }
   ],

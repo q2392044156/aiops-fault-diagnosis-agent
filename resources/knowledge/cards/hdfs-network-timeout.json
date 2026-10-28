@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-network-timeout",
+  "root_cause_codes": ["NETWORK_CONNECTIVITY"],
   "title": "HDFS网络超时定位",
   "category": "hdfs",
   "content_origin": "original",

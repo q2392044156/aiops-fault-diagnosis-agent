@@ -39,11 +39,15 @@ def _report(database, mapping):
 
 
 # 方法说明：_rank 返回期望组件在候选列表中的名次，未出现为 None。
-def _rank(hypotheses, component):
+def _rank(hypotheses, code, component):
+    if code:
+        for index, item in enumerate(hypotheses, 1):
+            if (item.get("root_cause_code") or "").upper() == code.upper():
+                return index, "code"
     for index, item in enumerate(hypotheses, 1):
         if (item.get("component") or "").lower() == (component or "").lower():
-            return index
-    return None
+            return index, "component"
+    return None, None
 
 
 # 方法说明：_mttd 计算 agent_detected 与 fault_start 的秒差，缺时间戳返回 None。
@@ -83,8 +87,9 @@ def evaluate(database, cases_dir, taxonomy=None):
                          "mttd_seconds": _mttd(record["timestamps"]), "diagnosed": False})
             continue
         hypotheses = report.get("hypotheses") or []
-        rank = _rank(hypotheses, expected)
+        rank, matched = _rank(hypotheses, labels.get("root_cause_code"), expected)
         rows.append({"incident_id": incident_id, "expected": expected, "rank": rank,
+                     "matched_by": matched,
                      "top1": rank == 1, "top3": rank is not None and rank <= 3,
                      "mrr": (1.0 / rank) if rank else 0.0,
                      "mttd_seconds": _mttd(record["timestamps"]), "diagnosed": True})
@@ -124,10 +129,12 @@ def markdown(result):
              f"| MRR | {summary['mrr']} |",
              f"| MTTD | {summary['mttd_seconds']} |",
              f"| 排除原因 | {summary['exclusion_reasons']} |",
-             "", "| 事件 | 期望组件 | 名次 | MTTD(s) |", "| --- | --- | --- | --- |"]
+             "", "| 事件 | 期望组件 | 名次 | 匹配依据 | MTTD(s) |",
+             "| --- | --- | --- | --- | --- |"]
     for row in result["rows"]:
         lines.append(f"| {row['incident_id']} | {row['expected']} | "
                      f"{row['rank'] if row['rank'] else '-'} | "
+                     f"{row.get('matched_by') or '-'} | "
                      f"{row['mttd_seconds'] if row['mttd_seconds'] is not None else 'N/A'} |")
     return "\n".join(lines)
 

@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-journalnode",
+  "root_cause_codes": ["JOURNAL_QUORUM"],
   "title": "JournalNode法定多数异常",
   "category": "hdfs",
   "content_origin": "original",

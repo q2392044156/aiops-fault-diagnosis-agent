@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-write-pipeline",
+  "root_cause_codes": ["CLIENT_WRITE_PIPELINE"],
   "title": "客户端写入pipeline失败",
   "category": "hdfs",
   "content_origin": "original",

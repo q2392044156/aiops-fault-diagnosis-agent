@@ -1,0 +1,34 @@
+{
+  "incident_id": "inc_lab_dn_heartbeat_20261028122554_e943",
+  "fault": "DN_HEARTBEAT",
+  "batch_id": "bat_de22771331c1a5d69e6d97f0",
+  "event_id": "evt_2f89a4cc1e44278326ff7e1d",
+  "diagnosis_id": "dia_454bebb32984f43d6a83b3e8",
+  "report_id": "irpt_6d7ae4c4247a4f0ce9545b59",
+  "cutoff_time": "2026-10-28T12:26:11.583745+00:00",
+  "mode": "ingest",
+  "agent_detected": "2026-10-28T12:26:19.717624+00:00",
+  "import": {
+    "schema_version": 1,
+    "incident_id": "inc_lab_dn_heartbeat_20261028122554_e943",
+    "record_hash": "0e0b23b604d9646d2aaaafe696cf4a5debdcfbbe279f17c5ce548dc7ec49cbe0",
+    "authorization_active": true,
+    "post_cutoff_evidence": 0,
+    "metric_eligibility": {
+      "schema_version": 1,
+      "incident_id": "inc_lab_dn_heartbeat_20261028122554_e943",
+      "root_cause_metrics": {
+        "eligible": true,
+        "value": "AVAILABLE",
+        "reason_codes": []
+      },
+      "mttd": {
+        "eligible": true,
+        "value_seconds": 23.133879,
+        "reason_codes": []
+      }
+    },
+    "deduplicated": false,
+    "status": "ACTIVE"
+  }
+}

@@ -24,6 +24,9 @@ python ops/lab/harness/ingest.py --case ops/lab/cases/<incident_id> --database r
 
 # 批量 20 例（dry-run 生成器，7+7+6）
 python ops/lab/harness/run_batch.py --per-fault 7 --database runtime/lab/batch.sqlite3
+
+# 同一个批量脚本，真实集群（每例约 40s）
+python ops/lab/harness/run_batch.py --real --per-fault 7 --observe 15 --database runtime/lab/real_batch.sqlite3
 ```
 
 产物在 `ops/lab/cases/<incident_id>/`：

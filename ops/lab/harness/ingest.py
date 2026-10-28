@@ -37,9 +37,12 @@ class CardRetriever:
         for path in sorted(Path(directory).glob("*.json")):
             card = json.loads(path.read_text(encoding="utf-8"))
             text = " ".join(section.get("text", "") for section in card.get("sections", []))
+            codes = card.get("root_cause_codes") or []
             self.cards.append({"chunk_id": f"kb_{card['doc_id']}", "doc_id": card["doc_id"],
                                "title": card.get("title", ""), "text": text,
                                "component": card.get("component") or [],
+                               "root_cause_code": codes[0] if codes else None,
+                               "root_cause_codes": codes,
                                "section_path": card.get("category", "hdfs"),
                                "source_url": None})
         self.manifest = {"kb_release_id": "kb_lab_cards"}
@@ -54,10 +57,14 @@ class CardRetriever:
                        [str(item).lower() for item in card["component"]]]
             if matched:
                 pool = matched
+        pairs = re.findall(r"[a-z]+ [a-z]+", (query or "").lower())
         scored = []
         for order, card in enumerate(pool):
-            text = (card["title"] + " " + card["text"]).lower()
-            hits = sum(1 for token in tokens if token and token in text)
+            body = card["text"].lower()
+            title = card["title"].lower()
+            hits = sum(1 for token in tokens if token and token in body)
+            hits += 2 * sum(1 for token in tokens if token and token in title)
+            hits += 2 * sum(1 for pair in pairs if pair in body)
             if component and component.lower() in [str(item).lower()
                                                    for item in card["component"]]:
                 hits += 5
@@ -110,7 +117,8 @@ def _parse(text, session_id):
 
 
 # 方法说明：ingest 把一条实验日志接入平台并跑一次模板诊断。
-def ingest_log(case_id, log_path, database_path, start, end, mode="template"):
+def ingest_log(case_id, log_path, database_path, start, end, mode="template",
+               focus_component=None):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     session_id = "ses_" + key([case_id])[:20]
@@ -155,8 +163,9 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template"):
                         "line_count": len(rows), "unknown_count": 0, "anomaly_score": 2.0,
                         "threshold": 1.0, "prediction": 1,
                         "first_log_id": rows[0]["log_id"], "last_log_id": rows[-1]["log_id"],
-                        "host_alias": "lab"}],
-                      [{"event_id": event_id, "batch_id": batch_id, "host_alias": "lab",
+                        "host_alias": focus_component or "lab"}],
+                      [{"event_id": event_id, "batch_id": batch_id,
+                        "host_alias": focus_component or "lab",
                         "start_time": start, "end_time": end, "detected_at": detected,
                         "max_anomaly_score": 2.0, "threshold": 1.0, "session_count": 1,
                         "status": "ANOMALY_DETECTED"}],

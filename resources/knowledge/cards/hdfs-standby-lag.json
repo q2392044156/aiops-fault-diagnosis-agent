@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-standby-lag",
+  "root_cause_codes": ["HA_STANDBY_LAG"],
   "title": "Standby NameNode同步滞后",
   "category": "hdfs",
   "content_origin": "original",

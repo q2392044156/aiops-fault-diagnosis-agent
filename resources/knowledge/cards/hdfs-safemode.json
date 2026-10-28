@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-safemode",
+  "root_cause_codes": ["NN_SAFE_MODE"],
   "title": "NameNode安全模式判断",
   "category": "hdfs",
   "content_origin": "original",

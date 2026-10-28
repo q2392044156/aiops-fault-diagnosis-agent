@@ -131,3 +131,14 @@ def test_ingest_creates_diagnosis_and_report(tmp_path):
     assert database.one("SELECT 1 AS found FROM incident_reports WHERE diagnosis_id=?",
                         (mapping["diagnosis_id"],))["found"] == 1
     assert database.one("SELECT COUNT(*) AS n FROM incident_registry")["n"] == 0
+
+# 方法说明：test_incident_metrics_prefer_root_cause_code 验证代码级匹配优先于组件。
+def test_incident_metrics_prefer_root_cause_code(tmp_path):
+    evaluator = _load("incident_eval_code", "ops/scripts/evaluate_incidents.py")
+    record = _incident(tmp_path).model_dump(mode="json")
+    report = {"hypotheses": [{"component": "NameNode", "root_cause_code": "DN_VOLUME"},
+                             {"component": "DataNode", "root_cause_code": "DN_HEARTBEAT"}]}
+    result = evaluator.evaluate(_Stub(record, report), tmp_path)
+    assert result["summary"]["top1"] == 1.0
+    assert result["rows"][0]["matched_by"] == "code"
+    assert result["rows"][0]["rank"] == 1

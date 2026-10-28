@@ -1,0 +1,69 @@
+{
+  "runs": [
+    {
+      "case_dir": "ops\\lab\\nn_check\\inc_lab_nn_safe_mode_20261028122039_24f9",
+      "incident_id": "inc_lab_nn_safe_mode_20261028122039_24f9",
+      "fault": "NN_SAFE_MODE",
+      "dry_run": false
+    },
+    {
+      "case_dir": "ops\\lab\\nn_check\\inc_lab_nn_safe_mode_20261028122108_c029",
+      "incident_id": "inc_lab_nn_safe_mode_20261028122108_c029",
+      "fault": "NN_SAFE_MODE",
+      "dry_run": false
+    },
+    {
+      "case_dir": "ops\\lab\\nn_check\\inc_lab_nn_safe_mode_20261028122136_3fe2",
+      "incident_id": "inc_lab_nn_safe_mode_20261028122136_3fe2",
+      "fault": "NN_SAFE_MODE",
+      "dry_run": false
+    }
+  ],
+  "summary": {
+    "incidents": 3,
+    "eligible": 3,
+    "diagnosed": 3,
+    "top1": 1.0,
+    "top3": 1.0,
+    "mrr": 1.0,
+    "mttd_seconds": 25.7,
+    "excluded": 0,
+    "exclusion_reasons": {}
+  },
+  "rows": [
+    {
+      "incident_id": "inc_lab_nn_safe_mode_20261028122039_24f9",
+      "expected": "NameNode",
+      "rank": 1,
+      "matched_by": "code",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": 26.102525,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_lab_nn_safe_mode_20261028122108_c029",
+      "expected": "NameNode",
+      "rank": 1,
+      "matched_by": "code",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": 25.406662,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_lab_nn_safe_mode_20261028122136_3fe2",
+      "expected": "NameNode",
+      "rank": 1,
+      "matched_by": "code",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": 25.525184,
+      "diagnosed": true
+    }
+  ],
+  "excluded": []
+}

@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-namenode-unavailable",
+  "root_cause_codes": ["NN_AVAILABILITY"],
   "title": "NameNode不可用的只读诊断",
   "category": "hdfs",
   "content_origin": "original",

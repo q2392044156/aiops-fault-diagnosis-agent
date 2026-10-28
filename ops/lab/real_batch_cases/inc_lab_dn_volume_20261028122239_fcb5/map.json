@@ -1,0 +1,34 @@
+{
+  "incident_id": "inc_lab_dn_volume_20261028122239_fcb5",
+  "fault": "DN_VOLUME",
+  "batch_id": "bat_3c65082dc8d2758cc8692d15",
+  "event_id": "evt_38348df6204b9fdeb2eb9689",
+  "diagnosis_id": "dia_f5dd143b2bdd552981c376a2",
+  "report_id": "irpt_2a2098b99dd53f448acbb76c",
+  "cutoff_time": "2026-10-28T12:22:56.925275+00:00",
+  "mode": "ingest",
+  "agent_detected": "2026-10-28T12:23:13.339926+00:00",
+  "import": {
+    "schema_version": 1,
+    "incident_id": "inc_lab_dn_volume_20261028122239_fcb5",
+    "record_hash": "78cf3da5eda018b161507be136d58ff655cde6317289839e453470da1be6d4c7",
+    "authorization_active": true,
+    "post_cutoff_evidence": 0,
+    "metric_eligibility": {
+      "schema_version": 1,
+      "incident_id": "inc_lab_dn_volume_20261028122239_fcb5",
+      "root_cause_metrics": {
+        "eligible": true,
+        "value": "AVAILABLE",
+        "reason_codes": []
+      },
+      "mttd": {
+        "eligible": true,
+        "value_seconds": 31.414651,
+        "reason_codes": []
+      }
+    },
+    "deduplicated": false,
+    "status": "ACTIVE"
+  }
+}
