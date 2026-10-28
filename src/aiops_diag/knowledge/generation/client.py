@@ -117,19 +117,13 @@ class DeepSeekClient:
             close_ledger()
         self.http.close()
 
-    # 方法说明：`complete_json` 完成当前步骤的业务处理；参数为 `messages`。
-    def complete_json(self, messages):
+    # 方法说明：`_request` 发送一次带重试的请求，并结算本次调用的预算与用量。
+    def _request(self, payload):
         if not self.api_key:
             raise DeepSeekError("DeepSeek API key is not configured")
         provider = self.cfg["provider"]
         self.ledger.reserve_check(provider["max_tokens"])
         headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
-        payload = {"model": provider["model"], "messages": messages,
-                   "response_format": {"type": "json_object"},
-                   "thinking": {"type": "disabled"},
-                   "reasoning_effort": "none",
-                   "temperature": provider["temperature"],
-                   "max_tokens": provider["max_tokens"], "stream": False}
         started = time.monotonic()
         response = None
         for attempt in range(3):
@@ -162,18 +156,53 @@ class DeepSeekClient:
             data = response.json()
             if time.monotonic() - started > provider["overall_timeout_seconds"]:
                 raise DeepSeekError("DeepSeek request exceeded the overall time limit")
-            content = data["choices"][0]["message"]["content"]
             usage = data.get("usage") or {}
             input_tokens = int(usage.get("prompt_tokens", 0))
             output_tokens = int(usage.get("completion_tokens", 0))
             self.ledger.record(input_tokens, output_tokens)
             call_cost = (input_tokens * self.cfg["budget"]["input_cny_per_million"]
                          + output_tokens * self.cfg["budget"]["output_cny_per_million"]) / 1_000_000
-            usage = {"input_tokens": input_tokens, "output_tokens": output_tokens,
-                     "estimated_cost_cny": round(call_cost, 8)}
+            return data, {"input_tokens": input_tokens, "output_tokens": output_tokens,
+                          "estimated_cost_cny": round(call_cost, 8)}
         except (KeyError, TypeError, ValueError) as exc:
             raise DeepSeekError(f"DeepSeek JSON request failed: {type(exc).__name__}") from exc
+
+    # 方法说明：`complete_json` 要求模型返回 JSON 对象，并把坏 JSON 包装成可重试错误。
+    def complete_json(self, messages):
+        provider = self.cfg["provider"]
+        payload = {"model": provider["model"], "messages": messages,
+                   "response_format": {"type": "json_object"},
+                   "thinking": {"type": "disabled"},
+                   "reasoning_effort": "none",
+                   "temperature": provider["temperature"],
+                   "max_tokens": provider["max_tokens"], "stream": False}
+        data, usage = self._request(payload)
+        try:
+            content = data["choices"][0]["message"]["content"]
+        except (KeyError, IndexError, TypeError) as exc:
+            raise DeepSeekError("DeepSeek JSON response was malformed") from exc
         try:
             return json.loads(content), usage
         except json.JSONDecodeError as exc:
             raise DeepSeekJsonError("DeepSeek returned invalid or truncated JSON", usage) from exc
+
+    # 方法说明：`complete_tool_calls` 走 function calling，返回模型选择的工具与原始参数。
+    def complete_tool_calls(self, messages, tools, tool_choice="auto"):
+        provider = self.cfg["provider"]
+        payload = {"model": provider["model"], "messages": messages,
+                   "tools": tools, "tool_choice": tool_choice,
+                   "thinking": {"type": "disabled"},
+                   "reasoning_effort": "none",
+                   "temperature": provider["temperature"],
+                   "max_tokens": provider["max_tokens"], "stream": False}
+        data, usage = self._request(payload)
+        try:
+            message = data["choices"][0]["message"]
+        except (KeyError, IndexError, TypeError) as exc:
+            raise DeepSeekError("DeepSeek tool response was malformed") from exc
+        calls = []
+        for item in message.get("tool_calls") or []:
+            function = item.get("function") or {}
+            calls.append({"id": item.get("id"), "name": function.get("name") or "",
+                          "arguments": function.get("arguments") or "{}"})
+        return calls, usage

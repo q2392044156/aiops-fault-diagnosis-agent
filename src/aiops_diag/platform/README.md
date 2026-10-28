@@ -17,6 +17,7 @@
 | `api.py` | 创建 FastAPI 应用并定义 HTTP 接口。 | `ServiceError`、`_encode_cursor`、`_decode_cursor`、`_time_bound`、`_task`、`_diagnosis`、`_approval`、`create_app` |
 | `benchmark.py` | 采集服务吞吐、延迟和资源使用指标。 | `_percentile`、`_meta`、`_sequences`、`e1`、`e2`、`e3`、`e4`、`run` |
 | `config.py` | 读取、校验并规范化当前模块的 YAML 配置。 | `load` |
+| `metrics_store.py` | 读取 CSV/JSONL 指标并按主机与时间窗聚合。 | `MetricsStore` |
 | `db.py` | 管理 SQLite 任务、预算、报告、审批和审计记录。 | `IdempotencyConflict`、`QueueFull`、`LeaseLost`、`ApprovalConflict`、`ApprovalExpired`、`now`、`_deadline`、`Database` |
 | `pipeline.py` | 连接服务请求、检测、检索与诊断流程。 | `BufferedWriter`、`_raw_rows`、`_parquet_rows`、`_host_alias`、`_stage_db`、`_session_rows`、`_score_sessions`、`_event_groups` 等 |
 | `release.py` | 校验并生成当前模块的不可变发布清单。 | `_read`、`_w2_run`、`_components`、`_bundle_names`、`publish`、`verify`、`ReleaseMetadata`、`FrozenRelease` |

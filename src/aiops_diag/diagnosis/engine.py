@@ -13,6 +13,7 @@ from aiops_diag.knowledge.generation.client import DeepSeekClient, DeepSeekError
 
 from .budget import DatabaseBudgetLedger
 from .release import RISK_POLICY, TOOLS
+from .router_v2 import ToolRouter
 from .schemas import (ActionAdvice, Evidence, GeneratedReportBody, IncidentReport,
                       RouterDecision)
 from .tools import AgentTools, document_evidence, log_evidence
@@ -213,11 +214,13 @@ class AgentEngine:
             raise DeepSeekError("Agent revision token budget was exhausted")
         return value
 
-    # 方法说明：`_route` 完成当前步骤的业务处理；参数为 `run`、`state`、`budget`、`summary`。
+    # 方法说明：`_route` 按配置选择 v1 JSON 路由或 v2 受控工具调用路由。
     def _route(self, run, state, budget, summary):
         if (run["mode"] == "template" or not self.configured
                 or not self.cfg["workflow"].get("optional_router_enabled", True)):
             return []
+        if self.cfg["workflow"].get("optional_router_version", "v1") == "v2":
+            return self._route_v2(run, state, budget, summary)
         messages = [{"role": "system", "content": ROUTER_PROMPT},
                     {"role": "user", "content": json.dumps(summary, ensure_ascii=False)}]
         try:
@@ -225,6 +228,45 @@ class AgentEngine:
         except (DeepSeekError, DeepSeekJsonError, ValidationError, ValueError) as exc:
             state["errors"].append({"stage": "router", "type": type(exc).__name__})
             return []
+
+    # 方法说明：`_route_v2` 用 function calling 选择工具，并把拦截原因写入状态。
+    def _route_v2(self, run, state, budget, summary):
+        allowlist = ["query_metrics", "search_similar_incidents"]
+        if self.cfg.get("v12", {}).get("enabled"):
+            allowlist.append("read_trace_summary")
+        router = ToolRouter(allowlist, max_tools=2)
+        outcome = router.route(
+            summary, lambda messages, tools: self._llm_tools(budget, messages, tools))
+        state["router"] = {"version": "v2", "policy": outcome["policy"],
+                           "names": outcome["names"], "blocked": outcome["blocked"],
+                           "usage": outcome["usage"], "elapsed_ms": outcome["elapsed_ms"]}
+        if outcome["policy"] == "fallback":
+            state["errors"].append({"stage": "router", "type": outcome["reason"] or "error"})
+        return outcome["names"]
+
+    # 方法说明：`_llm_tools` 在预算内执行一次工具调用请求并累计用量。
+    def _llm_tools(self, budget, messages, tools):
+        if budget["llm_calls"] >= budget["max_llm_calls"]:
+            raise DeepSeekError("Agent LLM call budget was exhausted")
+        if budget["tokens"] >= budget["max_tokens"]:
+            raise DeepSeekError("Agent revision token budget was exhausted")
+        if budget["active_ms"] >= budget["max_active_ms"]:
+            raise DeepSeekError("Agent active processing budget was exhausted")
+        budget["llm_calls"] += 1
+        started = time.perf_counter()
+        try:
+            calls, usage = self.client.complete_tool_calls(messages, tools)
+        except DeepSeekError:
+            budget["active_ms"] += int((time.perf_counter() - started) * 1000)
+            raise
+        budget["active_ms"] += int((time.perf_counter() - started) * 1000)
+        budget["tokens"] += int(usage["input_tokens"]) + int(usage["output_tokens"])
+        budget["estimated_cost_cny"] += float(usage["estimated_cost_cny"])
+        if budget["active_ms"] > budget["max_active_ms"]:
+            raise DeepSeekError("Agent active processing budget was exhausted")
+        if budget["tokens"] > budget["max_tokens"]:
+            raise DeepSeekError("Agent revision token budget was exhausted")
+        return calls, usage
 
     # 方法说明：`_template_body` 完成当前步骤的业务处理；参数为 `hypotheses`、`allowed_ids`、`enough`。
     @staticmethod
@@ -336,11 +378,19 @@ class AgentEngine:
         log_rows = logs.get("data", {}).get("items", [])
         log_items = [log_evidence(row, self.service_manifest["release_id"]) for row in log_rows]
         components = sorted({row.get("component") for row in log_rows if row.get("component")})
+        store = getattr(self.tools, "metrics", None)
+        metrics_available = bool(store and store.window(
+            event.get("host_alias"), event.get("start_time"), event.get("end_time"), limit=1))
         summary = {"event_id": event_id, "components": components,
                    "levels": sorted({row.get("level") for row in log_rows if row.get("level")}),
                    "log_count": logs.get("data", {}).get("total", 0),
-                   "metrics_available": False, "historical_reports_available": bool(
-                       self.db.one("SELECT 1 AS found FROM incident_reports LIMIT 1"))}
+                   "metrics_available": metrics_available,
+                   "historical_reports_available": bool(
+                       self.db.one("SELECT 1 AS found FROM incident_reports LIMIT 1")),
+                   "trace_available": bool(self.cfg.get("v12", {}).get("enabled") and
+                                           self.db.one("SELECT 1 AS found FROM "
+                                                       "event_trace_evidence WHERE event_id=?",
+                                                       (event_id,)))}
         if "optional_tools" in state:
             optional = state["optional_tools"]
         else:

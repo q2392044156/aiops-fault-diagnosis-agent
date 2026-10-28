@@ -1,0 +1,1910 @@
+{
+  "model": "deepseek-flash",
+  "cases": 30,
+  "summary": {
+    "deterministic": {
+      "cases": 30,
+      "exact_match_rate": 0.2,
+      "precision": 1.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "unnecessary_rate": 0.0,
+      "missed_rate": 1.0,
+      "invalid_name_cases": 0,
+      "fallback_cases": 0,
+      "avg_tokens": 0.0,
+      "avg_latency_ms": 0.0,
+      "total_tokens": 0,
+      "per_tool": {
+        "query_metrics": {
+          "hit": 0,
+          "false_positive": 0,
+          "false_negative": 17
+        },
+        "read_trace_summary": {
+          "hit": 0,
+          "false_positive": 0,
+          "false_negative": 9
+        },
+        "search_similar_incidents": {
+          "hit": 0,
+          "false_positive": 0,
+          "false_negative": 8
+        }
+      }
+    },
+    "free": {
+      "cases": 30,
+      "exact_match_rate": 0.6667,
+      "precision": 0.7556,
+      "recall": 1.0,
+      "f1": 0.8608,
+      "unnecessary_rate": 0.2444,
+      "missed_rate": 0.0,
+      "invalid_name_cases": 0,
+      "fallback_cases": 0,
+      "avg_tokens": 156.1,
+      "avg_latency_ms": 979.8,
+      "total_tokens": 4684,
+      "per_tool": {
+        "query_metrics": {
+          "hit": 17,
+          "false_positive": 4,
+          "false_negative": 0
+        },
+        "read_trace_summary": {
+          "hit": 9,
+          "false_positive": 2,
+          "false_negative": 0
+        },
+        "search_similar_incidents": {
+          "hit": 8,
+          "false_positive": 5,
+          "false_negative": 0
+        }
+      }
+    },
+    "rules": {
+      "cases": 30,
+      "exact_match_rate": 0.9333,
+      "precision": 0.9697,
+      "recall": 0.9412,
+      "f1": 0.9552,
+      "unnecessary_rate": 0.0303,
+      "missed_rate": 0.0588,
+      "invalid_name_cases": 0,
+      "fallback_cases": 0,
+      "avg_tokens": 285.4,
+      "avg_latency_ms": 738.7,
+      "total_tokens": 8562,
+      "per_tool": {
+        "query_metrics": {
+          "hit": 17,
+          "false_positive": 1,
+          "false_negative": 0
+        },
+        "read_trace_summary": {
+          "hit": 8,
+          "false_positive": 0,
+          "false_negative": 1
+        },
+        "search_similar_incidents": {
+          "hit": 7,
+          "false_positive": 0,
+          "false_negative": 1
+        }
+      }
+    },
+    "constrained": {
+      "cases": 30,
+      "exact_match_rate": 0.9,
+      "precision": 0.9167,
+      "recall": 0.9706,
+      "f1": 0.9429,
+      "unnecessary_rate": 0.0833,
+      "missed_rate": 0.0294,
+      "invalid_name_cases": 0,
+      "fallback_cases": 0,
+      "avg_tokens": 863.3,
+      "avg_latency_ms": 1030.0,
+      "total_tokens": 25898,
+      "per_tool": {
+        "query_metrics": {
+          "hit": 17,
+          "false_positive": 2,
+          "false_negative": 0
+        },
+        "read_trace_summary": {
+          "hit": 9,
+          "false_positive": 1,
+          "false_negative": 0
+        },
+        "search_similar_incidents": {
+          "hit": 7,
+          "false_positive": 0,
+          "false_negative": 1
+        }
+      }
+    }
+  },
+  "details": {
+    "deterministic": [
+      {
+        "case_id": "r01",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r02",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r03",
+        "expected": [],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r04",
+        "expected": [],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r05",
+        "expected": [],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r06",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r07",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r08",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r09",
+        "expected": [],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r10",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r11",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r12",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r13",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r14",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r15",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r16",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r17",
+        "expected": [],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r18",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r19",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r20",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r21",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r22",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r23",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r24",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r25",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r26",
+        "expected": [],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r27",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r28",
+        "expected": [
+          "read_trace_summary",
+          "search_similar_incidents"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r29",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      },
+      {
+        "case_id": "r30",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [],
+        "usage": {},
+        "elapsed_ms": 0.0,
+        "policy": "fixed"
+      }
+    ],
+    "free": [
+      {
+        "case_id": "r01",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000372
+        },
+        "elapsed_ms": 610.61,
+        "policy": "model"
+      },
+      {
+        "case_id": "r02",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.000436
+        },
+        "elapsed_ms": 870.645,
+        "policy": "model"
+      },
+      {
+        "case_id": "r03",
+        "expected": [],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000368
+        },
+        "elapsed_ms": 692.929,
+        "policy": "model"
+      },
+      {
+        "case_id": "r04",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.000336
+        },
+        "elapsed_ms": 678.591,
+        "policy": "model"
+      },
+      {
+        "case_id": "r05",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.00034
+        },
+        "elapsed_ms": 628.21,
+        "policy": "model"
+      },
+      {
+        "case_id": "r06",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 18,
+          "estimated_cost_cny": 0.000428
+        },
+        "elapsed_ms": 5374.105,
+        "policy": "model"
+      },
+      {
+        "case_id": "r07",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 26,
+          "estimated_cost_cny": 0.000492
+        },
+        "elapsed_ms": 748.727,
+        "policy": "model"
+      },
+      {
+        "case_id": "r08",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 18,
+          "estimated_cost_cny": 0.000424
+        },
+        "elapsed_ms": 526.185,
+        "policy": "model"
+      },
+      {
+        "case_id": "r09",
+        "expected": [],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.000432
+        },
+        "elapsed_ms": 693.376,
+        "policy": "model"
+      },
+      {
+        "case_id": "r10",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.000432
+        },
+        "elapsed_ms": 4296.655,
+        "policy": "model"
+      },
+      {
+        "case_id": "r11",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 138,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000364
+        },
+        "elapsed_ms": 661.6,
+        "policy": "model"
+      },
+      {
+        "case_id": "r12",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 138,
+          "output_tokens": 14,
+          "estimated_cost_cny": 0.000388
+        },
+        "elapsed_ms": 596.358,
+        "policy": "model"
+      },
+      {
+        "case_id": "r13",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.000436
+        },
+        "elapsed_ms": 670.548,
+        "policy": "model"
+      },
+      {
+        "case_id": "r14",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.000436
+        },
+        "elapsed_ms": 882.561,
+        "policy": "model"
+      },
+      {
+        "case_id": "r15",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "search_similar_incidents",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 21,
+          "estimated_cost_cny": 0.000448
+        },
+        "elapsed_ms": 876.109,
+        "policy": "model"
+      },
+      {
+        "case_id": "r16",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000368
+        },
+        "elapsed_ms": 621.493,
+        "policy": "model"
+      },
+      {
+        "case_id": "r17",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.000336
+        },
+        "elapsed_ms": 767.899,
+        "policy": "model"
+      },
+      {
+        "case_id": "r18",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 18,
+          "estimated_cost_cny": 0.000428
+        },
+        "elapsed_ms": 636.03,
+        "policy": "model"
+      },
+      {
+        "case_id": "r19",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 138,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000364
+        },
+        "elapsed_ms": 823.557,
+        "policy": "model"
+      },
+      {
+        "case_id": "r20",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.000432
+        },
+        "elapsed_ms": 505.871,
+        "policy": "model"
+      },
+      {
+        "case_id": "r21",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "search_similar_incidents",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 21,
+          "estimated_cost_cny": 0.000452
+        },
+        "elapsed_ms": 752.514,
+        "policy": "model"
+      },
+      {
+        "case_id": "r22",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 139,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.00043
+        },
+        "elapsed_ms": 1072.616,
+        "policy": "model"
+      },
+      {
+        "case_id": "r23",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000372
+        },
+        "elapsed_ms": 334.651,
+        "policy": "model"
+      },
+      {
+        "case_id": "r24",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 13,
+          "estimated_cost_cny": 0.000384
+        },
+        "elapsed_ms": 438.364,
+        "policy": "model"
+      },
+      {
+        "case_id": "r25",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 26,
+          "estimated_cost_cny": 0.000488
+        },
+        "elapsed_ms": 886.578,
+        "policy": "model"
+      },
+      {
+        "case_id": "r26",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 138,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.000332
+        },
+        "elapsed_ms": 929.836,
+        "policy": "model"
+      },
+      {
+        "case_id": "r27",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 18,
+          "estimated_cost_cny": 0.000428
+        },
+        "elapsed_ms": 842.087,
+        "policy": "model"
+      },
+      {
+        "case_id": "r28",
+        "expected": [
+          "read_trace_summary",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 140,
+          "output_tokens": 26,
+          "estimated_cost_cny": 0.000488
+        },
+        "elapsed_ms": 577.217,
+        "policy": "model"
+      },
+      {
+        "case_id": "r29",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 142,
+          "output_tokens": 13,
+          "estimated_cost_cny": 0.000388
+        },
+        "elapsed_ms": 793.59,
+        "policy": "model"
+      },
+      {
+        "case_id": "r30",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 139,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000366
+        },
+        "elapsed_ms": 604.387,
+        "policy": "model"
+      }
+    ],
+    "rules": [
+      {
+        "case_id": "r01",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000636
+        },
+        "elapsed_ms": 769.369,
+        "policy": "model"
+      },
+      {
+        "case_id": "r02",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.0007
+        },
+        "elapsed_ms": 833.931,
+        "policy": "model"
+      },
+      {
+        "case_id": "r03",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.0006
+        },
+        "elapsed_ms": 715.017,
+        "policy": "model"
+      },
+      {
+        "case_id": "r04",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.0006
+        },
+        "elapsed_ms": 987.164,
+        "policy": "model"
+      },
+      {
+        "case_id": "r05",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.000604
+        },
+        "elapsed_ms": 638.745,
+        "policy": "model"
+      },
+      {
+        "case_id": "r06",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 18,
+          "estimated_cost_cny": 0.000692
+        },
+        "elapsed_ms": 653.4,
+        "policy": "model"
+      },
+      {
+        "case_id": "r07",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.0007
+        },
+        "elapsed_ms": 772.618,
+        "policy": "model"
+      },
+      {
+        "case_id": "r08",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 18,
+          "estimated_cost_cny": 0.000688
+        },
+        "elapsed_ms": 836.35,
+        "policy": "model"
+      },
+      {
+        "case_id": "r09",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.0006
+        },
+        "elapsed_ms": 882.897,
+        "policy": "model"
+      },
+      {
+        "case_id": "r10",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.000696
+        },
+        "elapsed_ms": 700.914,
+        "policy": "model"
+      },
+      {
+        "case_id": "r11",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 270,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000628
+        },
+        "elapsed_ms": 470.505,
+        "policy": "model"
+      },
+      {
+        "case_id": "r12",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 270,
+          "output_tokens": 14,
+          "estimated_cost_cny": 0.000652
+        },
+        "elapsed_ms": 801.53,
+        "policy": "model"
+      },
+      {
+        "case_id": "r13",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000636
+        },
+        "elapsed_ms": 829.996,
+        "policy": "model"
+      },
+      {
+        "case_id": "r14",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 19,
+          "estimated_cost_cny": 0.0007
+        },
+        "elapsed_ms": 823.074,
+        "policy": "model"
+      },
+      {
+        "case_id": "r15",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 14,
+          "estimated_cost_cny": 0.000656
+        },
+        "elapsed_ms": 727.352,
+        "policy": "model"
+      },
+      {
+        "case_id": "r16",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000632
+        },
+        "elapsed_ms": 712.25,
+        "policy": "model"
+      },
+      {
+        "case_id": "r17",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.0006
+        },
+        "elapsed_ms": 786.051,
+        "policy": "model"
+      },
+      {
+        "case_id": "r18",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 18,
+          "estimated_cost_cny": 0.000692
+        },
+        "elapsed_ms": 609.984,
+        "policy": "model"
+      },
+      {
+        "case_id": "r19",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 270,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000628
+        },
+        "elapsed_ms": 696.81,
+        "policy": "model"
+      },
+      {
+        "case_id": "r20",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 14,
+          "estimated_cost_cny": 0.000656
+        },
+        "elapsed_ms": 924.367,
+        "policy": "model"
+      },
+      {
+        "case_id": "r21",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 13,
+          "estimated_cost_cny": 0.000652
+        },
+        "elapsed_ms": 783.501,
+        "policy": "model"
+      },
+      {
+        "case_id": "r22",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 271,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.00063
+        },
+        "elapsed_ms": 690.915,
+        "policy": "model"
+      },
+      {
+        "case_id": "r23",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000636
+        },
+        "elapsed_ms": 593.5,
+        "policy": "model"
+      },
+      {
+        "case_id": "r24",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 13,
+          "estimated_cost_cny": 0.000648
+        },
+        "elapsed_ms": 765.806,
+        "policy": "model"
+      },
+      {
+        "case_id": "r25",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 18,
+          "estimated_cost_cny": 0.000688
+        },
+        "elapsed_ms": 923.925,
+        "policy": "model"
+      },
+      {
+        "case_id": "r26",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 270,
+          "output_tokens": 7,
+          "estimated_cost_cny": 0.000596
+        },
+        "elapsed_ms": 527.322,
+        "policy": "model"
+      },
+      {
+        "case_id": "r27",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.000636
+        },
+        "elapsed_ms": 419.302,
+        "policy": "model"
+      },
+      {
+        "case_id": "r28",
+        "expected": [
+          "read_trace_summary",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 272,
+          "output_tokens": 18,
+          "estimated_cost_cny": 0.000688
+        },
+        "elapsed_ms": 852.741,
+        "policy": "model"
+      },
+      {
+        "case_id": "r29",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 274,
+          "output_tokens": 13,
+          "estimated_cost_cny": 0.000652
+        },
+        "elapsed_ms": 832.512,
+        "policy": "model"
+      },
+      {
+        "case_id": "r30",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 271,
+          "output_tokens": 11,
+          "estimated_cost_cny": 0.00063
+        },
+        "elapsed_ms": 600.123,
+        "policy": "model"
+      }
+    ],
+    "constrained": [
+      {
+        "case_id": "r01",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 44,
+          "estimated_cost_cny": 0.001886
+        },
+        "elapsed_ms": 891.241,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r02",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 99,
+          "estimated_cost_cny": 0.002326
+        },
+        "elapsed_ms": 1147.26,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r03",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 112,
+          "estimated_cost_cny": 0.002426
+        },
+        "elapsed_ms": 1234.08,
+        "policy": "none",
+        "blocked": []
+      },
+      {
+        "case_id": "r04",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 38,
+          "estimated_cost_cny": 0.001834
+        },
+        "elapsed_ms": 958.245,
+        "policy": "none",
+        "blocked": []
+      },
+      {
+        "case_id": "r05",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 40,
+          "estimated_cost_cny": 0.001854
+        },
+        "elapsed_ms": 1121.111,
+        "policy": "none",
+        "blocked": []
+      },
+      {
+        "case_id": "r06",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 81,
+          "estimated_cost_cny": 0.002182
+        },
+        "elapsed_ms": 744.582,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r07",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 245,
+          "estimated_cost_cny": 0.003494
+        },
+        "elapsed_ms": 1861.229,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r08",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 81,
+          "estimated_cost_cny": 0.002178
+        },
+        "elapsed_ms": 1000.295,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r09",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 123,
+          "estimated_cost_cny": 0.002514
+        },
+        "elapsed_ms": 1777.223,
+        "policy": "none",
+        "blocked": []
+      },
+      {
+        "case_id": "r10",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 99,
+          "estimated_cost_cny": 0.002322
+        },
+        "elapsed_ms": 830.586,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r11",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 763,
+          "output_tokens": 107,
+          "estimated_cost_cny": 0.002382
+        },
+        "elapsed_ms": 884.714,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r12",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 763,
+          "output_tokens": 138,
+          "estimated_cost_cny": 0.00263
+        },
+        "elapsed_ms": 1209.91,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r13",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 101,
+          "estimated_cost_cny": 0.002342
+        },
+        "elapsed_ms": 1231.416,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r14",
+        "expected": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 189,
+          "estimated_cost_cny": 0.003046
+        },
+        "elapsed_ms": 1151.454,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r15",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "read_trace_summary",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 101,
+          "estimated_cost_cny": 0.002338
+        },
+        "elapsed_ms": 990.566,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r16",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 119,
+          "estimated_cost_cny": 0.002482
+        },
+        "elapsed_ms": 1264.764,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r17",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 85,
+          "estimated_cost_cny": 0.00221
+        },
+        "elapsed_ms": 783.379,
+        "policy": "none",
+        "blocked": []
+      },
+      {
+        "case_id": "r18",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 81,
+          "estimated_cost_cny": 0.002182
+        },
+        "elapsed_ms": 745.815,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r19",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 763,
+          "output_tokens": 102,
+          "estimated_cost_cny": 0.002342
+        },
+        "elapsed_ms": 1014.913,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r20",
+        "expected": [
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "search_similar_incidents"
+        ],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 99,
+          "estimated_cost_cny": 0.002322
+        },
+        "elapsed_ms": 740.436,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r21",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 132,
+          "estimated_cost_cny": 0.00259
+        },
+        "elapsed_ms": 1402.716,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r22",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 764,
+          "output_tokens": 108,
+          "estimated_cost_cny": 0.002392
+        },
+        "elapsed_ms": 1221.127,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r23",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 44,
+          "estimated_cost_cny": 0.001886
+        },
+        "elapsed_ms": 614.175,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r24",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 46,
+          "estimated_cost_cny": 0.001898
+        },
+        "elapsed_ms": 738.112,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r25",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 81,
+          "estimated_cost_cny": 0.002178
+        },
+        "elapsed_ms": 1094.515,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r26",
+        "expected": [],
+        "predicted": [],
+        "usage": {
+          "input_tokens": 763,
+          "output_tokens": 32,
+          "estimated_cost_cny": 0.001782
+        },
+        "elapsed_ms": 730.801,
+        "policy": "none",
+        "blocked": []
+      },
+      {
+        "case_id": "r27",
+        "expected": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 81,
+          "estimated_cost_cny": 0.002182
+        },
+        "elapsed_ms": 1017.662,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r28",
+        "expected": [
+          "read_trace_summary",
+          "search_similar_incidents"
+        ],
+        "predicted": [
+          "query_metrics",
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 765,
+          "output_tokens": 81,
+          "estimated_cost_cny": 0.002178
+        },
+        "elapsed_ms": 717.63,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r29",
+        "expected": [
+          "read_trace_summary"
+        ],
+        "predicted": [
+          "read_trace_summary"
+        ],
+        "usage": {
+          "input_tokens": 767,
+          "output_tokens": 120,
+          "estimated_cost_cny": 0.002494
+        },
+        "elapsed_ms": 1022.364,
+        "policy": "model",
+        "blocked": []
+      },
+      {
+        "case_id": "r30",
+        "expected": [
+          "query_metrics"
+        ],
+        "predicted": [
+          "query_metrics"
+        ],
+        "usage": {
+          "input_tokens": 764,
+          "output_tokens": 125,
+          "estimated_cost_cny": 0.002528
+        },
+        "elapsed_ms": 757.087,
+        "policy": "model",
+        "blocked": []
+      }
+    ]
+  }
+}

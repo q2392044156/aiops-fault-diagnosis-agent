@@ -19,6 +19,8 @@
 | `config.py` | 读取、校验并规范化当前模块的 YAML 配置。 | `load` |
 | `engine.py` | 封装当前模块的核心执行引擎和稳定调用接口。 | `AgentYield`、`utcnow`、`AgentEngine` |
 | `release.py` | 校验并生成当前模块的不可变发布清单。 | `code_hashes`、`publish`、`verify` |
+| `router_v2.py` | 实现受控工具调用路由：白名单、Schema 校验与回落。 | `ToolRouter`、`ROUTER_V2_PROMPT` |
+| `tool_specs.py` | 定义只读工具的 JSON Schema 与参数校验。 | `TOOL_SPECS`、`specs_for`、`validate_arguments` |
 | `schemas.py` | 定义当前模块输入输出的 Pydantic 数据结构。 | `StrictModel`、`ToolResult`、`Evidence`、`Hypothesis`、`ActionAdvice`、`GeneratedReportBody`、`IncidentReport`、`RouterDecision` |
 | `tools.py` | 定义只读工具白名单、调用审计和结果契约。 | `result`、`AgentTools`、`log_evidence`、`document_evidence` |
 | `workflow.py` | 组织当前模块的端到端工作流和文件产物。 | `EvalAction`、`EvalReport`、`load_cases`、`validate_isolation`、`deterministic_status`、`_usage_delta`、`_budget_used`、`_atest_online` 等 |

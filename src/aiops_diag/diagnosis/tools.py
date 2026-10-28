@@ -8,6 +8,7 @@ import pyarrow.parquet as pq
 
 from aiops_diag.data.common import key
 from aiops_diag.knowledge.engine import tokenize
+from aiops_diag.platform.metrics_store import MetricsStore
 
 
 # 方法说明：`result` 完成当前步骤的业务处理；参数为 `data`、`error`、`provenance`、`started`、`truncated`。
@@ -26,6 +27,7 @@ class AgentTools:
         self.cfg = cfg
         self.retriever = retriever
         self.service_manifest = service_manifest
+        self.metrics = MetricsStore((cfg.get("tools") or {}).get("metrics_path"))
 
     # 方法说明：`detect_anomaly` 完成当前步骤的业务处理；参数为 `event_id`。
     def detect_anomaly(self, event_id):
@@ -73,12 +75,26 @@ class AgentTools:
                       provenance={"batch_id": event["batch_id"], "event_id": event_id},
                       started=started, truncated=total > len(rows))
 
-    # 方法说明：`query_metrics` 完成当前步骤的业务处理；参数为 `event_id`。
-    @staticmethod
-    def query_metrics(event_id):
+    # 方法说明：`query_metrics` 查询事件窗口内的真实指标，缺少指标文件时保持 not_available。
+    def query_metrics(self, event_id):
         started = time.perf_counter()
-        return result({"status": "not_available", "event_id": event_id, "series": []},
-                      provenance={"source": "not_configured"}, started=started)
+        event = self.db.one("SELECT * FROM events WHERE event_id=?", (event_id,))
+        if not event:
+            return result(error={"code": "EVENT_NOT_FOUND", "message": "Event was not found",
+                                 "retryable": False}, started=started)
+        store = getattr(self, "metrics", None)
+        series = store.window(event.get("host_alias"), event.get("start_time"),
+                              event.get("end_time")) if store else []
+        if not series:
+            return result({"status": "not_available", "event_id": event_id, "series": []},
+                          provenance={"source": "metrics_store" if store and store.available
+                                      else "not_configured"}, started=started)
+        return result({"status": "available", "event_id": event_id,
+                       "window": {"start": event.get("start_time"),
+                                  "end": event.get("end_time")},
+                       "series": series},
+                      provenance={"source": str(store.path), "event_id": event_id},
+                      started=started)
 
     # 方法说明：`search_similar_incidents` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`event`、`summary`、`top_k`。
     def search_similar_incidents(self, diagnosis_id, event, summary, top_k=5):
