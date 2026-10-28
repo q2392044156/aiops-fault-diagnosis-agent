@@ -1,5 +1,8 @@
 # AIOps Fault Diagnosis Agent
 
+[![ci](https://github.com/q2392044156/aiops-fault-diagnosis-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/q2392044156/aiops-fault-diagnosis-agent/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 这是一个面向 HDFS 日志与调用链数据的故障诊断研究原型。项目希望解决的不是“让大模型自动修机器”，而是一个更实际的问题：当系统出现异常时，如何把海量日志压缩成可核查的事件，再结合固定版本的运维知识，给出带证据、可追溯、可人工复核的诊断报告。
 
 当前代码版本为 **v1.2 RC1**（Python 包版本 `1.2.0rc1`）。它已经完成代码实现、公开数据适配和本地工程验证，可作为后续接入真实故障数据与独立评测的开发基线；它仍是研究候选版本，不代表已经达到生产可用标准。
