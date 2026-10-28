@@ -1,0 +1,22 @@
+{
+  "chunk_id": "kb-write-pipeline-001",
+  "doc_id": "hdfs-write-pipeline",
+  "title": "写入管道异常（Write Pipeline）与网络分区",
+  "section_path": "HDFS / Client / 写入",
+  "components": [
+    "HDFS Client"
+  ],
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html",
+  "match_terms": [
+    "pipeline",
+    "datastreamer",
+    "client",
+    "network",
+    "mirror",
+    "write"
+  ],
+  "text": "客户端写入时会建立 DataNode 管道，任一节点网络抖动或进程退出都会触发 pipeline recovery，日志表现为 DataStreamer Exception、Bad response、mirror 写入失败。排查方向：对齐同一时间窗内的网络指标与 DataNode 心跳，区分单点故障与机架级网络问题。"
+}

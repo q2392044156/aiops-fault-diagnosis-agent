@@ -14,6 +14,14 @@ from pathlib import Path, PurePosixPath
 from .common import digest, save
 
 # 主要用于从远程 URL 下载归档文件（如 ZIP），并确保下载完整性。
+# 输入：
+#   url: 远程 URL，指向归档文件。
+#   target: 本地目标路径，用于保存下载的归档文件。
+#   size: 期望的归档文件大小，用于验证下载完整性。
+#   md5: 期望的归档文件 MD5 哈希值，用于验证下载完整性。
+#   attempts: 最大尝试次数，默认 4 次。
+# 输出：
+#   无返回值，下载结果直接写入 target 路径。
 def fetch(url, target, size, md5, attempts=4):
     # 前置检查
     target = Path(target)
@@ -66,6 +74,7 @@ def fetch(url, target, size, md5, attempts=4):
             time.sleep(2 ** attempt)
 
 #用于从下载好的 ZIP 文件中提取指定的白名单文件到目标目录
+#该函数确保解压过程安全，防止路径遍历攻击，并将提取的文件保存为指定的名称。
 def extract(archive, raw):
     raw = Path(raw)
     allowed = {"HDFS.log": "HDFS.log", "preprocessed/anomaly_label.csv": "anomaly_label.csv"}

@@ -1,7 +1,9 @@
 """模块说明：验证 lstm 相关功能、边界和回归行为。"""
 
 import pytest
-import torch
+
+# 变量说明：缺少 PyTorch 时跳过 LSTM 相关测试，保证 CPU/CI 环境可运行主链路。
+torch = pytest.importorskip("torch")
 
 from aiops_diag.data.common import digest, save
 from aiops_diag.detection.lstm_model import LSTMClassifier, collate_sequences

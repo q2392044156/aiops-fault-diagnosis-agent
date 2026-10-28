@@ -1,0 +1,12 @@
+081109 203518 143 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1001 src: /10.0.0.1:50010 dest: /10.0.0.1:50010
+081109 203519 143 INFO dfs.DataNode$PacketResponder: PacketResponder 0 for block blk_-1001 terminating
+081109 203520 143 INFO dfs.FSDataset: Finalized block blk_-1001 file /current/dfs/dn/blk_-1001
+081109 203521 143 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1002 src: /10.0.0.2:50010 dest: /10.0.0.2:50010
+081109 203522 143 INFO dfs.DataNode$PacketResponder: PacketResponder 1 for block blk_-1002 terminating
+081109 203523 143 INFO dfs.FSDataset: Finalized block blk_-1002 file /current/dfs/dn/blk_-1002
+081109 203601 145 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1003 src: /10.0.0.3:50010 dest: /10.0.0.3:50010
+081109 203602 145 WARN dfs.FSDataset: Volume /data/3 failed, 0 bytes available while writing blk_-1003
+081109 203603 145 ERROR dfs.DataNode$DataXceiver: writeBlock blk_-1003 received exception java.io.IOException: No space left on device
+081109 203604 145 ERROR dfs.DataNode: Failed to write block blk_-1003 to mirror /10.0.0.4:50010
+081109 203700 146 INFO dfs.DataNode: heartbeat ok
+this line is intentionally broken and should be quarantined

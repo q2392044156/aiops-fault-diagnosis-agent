@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" role="img" aria-label="AIOps fault diagnosis agent architecture">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94A3B8"/>
+    </marker>
+    <style>
+      .box { fill:#F5F8FF; stroke:#3B6FD4; stroke-width:1.6; rx:10; }
+      .warm { fill:#FFF7ED; stroke:#D97706; stroke-width:1.6; rx:10; }
+      .db { fill:#ECFDF5; stroke:#059669; stroke-width:1.6; rx:10; }
+      .t { font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",sans-serif; fill:#1F2937; font-size:15px; }
+      .h { font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",sans-serif; fill:#0F172A; font-size:22px; font-weight:600; }
+      .s { font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",sans-serif; fill:#475569; font-size:13px; }
+      .line { stroke:#94A3B8; stroke-width:1.6; fill:none; marker-end:url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="640" fill="#FFFFFF"/>
+  <text class="h" x="500" y="42" text-anchor="middle">AIOps 故障诊断 Agent · 架构总览（v1.2 RC1）</text>
+  <text class="s" x="500" y="64" text-anchor="middle">只读 · 证据约束 · 预算封闭 · 可审计 · 可恢复</text>
+
+  <rect class="box" x="60" y="86" width="260" height="56"/>
+  <text class="t" x="190" y="112" text-anchor="middle">HDFS 日志</text>
+  <text class="s" x="190" y="131" text-anchor="middle">1117 万行 / 57 万会话</text>
+
+  <rect class="box" x="370" y="86" width="260" height="56"/>
+  <text class="t" x="500" y="112" text-anchor="middle">聚合调用链 Trace</text>
+  <text class="s" x="500" y="131" text-anchor="middle">组件 · 操作 · 边 · 失败数</text>
+
+  <rect class="box" x="680" y="86" width="260" height="56"/>
+  <text class="t" x="810" y="112" text-anchor="middle">运维知识卡</text>
+  <text class="s" x="810" y="131" text-anchor="middle">30 篇原创 / 稳定 chunk_id</text>
+
+  <rect class="box" x="60" y="186" width="260" height="72"/>
+  <text class="t" x="190" y="214" text-anchor="middle">数据层</text>
+  <text class="s" x="190" y="236" text-anchor="middle">解析 · 脱敏 · 按 block 切会话</text>
+
+  <rect class="box" x="370" y="186" width="260" height="72"/>
+  <text class="t" x="500" y="214" text-anchor="middle">检测层</text>
+  <text class="s" x="500" y="236" text-anchor="middle">Drain3 模板 + TF-IDF + LR</text>
+
+  <rect class="box" x="680" y="186" width="260" height="72"/>
+  <text class="t" x="810" y="214" text-anchor="middle">检索层</text>
+  <text class="s" x="810" y="236" text-anchor="middle">BM25 + BGE ONNX + RRF</text>
+
+  <rect class="warm" x="60" y="302" width="880" height="84"/>
+  <text class="t" x="500" y="332" text-anchor="middle">诊断层：确定性 Agent（LangGraph 固定节点 + SQLite checkpoint）</text>
+  <text class="s" x="500" y="356" text-anchor="middle">8 个只读工具 · 预算 8 次调用 / 12k tokens / 120s · 证据白名单 · 坏 JSON 降级模板</text>
+
+  <rect class="box" x="60" y="430" width="420" height="70"/>
+  <text class="t" x="270" y="459" text-anchor="middle">服务层：api / worker / ui</text>
+  <text class="s" x="270" y="481" text-anchor="middle">FastAPI · Streamlit · 租约与心跳</text>
+
+  <rect class="db" x="520" y="430" width="420" height="70"/>
+  <text class="t" x="730" y="459" text-anchor="middle">SQLite：唯一业务真相源</text>
+  <text class="s" x="730" y="481" text-anchor="middle">任务 · 预算 · 证据 · 报告 · 审批 · 审计</text>
+
+  <text class="t" x="500" y="560" text-anchor="middle">人工复核：签字 ≠ 执行</text>
+  <text class="s" x="500" y="584" text-anchor="middle">所有建议 execution_allowed = false，系统内没有执行运维操作的入口</text>
+
+  <path class="line" d="M190 142 L190 186"/>
+  <path class="line" d="M500 142 L500 186"/>
+  <path class="line" d="M810 142 L810 186"/>
+  <path class="line" d="M190 258 L190 302"/>
+  <path class="line" d="M500 258 L500 302"/>
+  <path class="line" d="M810 258 L810 302"/>
+  <path class="line" d="M270 386 L270 430"/>
+  <path class="line" d="M730 386 L730 430"/>
+  <path class="line" d="M480 465 L520 465"/>
+  <path class="line" d="M730 500 L730 540"/>
+</svg>

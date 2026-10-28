@@ -1,0 +1,22 @@
+{
+  "chunk_id": "kb-dn-volume-001",
+  "doc_id": "hdfs-dn-volume",
+  "title": "DataNode 磁盘写满与卷失败（Volume Failure）",
+  "section_path": "HDFS / DataNode / 存储",
+  "components": [
+    "DataNode"
+  ],
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "match_terms": [
+    "datanode",
+    "datasceiver",
+    "volume",
+    "disk",
+    "space",
+    "writeblock"
+  ],
+  "text": "当 DataNode 的数据盘写满或挂载点失效时，日志会出现 Volume failed、No space left on device、writeBlock 异常等信号，随后该节点上的副本会变为 under-replicated。排查方向：确认失败卷（dfs.datanode.data.dir）、清理或扩容磁盘、观察 NameNode 的副本补齐进度；不要直接删除 block 文件。"
+}

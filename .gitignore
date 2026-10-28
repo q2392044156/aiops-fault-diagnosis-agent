@@ -22,3 +22,7 @@ __pycache__/
 /documentation/*面试*.pptx
 /documentation/interview_*.md
 /documentation/demo/
+
+# Demo runtime artifacts
+/demo/.runtime/
+demo_result.json

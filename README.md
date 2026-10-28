@@ -4,6 +4,26 @@
 
 当前代码版本为 **v1.2 RC1**（Python 包版本 `1.2.0rc1`）。它已经完成代码实现、公开数据适配和本地工程验证，可作为后续接入真实故障数据与独立评测的开发基线；它仍是研究候选版本，不代表已经达到生产可用标准。
 
+## 快速开始（5 分钟，无需 API Key）
+
+不需要下载数据集，也不需要配置 API Key：仓库内置一个离线端到端演示，一条 HDFS 日志 → 异常会话 → 事件 → 受控诊断 → 带引用的报告 → 人工复核，全程约 1 秒。
+
+```powershell
+conda activate aiops-fault-diagnosis-agent
+python demo/run_demo.py
+```
+
+也可以直接看 [demo/README.md](demo/README.md)（含 3 分钟演示脚本）和[架构总览](documentation/ARCHITECTURE.md)。
+
+跑全量测试与结构校验：
+
+```powershell
+python -m pytest -q --basetemp=.pytest-tmp
+python ops/scripts/validate_project_structure.py
+```
+
+> Windows 上如果默认临时目录不可写，请保留 `--basetemp=.pytest-tmp`；CI 使用同样的命令。
+
 ## 项目背景
 
 传统日志告警通常只能告诉运维人员“哪里可能不正常”，不能直接回答以下问题：
@@ -116,6 +136,23 @@ v1.2 的三个在线案例来自开发分区，只能证明工程链路能够工
 
 详细证据见 [v1.2 RC1 实施报告](documentation/v1.2_RC1_实施报告.md)、[v1.2 评测摘要](resources/evaluation/v1.2/v12_rc1_validation/report.md) 和 [机器可读结果](resources/evaluation/v1.2/v12_rc1_validation/result.json)。
 
+## 架构总览
+
+```mermaid
+flowchart LR
+    A[HDFS 日志 / Trace] --> B[数据层<br/>解析 · 脱敏 · 切会话]
+    B --> C[检测层<br/>Drain3 + TF-IDF + LR]
+    K[知识卡 30 篇] --> D[检索层<br/>BM25 + BGE + RRF]
+    C --> E[诊断层<br/>确定性 Agent · 8 只读工具]
+    D --> E
+    E --> F[服务层 api / worker / ui]
+    E --> G[(SQLite<br/>任务·预算·证据·报告·审批·审计)]
+    F --> G
+    G --> H[人工复核<br/>签字 ≠ 执行]
+```
+
+完整分层、模块边界与四条不变量见 [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md)；图示文件为 [architecture.svg](documentation/architecture.svg)，可直接插入 PPT。
+
 ## 项目结构
 
 ```text
@@ -132,6 +169,10 @@ aiops-fault-diagnosis-agent/
 ├─ ops/                           # Docker、Compose、运维和验收脚本
 ├─ documentation/                 # 技术报告、验收结果和演示资料
 ├─ tests/                         # 自动化测试
+├─ demo/                          # 离线端到端演示（无需 Key 与大数据集）
+├─ documentation/                 # 技术报告、架构总览与验收记录
+├─ Makefile                       # demo / test / validate 快捷命令
+├─ LICENSE                        # MIT
 ├─ PROJECT_STRUCTURE.md           # 依赖方向、模块边界和兼容约定
 ├─ pyproject.toml                 # 包元数据与依赖声明
 └─ README.md
@@ -287,3 +328,15 @@ python -m aiops_diag.data incident delete --incident-id INCIDENT_ID `
 - 镜像以非 root UID `10001` 运行，使用只读根文件系统、移除 capabilities，并启用 `no-new-privileges`。
 
 当前版本的下一步不是继续在公开标签上调参，而是按冻结协议接入经过授权、脱敏和独立签署的真实事件，建立按时间、集群和故障族隔离的新封存集，再运行一次正式评测。
+
+## 许可证
+
+本项目采用 [MIT License](LICENSE)。第三方依赖与数据集的许可见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
+## English Summary
+
+A reproducible AIOps research prototype for HDFS log and trace diagnosis. It turns raw logs into block-level sessions, scores them with a frozen Drain3 + TF-IDF/Logistic Regression model, retrieves evidence from a frozen 30-card knowledge base (BM25 + BGE ONNX + RRF), and drives a deterministic, read-only agent that must cite retrieved evidence. Every recommendation is hard-coded to `execution_allowed=false`; risky or low-confidence cases are routed to human review, and budgets, leases, checkpoints and approvals are persisted in SQLite.
+
+Current status: **v1.2 RC1 research candidate**. Engineering paths, budgets and safety gates are verified; production root-cause accuracy and MTTD are reported as `N/A` because no authorized, independently signed HDFS incident dataset is available yet.
+
+Run the offline demo with `python demo/run_demo.py`; architecture is in [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md).

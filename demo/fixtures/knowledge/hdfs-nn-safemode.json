@@ -1,0 +1,21 @@
+{
+  "chunk_id": "kb-nn-safemode-001",
+  "doc_id": "hdfs-nn-safemode",
+  "title": "NameNode 进入安全模式（Safe Mode）",
+  "section_path": "HDFS / NameNode / 可用性",
+  "components": [
+    "NameNode"
+  ],
+  "version_scope": [
+    "all-conceptual"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "match_terms": [
+    "namenode",
+    "safemode",
+    "safe",
+    "mode",
+    "blockreport"
+  ],
+  "text": "安全模式下 HDFS 只允许读、不允许写，日志通常出现 Safe mode is ON 以及等待 DataNode 上报 block 的信息。常见原因是 NameNode 重启后等待足够的 block report，或手动进入安全模式。排查方向：确认是否人为操作、检查 DataNode 存活数量与上报延迟，避免在未确认原因时强制离开安全模式。"
+}
