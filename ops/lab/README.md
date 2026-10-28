@@ -57,6 +57,8 @@ dn1 以 `privileged: true` 运行，由 `lab-init` 创建 64MB ext4 镜像，启
 - 写满后 DN 日志出现真实证据：`DiskChecker$DiskOutOfSpaceException: Out of space: The volume with the most available space (=1889280 B) is less than the block size (=4194304 B)`；
 - `df` 从 1% 涨到 97%，证明数据确实落在 dn1 的 loop 卷上。
 
+> 自动化说明：当前 loop 镜像由 `lab-init` 创建，dn1 重启只做挂载；要在 harness 里批量跑卷满，还需要一个含 `e2fsprogs` 的自定义 DataNode 镜像（每例重建卷），本轮未完成。
+
 ## 设计约束
 
 - **快照截止**：日志与指标只采集到 `cutoff = fault_start + observe`，恢复动作在 cutoff 之后执行；
