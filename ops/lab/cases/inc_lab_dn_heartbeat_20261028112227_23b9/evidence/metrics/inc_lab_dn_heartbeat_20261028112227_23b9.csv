@@ -1,0 +1,7 @@
+timestamp,host_alias,component,metric,value
+2026-10-28T11:20:27.749414+00:00,aiops-lab-dn2,DataNode,disk_used_ratio,0.2
+2026-10-28T11:20:37.749414+00:00,aiops-lab-dn2,DataNode,disk_used_ratio,0.2
+2026-10-28T11:20:47.749414+00:00,aiops-lab-dn2,DataNode,disk_used_ratio,0.99
+2026-10-28T11:20:57.749414+00:00,aiops-lab-dn2,DataNode,disk_used_ratio,0.99
+2026-10-28T11:21:07.749414+00:00,aiops-lab-dn2,DataNode,disk_used_ratio,0.99
+2026-10-28T11:21:17.749414+00:00,aiops-lab-dn2,DataNode,disk_used_ratio,0.3

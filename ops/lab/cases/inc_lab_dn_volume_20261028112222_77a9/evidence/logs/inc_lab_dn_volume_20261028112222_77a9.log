@@ -1,0 +1,12 @@
+[aiops-lab-dn1] 2026-10-28 11:20:22 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 0
+[aiops-lab-dn1] 2026-10-28 11:20:23 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 1
+[aiops-lab-dn1] 2026-10-28 11:20:24 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 2
+[aiops-lab-dn1] 2026-10-28 11:20:25 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 3
+[aiops-lab-dn1] 2026-10-28 11:20:26 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 4
+[aiops-lab-dn1] 2026-10-28 11:20:27 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 5
+[aiops-lab-dn1] 2026-10-28 11:20:28 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 6
+[aiops-lab-dn1] 2026-10-28 11:20:29 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 7
+[aiops-lab-dn1] 2026-10-28 11:20:30 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 8
+[aiops-lab-dn1] 2026-10-28 11:20:31 INFO  lab.Workload: case 2026-10-28T11:20:22.015127+00:00 normal workload line 9
+[aiops-lab-dn1] 2026-10-28 11:20:43 WARN  lab.Fault: dfs.FSDataset: Volume /data/1 failed, 0 bytes available
+[aiops-lab-dn1] 2026-10-28 11:20:44 ERROR  lab.Fault: dfs.DataNode$DataXceiver: writeBlock received exception java.io.IOException: No space left on device

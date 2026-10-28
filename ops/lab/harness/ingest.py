@@ -24,7 +24,7 @@ from aiops_diag.platform.pipeline import LOG_SCHEMA
 
 # 变量说明：LINE 解析容器日志的通用前缀。
 LINE = re.compile(r"^\[(?P<host>[^\]]+)\]\s+(?P<stamp>\d{4}-\d{2}-\d{2} "
-                  r"\d{2}:\d{2}:\d{2})[.,]\d*\s+(?P<level>[A-Z]+)\s+(?P<rest>.*)$")
+                  r"\d{2}:\d{2}:\d{2})(?:[.,]\d+)?\s+(?P<level>[A-Z]+)\s+(?P<rest>.*)$")
 # 变量说明：CARDS 是知识卡目录。
 CARDS = ROOT / "resources" / "knowledge" / "cards"
 
@@ -48,8 +48,14 @@ class CardRetriever:
     def search(self, query, mode=None, top_k=3, component=None, product_version=None,
                apply_gate=True):
         tokens = set(re.findall(r"[a-z0-9]+", (query or "").lower()))
+        pool = self.cards
+        if component:
+            matched = [card for card in self.cards if component.lower() in
+                       [str(item).lower() for item in card["component"]]]
+            if matched:
+                pool = matched
         scored = []
-        for order, card in enumerate(self.cards):
+        for order, card in enumerate(pool):
             text = (card["title"] + " " + card["text"]).lower()
             hits = sum(1 for token in tokens if token and token in text)
             if component and component.lower() in [str(item).lower()
@@ -104,12 +110,9 @@ def _parse(text, session_id):
 
 
 # 方法说明：ingest 把一条实验日志接入平台并跑一次模板诊断。
-def ingest(case_dir, database_path, mode="template"):
-    case_dir = Path(case_dir)
-    incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
-    logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
-    text = logs_path.read_text(encoding="utf-8")
-    case_id = incident["incident_id"]
+def ingest_log(case_id, log_path, database_path, start, end, mode="template"):
+    log_path = Path(log_path)
+    text = log_path.read_text(encoding="utf-8")
     session_id = "ses_" + key([case_id])[:20]
     rows, total = _parse(text, session_id)
 
@@ -142,8 +145,6 @@ def ingest(case_dir, database_path, mode="template"):
             path.write_text("", encoding="utf-8")
         artifacts[name] = {"relative_path": name, "sha256": digest(path)}
 
-    start = incident["timestamps"]["fault_start"]
-    end = incident["timestamps"]["first_observable_signal"]
     detected = datetime.now(timezone.utc).isoformat()
     event_id = "evt_" + key([case_id])[:24]
     counts = {"total_lines": total, "parsed_lines": len(rows),
@@ -201,6 +202,17 @@ def ingest(case_dir, database_path, mode="template"):
     mapping = {"incident_id": case_id, "batch_id": batch_id, "event_id": event_id,
                "diagnosis_id": diagnosis_id, "report_id": report["report_id"] if report else None,
                "agent_detected": detected, "mode": "lab-ingest"}
+    return mapping
+
+
+# 方法说明：ingest 读取已生成的案例并调用 ingest_log，回填 map.json。
+def ingest(case_dir, database_path, mode="template"):
+    case_dir = Path(case_dir)
+    incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
+    logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
+    mapping = ingest_log(incident["incident_id"], logs_path, database_path,
+                         incident["timestamps"]["fault_start"],
+                         incident["timestamps"]["first_observable_signal"], mode)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping

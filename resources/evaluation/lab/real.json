@@ -1,0 +1,26 @@
+{
+  "summary": {
+    "incidents": 1,
+    "eligible": 1,
+    "diagnosed": 1,
+    "top1": 1.0,
+    "top3": 1.0,
+    "mrr": 1.0,
+    "mttd_seconds": 31.0,
+    "excluded": 0,
+    "exclusion_reasons": {}
+  },
+  "rows": [
+    {
+      "incident_id": "inc_lab_nn_safe_mode_20261028112313_1d11",
+      "expected": "NameNode",
+      "rank": 1,
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": 31.006696,
+      "diagnosed": true
+    }
+  ],
+  "excluded": []
+}

@@ -6,39 +6,39 @@
     "top1": 0.6667,
     "top3": 1.0,
     "mrr": 0.8333,
-    "mttd_seconds": "N/A",
+    "mttd_seconds": 120.5,
     "excluded": 0,
     "exclusion_reasons": {}
   },
   "rows": [
     {
-      "incident_id": "inc_lab_dn_heartbeat_20261028110214",
+      "incident_id": "inc_lab_dn_heartbeat_20261028111914",
       "expected": "DataNode",
       "rank": 1,
       "top1": true,
       "top3": true,
       "mrr": 1.0,
-      "mttd_seconds": null,
+      "mttd_seconds": 120.455898,
       "diagnosed": true
     },
     {
-      "incident_id": "inc_lab_dn_volume_20261028110214",
+      "incident_id": "inc_lab_dn_volume_20261028111912",
       "expected": "DataNode",
       "rank": 1,
       "top1": true,
       "top3": true,
       "mrr": 1.0,
-      "mttd_seconds": null,
+      "mttd_seconds": 120.595571,
       "diagnosed": true
     },
     {
-      "incident_id": "inc_lab_nn_safe_mode_20261028110215",
+      "incident_id": "inc_lab_nn_safe_mode_20261028111916",
       "expected": "NameNode",
       "rank": 2,
       "top1": false,
       "top3": true,
       "mrr": 0.5,
-      "mttd_seconds": null,
+      "mttd_seconds": 120.459793,
       "diagnosed": true
     }
   ],

@@ -21,6 +21,9 @@ python ops/lab/harness/run_case.py --fault NN_SAFE_MODE --observe 25 --import-db
 
 # 接入诊断并回填 map.json（批次/事件/诊断/报告）
 python ops/lab/harness/ingest.py --case ops/lab/cases/<incident_id> --database runtime/lab/mvp.sqlite3
+
+# 批量 20 例（dry-run 生成器，7+7+6）
+python ops/lab/harness/run_batch.py --per-fault 7 --database runtime/lab/batch.sqlite3
 ```
 
 产物在 `ops/lab/cases/<incident_id>/`：

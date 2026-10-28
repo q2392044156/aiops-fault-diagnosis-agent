@@ -445,6 +445,17 @@ class AgentEngine:
         log_rows = logs.get("data", {}).get("items", [])
         log_items = [log_evidence(row, self.service_manifest["release_id"]) for row in log_rows]
         components = sorted({row.get("component") for row in log_rows if row.get("component")})
+        weights = {}
+        for row in log_rows:
+            name = row.get("component")
+            if name:
+                weights[name] = weights.get(name, 0) + (
+                    3 if row.get("level") in ("ERROR", "WARN", "FATAL") else 1)
+        component_hint = None
+        if weights:
+            top = max(weights, key=weights.get)
+            if weights[top] / sum(weights.values()) >= 0.6:
+                component_hint = top
         store = getattr(self.tools, "metrics", None)
         metrics_available = bool(store and store.window(
             event.get("host_alias"), event.get("start_time"), event.get("end_time"), limit=1))
@@ -478,11 +489,13 @@ class AgentEngine:
                         self.cfg["tools"]["similar_incidents_limit"]))
         self._save(run, state, budget, "EVIDENCE_COLLECTED")
 
-        query = "HDFS异常事件只读排查 " + " ".join(components[:5])
+        signal_text = " ".join(row.get("redacted_message") or "" for row in log_rows
+                               if row.get("level") in ("ERROR", "WARN", "FATAL"))[:240]
+        query = "HDFS异常事件只读排查 " + " ".join(components[:3]) + " " + signal_text
         retrieved = self._invoke(run, state, budget, "retrieve_runbook", {
             "query": query, "top_k": self.cfg["tools"]["runbook_top_k"]},
             lambda: self.tools.retrieve_runbook(
-                query, components[0] if len(components) == 1 else None, None,
+                query, component_hint, None,
                 self.cfg["tools"]["runbook_top_k"]))
         doc_rows = retrieved.get("data", {}).get("items", []) if retrieved["ok"] else []
         doc_items = [document_evidence(row, self.retriever.manifest["kb_release_id"])

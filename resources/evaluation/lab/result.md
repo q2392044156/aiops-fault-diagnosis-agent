@@ -6,11 +6,11 @@
 | Top-1 | 0.6667 |
 | Top-3 | 1.0 |
 | MRR | 0.8333 |
-| MTTD | N/A |
+| MTTD | 120.5 |
 | 排除原因 | {} |
 
 | 事件 | 期望组件 | 名次 | MTTD(s) |
 | --- | --- | --- | --- |
-| inc_lab_dn_heartbeat_20261028110214 | DataNode | 1 | N/A |
-| inc_lab_dn_volume_20261028110214 | DataNode | 1 | N/A |
-| inc_lab_nn_safe_mode_20261028110215 | NameNode | 2 | N/A |
+| inc_lab_dn_heartbeat_20261028111914 | DataNode | 1 | 120.455898 |
+| inc_lab_dn_volume_20261028111912 | DataNode | 1 | 120.595571 |
+| inc_lab_nn_safe_mode_20261028111916 | NameNode | 2 | 120.459793 |

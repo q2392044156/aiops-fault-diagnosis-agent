@@ -18,6 +18,9 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from aiops_diag.data.lab import build_incident, redact, sha256_text, write_incident
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ingest import ingest_log
+
 # 变量说明：COMPOSE 是本机实验台的 compose 文件。
 COMPOSE = ROOT / "ops" / "lab" / "compose.yaml"
 
@@ -117,9 +120,16 @@ def _wait_signal(spec, since, timeout):
 # 方法说明：_dry 生成一份与真实故障同形的离线样本，用于无集群时验证链路。
 def _dry(fault, start):
     spec = FAULTS[fault]
-    lines = [f"081109 2035{index:02d} 143 INFO dfs.DataNode: normal workload line {index}"
-             for index in range(10)]
-    lines += spec["dry"]
+    host = spec["container"]
+    lines = []
+    for index in range(10):
+        stamp = (start + timedelta(seconds=index)).strftime("%Y-%m-%d %H:%M:%S")
+        lines.append(f"[{host}] {stamp} INFO  lab.Workload: case {start.isoformat()} "
+                     f"normal workload line {index}")
+    for offset, item in enumerate(spec["dry"], 1):
+        level, _, message = item.partition(" ")
+        stamp = (start + timedelta(seconds=20 + offset)).strftime("%Y-%m-%d %H:%M:%S")
+        lines.append(f"[{host}] {stamp} {level}  lab.Fault: {message}")
     metrics = ["timestamp,host_alias,component,metric,value"]
     for offset in range(0, 60, 10):
         stamp = (start + timedelta(seconds=offset)).isoformat()
@@ -130,10 +140,11 @@ def _dry(fault, start):
 
 
 # 方法说明：run_case 执行一次实验并写出 incident 与映射文件。
-def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root=None):
+def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root=None,
+             ingest_db=None):
     spec = FAULTS[fault]
     started = datetime.now(timezone.utc)
-    case_id = f"inc_lab_{fault.lower()}_{started:%Y%m%d%H%M%S}"
+    case_id = f"inc_lab_{fault.lower()}_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
     case_dir = Path(case_root or ROOT / "ops" / "lab" / "cases") / case_id
     if dry_run:
         t0 = started - timedelta(seconds=120)
@@ -183,6 +194,12 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
     metrics_path.write_text(metrics, encoding="utf-8")
     ticket_path.write_text("# 值班记录\n\n集群写入变慢，按只读流程排查。\n", encoding="utf-8")
 
+    ingest_mapping = None
+    if ingest_db:
+        ingest_mapping = ingest_log(case_id, logs_path, ingest_db, t0.isoformat(),
+                                    signal_at.isoformat(), "template")
+        agent_detected = datetime.fromisoformat(ingest_mapping["agent_detected"])
+
     record = build_incident(
         incident_id=case_id, cluster_alias="cluster_lab_a1", fault_code=fault,
         fault_family=fault.lower(),
@@ -200,7 +217,11 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
     write_incident(case_dir / "incident.json", record)
     mapping = {"incident_id": case_id, "fault": fault, "batch_id": None,
                "event_id": None, "diagnosis_id": None, "report_id": None,
-               "cutoff_time": cutoff.isoformat(), "mode": "dry-run" if dry_run else "cluster"}
+               "cutoff_time": cutoff.isoformat(),
+               "mode": "ingest" if ingest_mapping else ("dry-run" if dry_run else "cluster")}
+    if ingest_mapping:
+        mapping.update({name: ingest_mapping.get(name) for name in (
+            "batch_id", "event_id", "diagnosis_id", "report_id", "agent_detected")})
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
 
@@ -224,12 +245,13 @@ def main(argv=None):
     parser.add_argument("--observe", type=int, default=60)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--import-db")
+    parser.add_argument("--ingest-db")
     parser.add_argument("--case-root")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print(json.dumps(run_case(args.fault, args.observe, args.dry_run, args.import_db,
-                             args.case_root),
+                             args.case_root, args.ingest_db),
                      ensure_ascii=False, indent=2))
     return 0
 
