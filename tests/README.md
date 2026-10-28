@@ -17,6 +17,7 @@
 | `conftest.py` | 为依赖本地发布制品的用例提供统一的跳过策略。 | `requires_artifacts` |
 | `test_agent.py` | 验证 agent 相关功能、边界和回归行为。 | `V11EvalLedger`、`V11EvalClient`、`test_v11_online_report_evaluation_runs_three_release_bound_rounds`、`test_v11_online_report_evaluation_requires_configured_client`、`candidate_calibration`、`seed_event`、`budget`、`test_adev_is_fixed_and_deterministic` 等 |
 | `test_candidate_pool_v11.py` | 验证 candidate pool v11 相关功能、边界和回归行为。 | `_reviewed_rows`、`_write_rows`、`test_public_candidate_pool_is_blinded_complete_and_nonduplicate`、`test_public_candidate_packet_builder_refuses_overwrite`、`test_public_candidate_pool_rejects_label_leak`、`test_public_candidate_pool_accepts_complete_external_review_structure`、`test_reviewed_candidate_pool_freezes_to_release_ready_protocol`、`test_review_disagreement_cannot_be_frozen` |
+| `test_context_builder.py` | 验证上下文预算、压缩策略与引擎集成。 | `test_full_strategy_keeps_every_evidence`、`test_compressed_strategy_respects_budget_and_keeps_kinds`、`test_engine_generate_uses_context_strategy` |
 | `test_trajectory.py` | 验证轨迹指标、失败分类、汇总与 pass^k。 | `test_clean_run_has_no_flags`、`test_retry_loop_is_detected`、`test_failed_tool_with_report_is_recovered`、`test_aggregate_and_pass_pow_k` |
 | `test_router_v2.py` | 验证受控路由、工具 Schema、指标仓库与工具调用客户端。 | `test_specs_expose_function_definitions`、`test_router_keeps_allowed_blocks_unknown_and_bad_json`、`test_metrics_store_window_and_stats`、`test_client_parses_tool_calls` |
 | `test_coverage_v11.py` | 验证 coverage v11 相关功能、边界和回归行为。 | `test_agent_coverage_comparison_requires_sealed_inputs` |

@@ -10,6 +10,8 @@ workflow:
   max_revision: 2
   optional_router_enabled: false
   optional_router_version: v2
+  context_strategy: full
+  context_budget_tokens: 1200
   optional_router_min_accuracy: 0.8
   optional_router_evaluated_accuracy: 0.55
   optional_router_decision: deterministic_default
