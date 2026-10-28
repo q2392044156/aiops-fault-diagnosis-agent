@@ -33,9 +33,13 @@ services:
     <<: *hadoop
     container_name: aiops-lab-dn1
     hostname: datanode1
+    user: "1000:1000"
+    environment:
+      HADOOP_HEAPSIZE: "512"
+      HADOOP_LOG_DIR: /tmp/logs
     command: ["/bin/bash", "/lab/bin/start-datanode.sh"]
     tmpfs:
-      - /tmp/hadoop-root/dfs/data:size=128m
+      - /tmp/hadoop-root/dfs/data:size=64m,uid=1000,gid=1000,mode=0755
 
   datanode2:
     <<: *hadoop

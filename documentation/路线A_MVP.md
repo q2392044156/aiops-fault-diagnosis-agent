@@ -98,7 +98,21 @@ incident_reports ───┘（通过 map.json 关联）
 - **卷满注入换面（第 4 次）**：停掉 dn2/dn3、客户端用 `-Ddfs.replication=1`、写 16MB 块，试图让 dn1 真正返回 ENOSPC；结果 DN 仍然没有卷失败日志，已回滚到稳定配置。
 - **心跳自适应窗口**：从固定 40s 改成"等到信号 + 5s，最多 90s"；6 例探针 Top-1 0.33（CI 很宽），没有改善——失败案例的根本原因是 90s 内 NameNode 仍未打出可用信号。
 
-MTTD 46.6s 含心跳族观测窗与接入耗时，属于**上限**。## 6. 命令
+MTTD 46.6s 含心跳族观测窗与接入耗时，属于**上限**。
+
+## 5.1 环境边界实测（2026-10-29）
+
+为绕开 root + tmpfs 的限制，本轮把 dn1 改为 **uid 1000 + 64MB tmpfs**（DataNode 能正常注册），并尝试用 HDFS 写入把卷写满：
+
+- `hdfs dfs -put` 写第 7 个 8MB 块时报 `0 of the 1 minReplication nodes`，dn1 随后被排除；
+- 但 dn1 日志里**没有** `No space` / `DiskOutOfSpaceException`，`df` 显示数据目录只用了 16K；
+- 说明写入并未真正落到 dn1 的 tmpfs，卷满证据链依然不可得。
+
+心跳族把窗口改为"信号 +5s、最多 90s"，6 例探针 Top-1 0.33，没有改善——90s 内 NameNode 仍经常没有 `removeDeadDatanode`。
+
+**结论**：在当前 Docker Desktop（无 loop 设备、写路径不落盘）下，卷满与心跳应标为"环境不支持"，不作为可复现指标；安全模式 26/26 是唯一稳定链路。
+
+## 6. 命令
 
 ```powershell
 docker compose -f ops/lab/compose.yaml up -d
@@ -117,6 +131,6 @@ docker compose -f ops/lab/compose.yaml down -v
 
 下一步优先级：
 
-1. **修卷满证据**：先启动写负载再填盘，或直接写大文件触发 `DiskOutOfSpaceException`；
-2. **提升召回**：对"信号码"做硬过滤（命中 `no space` 就只召回 `DN_VOLUME` 卡），而不是只做重排；
-3. 把冻结测试集扩到 30+，再报一次区间。
+1. **卷满换环境**：Linux 主机 + loop 设备，或非容器化 DataNode，先验证 ENOSPC 再谈指标；
+2. **心跳换采集**：`docker logs -f` 流式 + 更长等待，先保证信号出现；
+3. **对外只报稳定链路**：安全模式 26/26 + 明确标注"卷满/心跳环境不支持"，把 81 例总表作为工程记录而非效果承诺。
