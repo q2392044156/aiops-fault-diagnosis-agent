@@ -139,20 +139,9 @@ v1.2 的三个在线案例来自开发分区，只能证明工程链路能够工
 
 ## 架构总览
 
-```mermaid
-flowchart LR
-    A[HDFS 日志 / Trace] --> B[数据层<br/>解析 · 脱敏 · 切会话]
-    B --> C[检测层<br/>Drain3 + TF-IDF + LR]
-    K[知识卡 30 篇] --> D[检索层<br/>BM25 + BGE + RRF]
-    C --> E[诊断层<br/>确定性 Agent · 8 只读工具]
-    D --> E
-    E --> F[服务层 api / worker / ui]
-    E --> G[(SQLite<br/>任务·预算·证据·报告·审批·审计)]
-    F --> G
-    G --> H[人工复核<br/>签字 ≠ 执行]
-```
+![架构总览](documentation/architecture.png)
 
-完整分层、模块边界与四条不变量见 [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md)；图示文件为 [architecture.svg](documentation/architecture.svg) 与 [architecture.png](documentation/architecture.png)（2000×1280），可直接插入 PPT 或简历。
+完整分层、模块边界与四条不变量见 [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md)（含可编辑的 Mermaid 源）；图示文件为 [architecture.png](documentation/architecture.png)（2000×1280）与 [architecture.svg](documentation/architecture.svg)，可直接插入 PPT 或简历。
 
 ## 项目结构
 
