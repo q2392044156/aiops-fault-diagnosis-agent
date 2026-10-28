@@ -492,8 +492,7 @@ class AgentEngine:
                         self.cfg["tools"]["similar_incidents_limit"]))
         self._save(run, state, budget, "EVIDENCE_COLLECTED")
 
-        picked = [row for row in log_rows
-                  if not component_hint or row.get("component") == component_hint]
+        picked = log_rows
         severe = [row.get("redacted_message") or "" for row in picked
                   if row.get("level") in ("ERROR", "WARN", "FATAL")]
         rest = [row.get("redacted_message") or "" for row in picked

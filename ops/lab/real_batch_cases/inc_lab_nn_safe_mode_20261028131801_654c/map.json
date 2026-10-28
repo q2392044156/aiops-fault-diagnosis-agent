@@ -1,0 +1,9 @@
+{
+  "incident_id": "inc_lab_nn_safe_mode_20261028131801_654c",
+  "batch_id": "bat_c2b983ff8061a7086cb9a357",
+  "event_id": "evt_2cd2e94310c66633032db24e",
+  "diagnosis_id": "dia_09659b5d0b2fcd81f2265305",
+  "report_id": "irpt_304efbb1e248ab60e0c929e4",
+  "agent_detected": "2026-10-28T13:35:53.495005+00:00",
+  "mode": "lab-ingest"
+}

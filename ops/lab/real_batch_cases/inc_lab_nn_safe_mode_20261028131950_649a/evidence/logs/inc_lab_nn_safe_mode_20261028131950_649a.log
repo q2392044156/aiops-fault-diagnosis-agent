@@ -1,0 +1,4 @@
+[aiops-lab-namenode] 2026-10-28 13:19:59 INFO  FSEditLog:794 - Number of transactions: 1 Total time for transactions(ms): 1 Number of transactions batched in Syncs: 0 Number of syncs: 2 SyncTimes(ms): 9 
+[aiops-lab-namenode] 2026-10-28 13:19:59 INFO  StateChange:5088 - STATE* Safe mode is ON.
+[aiops-lab-namenode] It was turned on manually. Use "hdfs dfsadmin -safemode leave" to turn safe mode off.
+[aiops-lab-namenode] 2026-10-28 13:19:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=safemode_enter	src=null	dst=null	perm=null	proto=rpc

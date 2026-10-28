@@ -1,7 +1,9 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-datanode-heartbeat",
-  "root_cause_codes": ["DN_HEARTBEAT"],
+  "root_cause_codes": [
+    "DN_HEARTBEAT"
+  ],
   "title": "DataNode心跳缺失排查",
   "category": "hdfs",
   "content_origin": "original",
@@ -44,7 +46,7 @@
     {
       "id": "risk",
       "heading": "风险与停止条件",
-      "text": "重启DataNode可能扩大恢复流量；多个节点同时异常时应立即升级。若适用版本不明或证据相互矛盾，返回证据不足。"
+      "text": "重启DataNode可能扩大恢复流量；多个节点同时异常时应立即升级。若适用版本不明或证据相互矛盾，返回证据不足。 典型日志：lost heartbeat; removeDeadDatanode; dead datanode."
     }
   ]
 }

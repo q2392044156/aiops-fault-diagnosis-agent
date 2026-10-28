@@ -1,7 +1,9 @@
 {
   "schema_version": 1,
   "doc_id": "hdfs-volume-failure",
-  "root_cause_codes": ["DN_VOLUME"],
+  "root_cause_codes": [
+    "DN_VOLUME"
+  ],
   "title": "DataNode卷故障排查",
   "category": "hdfs",
   "content_origin": "original",

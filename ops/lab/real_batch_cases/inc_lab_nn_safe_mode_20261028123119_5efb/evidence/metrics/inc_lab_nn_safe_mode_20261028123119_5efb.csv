@@ -1,9 +1,0 @@
-timestamp,host_alias,component,metric,value
-2026-10-28T12:31:37.039596+00:00,aiops-lab-namenode,NameNode,cpu_percent,0.51
-2026-10-28T12:31:37.039596+00:00,aiops-lab-namenode,NameNode,mem_mib,352.6
-2026-10-28T12:31:37.039596+00:00,aiops-lab-dn1,DataNode,cpu_percent,0.53
-2026-10-28T12:31:37.039596+00:00,aiops-lab-dn1,DataNode,mem_mib,256.0
-2026-10-28T12:31:37.039596+00:00,aiops-lab-dn2,DataNode,cpu_percent,0.34
-2026-10-28T12:31:37.039596+00:00,aiops-lab-dn2,DataNode,mem_mib,288.5
-2026-10-28T12:31:37.039596+00:00,aiops-lab-dn3,DataNode,cpu_percent,0.39
-2026-10-28T12:31:37.039596+00:00,aiops-lab-dn3,DataNode,mem_mib,264.6

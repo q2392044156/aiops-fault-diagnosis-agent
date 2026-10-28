@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -15,6 +17,24 @@ from aiops_diag.platform.db import Database
 
 # 变量说明：TAXONOMY 是根因码到组件的固定映射。
 TAXONOMY = ROOT / "resources/evaluation/v1.2/real_incident_protocol/root_cause_taxonomy.json"
+
+
+# 方法说明：_wilson 返回二项比例的 95% Wilson 置信区间。
+def _wilson(successes, total):
+    if not total:
+        return None
+    z = 1.96
+    p = successes / total
+    denominator = 1 + z * z / total
+    centre = (p + z * z / (2 * total)) / denominator
+    half = z * math.sqrt((p * (1 - p) + z * z / (4 * total)) / total) / denominator
+    return [round(max(0.0, centre - half), 4), round(min(1.0, centre + half), 4)]
+
+
+# 方法说明：_split 按事件 ID 哈希稳定划分 20% 测试集。
+def _split(incident_id, fraction=0.2):
+    bucket = int(hashlib.sha256(incident_id.encode("utf-8")).hexdigest(), 16) % 100
+    return "test" if bucket < fraction * 100 else "train"
 
 
 # 方法说明：_taxonomy 读取根因码到组件的映射。
@@ -89,7 +109,7 @@ def evaluate(database, cases_dir, taxonomy=None):
         hypotheses = report.get("hypotheses") or []
         rank, matched = _rank(hypotheses, labels.get("root_cause_code"), expected)
         rows.append({"incident_id": incident_id, "expected": expected, "rank": rank,
-                     "matched_by": matched,
+                     "matched_by": matched, "split": _split(incident_id),
                      "top1": rank == 1, "top3": rank is not None and rank <= 3,
                      "mrr": (1.0 / rank) if rank else 0.0,
                      "mttd_seconds": _mttd(record["timestamps"]), "diagnosed": True})
@@ -108,8 +128,16 @@ def evaluate(database, cases_dir, taxonomy=None):
         "mrr": round(sum(row["mrr"] for row in diagnosed) / len(diagnosed), 4)
         if diagnosed else "N/A",
         "mttd_seconds": round(sum(mttd) / len(mttd), 1) if mttd else "N/A",
+        "top1_ci95": _wilson(sum(row["top1"] for row in diagnosed), len(diagnosed)),
         "excluded": len(excluded),
         "exclusion_reasons": {},
+    }
+    test_rows = [row for row in diagnosed if row["split"] == "test"]
+    summary["test"] = {
+        "n": len(test_rows),
+        "top1": round(sum(row["top1"] for row in test_rows) / len(test_rows), 4)
+        if test_rows else "N/A",
+        "top1_ci95": _wilson(sum(row["top1"] for row in test_rows), len(test_rows)),
     }
     for item in excluded:
         summary["exclusion_reasons"][item["reason"]] = \
@@ -127,6 +155,9 @@ def markdown(result):
              f"| Top-1 | {summary['top1']} |",
              f"| Top-3 | {summary['top3']} |",
              f"| MRR | {summary['mrr']} |",
+             f"| Top-1 95% CI | {summary['top1_ci95']} |",
+             f"| 冻结测试集 | n={summary['test']['n']} Top-1={summary['test']['top1']} "
+             f"CI={summary['test']['top1_ci95']} |",
              f"| MTTD | {summary['mttd_seconds']} |",
              f"| 排除原因 | {summary['exclusion_reasons']} |",
              "", "| 事件 | 期望组件 | 名次 | 匹配依据 | MTTD(s) |",

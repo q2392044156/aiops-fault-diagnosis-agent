@@ -1,5 +1,0 @@
-[aiops-lab-namenode] 2026-10-28 12:32:21 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
-[aiops-lab-namenode] 2026-10-28 12:32:21 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=slowDataNodesReport	src=null	dst=null	perm=null	proto=rpc
-[aiops-lab-namenode] 2026-10-28 12:32:22 INFO  StateChange:5088 - STATE* Safe mode is ON.
-[aiops-lab-namenode] It was turned on manually. Use "hdfs dfsadmin -safemode leave" to turn safe mode off.
-[aiops-lab-namenode] 2026-10-28 12:32:22 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=safemode_enter	src=null	dst=null	perm=null	proto=rpc

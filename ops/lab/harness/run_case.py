@@ -36,7 +36,8 @@ FAULTS = {
     },
     "DN_HEARTBEAT": {
         "component": "DataNode", "container": "aiops-lab-dn2", "mode": "kill",
-        "signal": r"Lost DataNode|dead datanode|heartbeat", "signal_container": "aiops-lab-namenode",
+        "signal": r"Lost DataNode|dead datanode|Dead datanode|is dead|heartbeat",
+        "signal_container": "aiops-lab-namenode", "min_observe": 40,
         "inject": None, "recover": None,
         "dry": ["WARN dfs.FSNamesystem: Lost DataNode datanode2",
                 "INFO dfs.FSNamesystem: BLOCK* ask datanode2 to replicate"],
@@ -167,8 +168,9 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         else:
             _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['inject']}",
                     check=False)
-        signal_at = _wait_signal(spec, t0.isoformat(), observe_seconds)
-        window_end = t0 + timedelta(seconds=observe_seconds)
+        window_seconds = max(observe_seconds, int(spec.get("min_observe", 0)))
+        signal_at = _wait_signal(spec, t0.isoformat(), window_seconds)
+        window_end = t0 + timedelta(seconds=window_seconds)
         remaining = (window_end - datetime.now(timezone.utc)).total_seconds()
         if remaining > 0:
             time.sleep(remaining)

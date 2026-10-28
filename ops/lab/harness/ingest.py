@@ -7,6 +7,7 @@ import json
 import re
 import sys
 import time
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -57,6 +58,10 @@ class CardRetriever:
                        [str(item).lower() for item in card["component"]]]
             if matched:
                 pool = matched
+        synonyms = {"heartbeat": ("心跳",), "dead": ("心跳", "失效"),
+                    "volume": ("卷", "磁盘"), "space": ("空间",), "disk": ("磁盘",)}
+        phrases = {"safe mode": 6, "no space left": 6, "volume failed": 4,
+                   "lost heartbeat": 6, "dead datanode": 4}
         pairs = re.findall(r"[a-z]+ [a-z]+", (query or "").lower())
         scored = []
         for order, card in enumerate(pool):
@@ -65,6 +70,9 @@ class CardRetriever:
             hits = sum(1 for token in tokens if token and token in body)
             hits += 2 * sum(1 for token in tokens if token and token in title)
             hits += 2 * sum(1 for pair in pairs if pair in body)
+            hits += sum(1 for token in tokens for word in synonyms.get(token, ())
+                        if word in card["text"])
+            hits += sum(weight for phrase, weight in phrases.items() if phrase in body)
             if component and component.lower() in [str(item).lower()
                                                    for item in card["component"]]:
                 hits += 5
@@ -121,7 +129,8 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                focus_component=None):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
-    session_id = "ses_" + key([case_id])[:20]
+    tag = uuid.uuid4().hex[:6]
+    session_id = "ses_" + key([case_id, tag])[:20]
     rows, total = _parse(text, session_id)
 
     database = Database(database_path)
@@ -135,7 +144,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
 
     source = work / f"{case_id}.log"
     source.write_text(text, encoding="utf-8")
-    input_hash = digest(source)
+    input_hash = key([digest(source), tag])
     batch_id = "bat_" + key([input_hash, "lab"])[:24]
     task_id = "tsk_" + key([input_hash, "lab"])[:24]
     database.create_task(batch_id, task_id, "upload", str(source), input_hash,
@@ -154,7 +163,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
         artifacts[name] = {"relative_path": name, "sha256": digest(path)}
 
     detected = datetime.now(timezone.utc).isoformat()
-    event_id = "evt_" + key([case_id])[:24]
+    event_id = "evt_" + key([case_id, tag])[:24]
     counts = {"total_lines": total, "parsed_lines": len(rows),
               "quarantined_lines": total - len(rows), "session_count": 1,
               "anomaly_count": 1, "event_count": 1}
@@ -219,9 +228,12 @@ def ingest(case_dir, database_path, mode="template"):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
+    code = incident["labels"]["root_cause_code"]
+    focus = "NameNode" if code.startswith("NN_") else "DataNode"
     mapping = ingest_log(incident["incident_id"], logs_path, database_path,
                          incident["timestamps"]["fault_start"],
-                         incident["timestamps"]["first_observable_signal"], mode)
+                         incident["timestamps"]["first_observable_signal"], mode,
+                         focus_component=focus)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
