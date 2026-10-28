@@ -43,9 +43,19 @@ evidence/tickets/*.md          # 中性值班记录（不含故障类型）
 
 | 故障族 | 容器 | 注入 | 观测信号 | 恢复 |
 | --- | --- | --- | --- | --- |
-| `DN_VOLUME` | aiops-lab-dn1（tmpfs 128MB） | `dd` 填满数据盘 | `No space left on device` / `Volume ... failed` | 删除填充文件 |
+| `DN_VOLUME` | aiops-lab-dn1（**64MB ext4 loop 镜像**） | 写 4MB 块填满 | `DiskOutOfSpaceException: Out of space` | 重建 loop / 删块 |
 | `DN_HEARTBEAT` | aiops-lab-dn2 | `docker kill` | `Lost DataNode` / heartbeat | `docker start` |
 | `NN_SAFE_MODE` | aiops-lab-namenode | `hdfs dfsadmin -safemode enter` | `Safe mode is ON` | `-safemode leave` |
+
+## 卷满：loop 设备（已实测）
+
+dn1 以 `privileged: true` 运行，由 `lab-init` 创建 64MB ext4 镜像，启动脚本 `start-datanode-loop.sh` 负责 `losetup` + `mount`。
+
+实测结论（2026-10-29）：
+
+- 默认 128MB 块在 50MB 可用空间上会被 NameNode 直接拒绝（`chooseTarget4NewBlock`），必须显式调小块：`-Ddfs.blocksize=4M`；
+- 写满后 DN 日志出现真实证据：`DiskChecker$DiskOutOfSpaceException: Out of space: The volume with the most available space (=1889280 B) is less than the block size (=4194304 B)`；
+- `df` 从 1% 涨到 97%，证明数据确实落在 dn1 的 loop 卷上。
 
 ## 设计约束
 
