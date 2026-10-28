@@ -50,7 +50,7 @@ class CardRetriever:
 
     # 方法说明：search 按关键词重叠返回 Top-K 知识卡。
     def search(self, query, mode=None, top_k=3, component=None, product_version=None,
-               apply_gate=True):
+               apply_gate=True, code=None):
         tokens = set(re.findall(r"[a-z0-9]+", (query or "").lower()))
         pool = self.cards
         if component:
@@ -58,7 +58,12 @@ class CardRetriever:
                        [str(item).lower() for item in card["component"]]]
             if matched:
                 pool = matched
-        signals = {"DN_VOLUME": ("no space left", "volume failed", "disk full"),
+        if code:
+            narrowed = [card for card in pool if card.get("root_cause_code") == code]
+            if narrowed:
+                pool = narrowed
+        signals = {"DN_VOLUME": ("no space left", "volume failed", "failed volume",
+                                 "disk full"),
                    "DN_HEARTBEAT": ("lost heartbeat", "dead datanode", "removedead"),
                    "NN_SAFE_MODE": ("safe mode",)}
         lowered = (query or "").lower()

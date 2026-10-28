@@ -3,13 +3,13 @@
     "incidents": 1,
     "eligible": 1,
     "diagnosed": 1,
-    "top1": 1.0,
-    "top3": 1.0,
-    "mrr": 1.0,
-    "mttd_seconds": 37.1,
+    "top1": 0.0,
+    "top3": 0.0,
+    "mrr": 0.0,
+    "mttd_seconds": 57.3,
     "top1_ci95": [
-      0.2065,
-      1.0
+      0.0,
+      0.7935
     ],
     "excluded": 0,
     "exclusion_reasons": {},
@@ -21,15 +21,15 @@
   },
   "rows": [
     {
-      "incident_id": "inc_lab_dn_volume_20261028135245_286d",
+      "incident_id": "inc_lab_dn_volume_20261028151024_c154",
       "expected": "DataNode",
-      "rank": 1,
-      "matched_by": "component",
+      "rank": null,
+      "matched_by": null,
       "split": "train",
-      "top1": true,
-      "top3": true,
-      "mrr": 1.0,
-      "mttd_seconds": 37.126846,
+      "top1": false,
+      "top3": false,
+      "mrr": 0.0,
+      "mttd_seconds": 57.303777,
       "diagnosed": true
     }
   ],

@@ -1,9 +1,9 @@
 {
   "incident_id": "inc_lab_dn_heartbeat_20261028140806_f963",
-  "batch_id": "bat_98c8ad30652eb8b44741135f",
-  "event_id": "evt_0b4d73c3128ccdedc45325cc",
-  "diagnosis_id": "dia_33b0c1377a9343129f6d3bf6",
-  "report_id": "irpt_7c09c009db07cdf3c4cbbc8f",
-  "agent_detected": "2026-10-28T14:41:05.349722+00:00",
+  "batch_id": "bat_2ff4cdc0f00f6afa5f814efd",
+  "event_id": "evt_09a3de358344315784acb63f",
+  "diagnosis_id": "dia_6d3b6410c98d0088937ccf6d",
+  "report_id": "irpt_7da926fc38078af20bf2a7cb",
+  "agent_detected": "2026-10-28T14:59:59.556591+00:00",
   "mode": "lab-ingest"
 }

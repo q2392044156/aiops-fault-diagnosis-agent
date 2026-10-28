@@ -25,7 +25,7 @@ from ingest import ingest_log
 COMPOSE = ROOT / "ops" / "lab" / "compose.yaml"
 # 变量说明：WRITE_LOOP 在卷满实验中持续写块，制造 ENOSPC 主信号。
 WRITE_LOOP = ("for i in $(seq 1 120); do "
-              "dd if=/dev/zero of=/tmp/lab_write bs=1M count=4 status=none 2>/dev/null; "
+              "dd if=/dev/zero of=/tmp/lab_write bs=16M count=1 status=none 2>/dev/null; "
               "hdfs dfs -put -f /tmp/lab_write /lab/lab_write_$i >/dev/null 2>&1; "
               "sleep 1; done")
 
@@ -168,12 +168,6 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         if not _wait_ready(180):
             raise RuntimeError("HDFS cluster did not become ready")
         t0 = datetime.now(timezone.utc)
-        if spec["mode"] == "kill":
-            _docker("kill", spec["container"])
-        else:
-            _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['inject']}",
-                    check=False)
-        window_seconds = max(observe_seconds, int(spec.get("min_observe", 0)))
         writer = None
         if fault == "DN_VOLUME":
             _docker("exec", "aiops-lab-namenode", "bash", "-lc",
@@ -181,6 +175,12 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
             writer = subprocess.Popen(
                 ["docker", "exec", "aiops-lab-namenode", "bash", "-lc", WRITE_LOOP],
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if spec["mode"] == "kill":
+            _docker("kill", spec["container"])
+        else:
+            _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['inject']}",
+                    check=False)
+        window_seconds = max(observe_seconds, int(spec.get("min_observe", 0)))
         signal_at = _wait_signal(spec, t0.isoformat(), window_seconds)
         window_end = t0 + timedelta(seconds=window_seconds)
         remaining = (window_end - datetime.now(timezone.utc)).total_seconds()

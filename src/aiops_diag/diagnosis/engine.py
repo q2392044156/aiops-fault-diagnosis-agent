@@ -511,15 +511,16 @@ class AgentEngine:
         signal_text = " ".join(severe + rest)[:2000]
         all_text = " ".join((row.get("redacted_message") or "")
                             for row in log_rows).lower()
-        code_text = " ".join(code for code, signals in AgentTools.CODE_SIGNALS.items()
-                             if any(signal in all_text for signal in signals))
+        detected_codes = [code for code, signals in AgentTools.CODE_SIGNALS.items()
+                          if any(signal in all_text for signal in signals)]
+        code_text = " ".join(detected_codes)
         query = ("HDFS异常事件只读排查 " + " ".join(components[:3]) + " "
                  + signal_text + " " + code_text)
         retrieved = self._invoke(run, state, budget, "retrieve_runbook", {
             "query": query, "top_k": self.cfg["tools"]["runbook_top_k"]},
             lambda: self.tools.retrieve_runbook(
-                query, component_hint, None,
-                self.cfg["tools"]["runbook_top_k"]))
+                query, component_hint, None, self.cfg["tools"]["runbook_top_k"],
+                code=detected_codes[0] if len(detected_codes) == 1 else None))
         doc_rows = retrieved.get("data", {}).get("items", []) if retrieved["ok"] else []
         doc_items = [document_evidence(row, self.retriever.manifest["kb_release_id"])
                      for row in doc_rows]

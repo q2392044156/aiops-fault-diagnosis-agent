@@ -123,13 +123,18 @@ class AgentTools:
         return result({"items": ranked[:int(top_k)]},
                       provenance={"as_of_time": event.get("start_time")}, started=started)
 
-    # 方法说明：`retrieve_runbook` 完成当前步骤的业务处理；参数为 `query`、`component`、`product_version`、`top_k`。
-    def retrieve_runbook(self, query, component=None, product_version=None, top_k=3):
+    # 方法说明：`retrieve_runbook` 完成检索；`code` 为证据命中的根因码，用于硬过滤。
+    def retrieve_runbook(self, query, component=None, product_version=None, top_k=3, code=None):
         started = time.perf_counter()
         try:
-            found = self.retriever.search(query, mode="frozen", top_k=int(top_k),
-                                          component=component,
-                                          product_version=product_version)
+            try:
+                found = self.retriever.search(query, mode="frozen", top_k=int(top_k),
+                                              component=component,
+                                              product_version=product_version, code=code)
+            except TypeError:
+                found = self.retriever.search(query, mode="frozen", top_k=int(top_k),
+                                              component=component,
+                                              product_version=product_version)
         except ValueError as exc:
             return result(error={"code": "INVALID_RETRIEVAL", "message": str(exc),
                                  "retryable": False}, started=started)
@@ -137,7 +142,8 @@ class AgentTools:
                       self.retriever.manifest["kb_release_id"]}, started=started)
 
     # 变量说明：CODE_SIGNALS 是根因码对应的日志特征词，用于同组件内互斥排序。
-    CODE_SIGNALS = {"DN_VOLUME": ("no space left", "volume failed", "disk full"),
+    CODE_SIGNALS = {"DN_VOLUME": ("no space left", "volume failed", "failed volume",
+                                  "disk full"),
                     "DN_HEARTBEAT": ("lost heartbeat", "dead datanode", "removedead"),
                     "NN_SAFE_MODE": ("safe mode",)}
 

@@ -4,8 +4,8 @@
 | 可计入根因指标 | 81 |
 | 有诊断报告 | 81 |
 | Top-1 | 0.5062 |
-| Top-3 | 0.6049 |
-| MRR | 0.5432 |
+| Top-3 | 0.7654 |
+| MRR | 0.6255 |
 | Top-1 95% CI | [0.3995, 0.6123] |
 | 冻结测试集 | n=17 Top-1=0.5294 CI=[0.3096, 0.7384] |
 | MTTD | 46.6 |
@@ -40,31 +40,31 @@
 | inc_lab_dn_heartbeat_20261028142406_5600 | DataNode | - | - | 78.717317 |
 | inc_lab_dn_heartbeat_20261028142546_a65f | DataNode | - | - | 77.275545 |
 | inc_lab_dn_heartbeat_20261028142717_be88 | DataNode | - | - | 74.366597 |
-| inc_lab_dn_volume_20261028125300_bd4c | DataNode | - | - | 24.664636 |
+| inc_lab_dn_volume_20261028125300_bd4c | DataNode | 2 | code | 24.664636 |
 | inc_lab_dn_volume_20261028125328_573e | DataNode | 1 | code | 27.855129 |
-| inc_lab_dn_volume_20261028125358_e146 | DataNode | - | - | 24.107181 |
-| inc_lab_dn_volume_20261028125425_ef0b | DataNode | 3 | code | 27.889247 |
-| inc_lab_dn_volume_20261028125455_eaa0 | DataNode | - | - | 24.183862 |
-| inc_lab_dn_volume_20261028125522_31d2 | DataNode | 3 | code | 27.782389 |
-| inc_lab_dn_volume_20261028125552_301e | DataNode | - | - | 24.161695 |
-| inc_lab_dn_volume_20261028125619_c5a7 | DataNode | 3 | code | 28.101909 |
-| inc_lab_dn_volume_20261028125650_20f0 | DataNode | - | - | 24.368326 |
-| inc_lab_dn_volume_20261028125720_5124 | DataNode | - | - | 24.984958 |
-| inc_lab_dn_volume_20261028125749_fff9 | DataNode | 3 | code | 29.608828 |
-| inc_lab_dn_volume_20261028125822_3755 | DataNode | - | - | 24.643303 |
-| inc_lab_dn_volume_20261028125850_d215 | DataNode | 3 | code | 28.15194 |
-| inc_lab_dn_volume_20261028125921_4f0d | DataNode | - | - | 24.917033 |
-| inc_lab_dn_volume_20261028135443_560d | DataNode | - | - | 35.830265 |
-| inc_lab_dn_volume_20261028135526_cf09 | DataNode | - | - | 35.955376 |
+| inc_lab_dn_volume_20261028125358_e146 | DataNode | 2 | code | 24.107181 |
+| inc_lab_dn_volume_20261028125425_ef0b | DataNode | 2 | code | 27.889247 |
+| inc_lab_dn_volume_20261028125455_eaa0 | DataNode | 2 | code | 24.183862 |
+| inc_lab_dn_volume_20261028125522_31d2 | DataNode | 2 | code | 27.782389 |
+| inc_lab_dn_volume_20261028125552_301e | DataNode | 2 | code | 24.161695 |
+| inc_lab_dn_volume_20261028125619_c5a7 | DataNode | 2 | code | 28.101909 |
+| inc_lab_dn_volume_20261028125650_20f0 | DataNode | 2 | code | 24.368326 |
+| inc_lab_dn_volume_20261028125720_5124 | DataNode | 2 | code | 24.984958 |
+| inc_lab_dn_volume_20261028125749_fff9 | DataNode | 2 | code | 29.608828 |
+| inc_lab_dn_volume_20261028125822_3755 | DataNode | 2 | code | 24.643303 |
+| inc_lab_dn_volume_20261028125850_d215 | DataNode | 2 | code | 28.15194 |
+| inc_lab_dn_volume_20261028125921_4f0d | DataNode | 2 | code | 24.917033 |
+| inc_lab_dn_volume_20261028135443_560d | DataNode | 2 | code | 35.830265 |
+| inc_lab_dn_volume_20261028135526_cf09 | DataNode | 2 | code | 35.955376 |
 | inc_lab_dn_volume_20261028135610_05a2 | DataNode | - | - | 38.175311 |
-| inc_lab_dn_volume_20261028135658_3859 | DataNode | 3 | code | 39.529776 |
+| inc_lab_dn_volume_20261028135658_3859 | DataNode | - | - | 39.529776 |
 | inc_lab_dn_volume_20261028135746_9d53 | DataNode | - | - | 43.141658 |
-| inc_lab_dn_volume_20261028135839_855b | DataNode | - | - | 41.395997 |
-| inc_lab_dn_volume_20261028135930_4f44 | DataNode | - | - | 43.96048 |
+| inc_lab_dn_volume_20261028135839_855b | DataNode | 3 | code | 41.395997 |
+| inc_lab_dn_volume_20261028135930_4f44 | DataNode | 3 | code | 43.96048 |
 | inc_lab_dn_volume_20261028140024_718d | DataNode | 2 | code | 49.751266 |
-| inc_lab_dn_volume_20261028140129_6b4d | DataNode | - | - | 49.272703 |
-| inc_lab_dn_volume_20261028140231_33cf | DataNode | - | - | 50.152054 |
-| inc_lab_dn_volume_20261028140333_367b | DataNode | 2 | code | 50.879555 |
+| inc_lab_dn_volume_20261028140129_6b4d | DataNode | 3 | code | 49.272703 |
+| inc_lab_dn_volume_20261028140231_33cf | DataNode | 3 | code | 50.152054 |
+| inc_lab_dn_volume_20261028140333_367b | DataNode | 3 | code | 50.879555 |
 | inc_lab_dn_volume_20261028140439_7b95 | DataNode | - | - | 49.805835 |
 | inc_lab_dn_volume_20261028140542_b576 | DataNode | - | - | 56.171711 |
 | inc_lab_dn_volume_20261028140652_ce8d | DataNode | - | - | 57.515736 |
