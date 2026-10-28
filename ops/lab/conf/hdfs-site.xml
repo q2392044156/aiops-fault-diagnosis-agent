@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configuration>
+  <property><name>dfs.replication</name><value>2</value></property>
+  <property><name>dfs.namenode.name.dir</name><value>/tmp/hadoop-root/dfs/name</value></property>
+  <property><name>dfs.datanode.data.dir</name><value>/tmp/hadoop-root/dfs/data</value></property>
+  <property><name>dfs.permissions.enabled</name><value>false</value></property>
+  <property><name>dfs.namenode.http-address</name><value>0.0.0.0:9870</value></property>
+  <property><name>dfs.namenode.safemode.threshold-pct</name><value>0.99</value></property>
+  <property><name>dfs.datanode.du.reserved</name><value>0</value></property>
+  <property><name>dfs.client.use.datanode.hostname</name><value>true</value></property>
+</configuration>

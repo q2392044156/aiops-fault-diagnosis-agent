@@ -1,0 +1,71 @@
+name: aiops-lab
+
+x-hadoop: &hadoop
+  image: apache/hadoop:3.3.6
+  user: "0:0"
+  restart: "no"
+  environment:
+    HADOOP_HEAPSIZE: "512"
+  volumes:
+    - ./conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+    - ./conf/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+    - ./bin:/lab/bin:ro
+    - ./inject:/lab/inject:ro
+  networks: [hdfs]
+
+services:
+  namenode:
+    <<: *hadoop
+    container_name: aiops-lab-namenode
+    hostname: namenode
+    command: ["/bin/bash", "/lab/bin/start-namenode.sh"]
+    volumes:
+      - ./conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./conf/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./bin:/lab/bin:ro
+      - ./inject:/lab/inject:ro
+      - namenode-data:/tmp/hadoop-root/dfs/name
+    ports:
+      - "9870:9870"
+      - "9000:9000"
+
+  datanode1:
+    <<: *hadoop
+    container_name: aiops-lab-dn1
+    hostname: datanode1
+    command: ["/bin/bash", "/lab/bin/start-datanode.sh"]
+    tmpfs:
+      - /tmp/hadoop-root/dfs/data:size=128m
+
+  datanode2:
+    <<: *hadoop
+    container_name: aiops-lab-dn2
+    hostname: datanode2
+    command: ["/bin/bash", "/lab/bin/start-datanode.sh"]
+    volumes:
+      - ./conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./conf/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./bin:/lab/bin:ro
+      - ./inject:/lab/inject:ro
+      - dn2-data:/tmp/hadoop-root/dfs/data
+
+  datanode3:
+    <<: *hadoop
+    container_name: aiops-lab-dn3
+    hostname: datanode3
+    command: ["/bin/bash", "/lab/bin/start-datanode.sh"]
+    volumes:
+      - ./conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./conf/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./bin:/lab/bin:ro
+      - ./inject:/lab/inject:ro
+      - dn3-data:/tmp/hadoop-root/dfs/data
+
+networks:
+  hdfs:
+    driver: bridge
+
+volumes:
+  namenode-data:
+  dn2-data:
+  dn3-data:

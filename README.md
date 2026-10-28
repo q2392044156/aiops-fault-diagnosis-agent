@@ -175,7 +175,29 @@ python ops/scripts/mcp_smoke.py
 python -m aiops_diag.platform.mcp_server --database runtime/v12/service.sqlite3
 ```
 
+## 路线 A：受控故障实验台（MVP）
+
+本机 Docker Compose 起 **1 NameNode + 3 DataNode**，注入真实故障并产出符合冻结 Schema 的 incident：
+
+| 故障族 | 注入方式 | 观测信号 |
+| --- | --- | --- |
+| `DN_VOLUME` | dn1（128MB tmpfs）用 `dd` 填满 | `No space left on device` / `Volume ... failed` |
+| `DN_HEARTBEAT` | `docker kill` dn2 | `Lost DataNode` |
+| `NN_SAFE_MODE` | `hdfs dfsadmin -safemode enter` | `Safe mode is ON` |
+
+已实测一次真实的 NameNode 安全模式故障：**fault_start → 信号 +1.69s**，25s 观测窗，日志脱敏后 570 字节，`incident validate` 通过、`root_cause_metrics=AVAILABLE`。
+
+```powershell
+docker compose -f ops/lab/compose.yaml up -d
+python ops/lab/harness/run_case.py --fault NN_SAFE_MODE --observe 25 --import-db runtime/lab/mvp.sqlite3
+python ops/scripts/evaluate_incidents.py --database runtime/lab/mvp.sqlite3 --cases ops/lab/cases
+docker compose -f ops/lab/compose.yaml down -v
+```
+
+Top-1 / MTTD 目前仍是 `N/A`：事件还没有自动送进诊断链路，`agent_detected` 为空。评估脚本已实现并有单测覆盖，详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
+
 ## 项目结构
+
 
 ```text
 aiops-fault-diagnosis-agent/

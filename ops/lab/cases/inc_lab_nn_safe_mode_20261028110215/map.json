@@ -1,0 +1,35 @@
+{
+  "incident_id": "inc_lab_nn_safe_mode_20261028110215",
+  "fault": "NN_SAFE_MODE",
+  "batch_id": null,
+  "event_id": null,
+  "diagnosis_id": null,
+  "report_id": null,
+  "cutoff_time": "2026-10-28T11:02:42.265631+00:00",
+  "mode": "cluster",
+  "import": {
+    "schema_version": 1,
+    "incident_id": "inc_lab_nn_safe_mode_20261028110215",
+    "record_hash": "72d2eb57b1c569599e82c92290fb589b6a1b5b5f8335326e7dfe3d97dc45ce86",
+    "authorization_active": true,
+    "post_cutoff_evidence": 0,
+    "metric_eligibility": {
+      "schema_version": 1,
+      "incident_id": "inc_lab_nn_safe_mode_20261028110215",
+      "root_cause_metrics": {
+        "eligible": true,
+        "value": "AVAILABLE",
+        "reason_codes": []
+      },
+      "mttd": {
+        "eligible": false,
+        "value_seconds": "N/A",
+        "reason_codes": [
+          "agent_detected_missing"
+        ]
+      }
+    },
+    "deduplicated": false,
+    "status": "ACTIVE"
+  }
+}

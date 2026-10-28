@@ -1,0 +1,61 @@
+{
+  "summary": {
+    "incidents": 3,
+    "eligible": 3,
+    "diagnosed": 0,
+    "top1": "N/A",
+    "top3": "N/A",
+    "mrr": "N/A",
+    "mttd_seconds": "N/A",
+    "excluded": 3,
+    "exclusion_reasons": {
+      "no_diagnosis": 3
+    }
+  },
+  "rows": [
+    {
+      "incident_id": "inc_lab_dn_heartbeat_20261028110214",
+      "expected": "DataNode",
+      "rank": null,
+      "top1": false,
+      "top3": false,
+      "mrr": 0.0,
+      "mttd_seconds": null,
+      "diagnosed": false
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028110214",
+      "expected": "DataNode",
+      "rank": null,
+      "top1": false,
+      "top3": false,
+      "mrr": 0.0,
+      "mttd_seconds": null,
+      "diagnosed": false
+    },
+    {
+      "incident_id": "inc_lab_nn_safe_mode_20261028110215",
+      "expected": "NameNode",
+      "rank": null,
+      "top1": false,
+      "top3": false,
+      "mrr": 0.0,
+      "mttd_seconds": null,
+      "diagnosed": false
+    }
+  ],
+  "excluded": [
+    {
+      "incident_id": "inc_lab_dn_heartbeat_20261028110214",
+      "reason": "no_diagnosis"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028110214",
+      "reason": "no_diagnosis"
+    },
+    {
+      "incident_id": "inc_lab_nn_safe_mode_20261028110215",
+      "reason": "no_diagnosis"
+    }
+  ]
+}
