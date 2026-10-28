@@ -190,11 +190,12 @@ python -m aiops_diag.platform.mcp_server --database runtime/v12/service.sqlite3
 ```powershell
 docker compose -f ops/lab/compose.yaml up -d
 python ops/lab/harness/run_case.py --fault NN_SAFE_MODE --observe 25 --import-db runtime/lab/mvp.sqlite3
+python ops/lab/harness/ingest.py --case ops/lab/cases/<incident_id> --database runtime/lab/mvp.sqlite3
 python ops/scripts/evaluate_incidents.py --database runtime/lab/mvp.sqlite3 --cases ops/lab/cases
 docker compose -f ops/lab/compose.yaml down -v
 ```
 
-Top-1 / MTTD 目前仍是 `N/A`：事件还没有自动送进诊断链路，`agent_detected` 为空。评估脚本已实现并有单测覆盖，详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
+接入诊断后的 3 例结果：**Top-1 66.7%、Top-3 100%、MRR 0.833**；MTTD 仍为 `N/A`，因为 `agent_detected` 还没写进 incident（ingest 目前在记录生成之后运行）。详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
 
 ## 项目结构
 

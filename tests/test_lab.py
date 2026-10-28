@@ -117,3 +117,17 @@ def test_missing_diagnosis_is_counted_as_excluded(tmp_path):
     result = evaluator.evaluate(_Stub(record, None), tmp_path)
     assert result["summary"]["top1"] == "N/A"
     assert result["summary"]["exclusion_reasons"] == {"no_diagnosis": 1}
+
+# 方法说明：test_ingest_creates_diagnosis_and_report 验证实验日志可接入并产出报告。
+def test_ingest_creates_diagnosis_and_report(tmp_path):
+    harness = _load("lab_harness_ingest", "ops/lab/harness/run_case.py")
+    ingest_module = _load("lab_ingest", "ops/lab/harness/ingest.py")
+    result = harness.run_case("NN_SAFE_MODE", dry_run=True, case_root=tmp_path)
+    database_path = tmp_path / "service.sqlite3"
+    mapping = ingest_module.ingest(result["case_dir"], database_path)
+    assert mapping["diagnosis_id"].startswith("dia_")
+    assert mapping["report_id"].startswith("irpt_")
+    database = Database(database_path)
+    assert database.one("SELECT 1 AS found FROM incident_reports WHERE diagnosis_id=?",
+                        (mapping["diagnosis_id"],))["found"] == 1
+    assert database.one("SELECT COUNT(*) AS n FROM incident_registry")["n"] == 0
