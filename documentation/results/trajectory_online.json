@@ -1,0 +1,61 @@
+{
+  "summary": {
+    "runs": 1,
+    "verdicts": {
+      "clean": 1
+    },
+    "avg_steps": 7.0,
+    "avg_tool_calls": 7.0,
+    "avg_llm_calls": 2.0,
+    "avg_tokens": 6222.0,
+    "avg_evidence_coverage": 0.8571,
+    "retry_rate": 0.0,
+    "failure_rate": 0.0,
+    "ungrounded_runs": 0,
+    "flag_counts": {},
+    "total_cost_cny": 0.026916
+  },
+  "runs": [
+    {
+      "diagnosis_id": "dia_c5a9d720d27ea4bcb4cb2971",
+      "revision": 1,
+      "mode": "auto",
+      "status": "APPROVED_REPORT",
+      "verdict": "clean",
+      "steps": 7,
+      "tool_calls": 7,
+      "unique_tools": 6,
+      "failed_calls": 0,
+      "retries": 0,
+      "tool_sequence": [
+        "detect_anomaly",
+        "query_logs",
+        "retrieve_runbook",
+        "rank_root_causes",
+        "generate_incident_report",
+        "request_human_approval",
+        "request_human_approval"
+      ],
+      "evidence_available": 7,
+      "evidence_cited": 6,
+      "evidence_coverage": 0.8571,
+      "ungrounded_citations": [],
+      "llm_calls": 2,
+      "tokens": 6222,
+      "token_ratio": 0.5185,
+      "active_ratio": 0.0803,
+      "estimated_cost_cny": 0.026916,
+      "requires_review": true,
+      "review_reasons": [
+        "high_risk",
+        "low_confidence"
+      ],
+      "router_policy": null,
+      "router_blocked": 0,
+      "errors": [
+        "report"
+      ],
+      "flags": []
+    }
+  ]
+}

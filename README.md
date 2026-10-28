@@ -146,7 +146,7 @@ v1.2 的三个在线案例来自开发分区，只能证明工程链路能够工
 
 完整分层、模块边界与四条不变量见 [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md)（含可编辑的 Mermaid 源）；图示文件为 [architecture.png](documentation/architecture.png)（2000×1280）与 [architecture.svg](documentation/architecture.svg)，可直接插入 PPT 或简历。
 
-工具路由的 30 例对照实验（确定性 / 自由 / 规则 / 受控 function calling）见 [P0-1 报告](documentation/P0-1_工具路由.md)。
+工具路由的 30 例对照实验（确定性 / 自由 / 规则 / 受控 function calling）见 [P0-1 报告](documentation/P0-1_工具路由.md)；诊断过程的轨迹指标（步数、重试、证据覆盖、拒答分类）见 [P0-2 报告](documentation/P0-2_轨迹评测.md)。
 
 ## 项目结构
 
