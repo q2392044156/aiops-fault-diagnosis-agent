@@ -10,7 +10,8 @@
 
 ```powershell
 conda activate aiops-fault-diagnosis-agent
-python demo/run_demo.py
+python demo/run_demo.py            # 离线，不花钱
+python demo/run_demo.py --online   # 在线，单次约 ¥0.03（需 DEEPSEEK_API_KEY）
 ```
 
 也可以直接看 [demo/README.md](demo/README.md)（含 3 分钟演示脚本）和[架构总览](documentation/ARCHITECTURE.md)。
@@ -151,7 +152,7 @@ flowchart LR
     G --> H[人工复核<br/>签字 ≠ 执行]
 ```
 
-完整分层、模块边界与四条不变量见 [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md)；图示文件为 [architecture.svg](documentation/architecture.svg)，可直接插入 PPT。
+完整分层、模块边界与四条不变量见 [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md)；图示文件为 [architecture.svg](documentation/architecture.svg) 与 [architecture.png](documentation/architecture.png)（2000×1280），可直接插入 PPT 或简历。
 
 ## 项目结构
 

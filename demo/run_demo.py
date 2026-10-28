@@ -4,7 +4,8 @@
 目的是让面试官或新同学在 5 分钟内看到系统真实产出，而不是只看截图。
 
 运行方式：
-    python demo/run_demo.py            # 交互式文本输出
+    python demo/run_demo.py            # 离线：规则检测器 + 模板降级，不花钱
+    python demo/run_demo.py --online   # 在线：调用 DeepSeek 生成证据约束报告
     python demo/run_demo.py --json     # 机器可读摘要（用于 CI 冒烟）
 """
 
@@ -13,6 +14,7 @@ from __future__ import annotations
 import argparse
 import io
 import json
+import os
 import re
 import shutil
 import sys
@@ -25,7 +27,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from aiops_diag.data.common import digest, key
+from aiops_diag.diagnosis.budget import DatabaseBudgetLedger
 from aiops_diag.diagnosis.engine import AgentEngine, AgentYield
+from aiops_diag.knowledge.generation.client import DeepSeekClient
 from aiops_diag.platform.db import Database
 from aiops_diag.platform.pipeline import database_payload, process
 
@@ -133,6 +137,20 @@ class OfflineClient:
         return None
 
 
+# 方法说明：_load_env 读取 .env 中的键值对，已存在的环境变量优先。
+def _load_env(path):
+    if not path.is_file():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        name, _, value = line.partition("=")
+        name, value = name.strip(), value.strip().strip('"').strip("'")
+        if name and value:
+            os.environ.setdefault(name, value)
+
+
 # 方法说明：_rule 打印分节标题，让终端输出更像一次演示。
 def _rule(title):
     print()
@@ -147,10 +165,21 @@ def main(argv=None):
     parser.add_argument("--workdir", default=str(ROOT / "demo" / ".runtime"))
     parser.add_argument("--json", action="store_true", help="只输出机器可读摘要")
     parser.add_argument("--keep", action="store_true", help="保留运行目录便于检查")
+    parser.add_argument("--online", action="store_true",
+                        help="调用 DeepSeek 生成报告（需要 API Key）")
+    parser.add_argument("--env-file", default=str(ROOT / ".env"),
+                        help="--online 时读取的 .env 文件")
+    parser.add_argument("--model", default="deepseek-flash",
+                        help="--online 时使用的模型名")
     args = parser.parse_args(argv)
-
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if args.online:
+        _load_env(Path(args.env_file))
+        if not os.environ.get("DEEPSEEK_API_KEY"):
+            print(f"未在环境变量或 {args.env_file} 中找到 DEEPSEEK_API_KEY。")
+            print("离线演示不需要 Key；如需在线报告，请设置 Key 或使用 --env-file。")
+            return 2
     real_stdout = sys.stdout
     if args.json:
         sys.stdout = io.StringIO()
@@ -191,7 +220,8 @@ def main(argv=None):
     batch_id = "bat_" + input_hash[:24]
     task_id = "tsk_" + input_hash[:24]
 
-    _rule("AIOps 故障诊断 Agent · 离线演示（不调用大模型）")
+    title = "在线演示（调用 DeepSeek）" if args.online else "离线演示（不调用大模型）"
+    _rule("AIOps 故障诊断 Agent · " + title)
     print(f"工作目录: {work}")
     print("输入日志: demo/fixtures/hdfs_demo.log")
 
@@ -233,15 +263,40 @@ def main(argv=None):
     }
     service_manifest = {"release_id": DEMO_RELEASE_ID,
                         "model_id": "demo_rule_detector", "threshold": detector.threshold}
+    client = OfflineClient()
+    if args.online:
+        online_budget = {"max_total_tokens": 20000, "max_cost_cny": 0.5,
+                         "max_input_tokens_per_call": 10000,
+                         "input_cny_per_million": 2.0, "output_cny_per_million": 8.0}
+        rag_cfg = {
+            "provider": {
+                "name": "deepseek", "base_url": "https://api.deepseek.com",
+                "model": args.model, "api_key_env": "DEEPSEEK_API_KEY",
+                "api_key_file_env": "DEEPSEEK_API_KEY_FILE",
+                "tracking_id_env": "DEEPSEEK_TRACKING_ID",
+                "tracking_id_file_env": "DEEPSEEK_TRACKING_ID_FILE",
+                "timeout_seconds": 30, "overall_timeout_seconds": 45,
+                "max_tokens": 2400, "temperature": 0,
+            },
+            "budget": online_budget,
+            "paths": {},
+        }
+        ledger = DatabaseBudgetLedger(db, "deepseek", online_budget, None, scope="demo")
+        client = DeepSeekClient(rag_cfg, ledger=ledger)
+        if not client.configured:
+            print("DEEPSEEK_API_KEY 为空，无法进入在线模式。")
+            return 2
+        print(f"在线模式：{args.model}（预算上限 20,000 tokens / ¥0.5）")
     engine = AgentEngine(agent_cfg, db, retriever, service_manifest, agent_release,
-                         client=OfflineClient())
+                         client=client)
 
-    fingerprint = key([event["event_id"], "template", AGENT_RELEASE_ID])
+    mode = "auto" if args.online else "template"
+    fingerprint = key([event["event_id"], mode, AGENT_RELEASE_ID])
     diagnosis_id = "dia_" + fingerprint[:24]
     budget = {"max_tool_calls": 8, "max_llm_calls": 3, "max_tokens": 12000,
               "max_active_ms": 120000, "tool_calls": 0, "llm_calls": 0, "tokens": 0,
               "active_ms": 0, "estimated_cost_cny": 0.0}
-    db.create_agent_run(diagnosis_id, event["event_id"], "template", AGENT_RELEASE_ID,
+    db.create_agent_run(diagnosis_id, event["event_id"], mode, AGENT_RELEASE_ID,
                         fingerprint, budget, None, 16)
 
     _rule("[3/7] 受控诊断：每个节点完成后主动让出 worker")
@@ -255,8 +310,17 @@ def main(argv=None):
             db.yield_agent(run["diagnosis_id"], run["lease_token"], str(yielded))
             print(f"  节点完成 -> {yielded}")
             continue
+        except Exception as exc:
+            try:
+                db.fail_agent(run["diagnosis_id"], run["lease_token"],
+                              "DEMO_FAILED", f"{type(exc).__name__}: {exc}")
+            except Exception:
+                pass
+            print(f"  诊断失败：{type(exc).__name__}: {exc}")
+            return 3
         break
 
+    engine.close()
     final_run = db.get_agent_run(diagnosis_id)
     report_row = db.one("SELECT * FROM incident_reports WHERE diagnosis_id=?",
                         (diagnosis_id,))
@@ -301,7 +365,11 @@ def main(argv=None):
     print(f"  引用合法（全部命中本次证据）: {verdict}")
     verdict = "通过" if not unsafe else "失败"
     print(f"  所有建议 execution_allowed=false: {verdict}")
-    print("  证据不足时是否调用模型: 未调用（离线模板降级）")
+    llm_calls = final_run["budget"]["llm_calls"]
+    if llm_calls:
+        print(f"  大模型调用 {llm_calls} 次（仅在日志与知识证据同时存在时发生）")
+    else:
+        print("  大模型调用 0 次（离线模式，或证据不足，走确定性模板）")
 
     _rule("[6/7] 报告正文")
     print(report_row["report_markdown"])
@@ -333,7 +401,7 @@ def main(argv=None):
     used = final_run["budget"]
     elapsed = time.perf_counter() - started
     summary = {
-        "demo": "offline",
+        "demo": "online" if args.online else "offline",
         "counts": counts,
         "event_id": event["event_id"],
         "diagnosis_id": diagnosis_id,
@@ -349,6 +417,7 @@ def main(argv=None):
         "approval_status": approval_status,
         "final_status": final_run["status"],
         "llm_calls": used["llm_calls"],
+        "tokens": used["tokens"],
         "estimated_cost_cny": used["estimated_cost_cny"],
         "elapsed_seconds": round(elapsed, 3),
     }
@@ -358,7 +427,8 @@ def main(argv=None):
         return 0
     print()
     print(f"耗时 {elapsed:.2f}s | 付费模型调用 {summary['llm_calls']} 次 | "
-          f"费用 ¥{summary['estimated_cost_cny']:.4f} | 最终状态 {final_run['status']}")
+          f"{used['tokens']} tokens | 费用 ¥{summary['estimated_cost_cny']:.4f} | "
+          f"最终状态 {final_run['status']}")
     print("（本次运行的临时数据保留在 demo/.runtime，可直接查看 SQLite 与 Parquet）")
     return 0
 

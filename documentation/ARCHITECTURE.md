@@ -34,7 +34,7 @@ flowchart TB
     DB --> H
 ```
 
-> GitHub 支持 Mermaid；同目录的 `architecture.svg` 可直接插进 PPT。
+> GitHub 支持 Mermaid；同目录的 `architecture.svg` 与 `architecture.png`（2000×1280，Chrome 无头渲染）可直接插进 PPT 或简历。
 
 ## 七个模块
 

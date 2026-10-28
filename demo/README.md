@@ -10,7 +10,8 @@
 
 ```powershell
 conda activate aiops-fault-diagnosis-agent
-python demo/run_demo.py
+python demo/run_demo.py            # 离线：不花钱，走模板降级
+python demo/run_demo.py --online   # 在线：调用 DeepSeek，单次约 ¥0.03
 ```
 
 或者用 Make（需要 GNU Make；Windows 上直接用上面的 python 命令）：
@@ -51,6 +52,20 @@ make demo-json     # 机器可读摘要（CI 用）
 | 低置信度 + 需复核 | 知识卡组件名与日志组件名不完全一致，系统保守地转人工，而不是硬给结论 |
 | 签字 ≠ 执行 | 审批只改状态，系统里没有任何执行运维操作的入口 |
 
+## 在线模式（--online）
+
+```powershell
+python demo/run_demo.py --online
+```
+
+- 从仓库根目录的 `.env` 读取 `DEEPSEEK_API_KEY` / `DEEPSEEK_TRACKING_ID`（可用 `--env-file` 指定其它文件，`--model` 指定模型，默认 `deepseek-flash`）。
+- 演示自带预算上限：20,000 tokens、¥0.5；单次实际约 7k tokens、**¥0.03**。
+- 只有"日志证据 + 知识证据"同时存在时才会调用模型；调用前预扣预算、调用后按用量结算，账单写进 `provider_usage` 表。
+- 输出会从 `DEGRADED_TEMPLATE` 变成 `EVIDENCE_SUPPORTED`，并照常经过引用白名单与 `execution_allowed=false` 校验。
+- 没有 Key、断网或模型返回坏 JSON 时不会崩溃：自动降级为确定性模板，并在审计里留下 `errors` 记录。
+
+> 想展示"模型越权被拦下"的效果，可以看在线模式下的 `review_reasons`：模型若给出无法归类的建议，会被强制标成 `high_risk` 并转人工。
+
 ## 它是真的吗？
 
 是，也不是，必须说清楚：
@@ -82,8 +97,8 @@ demo/
 
 ## 常见问题
 
-**Q：为什么报告状态是 DEGRADED_TEMPLATE？**
-A：离线演示没有配置 API Key，按设计降级为确定性模板。设置 `DEEPSEEK_API_KEY` 并走真实 `service_v12_rc1.yaml` 配置时，才会调用模型生成 EVIDENCE_SUPPORTED 报告。
+**Q：为什么离线报告状态是 DEGRADED_TEMPLATE？**
+A：离线演示刻意不调用模型，按设计降级为确定性模板。加 `--online`（或在 `.env` 里配好 Key）就会走 `EVIDENCE_SUPPORTED`。
 
 **Q：能改成真实模型吗？**
 A：可以，但需要先构建发布制品（模型、知识库、Agent 发布清单）。演示刻意不依赖它们，否则"5 分钟上手"就不成立。
