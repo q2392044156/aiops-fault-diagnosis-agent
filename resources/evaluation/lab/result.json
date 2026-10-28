@@ -4,9 +4,9 @@
     "eligible": 1,
     "diagnosed": 1,
     "top1": 0.0,
-    "top3": 0.0,
-    "mrr": 0.0,
-    "mttd_seconds": 57.3,
+    "top3": 1.0,
+    "mrr": 0.5,
+    "mttd_seconds": 40.2,
     "top1_ci95": [
       0.0,
       0.7935
@@ -21,15 +21,15 @@
   },
   "rows": [
     {
-      "incident_id": "inc_lab_dn_volume_20261028151024_c154",
+      "incident_id": "inc_lab_dn_volume_20261028154028_35f5",
       "expected": "DataNode",
-      "rank": null,
-      "matched_by": null,
+      "rank": 2,
+      "matched_by": "code",
       "split": "train",
       "top1": false,
-      "top3": false,
-      "mrr": 0.0,
-      "mttd_seconds": 57.303777,
+      "top3": true,
+      "mrr": 0.5,
+      "mttd_seconds": 40.174336,
       "diagnosed": true
     }
   ],

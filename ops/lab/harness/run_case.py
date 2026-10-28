@@ -26,7 +26,8 @@ COMPOSE = ROOT / "ops" / "lab" / "compose.yaml"
 # 变量说明：WRITE_LOOP 在卷满实验中持续写块，制造 ENOSPC 主信号。
 WRITE_LOOP = ("for i in $(seq 1 120); do "
               "dd if=/dev/zero of=/tmp/lab_write bs=16M count=1 status=none 2>/dev/null; "
-              "hdfs dfs -put -f /tmp/lab_write /lab/lab_write_$i >/dev/null 2>&1; "
+              "hdfs dfs -Ddfs.replication=1 -put -f /tmp/lab_write /lab/lab_write_$i "
+              ">/dev/null 2>&1; "
               "sleep 1; done")
 
 # 变量说明：FAULTS 定义三个 MVP 故障族的注入与恢复方式。
@@ -42,7 +43,7 @@ FAULTS = {
     "DN_HEARTBEAT": {
         "component": "DataNode", "container": "aiops-lab-dn2", "mode": "kill",
         "signal": r"Lost DataNode|dead datanode|Dead datanode|is dead|heartbeat",
-        "signal_container": "aiops-lab-namenode", "min_observe": 40,
+        "signal_container": "aiops-lab-namenode", "min_observe": 90,
         "inject": None, "recover": None,
         "dry": ["WARN dfs.FSNamesystem: Lost DataNode datanode2",
                 "INFO dfs.FSNamesystem: BLOCK* ask datanode2 to replicate"],
@@ -121,9 +122,9 @@ def _wait_signal(spec, since, timeout):
     while time.monotonic() < deadline:
         text = _docker("logs", "--since", since, target, check=False)
         if pattern.search(text):
-            return datetime.now(timezone.utc)
+            return datetime.now(timezone.utc), True
         time.sleep(3)
-    return datetime.now(timezone.utc)
+    return datetime.now(timezone.utc), False
 
 
 # 方法说明：_dry 生成一份与真实故障同形的离线样本，用于无集群时验证链路。
@@ -180,8 +181,13 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         else:
             _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['inject']}",
                     check=False)
-        window_seconds = max(observe_seconds, int(spec.get("min_observe", 0)))
-        signal_at = _wait_signal(spec, t0.isoformat(), window_seconds)
+        max_seconds = max(observe_seconds, int(spec.get("min_observe", 0)))
+        signal_at, found = _wait_signal(spec, t0.isoformat(), max_seconds)
+        if found:
+            elapsed = (signal_at - t0).total_seconds()
+            window_seconds = max(observe_seconds, int(elapsed) + 5)
+        else:
+            window_seconds = max_seconds
         window_end = t0 + timedelta(seconds=window_seconds)
         remaining = (window_end - datetime.now(timezone.utc)).total_seconds()
         if remaining > 0:
