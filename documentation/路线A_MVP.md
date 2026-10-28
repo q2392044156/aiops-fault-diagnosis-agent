@@ -110,7 +110,7 @@ MTTD 46.6s 含心跳族观测窗与接入耗时，属于**上限**。
 
 心跳族把窗口改为"信号 +5s、最多 90s"，6 例探针 Top-1 0.33，没有改善——90s 内 NameNode 仍经常没有 `removeDeadDatanode`。
 
-**结论（已更新）**：Docker Desktop 下卷满与心跳仍不可复现；但 **WSL 单机 Hadoop 3.3.6 + 64MB loop** 已能稳定注入卷故障（只读 remount），5/5 命中 `DN_VOLUME`、Top-1 100%、CI [0.57, 1.0]，见 [wsl/](../ops/lab/wsl/README.md)。
+**结论（已更新）**：Docker Desktop 下卷满与心跳仍不可复现；但 **WSL 单机 Hadoop 3.3.6 + 64MB loop** 已能稳定注入卷故障（只读 remount），WSL 已跑 **21 例**（19 卷故障 + 2 心跳丢失），Top-1 **100%**、CI [0.8454, 1.0]，见 [wsl/](../ops/lab/wsl/README.md)。
 
 ## 6. 命令
 

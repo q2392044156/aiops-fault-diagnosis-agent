@@ -1,0 +1,239 @@
+[aiops-lab-dn1] 2026-10-29 01:12:46,453 INFO datanode.DataNode: STARTUP_MSG: 
+[aiops-lab-dn1] /************************************************************
+[aiops-lab-dn1] STARTUP_MSG: Starting DataNode
+[aiops-lab-dn1] STARTUP_MSG:   host = WIN-20260727MVX/<:IP:>
+[aiops-lab-dn1] STARTUP_MSG:   args = []
+[aiops-lab-dn1] STARTUP_MSG:   version = 3.3.6
+[aiops-lab-dn1] STARTUP_MSG:   classpath = <:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>
+[aiops-lab-dn1] STARTUP_MSG:   build = https:/<:PATH:> -r 1be78238728da9266a4f88195058f08fd012bf9c; compiled by 'ubuntu' on 2023-06-18T08:22Z
+[aiops-lab-dn1] STARTUP_MSG:   java = <:IP:>
+[aiops-lab-dn1] ************************************************************/
+[aiops-lab-dn1] 2026-10-29 01:12:46,458 INFO datanode.DataNode: registered UNIX signal handlers for [TERM, HUP, INT]
+[aiops-lab-dn1] 2026-10-29 01:12:46,644 INFO checker.ThrottledAsyncChecker: Scheduling a check for [DISK]file:/mnt/labvol
+[aiops-lab-dn1] 2026-10-29 01:12:46,678 WARN checker.StorageLocationChecker: Exception checking StorageLocation [DISK]file:/mnt/labvol
+[aiops-lab-dn1] org.apache.hadoop.util.DiskChecker$DiskErrorException: Directory is not writable: /mnt/labvol
+[aiops-lab-dn1] 	at org.apache.hadoop.util.DiskChecker.checkAccessByFileMethods(DiskChecker.java:167)
+[aiops-lab-dn1] 	at org.apache.hadoop.util.DiskChecker.checkDirInternal(DiskChecker.java:142)
+[aiops-lab-dn1] 	at org.apache.hadoop.util.DiskChecker.checkDir(DiskChecker.java:116)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.StorageLocation.check(StorageLocation.java:239)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.StorageLocation.check(StorageLocation.java:52)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.checker.ThrottledAsyncChecker$1.call(ThrottledAsyncChecker.java:142)
+[aiops-lab-dn1] 	at org.apache.hadoop.thirdparty.com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask.runInterruptibly(TrustedListenableFutureTask.java:125)
+[aiops-lab-dn1] 	at org.apache.hadoop.thirdparty.com.google.common.util.concurrent.InterruptibleTask.run(InterruptibleTask.java:69)
+[aiops-lab-dn1] 	at org.apache.hadoop.thirdparty.com.google.common.util.concurrent.TrustedListenableFutureTask.run(TrustedListenableFutureTask.java:78)
+[aiops-lab-dn1] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+[aiops-lab-dn1] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+[aiops-lab-dn1] 	at java.base/java.lang.Thread.run(Thread.java:829)
+[aiops-lab-dn1] 2026-10-29 01:12:46,680 ERROR datanode.DataNode: Exception in secureMain
+[aiops-lab-dn1] org.apache.hadoop.util.DiskChecker$DiskErrorException: Too many failed volumes - current valid volumes: 0, volumes configured: 1, volumes failed: 1, volume failures tolerated: 0
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.checker.StorageLocationChecker.check(StorageLocationChecker.java:233)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.makeInstance(DataNode.java:3141)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.instantiateDataNode(DataNode.java:3054)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.createDataNode(DataNode.java:3098)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.secureMain(DataNode.java:3242)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.main(DataNode.java:3266)
+[aiops-lab-dn1] 2026-10-29 01:12:46,682 INFO util.ExitUtil: Exiting with status 1: org.apache.hadoop.util.DiskChecker$DiskErrorException: Too many failed volumes - current valid volumes: 0, volumes configured: 1, volumes failed: 1, volume failures tolerated: 0
+[aiops-lab-dn1] 2026-10-29 01:12:46,684 INFO datanode.DataNode: SHUTDOWN_MSG: 
+[aiops-lab-dn1] /************************************************************
+[aiops-lab-dn1] SHUTDOWN_MSG: Shutting down DataNode at WIN-20260727MVX/<:IP:>
+[aiops-lab-dn1] ************************************************************/
+[aiops-lab-namenode] 	at java.base/java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at java.base/javax.security.auth.Subject.doAs(Subject.java:423)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-29 01:02:13,408 INFO hdfs.StateChange: BLOCK* registerDatanode: from DatanodeRegistration(<:IP:>, datanodeUuid=2940df02-a49a-461a-a4e6-0290df750324, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995) storage 2940df02-a49a-461a-a4e6-0290df750324
+[aiops-lab-namenode] 2026-10-29 01:02:13,408 INFO namenode.NameNode: BLOCK* registerDatanode: <:IP:>
+[aiops-lab-namenode] 2026-10-29 01:02:13,409 INFO net.NetworkTopology: Removing a node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:02:13,409 INFO net.NetworkTopology: Adding a new node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:02:13,409 INFO blockmanagement.BlockReportLeaseManager: Registered DN 2940df02-a49a-461a-a4e6-0290df750324 (<:IP:>).
+[aiops-lab-namenode] 2026-10-29 01:02:13,440 INFO blockmanagement.DatanodeDescriptor: Adding new storage ID DS-d2aa2b6c-9650-4f61-a202-d113d12a1f53 for DN <:IP:>
+[aiops-lab-namenode] 2026-10-29 01:02:13,457 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: Processing first storage report for DS-d2aa2b6c-9650-4f61-a202-d113d12a1f53 from datanode DatanodeRegistration(<:IP:>, datanodeUuid=2940df02-a49a-461a-a4e6-0290df750324, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995)
+[aiops-lab-namenode] 2026-10-29 01:02:13,457 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: from storage DS-d2aa2b6c-9650-4f61-a202-d113d12a1f53 node DatanodeRegistration(<:IP:>, datanodeUuid=2940df02-a49a-461a-a4e6-0290df750324, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995), blocks: 0, hasStaleStorage: false, processing time: 0 msecs, invalidatedBlocks: 0
+[aiops-lab-namenode] 2026-10-29 01:02:27,156 INFO namenode.FSEditLog: Number of transactions: 179 Total time for transactions(ms): 21 Number of transactions batched in Syncs: 27 Number of syncs: 152 SyncTimes(ms): 606 
+[aiops-lab-namenode] 2026-10-29 01:02:27,196 INFO hdfs.StateChange: BLOCK* allocate blk_1073741851_1027, replicas=<:IP:> for /lab/w1._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:27,307 INFO namenode.FSNamesystem: BLOCK* blk_1073741851_1027 is COMMITTED but not COMPLETE(numNodes= 0 <  minimum = 1) in file /lab/w1._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:27,710 INFO hdfs.StateChange: DIR* completeFile: /lab/w1._COPYING_ is closed by DFSClient_NONMAPREDUCE_-170400088_1
+[aiops-lab-namenode] 2026-10-29 01:02:28,956 INFO hdfs.StateChange: BLOCK* allocate blk_1073741852_1028, replicas=<:IP:> for /lab/w2._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:29,011 INFO hdfs.StateChange: DIR* completeFile: /lab/w2._COPYING_ is closed by DFSClient_NONMAPREDUCE_1521157257_1
+[aiops-lab-namenode] 2026-10-29 01:02:30,250 INFO hdfs.StateChange: BLOCK* allocate blk_1073741853_1029, replicas=<:IP:> for /lab/w3._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:30,316 INFO hdfs.StateChange: DIR* completeFile: /lab/w3._COPYING_ is closed by DFSClient_NONMAPREDUCE_1534461492_1
+[aiops-lab-namenode] 2026-10-29 01:02:31,646 INFO hdfs.StateChange: BLOCK* allocate blk_1073741854_1030, replicas=<:IP:> for /lab/w4._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:31,712 INFO hdfs.StateChange: DIR* completeFile: /lab/w4._COPYING_ is closed by DFSClient_NONMAPREDUCE_1073050086_1
+[aiops-lab-namenode] 2026-10-29 01:02:33,059 INFO hdfs.StateChange: BLOCK* allocate blk_1073741855_1031, replicas=<:IP:> for /lab/w5._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:33,120 INFO hdfs.StateChange: DIR* completeFile: /lab/w5._COPYING_ is closed by DFSClient_NONMAPREDUCE_909677792_1
+[aiops-lab-namenode] 2026-10-29 01:02:34,403 INFO hdfs.StateChange: BLOCK* allocate blk_1073741856_1032, replicas=<:IP:> for /lab/w6._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:34,471 INFO hdfs.StateChange: DIR* completeFile: /lab/w6._COPYING_ is closed by DFSClient_NONMAPREDUCE_1714176463_1
+[aiops-lab-namenode] 2026-10-29 01:02:38,142 INFO hdfs.StateChange: BLOCK* allocate blk_1073741857_1033, replicas=<:IP:> for /lab/w7._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:38,198 INFO hdfs.StateChange: DIR* completeFile: /lab/w7._COPYING_ is closed by DFSClient_NONMAPREDUCE_-913806499_1
+[aiops-lab-namenode] 2026-10-29 01:02:39,508 INFO hdfs.StateChange: BLOCK* allocate blk_1073741858_1034, replicas=<:IP:> for /lab/w8._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:39,571 INFO hdfs.StateChange: DIR* completeFile: /lab/w8._COPYING_ is closed by DFSClient_NONMAPREDUCE_-762987567_1
+[aiops-lab-namenode] 2026-10-29 01:02:40,923 INFO hdfs.StateChange: BLOCK* allocate blk_1073741859_1035, replicas=<:IP:> for /lab/w9._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:40,987 INFO hdfs.StateChange: DIR* completeFile: /lab/w9._COPYING_ is closed by DFSClient_NONMAPREDUCE_57782078_1
+[aiops-lab-namenode] 2026-10-29 01:02:42,238 INFO hdfs.StateChange: BLOCK* allocate blk_1073741860_1036, replicas=<:IP:> for /lab/w10._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:42,296 INFO hdfs.StateChange: DIR* completeFile: /lab/w10._COPYING_ is closed by DFSClient_NONMAPREDUCE_1972328978_1
+[aiops-lab-namenode] 2026-10-29 01:02:43,511 INFO hdfs.StateChange: BLOCK* allocate blk_1073741861_1037, replicas=<:IP:> for /lab/w11._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:43,568 INFO hdfs.StateChange: DIR* completeFile: /lab/w11._COPYING_ is closed by DFSClient_NONMAPREDUCE_1913155823_1
+[aiops-lab-namenode] 2026-10-29 01:02:44,781 INFO hdfs.StateChange: BLOCK* allocate blk_1073741862_1038, replicas=<:IP:> for /lab/w12._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:44,834 INFO hdfs.StateChange: DIR* completeFile: /lab/w12._COPYING_ is closed by DFSClient_NONMAPREDUCE_-482789257_1
+[aiops-lab-namenode] 2026-10-29 01:02:46,025 INFO hdfs.StateChange: BLOCK* allocate blk_1073741863_1039, replicas=<:IP:> for /lab/w13._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:46,078 INFO hdfs.StateChange: DIR* completeFile: /lab/w13._COPYING_ is closed by DFSClient_NONMAPREDUCE_997942001_1
+[aiops-lab-namenode] 2026-10-29 01:02:47,292 INFO hdfs.StateChange: BLOCK* allocate blk_1073741864_1040, replicas=<:IP:> for /lab/w14._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:47,350 INFO hdfs.StateChange: DIR* completeFile: /lab/w14._COPYING_ is closed by DFSClient_NONMAPREDUCE_207367215_1
+[aiops-lab-namenode] 2026-10-29 01:02:48,523 INFO hdfs.StateChange: BLOCK* allocate blk_1073741865_1041, replicas=<:IP:> for /lab/w15._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:48,576 INFO hdfs.StateChange: DIR* completeFile: /lab/w15._COPYING_ is closed by DFSClient_NONMAPREDUCE_-276513993_1
+[aiops-lab-namenode] 2026-10-29 01:02:49,762 INFO hdfs.StateChange: BLOCK* allocate blk_1073741866_1042, replicas=<:IP:> for /lab/w16._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:49,818 INFO hdfs.StateChange: DIR* completeFile: /lab/w16._COPYING_ is closed by DFSClient_NONMAPREDUCE_1783648028_1
+[aiops-lab-namenode] 2026-10-29 01:02:51,047 INFO hdfs.StateChange: BLOCK* allocate blk_1073741867_1043, replicas=<:IP:> for /lab/w17._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:51,101 INFO hdfs.StateChange: DIR* completeFile: /lab/w17._COPYING_ is closed by DFSClient_NONMAPREDUCE_1724571050_1
+[aiops-lab-namenode] 2026-10-29 01:02:52,258 INFO hdfs.StateChange: BLOCK* allocate blk_1073741868_1044, replicas=<:IP:> for /lab/w18._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:52,312 INFO hdfs.StateChange: DIR* completeFile: /lab/w18._COPYING_ is closed by DFSClient_NONMAPREDUCE_1035660179_1
+[aiops-lab-namenode] 2026-10-29 01:02:53,538 INFO hdfs.StateChange: BLOCK* allocate blk_1073741869_1045, replicas=<:IP:> for /lab/w19._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:53,594 INFO hdfs.StateChange: DIR* completeFile: /lab/w19._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1935898442_1
+[aiops-lab-namenode] 2026-10-29 01:02:54,781 INFO hdfs.StateChange: BLOCK* allocate blk_1073741870_1046, replicas=<:IP:> for /lab/w20._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:54,832 INFO hdfs.StateChange: DIR* completeFile: /lab/w20._COPYING_ is closed by DFSClient_NONMAPREDUCE_526640095_1
+[aiops-lab-namenode] 2026-10-29 01:02:56,072 INFO hdfs.StateChange: BLOCK* allocate blk_1073741871_1047, replicas=<:IP:> for /lab/w21._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:56,126 INFO hdfs.StateChange: DIR* completeFile: /lab/w21._COPYING_ is closed by DFSClient_NONMAPREDUCE_243841695_1
+[aiops-lab-namenode] 2026-10-29 01:02:57,366 INFO hdfs.StateChange: BLOCK* allocate blk_1073741872_1048, replicas=<:IP:> for /lab/w22._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:57,422 INFO hdfs.StateChange: DIR* completeFile: /lab/w22._COPYING_ is closed by DFSClient_NONMAPREDUCE_1183878497_1
+[aiops-lab-namenode] 2026-10-29 01:02:58,655 INFO hdfs.StateChange: BLOCK* allocate blk_1073741873_1049, replicas=<:IP:> for /lab/w23._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:58,707 INFO hdfs.StateChange: DIR* completeFile: /lab/w23._COPYING_ is closed by DFSClient_NONMAPREDUCE_1594502206_1
+[aiops-lab-namenode] 2026-10-29 01:02:59,899 INFO hdfs.StateChange: BLOCK* allocate blk_1073741874_1050, replicas=<:IP:> for /lab/w24._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:02:59,949 INFO hdfs.StateChange: DIR* completeFile: /lab/w24._COPYING_ is closed by DFSClient_NONMAPREDUCE_2088652690_1
+[aiops-lab-namenode] 2026-10-29 01:03:01,147 INFO hdfs.StateChange: BLOCK* allocate blk_1073741875_1051, replicas=<:IP:> for /lab/w25._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:01,200 INFO hdfs.StateChange: DIR* completeFile: /lab/w25._COPYING_ is closed by DFSClient_NONMAPREDUCE_59965439_1
+[aiops-lab-namenode] 2026-10-29 01:03:02,358 INFO hdfs.StateChange: BLOCK* allocate blk_1073741876_1052, replicas=<:IP:> for /lab/w26._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:02,413 INFO hdfs.StateChange: DIR* completeFile: /lab/w26._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1630857351_1
+[aiops-lab-namenode] 2026-10-29 01:03:03,599 INFO hdfs.StateChange: BLOCK* allocate blk_1073741877_1053, replicas=<:IP:> for /lab/w27._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:03,659 INFO hdfs.StateChange: DIR* completeFile: /lab/w27._COPYING_ is closed by DFSClient_NONMAPREDUCE_-44005008_1
+[aiops-lab-namenode] 2026-10-29 01:03:04,818 INFO hdfs.StateChange: BLOCK* allocate blk_1073741878_1054, replicas=<:IP:> for /lab/w28._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:04,878 INFO hdfs.StateChange: DIR* completeFile: /lab/w28._COPYING_ is closed by DFSClient_NONMAPREDUCE_-275680896_1
+[aiops-lab-namenode] 2026-10-29 01:03:06,022 INFO hdfs.StateChange: BLOCK* allocate blk_1073741879_1055, replicas=<:IP:> for /lab/w29._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:06,085 INFO hdfs.StateChange: DIR* completeFile: /lab/w29._COPYING_ is closed by DFSClient_NONMAPREDUCE_-393025438_1
+[aiops-lab-namenode] 2026-10-29 01:03:07,260 INFO hdfs.StateChange: BLOCK* allocate blk_1073741880_1056, replicas=<:IP:> for /lab/w30._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:07,314 INFO hdfs.StateChange: DIR* completeFile: /lab/w30._COPYING_ is closed by DFSClient_NONMAPREDUCE_1306877481_1
+[aiops-lab-namenode] 2026-10-29 01:03:10,858 INFO hdfs.StateChange: BLOCK* allocate blk_1073741881_1057, replicas=<:IP:> for /lab/w31._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:10,908 INFO hdfs.StateChange: DIR* completeFile: /lab/w31._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1104681607_1
+[aiops-lab-namenode] 2026-10-29 01:03:12,058 INFO hdfs.StateChange: BLOCK* allocate blk_1073741882_1058, replicas=<:IP:> for /lab/w32._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:12,107 INFO hdfs.StateChange: DIR* completeFile: /lab/w32._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1796698171_1
+[aiops-lab-namenode] 2026-10-29 01:03:13,248 INFO hdfs.StateChange: BLOCK* allocate blk_1073741883_1059, replicas=<:IP:> for /lab/w33._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:13,299 INFO hdfs.StateChange: DIR* completeFile: /lab/w33._COPYING_ is closed by DFSClient_NONMAPREDUCE_1096119523_1
+[aiops-lab-namenode] 2026-10-29 01:03:14,527 INFO hdfs.StateChange: BLOCK* allocate blk_1073741884_1060, replicas=<:IP:> for /lab/w34._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:14,589 INFO hdfs.StateChange: DIR* completeFile: /lab/w34._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1295462253_1
+[aiops-lab-namenode] 2026-10-29 01:03:15,826 INFO hdfs.StateChange: BLOCK* allocate blk_1073741885_1061, replicas=<:IP:> for /lab/w35._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:15,882 INFO hdfs.StateChange: DIR* completeFile: /lab/w35._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1564243171_1
+[aiops-lab-namenode] 2026-10-29 01:03:17,102 INFO hdfs.StateChange: BLOCK* allocate blk_1073741886_1062, replicas=<:IP:> for /lab/w36._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:17,153 INFO hdfs.StateChange: DIR* completeFile: /lab/w36._COPYING_ is closed by DFSClient_NONMAPREDUCE_-904708655_1
+[aiops-lab-namenode] 2026-10-29 01:03:18,308 INFO hdfs.StateChange: BLOCK* allocate blk_1073741887_1063, replicas=<:IP:> for /lab/w37._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:18,356 INFO hdfs.StateChange: DIR* completeFile: /lab/w37._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1940469497_1
+[aiops-lab-namenode] 2026-10-29 01:03:19,492 INFO hdfs.StateChange: BLOCK* allocate blk_1073741888_1064, replicas=<:IP:> for /lab/w38._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:19,544 INFO hdfs.StateChange: DIR* completeFile: /lab/w38._COPYING_ is closed by DFSClient_NONMAPREDUCE_-412123596_1
+[aiops-lab-namenode] 2026-10-29 01:03:20,766 INFO hdfs.StateChange: BLOCK* allocate blk_1073741889_1065, replicas=<:IP:> for /lab/w39._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:20,825 INFO hdfs.StateChange: DIR* completeFile: /lab/w39._COPYING_ is closed by DFSClient_NONMAPREDUCE_-804535643_1
+[aiops-lab-namenode] 2026-10-29 01:03:22,055 INFO hdfs.StateChange: BLOCK* allocate blk_1073741890_1066, replicas=<:IP:> for /lab/w40._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:22,111 INFO hdfs.StateChange: DIR* completeFile: /lab/w40._COPYING_ is closed by DFSClient_NONMAPREDUCE_864352305_1
+[aiops-lab-namenode] 2026-10-29 01:03:23,287 INFO hdfs.StateChange: BLOCK* allocate blk_1073741891_1067, replicas=<:IP:> for /lab/w41._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:23,345 INFO hdfs.StateChange: DIR* completeFile: /lab/w41._COPYING_ is closed by DFSClient_NONMAPREDUCE_1115441062_1
+[aiops-lab-namenode] 2026-10-29 01:03:24,524 INFO hdfs.StateChange: BLOCK* allocate blk_1073741892_1068, replicas=<:IP:> for /lab/w42._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:24,579 INFO hdfs.StateChange: DIR* completeFile: /lab/w42._COPYING_ is closed by DFSClient_NONMAPREDUCE_1355334325_1
+[aiops-lab-namenode] 2026-10-29 01:03:25,774 INFO hdfs.StateChange: BLOCK* allocate blk_1073741893_1069, replicas=<:IP:> for /lab/w43._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:25,828 INFO hdfs.StateChange: DIR* completeFile: /lab/w43._COPYING_ is closed by DFSClient_NONMAPREDUCE_492739522_1
+[aiops-lab-namenode] 2026-10-29 01:03:27,009 INFO hdfs.StateChange: BLOCK* allocate blk_1073741894_1070, replicas=<:IP:> for /lab/w44._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:27,059 INFO hdfs.StateChange: DIR* completeFile: /lab/w44._COPYING_ is closed by DFSClient_NONMAPREDUCE_1592748863_1
+[aiops-lab-namenode] 2026-10-29 01:03:28,294 INFO hdfs.StateChange: BLOCK* allocate blk_1073741895_1071, replicas=<:IP:> for /lab/w45._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:28,348 INFO hdfs.StateChange: DIR* completeFile: /lab/w45._COPYING_ is closed by DFSClient_NONMAPREDUCE_1851392639_1
+[aiops-lab-namenode] 2026-10-29 01:03:29,550 INFO hdfs.StateChange: BLOCK* allocate blk_1073741896_1072, replicas=<:IP:> for /lab/w46._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:29,605 INFO hdfs.StateChange: DIR* completeFile: /lab/w46._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1798209376_1
+[aiops-lab-namenode] 2026-10-29 01:03:30,783 INFO hdfs.StateChange: BLOCK* allocate blk_1073741897_1073, replicas=<:IP:> for /lab/w47._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:30,834 INFO hdfs.StateChange: DIR* completeFile: /lab/w47._COPYING_ is closed by DFSClient_NONMAPREDUCE_928911220_1
+[aiops-lab-namenode] 2026-10-29 01:03:32,125 INFO namenode.FSEditLog: Number of transactions: 473 Total time for transactions(ms): 38 Number of transactions batched in Syncs: 74 Number of syncs: 399 SyncTimes(ms): 1541 
+[aiops-lab-namenode] 2026-10-29 01:03:32,179 INFO hdfs.StateChange: BLOCK* allocate blk_1073741898_1074, replicas=<:IP:> for /lab/w48._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:32,333 INFO namenode.FSNamesystem: BLOCK* blk_1073741898_1074 is COMMITTED but not COMPLETE(numNodes= 0 <  minimum = 1) in file /lab/w48._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:32,754 INFO hdfs.StateChange: DIR* completeFile: /lab/w48._COPYING_ is closed by DFSClient_NONMAPREDUCE_1392667787_1
+[aiops-lab-namenode] 2026-10-29 01:03:35,031 INFO hdfs.StateChange: BLOCK* allocate blk_1073741899_1075, replicas=<:IP:> for /lab/w49._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:35,089 INFO hdfs.StateChange: DIR* completeFile: /lab/w49._COPYING_ is closed by DFSClient_NONMAPREDUCE_1993453247_1
+[aiops-lab-namenode] 2026-10-29 01:03:38,077 INFO hdfs.StateChange: BLOCK* allocate blk_1073741900_1076, replicas=<:IP:> for /lab/w50._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:38,626 INFO hdfs.StateChange: DIR* completeFile: /lab/w50._COPYING_ is closed by DFSClient_NONMAPREDUCE_2040903695_1
+[aiops-lab-namenode] 2026-10-29 01:03:46,663 INFO hdfs.StateChange: BLOCK* allocate blk_1073741901_1077, replicas=<:IP:> for /lab/w51._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:47,060 INFO hdfs.StateChange: DIR* completeFile: /lab/w51._COPYING_ is closed by DFSClient_NONMAPREDUCE_1066518161_1
+[aiops-lab-namenode] 2026-10-29 01:03:51,928 INFO hdfs.StateChange: BLOCK* allocate blk_1073741902_1078, replicas=<:IP:> for /lab/w52._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:52,140 INFO hdfs.StateChange: DIR* completeFile: /lab/w52._COPYING_ is closed by DFSClient_NONMAPREDUCE_1812371472_1
+[aiops-lab-namenode] 2026-10-29 01:03:57,846 INFO hdfs.StateChange: BLOCK* allocate blk_1073741903_1079, replicas=<:IP:> for /lab/w53._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:03:58,286 INFO hdfs.StateChange: DIR* completeFile: /lab/w53._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1687882075_1
+[aiops-lab-namenode] 2026-10-29 01:04:05,689 INFO blockmanagement.BlockPlacementPolicy: Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-29 01:04:05,689 INFO blockmanagement.BlockPlacementPolicy: Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-29 01:04:05,689 WARN blockmanagement.BlockPlacementPolicy: Failed to place enough replicas, still in need of 1 to reach 1 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-29 01:04:05,689 WARN protocol.BlockStoragePolicy: Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=1, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-29 01:04:05,689 WARN blockmanagement.BlockPlacementPolicy: Failed to place enough replicas, still in need of 1 to reach 1 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-29 01:04:05,690 INFO ipc.Server: IPC Server handler 0 on default port 9000, call Call#4 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from localhost:60996 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/w54._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 1 datanode(s) running and 1 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.base/java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at java.base/javax.security.auth.Subject.doAs(Subject.java:423)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-29 01:04:29,022 INFO hdfs.StateChange: BLOCK* registerDatanode: from DatanodeRegistration(<:IP:>, datanodeUuid=787ba465-264e-48e8-b306-28bf2c6b96cf, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995) storage 787ba465-264e-48e8-b306-28bf2c6b96cf
+[aiops-lab-namenode] 2026-10-29 01:04:29,022 INFO namenode.NameNode: BLOCK* registerDatanode: <:IP:>
+[aiops-lab-namenode] 2026-10-29 01:04:29,023 INFO net.NetworkTopology: Removing a node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:04:29,024 INFO net.NetworkTopology: Adding a new node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:04:29,024 INFO blockmanagement.BlockReportLeaseManager: Registered DN 787ba465-264e-48e8-b306-28bf2c6b96cf (<:IP:>).
+[aiops-lab-namenode] 2026-10-29 01:04:29,178 INFO blockmanagement.DatanodeDescriptor: Adding new storage ID DS-a5881fb8-51bc-4874-bb33-9bd176a0dd7e for DN <:IP:>
+[aiops-lab-namenode] 2026-10-29 01:04:29,268 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: Processing first storage report for DS-a5881fb8-51bc-4874-bb33-9bd176a0dd7e from datanode DatanodeRegistration(<:IP:>, datanodeUuid=787ba465-264e-48e8-b306-28bf2c6b96cf, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995)
+[aiops-lab-namenode] 2026-10-29 01:04:29,268 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: from storage DS-a5881fb8-51bc-4874-bb33-9bd176a0dd7e node DatanodeRegistration(<:IP:>, datanodeUuid=787ba465-264e-48e8-b306-28bf2c6b96cf, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995), blocks: 0, hasStaleStorage: false, processing time: 0 msecs, invalidatedBlocks: 0
+[aiops-lab-namenode] 2026-10-29 01:04:44,564 INFO namenode.FSEditLog: Number of transactions: 511 Total time for transactions(ms): 39 Number of transactions batched in Syncs: 82 Number of syncs: 429 SyncTimes(ms): 1696 
+[aiops-lab-namenode] 2026-10-29 01:04:45,190 INFO blockmanagement.BlockPlacementPolicy: Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-29 01:04:45,190 INFO blockmanagement.BlockPlacementPolicy: Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-29 01:04:45,190 WARN blockmanagement.BlockPlacementPolicy: Failed to place enough replicas, still in need of 1 to reach 1 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-29 01:04:45,191 WARN protocol.BlockStoragePolicy: Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=1, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-29 01:04:45,191 WARN blockmanagement.BlockPlacementPolicy: Failed to place enough replicas, still in need of 1 to reach 1 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-29 01:04:45,192 INFO ipc.Server: IPC Server handler 2 on default port 9000, call Call#4 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from localhost:34346 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/enospc._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 1 datanode(s) running and 1 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.base/java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at java.base/javax.security.auth.Subject.doAs(Subject.java:423)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-29 01:05:05,007 INFO hdfs.StateChange: BLOCK* registerDatanode: from DatanodeRegistration(<:IP:>, datanodeUuid=aa8320a1-61f8-4e4c-babd-08593208d8bc, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995) storage aa8320a1-61f8-4e4c-babd-08593208d8bc
+[aiops-lab-namenode] 2026-10-29 01:05:05,007 INFO namenode.NameNode: BLOCK* registerDatanode: <:IP:>
+[aiops-lab-namenode] 2026-10-29 01:05:05,008 INFO net.NetworkTopology: Removing a node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:05:05,008 INFO net.NetworkTopology: Adding a new node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:05:05,008 INFO blockmanagement.BlockReportLeaseManager: Registered DN aa8320a1-61f8-4e4c-babd-08593208d8bc (<:IP:>).
+[aiops-lab-namenode] 2026-10-29 01:05:05,096 INFO blockmanagement.DatanodeDescriptor: Adding new storage ID DS-a6e46688-bb5e-41cf-8cb2-e22f208b7260 for DN <:IP:>
+[aiops-lab-namenode] 2026-10-29 01:05:05,161 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: Processing first storage report for DS-a6e46688-bb5e-41cf-8cb2-e22f208b7260 from datanode DatanodeRegistration(<:IP:>, datanodeUuid=aa8320a1-61f8-4e4c-babd-08593208d8bc, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995)
+[aiops-lab-namenode] 2026-10-29 01:05:05,161 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: from storage DS-a6e46688-bb5e-41cf-8cb2-e22f208b7260 node DatanodeRegistration(<:IP:>, datanodeUuid=aa8320a1-61f8-4e4c-babd-08593208d8bc, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995), blocks: 0, hasStaleStorage: false, processing time: 0 msecs, invalidatedBlocks: 0
+[aiops-lab-namenode] 2026-10-29 01:05:19,982 INFO hdfs.StateChange: BLOCK* allocate blk_1073741904_1080, replicas=<:IP:> for /lab/ro._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:05:20,635 INFO namenode.FSNamesystem: BLOCK* blk_1073741904_1080 is COMMITTED but not COMPLETE(numNodes= 0 <  minimum = 1) in file /lab/ro._COPYING_
+[aiops-lab-namenode] 2026-10-29 01:05:21,043 INFO hdfs.StateChange: DIR* completeFile: /lab/ro._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1026696112_1
+[aiops-lab-namenode] 2026-10-29 01:12:14,525 INFO hdfs.StateChange: BLOCK* registerDatanode: from DatanodeRegistration(<:IP:>, datanodeUuid=aa8320a1-61f8-4e4c-babd-08593208d8bc, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995) storage aa8320a1-61f8-4e4c-babd-08593208d8bc
+[aiops-lab-namenode] 2026-10-29 01:12:14,525 INFO net.NetworkTopology: Removing a node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:12:14,526 INFO net.NetworkTopology: Adding a new node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:12:14,576 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: Processing first storage report for DS-a6e46688-bb5e-41cf-8cb2-e22f208b7260 from datanode DatanodeRegistration(<:IP:>, datanodeUuid=aa8320a1-61f8-4e4c-babd-08593208d8bc, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995)
+[aiops-lab-namenode] 2026-10-29 01:12:14,577 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: from storage DS-a6e46688-bb5e-41cf-8cb2-e22f208b7260 node DatanodeRegistration(<:IP:>, datanodeUuid=aa8320a1-61f8-4e4c-babd-08593208d8bc, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995), blocks: 1, hasStaleStorage: false, processing time: 1 msecs, invalidatedBlocks: 0
+[aiops-lab-namenode] 2026-10-29 01:13:07,230 INFO hdfs.StateChange: BLOCK* registerDatanode: from DatanodeRegistration(<:IP:>, datanodeUuid=aa8320a1-61f8-4e4c-babd-08593208d8bc, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995) storage aa8320a1-61f8-4e4c-babd-08593208d8bc
+[aiops-lab-namenode] 2026-10-29 01:13:07,231 INFO net.NetworkTopology: Removing a node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:13:07,231 INFO net.NetworkTopology: Adding a new node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-29 01:13:07,270 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: Processing first storage report for DS-a6e46688-bb5e-41cf-8cb2-e22f208b7260 from datanode DatanodeRegistration(<:IP:>, datanodeUuid=aa8320a1-61f8-4e4c-babd-08593208d8bc, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995)
+[aiops-lab-namenode] 2026-10-29 01:13:07,270 INFO BlockStateChange: BLOCK* processReport <:HEX:> with lease ID <:HEX:>: from storage DS-a6e46688-bb5e-41cf-8cb2-e22f208b7260 node DatanodeRegistration(<:IP:>, datanodeUuid=aa8320a1-61f8-4e4c-babd-08593208d8bc, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995), blocks: 1, hasStaleStorage: false, processing time: 0 msecs, invalidatedBlocks: 0
+[aiops-lab-namenode] 2026-10-29 01:37:13,443 INFO hdfs.StateChange: BLOCK* removeDeadDatanode: lost heartbeat from <:IP:>, removeBlocksFromBlockMap true
+[aiops-lab-namenode] 2026-10-29 01:37:13,454 INFO net.NetworkTopology: Removing a node: /default-rack/<:IP:>
