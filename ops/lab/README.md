@@ -47,19 +47,12 @@ evidence/tickets/*.md          # 中性值班记录（不含故障类型）
 | `DN_HEARTBEAT` | aiops-lab-dn2 | `docker kill` | `Lost DataNode` / heartbeat | `docker start` |
 | `NN_SAFE_MODE` | aiops-lab-namenode | `hdfs dfsadmin -safemode enter` | `Safe mode is ON` | `-safemode leave` |
 
-## 卷满：loop 设备（已实测）
+## 卷满：已迁移到 WSL
 
-dn1 以 `privileged: true` 运行，由 `lab-init` 创建 64MB ext4 镜像，启动脚本 `start-datanode-loop.sh` 负责 `losetup` + `mount`。
+Docker Desktop 的 loop 在反复挂载后不可用（`losetup` 返回 rc=1），相关脚本与 mkfs 镜像已移除。卷故障实验改用 **WSL 单机 Hadoop**：
 
-实测结论（2026-10-29）：
-
-- 默认 128MB 块在 50MB 可用空间上会被 NameNode 直接拒绝（`chooseTarget4NewBlock`），必须显式调小块：`-Ddfs.blocksize=4M`；
-- 写满后 DN 日志出现真实证据：`DiskChecker$DiskOutOfSpaceException: Out of space: The volume with the most available space (=1889280 B) is less than the block size (=4194304 B)`；
-- `df` 从 1% 涨到 97%，证明数据确实落在 dn1 的 loop 卷上。
-
-> 自动化说明：当前 loop 镜像由 `lab-init` 创建，dn1 重启只做挂载；要在 harness 里批量跑卷满，还需要一个含 `e2fsprogs` 的自定义 DataNode 镜像（每例重建卷），本轮未完成。
->
-> 2026-10-29 复测：Docker Desktop VM 重启后，Hadoop 镜像内 `losetup` / `mount -o loop` 均返回 rc=1 且无错误输出，loop 基础设施在该 VM 上已不可用。因此 `compose.yaml` 默认回退 tmpfs；`bin/start-datanode-loop.sh` 与 `mkfs/Dockerfile` 作为可选资产保留，建议在真实 Linux 主机使用。
+- 安装与脚本：[wsl/](wsl/)
+- 只读卷注入证据：[documentation/results/wsl_volume/readonly_evidence.txt](../../documentation/results/wsl_volume/readonly_evidence.txt)
 
 ## 设计约束
 

@@ -1,0 +1,6 @@
+--- mount ---
+/dev/loop3 on /mnt/labvol type ext4 (ro,relatime)
+--- dn failure ---
+org.apache.hadoop.util.DiskChecker$DiskErrorException: Too many failed volumes - current valid volumes: 0, volumes configured: 1, volumes failed: 1, volume failures tolerated: 0
+	at org.apache.hadoop.hdfs.server.datanode.checker.StorageLocationChecker.check(StorageLocationChecker.java:233)
+	at org.apache.hadoop.hdfs.server.datanode.DataNode.makeInstance(DataNode.java:3141)

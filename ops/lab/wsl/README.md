@@ -35,3 +35,20 @@ bash ops/lab/wsl/experiment_volume.sh <输出目录>
 1. 用 `dfs.datanode.du.reserved` 让 DN 自报"剩余不足"，触发 DN 侧检查；
 2. 停 DN 后把 loop 卷 remount 成只读，再启动 DN，制造真实卷故障；
 3. 用 `dmsetup` error target 模拟 IO 错误（需要 device-mapper）。
+
+## 卷故障：只读 remount（已验证，推荐）
+
+```bash
+bash ops/lab/wsl/readonly_volume.sh <输出目录>
+```
+
+流程：停 DataNode → 把 loop 卷 remount 成 `ro` → 启动 DataNode → 采集失败日志 → remount `rw` 并重启 DataNode。
+
+实测结果：
+
+- DataNode 启动即失败，日志记录：
+  `DiskChecker$DiskErrorException: Too many failed volumes - current valid volumes: 0, volumes configured: 1, volumes failed: 1`
+- 恢复后 `Live datanodes (1)` 正常；
+- 证据文件：`documentation/results/wsl_volume/readonly_evidence.txt`。
+
+这条路径不依赖 ENOSPC，适合作为 `DN_VOLUME` 的稳定注入方式。
