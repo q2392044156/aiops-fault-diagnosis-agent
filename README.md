@@ -197,7 +197,7 @@ python ops/scripts/evaluate_incidents.py --database runtime/lab/mvp.sqlite3 --ca
 docker compose -f ops/lab/compose.yaml down -v
 ```
 
-**真实集群 81 例**（28 卷满 + 27 心跳丢失 + 26 安全模式）：严格代码级 **Top-1 50.6%**（95% CI [0.40, 0.61]），Top-3 76.5%，MRR 0.63，MTTD 46.6s；冻结测试集 n=30，Top-1 46.7%（CI [0.30, 0.64]）。分族：安全模式 26/26、心跳 14/27、卷满 1/28。**注意：此前 85.4% 是组件级口径（码不对但组件对也算中），不能当作代码级成绩。** 其中卷满与心跳在当前 Docker Desktop 下被判定为"环境不支持"（见报告 5.1），安全模式 26/26 是唯一稳定链路。详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
+**真实集群 81 例**（28 卷满 + 27 心跳丢失 + 26 安全模式）：严格代码级 **Top-1 50.6%**（95% CI [0.40, 0.61]），Top-3 76.5%，MRR 0.63，MTTD 46.6s；冻结测试集 n=30，Top-1 46.7%（CI [0.30, 0.64]）。分族：安全模式 26/26、心跳 14/27、卷满 1/28。**注意：此前 85.4% 是组件级口径（码不对但组件对也算中），不能当作代码级成绩。** Docker Desktop 下卷满/心跳被判定为"环境不支持"；**WSL 单机 Hadoop 已补上卷故障**：只读 remount 注入，5/5 命中 `DN_VOLUME`、Top-1 100%（CI [0.57, 1.0]），见 [WSL 实验台](ops/lab/wsl/README.md)。详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
 
 ## 项目结构
 

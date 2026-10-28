@@ -113,7 +113,7 @@ class OfflineClient:
 
 
 # 方法说明：_parse 把容器日志转换为平台日志行。
-def _parse(text, session_id):
+def _parse(text, session_id, fallback=None):
     rows, total = [], 0
     for line in text.splitlines():
         total += 1
@@ -127,7 +127,12 @@ def _parse(text, session_id):
             rest = match.group("rest")
             component, _, message = rest.partition(":")
         else:
-            host, stamp, level, component, message = "lab", None, "INFO", "lab", line
+            prefix = re.match(r"^\[([^\]]+)\]\s*(.*)$", line)
+            host = prefix.group(1) if prefix else "lab"
+            content = prefix.group(2) if prefix else line
+            stamp = fallback
+            level = "ERROR" if ("Exception" in content or "ERROR" in content) else "INFO"
+            component, message = "lab", content
         if "namenode" in host:
             component = "NameNode"
         elif "dn" in host or "datanode" in host:
@@ -147,7 +152,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
     session_id = "ses_" + key([case_id, tag])[:20]
-    rows, total = _parse(text, session_id)
+    rows, total = _parse(text, session_id, start)
 
     database = Database(database_path)
     database.init()

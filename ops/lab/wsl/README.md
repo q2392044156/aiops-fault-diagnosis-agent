@@ -52,3 +52,24 @@ bash ops/lab/wsl/readonly_volume.sh <输出目录>
 - 证据文件：`documentation/results/wsl_volume/readonly_evidence.txt`。
 
 这条路径不依赖 ENOSPC，适合作为 `DN_VOLUME` 的稳定注入方式。
+
+## 端到端实验（已验证 5/5）
+
+```bash
+python ops/lab/wsl/run_case.py --database runtime/lab/wsl.sqlite3
+```
+
+流程：停 DN → remount `ro` → 启 DN（失败）→ 采日志 → 恢复 `rw` → 重启 DN → 生成 incident → 接入诊断 → 回填 map。
+
+2026-10-29 实测 5 例：
+
+| 指标 | 值 |
+| --- | --- |
+| 事件数 / 有报告 | 5 / 5 |
+| Top-1 | **1.0** |
+| Top-3 | 1.0 |
+| MRR | 1.0 |
+| Top-1 95% CI | [0.5655, 1.0] |
+| 恢复 | 5/5 `Live datanodes (1)` |
+
+关键修复：容器/WSL 日志里没有时间戳的行（如 `DiskErrorException`）此前会被排到末尾并截断；现在用 incident 的 `fault_start` 兜底，保证关键行进入证据。

@@ -1,15 +1,15 @@
 {
   "summary": {
-    "incidents": 1,
-    "eligible": 1,
-    "diagnosed": 1,
-    "top1": 0.0,
+    "incidents": 5,
+    "eligible": 5,
+    "diagnosed": 5,
+    "top1": 1.0,
     "top3": 1.0,
-    "mrr": 0.5,
-    "mttd_seconds": 40.2,
+    "mrr": 1.0,
+    "mttd_seconds": "N/A",
     "top1_ci95": [
-      0.0,
-      0.7935
+      0.5655,
+      1.0
     ],
     "excluded": 0,
     "exclusion_reasons": {},
@@ -21,15 +21,63 @@
   },
   "rows": [
     {
-      "incident_id": "inc_lab_dn_volume_20261028154028_35f5",
+      "incident_id": "inc_wsl_volume_20261028172557_b263",
       "expected": "DataNode",
-      "rank": 2,
+      "rank": 1,
       "matched_by": "code",
       "split": "train",
-      "top1": false,
+      "top1": true,
       "top3": true,
-      "mrr": 0.5,
-      "mttd_seconds": 40.174336,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261028172753_163c",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "train",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261028172759_14c3",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "train",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261028172805_892b",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "train",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261028172811_4591",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "train",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
       "diagnosed": true
     }
   ],
