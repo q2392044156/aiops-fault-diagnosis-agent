@@ -8,6 +8,8 @@
 
 测试可依赖所有业务模块，生产代码不得反向依赖测试。
 
+部分用例依赖本地发布制品（`artifacts/releases`）与 PyTorch：缺失时由 `conftest.py` 自动跳过，CI 中显示为 skipped，本地构建制品后会自动执行。
+
 ## Python 文件说明
 
 | 文件 | 主要功能 | 主要类或函数 |
