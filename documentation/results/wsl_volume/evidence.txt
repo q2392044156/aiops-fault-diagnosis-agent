@@ -1,0 +1,7 @@
+fault_start=2026-10-28T17:02:25Z
+fault_end=2026-10-28T17:04:06Z
+result=failed at block 54
+--- df ---
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/loop3       56M   54M  992K  99% /mnt/labvol
+--- dn enospc ---
