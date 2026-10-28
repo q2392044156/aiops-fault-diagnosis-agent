@@ -31,8 +31,15 @@ def _wilson(successes, total):
     return [round(max(0.0, centre - half), 4), round(min(1.0, centre + half), 4)]
 
 
-# 方法说明：_split 按事件 ID 哈希稳定划分 20% 测试集。
+# 变量说明：SPLIT_FILE 是冻结测试集清单，存在时优先于哈希规则。
+SPLIT_FILE = ROOT / "resources/evaluation/lab/frozen_split.json"
+
+
+# 方法说明：_split 优先读取冻结清单，否则按事件 ID 哈希稳定划分 20%。
 def _split(incident_id, fraction=0.2):
+    if SPLIT_FILE.is_file():
+        data = json.loads(SPLIT_FILE.read_text(encoding="utf-8"))
+        return "test" if incident_id in data.get("test", []) else "train"
     bucket = int(hashlib.sha256(incident_id.encode("utf-8")).hexdigest(), 16) % 100
     return "test" if bucket < fraction * 100 else "train"
 
@@ -58,12 +65,14 @@ def _report(database, mapping):
     return json.loads(row["report_json"]) if row else None
 
 
-# 方法说明：_rank 返回期望组件在候选列表中的名次，未出现为 None。
+# 方法说明：_rank 优先按根因码排名；有码但全不匹配时不回退组件。
 def _rank(hypotheses, code, component):
-    if code:
+    codes = [item.get("root_cause_code") for item in hypotheses]
+    if code and any(codes):
         for index, item in enumerate(hypotheses, 1):
             if (item.get("root_cause_code") or "").upper() == code.upper():
                 return index, "code"
+        return None, None
     for index, item in enumerate(hypotheses, 1):
         if (item.get("component") or "").lower() == (component or "").lower():
             return index, "component"

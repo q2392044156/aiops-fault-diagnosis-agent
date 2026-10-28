@@ -58,6 +58,17 @@ class CardRetriever:
                        [str(item).lower() for item in card["component"]]]
             if matched:
                 pool = matched
+        signals = {"DN_VOLUME": ("no space left", "volume failed", "disk full"),
+                   "DN_HEARTBEAT": ("lost heartbeat", "dead datanode", "removedead"),
+                   "NN_SAFE_MODE": ("safe mode",)}
+        lowered = (query or "").lower()
+        codes = [code for code, words in signals.items()
+                 if code.lower() in lowered
+                 or any(word in lowered for word in words)]
+        if codes:
+            narrowed = [card for card in pool if card.get("root_cause_code") in codes]
+            if narrowed:
+                pool = narrowed
         synonyms = {"heartbeat": ("心跳",), "dead": ("心跳", "失效"),
                     "volume": ("卷", "磁盘"), "space": ("空间",), "disk": ("磁盘",)}
         phrases = {"safe mode": 6, "no space left": 6, "volume failed": 4,

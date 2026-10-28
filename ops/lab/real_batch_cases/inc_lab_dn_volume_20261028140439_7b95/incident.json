@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "incident_id": "inc_lab_dn_volume_20261028140439_7b95",
+  "cluster_alias": "cluster_lab_a1",
+  "product_version": "3.3.6",
+  "fault_family": "dn_volume",
+  "authorization": {
+    "authorization_id": "auth_lab_001",
+    "approved_at": "2026-10-28T13:05:42.527202Z",
+    "retention_until": "2026-11-27T14:05:42.527202Z",
+    "deletion_contact": "lab@example.invalid"
+  },
+  "timestamps": {
+    "fault_start": "2026-10-28T14:04:51.559386Z",
+    "first_observable_signal": "2026-10-28T14:05:16.253486Z",
+    "agent_detected": "2026-10-28T14:05:41.365221Z",
+    "human_confirmed": "2026-10-28T14:05:51.270260Z",
+    "recovered": "2026-10-28T14:05:41.270260Z",
+    "timezone_source": "Asia/Shanghai (lab-ntp)"
+  },
+  "diagnosis_snapshot": {
+    "cutoff_time": "2026-10-28T14:05:03.559386Z",
+    "log_refs": [
+      {
+        "ref_id": "log_inc_lab_dn_volume_20261028140439_7b95",
+        "content_sha256": "0e930d4e1864319a8c54e7cdd62febfc24ed1fcfc327ecb18c4f34e76107aaf4",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-10-28T14:05:03.559386Z"
+      }
+    ],
+    "metric_refs": [
+      {
+        "ref_id": "metrics_inc_lab_dn_volume_20261028140439_7b95",
+        "content_sha256": "dcc6110db85072eecae59304ee045f5c7b15077ecc4f104ced890253c562b27b",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-10-28T14:05:03.559386Z"
+      }
+    ],
+    "ticket_refs": [
+      {
+        "ref_id": "ticket_inc_lab_dn_volume_20261028140439_7b95",
+        "content_sha256": "1476607b784d89bafdf7ede7857f7e8d2d225dee16e666f4fa915f7e7fe4fbd9",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-10-28T14:05:03.559386Z"
+      }
+    ]
+  },
+  "labels": {
+    "root_cause_code": "DN_VOLUME",
+    "confidence": "confirmed",
+    "review_status": "reviewed",
+    "evidence_refs": [
+      "log_inc_lab_dn_volume_20261028140439_7b95",
+      "metrics_inc_lab_dn_volume_20261028140439_7b95"
+    ],
+    "creator_id": "lab-harness",
+    "reviewer_id": "lab-reviewer",
+    "adjudicator_id": null
+  }
+}

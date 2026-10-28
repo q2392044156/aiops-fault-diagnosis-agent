@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "incident_id": "inc_lab_nn_safe_mode_20261028143400_1fd7",
+  "cluster_alias": "cluster_lab_a1",
+  "product_version": "3.3.6",
+  "fault_family": "nn_safe_mode",
+  "authorization": {
+    "authorization_id": "auth_lab_001",
+    "approved_at": "2026-10-28T13:34:45.636120Z",
+    "retention_until": "2026-11-27T14:34:45.636120Z",
+    "deletion_contact": "lab@example.invalid"
+  },
+  "timestamps": {
+    "fault_start": "2026-10-28T14:34:10.491286Z",
+    "first_observable_signal": "2026-10-28T14:34:17.638323Z",
+    "agent_detected": "2026-10-28T14:34:44.465642Z",
+    "human_confirmed": "2026-10-28T14:34:54.368835Z",
+    "recovered": "2026-10-28T14:34:44.368835Z",
+    "timezone_source": "Asia/Shanghai (lab-ntp)"
+  },
+  "diagnosis_snapshot": {
+    "cutoff_time": "2026-10-28T14:34:22.491286Z",
+    "log_refs": [
+      {
+        "ref_id": "log_inc_lab_nn_safe_mode_20261028143400_1fd7",
+        "content_sha256": "7b359b799bde0e70c302d44fdb6a3c2cdddc01c3be5f19fb4c1df7de557f21e3",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-10-28T14:34:22.491286Z"
+      }
+    ],
+    "metric_refs": [
+      {
+        "ref_id": "metrics_inc_lab_nn_safe_mode_20261028143400_1fd7",
+        "content_sha256": "2e511e1175348776b301f86336c1b8ad0510bac00a8bc9f9419c4a115754fbac",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-10-28T14:34:22.491286Z"
+      }
+    ],
+    "ticket_refs": [
+      {
+        "ref_id": "ticket_inc_lab_nn_safe_mode_20261028143400_1fd7",
+        "content_sha256": "1476607b784d89bafdf7ede7857f7e8d2d225dee16e666f4fa915f7e7fe4fbd9",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-10-28T14:34:22.491286Z"
+      }
+    ]
+  },
+  "labels": {
+    "root_cause_code": "NN_SAFE_MODE",
+    "confidence": "confirmed",
+    "review_status": "reviewed",
+    "evidence_refs": [
+      "log_inc_lab_nn_safe_mode_20261028143400_1fd7",
+      "metrics_inc_lab_nn_safe_mode_20261028143400_1fd7"
+    ],
+    "creator_id": "lab-harness",
+    "reviewer_id": "lab-reviewer",
+    "adjudicator_id": null
+  }
+}

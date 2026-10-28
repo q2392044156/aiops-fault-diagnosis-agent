@@ -1,0 +1,97 @@
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_102._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_102._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_102._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_105._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  Server:3102 - IPC Server handler 1 on default port 9000, call Call#3 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:54146 / <:IP:>: java.io.FileNotFoundException: File does not exist: /lab/lab_write_102._COPYING_ (inode 17864) Holder DFSClient_NONMAPREDUCE_-707023467_1 does not have any open files.
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  StateChange:802 - BLOCK* allocate blk_1073743370_2548, replicas=<:IP:>, <:IP:> for /lab/lab_write_102._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_105._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_102._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_102._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_102._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_71	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  StateChange:802 - BLOCK* allocate blk_1073743371_2549, replicas=<:IP:>, <:IP:> for /lab/lab_write_105._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  Server:3102 - IPC Server handler 7 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.complete from namenode:54178 / <:IP:>: java.io.FileNotFoundException: File does not exist: /lab/lab_write_102._COPYING_ (inode 17865) Holder DFSClient_NONMAPREDUCE_-943568465_1 does not have any open files.
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_94	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_102._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_71._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_71._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_77	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_105._COPYING_ is closed by DFSClient_NONMAPREDUCE_495831723_1
+[aiops-lab-namenode] 2026-10-28 14:29:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_105._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_105	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  StateChange:802 - BLOCK* allocate blk_1073743372_2550, replicas=<:IP:>, <:IP:> for /lab/lab_write_71._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_105._COPYING_	dst=/lab/lab_write_105	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_94._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_77._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_94._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_79	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  StateChange:802 - BLOCK* allocate blk_1073743373_2551, replicas=<:IP:>, <:IP:> for /lab/lab_write_94._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:29:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_77._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_71._COPYING_ is closed by DFSClient_NONMAPREDUCE_1934004028_1
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_106	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_79._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_71._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_71	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_71._COPYING_	dst=/lab/lab_write_71	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_94._COPYING_ is closed by DFSClient_NONMAPREDUCE_895695544_1
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_79._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_94._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:51 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:29:51 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:29:51 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  StateChange:802 - BLOCK* allocate blk_1073743374_2552, replicas=<:IP:> for /lab/lab_write_77._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_94	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_94._COPYING_	dst=/lab/lab_write_94	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:51 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:29:51 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:29:51 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  StateChange:802 - BLOCK* allocate blk_1073743375_2553, replicas=<:IP:> for /lab/lab_write_79._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_106._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_106._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_77._COPYING_ is closed by DFSClient_NONMAPREDUCE_2109031977_1
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_77._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  StateChange:802 - BLOCK* allocate blk_1073743376_2554, replicas=<:IP:>, <:IP:> for /lab/lab_write_106._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_77	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_77._COPYING_	dst=/lab/lab_write_77	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_79._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1571433257_1
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_79._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_106._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1879379911_1
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_79	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_79._COPYING_	dst=/lab/lab_write_79	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_106._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_106	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_106._COPYING_	dst=/lab/lab_write_106	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:53 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:53 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:29:56 INFO  StateChange:5088 - STATE* Safe mode is ON.
+[aiops-lab-namenode] It was turned on manually. Use "hdfs dfsadmin -safemode leave" to turn safe mode off.
+[aiops-lab-namenode] 2026-10-28 14:29:56 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=safemode_enter	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:57 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_82	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:57 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_87	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_82._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:58 INFO  Server:3102 - IPC Server handler 5 on default port 9000, call Call#2 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.create from namenode:47320 / <:IP:>: org.apache.hadoop.hdfs.server.namenode.SafeModeException: Cannot create file/lab/lab_write_82._COPYING_. Name node is in safe mode.
+[aiops-lab-namenode] It was turned on manually. Use "hdfs dfsadmin -safemode leave" to turn safe mode off. NamenodeHostName:namenode
+[aiops-lab-namenode] 2026-10-28 14:29:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_82._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_87._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:58 INFO  Server:3102 - IPC Server handler 3 on default port 9000, call Call#2 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.create from namenode:47324 / <:IP:>: org.apache.hadoop.hdfs.server.namenode.SafeModeException: Cannot create file/lab/lab_write_87._COPYING_. Name node is in safe mode.
+[aiops-lab-namenode] It was turned on manually. Use "hdfs dfsadmin -safemode leave" to turn safe mode off. NamenodeHostName:namenode
+[aiops-lab-namenode] 2026-10-28 14:29:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_87._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_103	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_103	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_103._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_103._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:29:59 INFO  Server:3102 - IPC Server handler 4 on default port 9000, call Call#2 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.create from namenode:47348 / <:IP:>: org.apache.hadoop.hdfs.server.namenode.SafeModeException: Cannot create file/lab/lab_write_103._COPYING_. Name node is in safe mode.
+[aiops-lab-namenode] It was turned on manually. Use "hdfs dfsadmin -safemode leave" to turn safe mode off. NamenodeHostName:namenode
+[aiops-lab-namenode] 2026-10-28 14:29:59 INFO  Server:3102 - IPC Server handler 1 on default port 9000, call Call#2 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.create from namenode:47338 / <:IP:>: org.apache.hadoop.hdfs.server.namenode.SafeModeException: Cannot create file/lab/lab_write_103._COPYING_. Name node is in safe mode.
+[aiops-lab-namenode] It was turned on manually. Use "hdfs dfsadmin -safemode leave" to turn safe mode off. NamenodeHostName:namenode
+[aiops-lab-namenode] 2026-10-28 14:30:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_103._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:30:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_103._COPYING_	dst=null	perm=null	proto=rpc

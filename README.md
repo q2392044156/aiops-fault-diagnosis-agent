@@ -197,7 +197,7 @@ python ops/scripts/evaluate_incidents.py --database runtime/lab/mvp.sqlite3 --ca
 docker compose -f ops/lab/compose.yaml down -v
 ```
 
-**真实集群 41 例**（14 卷满 + 14 心跳丢失 + 13 安全模式）：**Top-1 85.4%、Top-3 100%、MRR 0.90、MTTD 40s**，Top-1 95% CI [0.72, 0.93]；按 SHA-256 冻结的 20% 测试集（n=7）Top-1 85.7%。分族：心跳 14/14、安全模式 13/13、卷满 8/14。根因是代码级（`DN_VOLUME` / `NN_SAFE_MODE`）。详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
+**真实集群 81 例**（28 卷满 + 27 心跳丢失 + 26 安全模式）：严格代码级 **Top-1 50.6%**（95% CI [0.40, 0.61]），Top-3 60.5%，MRR 0.54，MTTD 46.6s；冻结测试集 n=17，Top-1 52.9%。分族：安全模式 26/26、心跳 14/27、卷满 1/28。**注意：此前 85.4% 是组件级口径（码不对但组件对也算中），不能当作代码级成绩。**详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
 
 ## 项目结构
 

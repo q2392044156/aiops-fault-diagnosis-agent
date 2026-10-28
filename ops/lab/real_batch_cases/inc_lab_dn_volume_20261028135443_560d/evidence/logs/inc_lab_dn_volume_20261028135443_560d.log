@@ -1,0 +1,48 @@
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  FsDatasetImpl:425 - Time taken to scan block pool BP-1466232043-<:IP:>-1793195574475 on <:PATH:>: 151ms
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  FsDatasetImpl:445 - Total time to scan all replicas for block pool BP-1466232043-<:IP:>-1793195574475: 162ms
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  FsDatasetImpl:213 - Adding replicas to map for block pool BP-1466232043-<:IP:>-1793195574475 on volume <:PATH:>
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  BlockPoolSlice:958 - Replica Cache file: <:PATH:><:IP:>-1793195574475/current/replicas doesn't exist 
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  FsDatasetImpl:218 - Time to add replicas to map for block pool BP-1466232043-<:IP:>-1793195574475 on volume <:PATH:>: 8ms
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  FsDatasetImpl:239 - Total time to add all replicas to map for block pool BP-1466232043-<:IP:>-1793195574475: 12ms
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  ThrottledAsyncChecker:137 - Scheduling a check for <:PATH:>
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  DatasetVolumeChecker:224 - Scheduled health check for volume <:PATH:>
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  VolumeScanner:385 - Now scanning bpid BP-1466232043-<:IP:>-1793195574475 on volume <:PATH:>
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  VolumeScanner:505 - VolumeScanner(<:PATH:>, DS-4045a98e-d8ee-493c-8b6d-8ed3476384e4): finished scanning block pool BP-1466232043-<:IP:>-1793195574475
+[aiops-lab-dn1] 2026-10-28 13:54:00 WARN  DirectoryScanner:301 - dfs.datanode.directoryscan.throttle.limit.ms.per.sec set to value above 1000 ms/sec. Assuming default value of -1
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  DirectoryScanner:330 - Periodic Directory Tree Verification scan starting in 12989729ms with interval of 21600000ms and throttle limit of -1ms/s
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  DataNode:825 - Block pool BP-1466232043-<:IP:>-1793195574475 (Datanode Uuid 85d5db2c-ef39-4e5e-af7c-651f3dbfc0a0) service to namenode/<:IP:> beginning handshake with NN
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  VolumeScanner:402 - VolumeScanner(<:PATH:>, DS-4045a98e-d8ee-493c-8b6d-8ed3476384e4): no suitable block pools found to scan.  Waiting 1814399760 ms.
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  DataNode:853 - Block pool BP-1466232043-<:IP:>-1793195574475 (Datanode Uuid 85d5db2c-ef39-4e5e-af7c-651f3dbfc0a0) service to namenode/<:IP:> successfully registered with NN
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  DataNode:674 - For namenode namenode/<:IP:> using BLOCKREPORT_INTERVAL of 21600000msecs CACHEREPORT_INTERVAL of 10000msecs Initial delay: 0msecs; heartBeatInterval=2000
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  DataNode:1154 - Starting IBR Task Handler.
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  DataNode:736 - After receiving heartbeat response, updating state of namenode namenode:9000 to active
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  DataNode:456 - Successfully sent block report <:HEX:> with lease ID <:HEX:> to namenode: namenode/<:IP:>,  containing 1 storage report(s), of which we sent 1. The reports had 0 total blocks and used 1 RPC(s). This took 13 msecs to generate and 45 msecs for RPC and NN processing. Got back one command: FinalizeCommand/5.
+[aiops-lab-dn1] 2026-10-28 13:54:00 INFO  DataNode:768 - Got finalize command for block pool BP-1466232043-<:IP:>-1793195574475
+[aiops-lab-namenode] 2026-10-28 13:54:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_13	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_13._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_13._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:53 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 13:54:53 INFO  StateChange:802 - BLOCK* allocate blk_1073741837_1013, replicas=<:IP:>, <:IP:> for /lab/lab_write_13._COPYING_
+[aiops-lab-namenode] 2026-10-28 13:54:53 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_13._COPYING_ is closed by DFSClient_NONMAPREDUCE_2094858361_1
+[aiops-lab-namenode] 2026-10-28 13:54:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_13._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_13._COPYING_	dst=/lab/lab_write_13	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_1	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_1._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_1._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:54:59 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 13:54:59 INFO  StateChange:802 - BLOCK* allocate blk_1073741838_1014, replicas=<:IP:>, <:IP:> for /lab/lab_write_1._COPYING_
+[aiops-lab-namenode] 2026-10-28 13:54:59 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_1._COPYING_ is closed by DFSClient_NONMAPREDUCE_-963289842_1
+[aiops-lab-namenode] 2026-10-28 13:54:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_1._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:55:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_14	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:55:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_1	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:55:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:55:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_1._COPYING_	dst=/lab/lab_write_1	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:55:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_14._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:55:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_14._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:55:00 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 13:55:00 INFO  StateChange:802 - BLOCK* allocate blk_1073741839_1015, replicas=<:IP:>, <:IP:> for /lab/lab_write_14._COPYING_
+[aiops-lab-namenode] 2026-10-28 13:55:01 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_14._COPYING_ is closed by DFSClient_NONMAPREDUCE_-2069091235_1
+[aiops-lab-namenode] 2026-10-28 13:55:01 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_14._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 13:55:01 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_14._COPYING_	dst=/lab/lab_write_14	perm=root:supergroup:rw-r--r--	proto=rpc

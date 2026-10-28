@@ -6,7 +6,7 @@
     "top1": 1.0,
     "top3": 1.0,
     "mrr": 1.0,
-    "mttd_seconds": 54.8,
+    "mttd_seconds": 37.1,
     "top1_ci95": [
       0.2065,
       1.0
@@ -21,7 +21,7 @@
   },
   "rows": [
     {
-      "incident_id": "inc_lab_dn_heartbeat_20261028125117_4d41",
+      "incident_id": "inc_lab_dn_volume_20261028135245_286d",
       "expected": "DataNode",
       "rank": 1,
       "matched_by": "component",
@@ -29,7 +29,7 @@
       "top1": true,
       "top3": true,
       "mrr": 1.0,
-      "mttd_seconds": 54.77057,
+      "mttd_seconds": 37.126846,
       "diagnosed": true
     }
   ],

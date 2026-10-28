@@ -1,0 +1,866 @@
+[aiops-lab-dn2] 2026-10-28 14:14:45 INFO  DataNode:750 - Receiving BP-1466232043-<:IP:>-1793195574475:blk_1073742644_1821 src: /<:IP:> dest: /<:IP:>
+[aiops-lab-dn2] 2026-10-28 14:14:46 INFO  clienttrace:1550 - src: /<:IP:>, dest: /<:IP:>, bytes: 4194304, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-70050841_1, offset: 0, srvID: f09829e8-787b-4eae-b497-4255e1ce304f, blockid: BP-1466232043-<:IP:>-1793195574475:blk_1073742644_1821, duration(ns): 264827527
+[aiops-lab-dn2] 2026-10-28 14:14:46 INFO  DataNode:1523 - PacketResponder: BP-1466232043-<:IP:>-1793195574475:blk_1073742644_1821, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[<:IP:>] terminating
+[aiops-lab-dn2] 2026-10-28 14:14:46 INFO  DataNode:750 - Receiving BP-1466232043-<:IP:>-1793195574475:blk_1073742645_1822 src: /<:IP:> dest: /<:IP:>
+[aiops-lab-namenode] 2026-10-28 14:14:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=slowDataNodesReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_47._COPYING_ is closed by DFSClient_NONMAPREDUCE_-70050841_1
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_47._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_47	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:46 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:46 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:46 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  StateChange:802 - BLOCK* allocate blk_1073742645_1822, replicas=<:IP:> for /lab/lab_write_95._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_55._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_47._COPYING_	dst=/lab/lab_write_47	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_39._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_55._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:46 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:46 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:46 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  StateChange:802 - BLOCK* allocate blk_1073742646_1823, replicas=<:IP:> for /lab/lab_write_55._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_39._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_95._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_95._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_95._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:14:47 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:47 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:47 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  StateChange:802 - BLOCK* allocate blk_1073742647_1824, replicas=<:IP:> for /lab/lab_write_39._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:47 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:47 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:47 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  Server:3109 - IPC Server handler 2 on default port 9000, call Call#6 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:33558 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_55._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_49	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_55._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_55._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_55._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_49._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_71	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_76	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_49._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_38	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_82	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:48 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:48 INFO  StateChange:802 - BLOCK* allocate blk_1073742648_1825, replicas=<:IP:>, <:IP:> for /lab/lab_write_49._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_71._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_71._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_76._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_82._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_42	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_38._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_82._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_38._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  StateChange:802 - BLOCK* allocate blk_1073742649_1826, replicas=<:IP:>, <:IP:> for /lab/lab_write_71._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_29	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_76._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:50 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:50 INFO  StateChange:802 - BLOCK* allocate blk_1073742650_1827, replicas=<:IP:>, <:IP:> for /lab/lab_write_38._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:50 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:50 INFO  StateChange:802 - BLOCK* allocate blk_1073742651_1828, replicas=<:IP:>, <:IP:> for /lab/lab_write_82._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:50 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:50 INFO  StateChange:802 - BLOCK* allocate blk_1073742652_1829, replicas=<:IP:>, <:IP:> for /lab/lab_write_76._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_29._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_42._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_29._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:51 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_42._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:51 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:51 INFO  StateChange:802 - BLOCK* allocate blk_1073742653_1830, replicas=<:IP:>, <:IP:> for /lab/lab_write_29._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:51 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:51 INFO  StateChange:802 - BLOCK* allocate blk_1073742654_1831, replicas=<:IP:>, <:IP:> for /lab/lab_write_42._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_26	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_26._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_26._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:53 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:53 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:53 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  Server:3109 - IPC Server handler 7 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:33580 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_49._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_49._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_49._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_49._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:53 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:53 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:53 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  StateChange:802 - BLOCK* allocate blk_1073742655_1832, replicas=<:IP:> for /lab/lab_write_26._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:53 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:53 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:53 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:53 INFO  Server:3109 - IPC Server handler 3 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:33590 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_71._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_71._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_71._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_71._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:54 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:54 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:54 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  Server:3109 - IPC Server handler 0 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:33602 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_38._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:54 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:54 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:54 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  Server:3109 - IPC Server handler 2 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:33618 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_82._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_38._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_38._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_38._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_23	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_82._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_82._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_82._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_59	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  Server:3109 - IPC Server handler 2 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:33630 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_29._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_29._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_29._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_29._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_23._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  Server:3109 - IPC Server handler 9 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:33624 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_42._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_23._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_59._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_42._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_42._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_42._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_59._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  StateChange:802 - BLOCK* allocate blk_1073742656_1833, replicas=<:IP:> for /lab/lab_write_23._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:55 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:55 INFO  StateChange:802 - BLOCK* allocate blk_1073742657_1834, replicas=<:IP:> for /lab/lab_write_59._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:56 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_84	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:57 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_84._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:57 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_84._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:57 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:57 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:57 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:57 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:57 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:57 INFO  Server:3109 - IPC Server handler 1 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:43730 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_26._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:57 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_26._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:57 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_26._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:57 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_26._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:58 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:58 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:58 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:58 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:58 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:58 INFO  StateChange:802 - BLOCK* allocate blk_1073742658_1835, replicas=<:IP:> for /lab/lab_write_84._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:14:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_48	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_96	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_48._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_96._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_48._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_56	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:59 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:59 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:59 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  Server:3109 - IPC Server handler 8 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:43742 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_23._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:14:59 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:14:59 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:14:59 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  Server:3109 - IPC Server handler 2 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:43746 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_59._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_96._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_23._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_23._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_59._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_23._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_59._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:14:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_59._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:15:00 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:00 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:00 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  StateChange:802 - BLOCK* allocate blk_1073742659_1836, replicas=<:IP:> for /lab/lab_write_48._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_56._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:00 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:00 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:00 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  StateChange:802 - BLOCK* allocate blk_1073742660_1837, replicas=<:IP:> for /lab/lab_write_96._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_56._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:15:00 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:00 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:00 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:00 INFO  StateChange:802 - BLOCK* allocate blk_1073742661_1838, replicas=<:IP:> for /lab/lab_write_56._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:02 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:02 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:02 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:02 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:02 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:02 INFO  Server:3109 - IPC Server handler 3 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:43756 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_84._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_84._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_84._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_84._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:03 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_72	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:04 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:04 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:04 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  Server:3109 - IPC Server handler 6 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:43758 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_48._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_48._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_48._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_48._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:04 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:04 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:04 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  Server:3109 - IPC Server handler 0 on default port 9000, call Call#6 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:43770 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_96._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_43	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_96._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_96._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_96._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_72._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:04 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:04 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:04 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:04 INFO  Server:3109 - IPC Server handler 5 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:43774 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_56._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_72._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_56._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_56._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_56._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:05 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:05 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:05 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  StateChange:802 - BLOCK* allocate blk_1073742662_1839, replicas=<:IP:> for /lab/lab_write_72._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_43._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_39	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_43._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_50	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:05 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:05 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:05 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:05 INFO  StateChange:802 - BLOCK* allocate blk_1073742663_1840, replicas=<:IP:> for /lab/lab_write_43._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_39._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_50._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_83	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_50._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_30	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_39._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:06 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:06 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:06 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  StateChange:802 - BLOCK* allocate blk_1073742664_1841, replicas=<:IP:> for /lab/lab_write_50._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:06 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:06 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:06 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  StateChange:802 - BLOCK* allocate blk_1073742665_1842, replicas=<:IP:> for /lab/lab_write_39._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_83._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_83._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:07 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:07 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:15:07 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:07 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:07 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:07 INFO  StateChange:802 - BLOCK* allocate blk_1073742666_1843, replicas=<:IP:> for /lab/lab_write_83._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:07 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_30._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:07 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_30._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:07 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:07 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:07 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:07 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:07 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:07 INFO  StateChange:802 - BLOCK* allocate blk_1073742667_1844, replicas=<:IP:> for /lab/lab_write_30._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_27	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_24	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_27._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_60	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_27._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_24._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  StateChange:802 - BLOCK* allocate blk_1073742668_1845, replicas=<:IP:> for /lab/lab_write_27._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_60._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_24._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_60._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  StateChange:802 - BLOCK* allocate blk_1073742669_1846, replicas=<:IP:> for /lab/lab_write_24._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  Server:3109 - IPC Server handler 2 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:54412 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_72._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:09 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  StateChange:802 - BLOCK* allocate blk_1073742670_1847, replicas=<:IP:> for /lab/lab_write_60._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_72._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_72._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_72._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:10 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:10 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:10 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  Server:3109 - IPC Server handler 4 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:54424 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_43._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_43._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_43._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_43._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:10 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:10 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:10 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  Server:3109 - IPC Server handler 6 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:54440 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_50._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NODE_TOO_BUSY=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:10 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:10 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:10 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  Server:3109 - IPC Server handler 7 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:54426 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_39._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_39._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_39._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_50._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_39._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_50._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_50._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:11 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:11 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:11 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  Server:3109 - IPC Server handler 3 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:54454 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_83._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_83._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_83._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_83._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_85	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_85._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1, NODE_TOO_BUSY=1}
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:11 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:11 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 2 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK, DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:11 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 2 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  Server:3109 - IPC Server handler 8 on default port 9000, call Call#5 Retry#0 org.apache.hadoop.hdfs.protocol.ClientProtocol.addBlock from namenode:54456 / <:IP:>
+[aiops-lab-namenode] java.io.IOException: File /lab/lab_write_30._COPYING_ could only be written to 0 of the 1 minReplication nodes. There are 3 datanode(s) running and 3 node(s) are excluded in this operation.
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.blockmanagement.BlockManager.chooseTarget4NewBlock(BlockManager.java:2350)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.chooseTargetForNewBlock(FSDirWriteFileOp.java:294)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2989)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:912)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:595)
+[aiops-lab-namenode] 	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:621)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:589)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine2.java:573)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1227)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1094)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:1017)
+[aiops-lab-namenode] 	at java.security.AccessController.doPrivileged(Native Method)
+[aiops-lab-namenode] 	at javax.security.auth.Subject.doAs(Subject.java:422)
+[aiops-lab-namenode] 	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1899)
+[aiops-lab-namenode] 	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:3048)
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  StateChange:880 - BLOCK* removeDeadDatanode: lost heartbeat from <:IP:>, removeBlocksFromBlockMap true
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  NetworkTopology:229 - Removing a node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_30._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_30._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_30._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_85._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:12 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:12 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:12 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  StateChange:802 - BLOCK* allocate blk_1073742671_1848, replicas=<:IP:> for /lab/lab_write_85._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_49	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_85._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1982457987_1
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_85._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_85	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_85._COPYING_	dst=/lab/lab_write_85	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_49._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  StateChange:802 - BLOCK* allocate blk_1073742672_1849, replicas=<:IP:> for /lab/lab_write_27._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_49._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_57	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_97	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  StateChange:802 - BLOCK* allocate blk_1073742673_1850, replicas=<:IP:> for /lab/lab_write_49._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_27._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1450871948_1
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_27._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_27	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_27._COPYING_	dst=/lab/lab_write_27	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  StateChange:802 - BLOCK* allocate blk_1073742674_1851, replicas=<:IP:> for /lab/lab_write_60._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:13 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  StateChange:802 - BLOCK* allocate blk_1073742675_1852, replicas=<:IP:> for /lab/lab_write_24._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:13 INFO  FSNamesystem:3201 - BLOCK* blk_1073742673_1850 is COMMITTED but not COMPLETE(numNodes= 0 <  minimum = 1) in file /lab/lab_write_49._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_97._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_57._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_49._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1790451550_1
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_49._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_57._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_49	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_97._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_24._COPYING_ is closed by DFSClient_NONMAPREDUCE_1404347520_1
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  FSNamesystem:3201 - BLOCK* blk_1073742674_1851 is COMMITTED but not COMPLETE(numNodes= 0 <  minimum = 1) in file /lab/lab_write_60._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_49._COPYING_	dst=/lab/lab_write_49	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_24._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_24	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_24._COPYING_	dst=/lab/lab_write_24	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:14 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:14 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:14 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  StateChange:802 - BLOCK* allocate blk_1073742676_1853, replicas=<:IP:> for /lab/lab_write_97._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_60._COPYING_ is closed by DFSClient_NONMAPREDUCE_490469627_1
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:14 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:14 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:14 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  StateChange:802 - BLOCK* allocate blk_1073742677_1854, replicas=<:IP:> for /lab/lab_write_57._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_60._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_60	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_60._COPYING_	dst=/lab/lab_write_60	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:15 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_97._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1846570849_1
+[aiops-lab-namenode] 2026-10-28 14:15:15 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_57._COPYING_ is closed by DFSClient_NONMAPREDUCE_-68178650_1
+[aiops-lab-namenode] 2026-10-28 14:15:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_97._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_97._COPYING_	dst=/lab/lab_write_97	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_57._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_57	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_57._COPYING_	dst=/lab/lab_write_57	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:21 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_44	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:22 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_44._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:23 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_73	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:23 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_44._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:23 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:23 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:23 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:23 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:23 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:23 INFO  StateChange:802 - BLOCK* allocate blk_1073742678_1855, replicas=<:IP:> for /lab/lab_write_44._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:23 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_51	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_73._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_84	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_73._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_44._COPYING_ is closed by DFSClient_NONMAPREDUCE_429120123_1
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_44._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_44	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_31	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_44._COPYING_	dst=/lab/lab_write_44	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_51._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1, NOT_ENOUGH_STORAGE_SPACE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:24 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:24 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:24 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:24 INFO  StateChange:802 - BLOCK* allocate blk_1073742679_1856, replicas=<:IP:> for /lab/lab_write_73._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:25 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_51._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:25 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_40	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:25 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_84._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:25 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:25 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:15:25 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) For more information, please enable DEBUG log level on org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicy and org.apache.hadoop.net.NetworkTopology
+[aiops-lab-namenode] 2026-10-28 14:15:25 WARN  BlockStoragePolicy:161 - Failed to place enough replicas: expected size is 1 but only 0 storage types can be selected (replication=2, selected=[], unavailable=[DISK], removed=[DISK], policy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]})
+[aiops-lab-namenode] 2026-10-28 14:15:25 WARN  BlockPlacementPolicy:489 - Failed to place enough replicas, still in need of 1 to reach 2 (unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}, newBlock=true) All required storage types are unavailable:  unavailableStorages=[DISK], storagePolicy=BlockStoragePolicy{HOT:7, storageTypes=[DISK], creationFallbacks=[], replicationFallbacks=[ARCHIVE]}
+[aiops-lab-namenode] 2026-10-28 14:15:25 INFO  StateChange:802 - BLOCK* allocate blk_1073742680_1857, replicas=<:IP:> for /lab/lab_write_51._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:15:25 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_84._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:25 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_31._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:15:25 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_73._COPYING_ is closed by DFSClient_NONMAPREDUCE_-502559866_1

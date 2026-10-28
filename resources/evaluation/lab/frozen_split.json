@@ -1,0 +1,24 @@
+{
+ "note": "冻结测试集：按事件 ID 排序后每 5 个取 1 个（约 20%）",
+ "fraction": 0.2,
+ "total": 81,
+ "test": [
+  "inc_lab_dn_heartbeat_20261028125949_fc87",
+  "inc_lab_dn_heartbeat_20261028130531_3661",
+  "inc_lab_dn_heartbeat_20261028131118_2c97",
+  "inc_lab_dn_heartbeat_20261028140942_67de",
+  "inc_lab_dn_heartbeat_20261028141745_c5de",
+  "inc_lab_dn_heartbeat_20261028142546_a65f",
+  "inc_lab_dn_volume_20261028125425_ef0b",
+  "inc_lab_dn_volume_20261028125650_20f0",
+  "inc_lab_dn_volume_20261028125921_4f0d",
+  "inc_lab_dn_volume_20261028135746_9d53",
+  "inc_lab_dn_volume_20261028140231_33cf",
+  "inc_lab_nn_safe_mode_20261028131611_878a",
+  "inc_lab_nn_safe_mode_20261028131912_0d4f",
+  "inc_lab_nn_safe_mode_20261028132213_615b",
+  "inc_lab_nn_safe_mode_20261028143031_5d36",
+  "inc_lab_nn_safe_mode_20261028143445_cdeb",
+  "inc_lab_nn_safe_mode_20261028143816_2798"
+ ]
+}

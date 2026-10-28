@@ -437,12 +437,23 @@ class AgentEngine:
         event = detected["data"]["event"]
         self._save(run, state, budget, "DETECTED")
 
+        query_limit = max(200, int(self.cfg["tools"]["query_logs_limit"]))
         logs = self._invoke(run, state, budget, "query_logs", {
-            "event_id": event_id, "limit": self.cfg["tools"]["query_logs_limit"]},
-            lambda: self.tools.query_logs(event_id, self.cfg["tools"]["query_logs_limit"]))
+            "event_id": event_id, "limit": query_limit},
+            lambda: self.tools.query_logs(event_id, query_limit))
         if not logs["ok"]:
             state["review_reasons"].append("tool_failure")
         log_rows = logs.get("data", {}).get("items", [])
+        limit = int(self.cfg["tools"]["query_logs_limit"])
+        if len(log_rows) > limit:
+            severe = [row for row in log_rows
+                      if row.get("level") in ("ERROR", "WARN", "FATAL")]
+            seen, picked = set(), []
+            for row in severe + log_rows[-limit:]:
+                if row["log_id"] not in seen:
+                    picked.append(row)
+                    seen.add(row["log_id"])
+            log_rows = picked[:limit]
         log_items = [log_evidence(row, self.service_manifest["release_id"]) for row in log_rows]
         components = sorted({row.get("component") for row in log_rows if row.get("component")})
         weights = {}
@@ -497,8 +508,13 @@ class AgentEngine:
                   if row.get("level") in ("ERROR", "WARN", "FATAL")]
         rest = [row.get("redacted_message") or "" for row in picked
                 if row.get("level") not in ("ERROR", "WARN", "FATAL")]
-        signal_text = " ".join(severe + rest)[:300]
-        query = "HDFS异常事件只读排查 " + " ".join(components[:3]) + " " + signal_text
+        signal_text = " ".join(severe + rest)[:2000]
+        all_text = " ".join((row.get("redacted_message") or "")
+                            for row in log_rows).lower()
+        code_text = " ".join(code for code, signals in AgentTools.CODE_SIGNALS.items()
+                             if any(signal in all_text for signal in signals))
+        query = ("HDFS异常事件只读排查 " + " ".join(components[:3]) + " "
+                 + signal_text + " " + code_text)
         retrieved = self._invoke(run, state, budget, "retrieve_runbook", {
             "query": query, "top_k": self.cfg["tools"]["runbook_top_k"]},
             lambda: self.tools.retrieve_runbook(

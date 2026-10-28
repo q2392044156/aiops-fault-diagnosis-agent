@@ -8,9 +8,9 @@
 | MRR | 1.0 |
 | Top-1 95% CI | [0.2065, 1.0] |
 | 冻结测试集 | n=0 Top-1=N/A CI=None |
-| MTTD | 54.8 |
+| MTTD | 37.1 |
 | 排除原因 | {} |
 
 | 事件 | 期望组件 | 名次 | 匹配依据 | MTTD(s) |
 | --- | --- | --- | --- | --- |
-| inc_lab_dn_heartbeat_20261028125117_4d41 | DataNode | 1 | component | 54.77057 |
+| inc_lab_dn_volume_20261028135245_286d | DataNode | 1 | component | 37.126846 |

@@ -23,6 +23,11 @@ from ingest import ingest_log
 
 # 变量说明：COMPOSE 是本机实验台的 compose 文件。
 COMPOSE = ROOT / "ops" / "lab" / "compose.yaml"
+# 变量说明：WRITE_LOOP 在卷满实验中持续写块，制造 ENOSPC 主信号。
+WRITE_LOOP = ("for i in $(seq 1 120); do "
+              "dd if=/dev/zero of=/tmp/lab_write bs=1M count=4 status=none 2>/dev/null; "
+              "hdfs dfs -put -f /tmp/lab_write /lab/lab_write_$i >/dev/null 2>&1; "
+              "sleep 1; done")
 
 # 变量说明：FAULTS 定义三个 MVP 故障族的注入与恢复方式。
 FAULTS = {
@@ -169,6 +174,13 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
             _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['inject']}",
                     check=False)
         window_seconds = max(observe_seconds, int(spec.get("min_observe", 0)))
+        writer = None
+        if fault == "DN_VOLUME":
+            _docker("exec", "aiops-lab-namenode", "bash", "-lc",
+                    "hdfs dfs -mkdir -p /lab", check=False)
+            writer = subprocess.Popen(
+                ["docker", "exec", "aiops-lab-namenode", "bash", "-lc", WRITE_LOOP],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         signal_at = _wait_signal(spec, t0.isoformat(), window_seconds)
         window_end = t0 + timedelta(seconds=window_seconds)
         remaining = (window_end - datetime.now(timezone.utc)).total_seconds()
@@ -179,6 +191,9 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
                               t0.isoformat(), cutoff.isoformat())
         metrics = _metrics(["aiops-lab-namenode", "aiops-lab-dn1", "aiops-lab-dn2",
                             "aiops-lab-dn3"])
+        if writer is not None:
+            writer.terminate()
+            writer.wait(timeout=10)
         if spec["mode"] == "kill":
             _docker("start", spec["container"])
         else:

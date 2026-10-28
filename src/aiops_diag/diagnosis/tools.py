@@ -136,10 +136,23 @@ class AgentTools:
         return result(found, provenance={"kb_release_id":
                       self.retriever.manifest["kb_release_id"]}, started=started)
 
+    # 变量说明：CODE_SIGNALS 是根因码对应的日志特征词，用于同组件内互斥排序。
+    CODE_SIGNALS = {"DN_VOLUME": ("no space left", "volume failed", "disk full"),
+                    "DN_HEARTBEAT": ("lost heartbeat", "dead datanode", "removedead"),
+                    "NN_SAFE_MODE": ("safe mode",)}
+
     # 方法说明：`rank_root_causes` 完成当前步骤的业务处理；参数为 `log_evidence`、`doc_evidence`、`components`。
     @staticmethod
     def rank_root_causes(log_evidence, doc_evidence, components):
         started = time.perf_counter()
+        messages = " ".join((row.get("excerpt_redacted") or "")
+                            for row in log_evidence).lower()
+        matched = {code for code, signals in AgentTools.CODE_SIGNALS.items()
+                   if any(signal in messages for signal in signals)}
+        ordered = sorted(enumerate(doc_evidence),
+                         key=lambda item: (0 if item[1].get("root_cause_code") in matched
+                                           else 1, item[0]))
+        doc_evidence = [document for _, document in ordered]
         hypotheses = []
         for index, document in enumerate(doc_evidence[:3], 1):
             component = document.get("component") or (components[0] if components else None)

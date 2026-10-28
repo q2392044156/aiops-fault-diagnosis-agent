@@ -1,0 +1,80 @@
+[aiops-lab-namenode] 2026-10-28 14:07:08 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_74._COPYING_ is closed by DFSClient_NONMAPREDUCE_-172278158_1
+[aiops-lab-namenode] 2026-10-28 14:07:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_74._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_74._COPYING_	dst=/lab/lab_write_74	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_34	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_8	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_34._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_34._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_12	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_8._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_8._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:11 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:07:11 INFO  StateChange:802 - BLOCK* allocate blk_1073742284_1460, replicas=<:IP:>, <:IP:> for /lab/lab_write_34._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:07:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_12._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_55	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_34._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1350012718_1
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  StateChange:802 - BLOCK* allocate blk_1073742285_1461, replicas=<:IP:>, <:IP:> for /lab/lab_write_8._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_12._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_34._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_34	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_34._COPYING_	dst=/lab/lab_write_34	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_55._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:07:12 INFO  StateChange:802 - BLOCK* allocate blk_1073742286_1462, replicas=<:IP:>, <:IP:> for /lab/lab_write_12._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:07:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_55._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:13 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_8._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1078087338_1
+[aiops-lab-namenode] 2026-10-28 14:07:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_8._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:13 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:07:13 INFO  StateChange:802 - BLOCK* allocate blk_1073742287_1463, replicas=<:IP:>, <:IP:> for /lab/lab_write_55._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:07:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_8	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_8._COPYING_	dst=/lab/lab_write_8	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_44	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_12._COPYING_ is closed by DFSClient_NONMAPREDUCE_445635559_1
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_12._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_61	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_12	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_12._COPYING_	dst=/lab/lab_write_12	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_55._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1833320307_1
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_50	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_55._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_55	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_55._COPYING_	dst=/lab/lab_write_55	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_16	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_44._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_44._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_61._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:15 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:07:15 INFO  StateChange:802 - BLOCK* allocate blk_1073742288_1464, replicas=<:IP:>, <:IP:> for /lab/lab_write_44._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:07:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_16._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_50._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_61._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_50._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_16._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  StateChange:802 - BLOCK* allocate blk_1073742289_1465, replicas=<:IP:>, <:IP:> for /lab/lab_write_61._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  StateChange:802 - BLOCK* allocate blk_1073742290_1466, replicas=<:IP:>, <:IP:> for /lab/lab_write_50._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  FSNamesystem:3201 - BLOCK* blk_1073742288_1464 is COMMITTED but not COMPLETE(numNodes= 0 <  minimum = 1) in file /lab/lab_write_44._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-10-28 14:07:16 INFO  StateChange:802 - BLOCK* allocate blk_1073742291_1467, replicas=<:IP:>, <:IP:> for /lab/lab_write_16._COPYING_
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_4	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_44._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1703914430_1
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_44._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_44	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_61._COPYING_ is closed by DFSClient_NONMAPREDUCE_1146351557_1
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_50._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1057534857_1
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_44._COPYING_	dst=/lab/lab_write_44	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_61._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_50._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_61	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_50	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_61._COPYING_	dst=/lab/lab_write_61	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  StateChange:3154 - DIR* completeFile: /lab/lab_write_16._COPYING_ is closed by DFSClient_NONMAPREDUCE_-736871343_1
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_50._COPYING_	dst=/lab/lab_write_50	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_16._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=delete	src=/lab/lab_write_16	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=rename	src=/lab/lab_write_16._COPYING_	dst=/lab/lab_write_16	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:18 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_4._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:18 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=create	src=/lab/lab_write_4._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-10-28 14:07:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=getfileinfo	src=/lab/lab_write_39	dst=null	perm=null	proto=rpc
