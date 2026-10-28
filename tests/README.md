@@ -12,6 +12,7 @@
 
 | 文件 | 主要功能 | 主要类或函数 |
 | --- | --- | --- |
+| `conftest.py` | 为依赖本地发布制品的用例提供统一的跳过策略。 | `requires_artifacts` |
 | `test_agent.py` | 验证 agent 相关功能、边界和回归行为。 | `V11EvalLedger`、`V11EvalClient`、`test_v11_online_report_evaluation_runs_three_release_bound_rounds`、`test_v11_online_report_evaluation_requires_configured_client`、`candidate_calibration`、`seed_event`、`budget`、`test_adev_is_fixed_and_deterministic` 等 |
 | `test_candidate_pool_v11.py` | 验证 candidate pool v11 相关功能、边界和回归行为。 | `_reviewed_rows`、`_write_rows`、`test_public_candidate_pool_is_blinded_complete_and_nonduplicate`、`test_public_candidate_packet_builder_refuses_overwrite`、`test_public_candidate_pool_rejects_label_leak`、`test_public_candidate_pool_accepts_complete_external_review_structure`、`test_reviewed_candidate_pool_freezes_to_release_ready_protocol`、`test_review_disagreement_cannot_be_frozen` |
 | `test_coverage_v11.py` | 验证 coverage v11 相关功能、边界和回归行为。 | `test_agent_coverage_comparison_requires_sealed_inputs` |

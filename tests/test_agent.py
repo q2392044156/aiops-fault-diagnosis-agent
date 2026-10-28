@@ -173,7 +173,7 @@ def test_provider_failure_is_separate_from_schema_failure():
 
 
 # 方法说明：`test_v11_candidate_release_is_bound_to_protocol_calibration_and_source` 完成当前步骤的业务处理；参数为 `tmp_path`。
-def test_v11_candidate_release_is_bound_to_protocol_calibration_and_source(tmp_path):
+def test_v11_candidate_release_is_bound_to_protocol_calibration_and_source(tmp_path, requires_artifacts):
     cfg = load(ROOT / "resources/configs/agent.yaml")
     protocol = ROOT / "resources/evaluation/v1.1/protocol.json"
     calibration = tmp_path / "calibration.json"
@@ -203,7 +203,7 @@ def test_v11_candidate_release_is_bound_to_protocol_calibration_and_source(tmp_p
 
 
 # 方法说明：`test_v11_candidate_worker_uses_candidate_gate_and_agent` 完成当前步骤的业务处理；参数为 `tmp_path`。
-def test_v11_candidate_worker_uses_candidate_gate_and_agent(tmp_path):
+def test_v11_candidate_worker_uses_candidate_gate_and_agent(tmp_path, requires_artifacts):
     cfg = load_service(ROOT / "resources/configs/service_v11_framework_base_rc2.yaml")
     protocol = ROOT / "resources/evaluation/v1.1/protocol.json"
     calibration = tmp_path / "calibration.json"
@@ -226,7 +226,7 @@ def test_v11_candidate_worker_uses_candidate_gate_and_agent(tmp_path):
 
 
 # 方法说明：`test_v11_candidate_recovers_to_review_without_logs_or_paid_llm` 完成当前步骤的业务处理；参数为 `tmp_path`、`monkeypatch`。
-def test_v11_candidate_recovers_to_review_without_logs_or_paid_llm(tmp_path, monkeypatch):
+def test_v11_candidate_recovers_to_review_without_logs_or_paid_llm(tmp_path, monkeypatch, requires_artifacts):
     cfg = load_service(ROOT / "resources/configs/service_v11_framework_base_rc2.yaml")
     protocol = ROOT / "resources/evaluation/v1.1/protocol.json"
     calibration = tmp_path / "calibration.json"
@@ -305,7 +305,7 @@ def test_v11_candidate_recovers_to_review_without_logs_or_paid_llm(tmp_path, mon
 
 
 # 方法说明：`test_v11_candidate_preserves_release_api_schemas` 完成当前步骤的业务处理；参数为 `tmp_path`。
-def test_v11_candidate_preserves_release_api_schemas(tmp_path):
+def test_v11_candidate_preserves_release_api_schemas(tmp_path, requires_artifacts):
     cfg = load_service(ROOT / "resources/configs/service_v11_framework_base_rc2.yaml")
     protocol = ROOT / "resources/evaluation/v1.1/protocol.json"
     calibration = tmp_path / "calibration.json"

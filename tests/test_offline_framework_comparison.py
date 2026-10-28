@@ -56,7 +56,7 @@ def test_structural_diff_reports_exact_path():
 
 
 # 方法说明：`test_offline_comparison_runs_real_retrieval_and_both_agent_paths` 完成当前步骤的业务处理；参数为 `tmp_path`。
-def test_offline_comparison_runs_real_retrieval_and_both_agent_paths(tmp_path):
+def test_offline_comparison_runs_real_retrieval_and_both_agent_paths(tmp_path, requires_artifacts):
     cases = tmp_path / "cases.jsonl"
     rows = [
         {"schema_version": 1, "case_id": "ret", "case_type": "retrieval",

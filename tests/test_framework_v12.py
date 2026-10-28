@@ -181,7 +181,7 @@ def test_langgraph_has_no_framework_checkpointer_in_database_authority_phase():
 
 
 # 方法说明：`test_framework_candidate_release_and_runtime_are_bound_to_new_backends` 完成当前步骤的业务处理；参数为 `tmp_path`。
-def test_framework_candidate_release_and_runtime_are_bound_to_new_backends(tmp_path):
+def test_framework_candidate_release_and_runtime_are_bound_to_new_backends(tmp_path, requires_artifacts):
     cfg = load_service(ROOT / "resources/configs/service_framework_rc2.yaml")
     release = verify_framework(
         cfg["agent"], cfg["v11_candidate"], cfg["framework_candidate"],
@@ -204,7 +204,7 @@ def test_framework_candidate_release_and_runtime_are_bound_to_new_backends(tmp_p
 
 
 # 方法说明：`test_langgraph_candidate_runs_all_database_nodes_to_review` 完成当前步骤的业务处理；参数为 `tmp_path`。
-def test_langgraph_candidate_runs_all_database_nodes_to_review(tmp_path):
+def test_langgraph_candidate_runs_all_database_nodes_to_review(tmp_path, requires_artifacts):
     cfg = load_service(ROOT / "resources/configs/service_framework_rc2.yaml")
     cfg["paths"]["runtime_dir"] = str(tmp_path / "runtime")
     cfg["paths"]["database"] = str(tmp_path / "runtime/service.sqlite3")
