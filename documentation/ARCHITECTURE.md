@@ -7,12 +7,12 @@
 
 ```mermaid
 flowchart TB
-    subgraph 输入
+    subgraph inputs[输入]
         L[HDFS 日志<br/>1117 万行]
         T[聚合调用链 Trace]
         K[运维知识卡<br/>30 篇]
     end
-    subgraph 处理
+    subgraph processing[处理]
         D[数据层<br/>解析 · 脱敏 · 会话切分]
         M[检测层<br/>Drain3 模板 + TF-IDF + LR]
         R[检索层<br/>BM25 + BGE ONNX + RRF]

@@ -13,7 +13,7 @@ conda activate aiops-fault-diagnosis-agent
 python demo/run_demo.py
 ```
 
-或者用 Make：
+或者用 Make（需要 GNU Make；Windows 上直接用上面的 python 命令）：
 
 ```bash
 make demo          # 文本输出
