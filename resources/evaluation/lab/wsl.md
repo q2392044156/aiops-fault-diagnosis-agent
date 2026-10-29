@@ -1,13 +1,13 @@
 | 指标 | 值 |
 | --- | --- |
-| 事件数 | 21 |
-| 可计入根因指标 | 21 |
-| 有诊断报告 | 21 |
+| 事件数 | 29 |
+| 可计入根因指标 | 29 |
+| 有诊断报告 | 29 |
 | Top-1 | 1.0 |
 | Top-3 | 1.0 |
 | MRR | 1.0 |
-| Top-1 95% CI | [0.8454, 1.0] |
-| 冻结测试集 | n=0 Top-1=N/A CI=None |
+| Top-1 95% CI | [0.883, 1.0] |
+| 冻结测试集 | n=6 Top-1=1.0 CI=[0.6097, 1.0] |
 | MTTD | N/A |
 | 排除原因 | {} |
 
@@ -15,6 +15,14 @@
 | --- | --- | --- | --- | --- |
 | inc_wsl_heartbeat_20261028182246_9b4d | DataNode | 1 | code | N/A |
 | inc_wsl_heartbeat_20261028182517_df45 | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261029021428_c460 | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261029021614_5c10 | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261029021722_90e9 | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261029021753_d389 | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261029021825_9211 | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261029021900_65a6 | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261029021930_b52c | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261029022001_8c37 | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261028172557_b263 | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261028172753_163c | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261028172759_14c3 | DataNode | 1 | code | N/A |

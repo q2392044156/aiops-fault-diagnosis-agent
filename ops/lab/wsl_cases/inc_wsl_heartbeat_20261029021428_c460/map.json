@@ -1,0 +1,12 @@
+{
+  "incident_id": "inc_wsl_heartbeat_20261029021428_c460",
+  "batch_id": "bat_e84e4bc4a1fb3e79a8c71fd9",
+  "event_id": "evt_a5494e6df577c179bd43c395",
+  "diagnosis_id": "dia_b4b0cef132541bfd5a774d18",
+  "report_id": "irpt_b08e68e5157d95b433691c6d",
+  "agent_detected": "2026-10-29T02:15:04.207292+00:00",
+  "mode": "wsl",
+  "fault": "DN_HEARTBEAT",
+  "live_recovered": true,
+  "imported": "ACTIVE"
+}

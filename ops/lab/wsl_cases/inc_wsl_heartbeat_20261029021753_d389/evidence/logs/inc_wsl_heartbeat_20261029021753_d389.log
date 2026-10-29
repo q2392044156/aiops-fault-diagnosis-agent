@@ -1,0 +1,88 @@
+[aiops-lab-namenode] 2026-10-29 10:18:23,298 INFO hdfs.StateChange: BLOCK* removeDeadDatanode: lost heartbeat from <:IP:>, removeBlocksFromBlockMap true
+[aiops-lab-namenode] 2026-10-29 10:18:23,298 INFO net.NetworkTopology: Removing a node: /default-rack/<:IP:>
+[aiops-lab-dn1] 2026-10-29 02:22:31,445 INFO datanode.DataNode: STARTUP_MSG: 
+[aiops-lab-dn1] /************************************************************
+[aiops-lab-dn1] STARTUP_MSG: Starting DataNode
+[aiops-lab-dn1] STARTUP_MSG:   host = WIN-20260727MVX/<:IP:>
+[aiops-lab-dn1] STARTUP_MSG:   args = []
+[aiops-lab-dn1] STARTUP_MSG:   version = 3.3.6
+[aiops-lab-dn1] STARTUP_MSG:   classpath = <:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>
+[aiops-lab-dn1] STARTUP_MSG:   build = https:/<:PATH:> -r 1be78238728da9266a4f88195058f08fd012bf9c; compiled by 'ubuntu' on 2023-06-18T08:22Z
+[aiops-lab-dn1] STARTUP_MSG:   java = <:IP:>
+[aiops-lab-dn1] ************************************************************/
+[aiops-lab-dn1] 2026-10-29 02:22:31,452 INFO datanode.DataNode: registered UNIX signal handlers for [TERM, HUP, INT]
+[aiops-lab-dn1] 2026-10-29 02:22:31,705 INFO checker.ThrottledAsyncChecker: Scheduling a check for [DISK]file:/mnt/labvol
+[aiops-lab-dn1] 2026-10-29 02:22:31,797 INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+[aiops-lab-dn1] 2026-10-29 02:22:31,866 INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period at 10 second(s).
+[aiops-lab-dn1] 2026-10-29 02:22:31,866 INFO impl.MetricsSystemImpl: DataNode metrics system started
+[aiops-lab-dn1] 2026-10-29 02:22:31,975 INFO common.Util: dfs.datanode.fileio.profiling.sampling.percentage set to 0. Disabling file IO profiling
+[aiops-lab-dn1] 2026-10-29 02:22:31,984 INFO datanode.BlockScanner: Initialized block scanner with targetBytesPerSec 1048576
+[aiops-lab-dn1] 2026-10-29 02:22:31,988 INFO datanode.DataNode: Configured hostname is WIN-20260727MVX.localdomain
+[aiops-lab-dn1] 2026-10-29 02:22:31,988 INFO common.Util: dfs.datanode.fileio.profiling.sampling.percentage set to 0. Disabling file IO profiling
+[aiops-lab-dn1] 2026-10-29 02:22:31,991 INFO datanode.DataNode: Starting DataNode with maxLockedMemory = 0
+[aiops-lab-dn1] 2026-10-29 02:22:32,004 INFO datanode.DataNode: Opened streaming server at /<:IP:>
+[aiops-lab-dn1] 2026-10-29 02:22:32,005 INFO datanode.DataNode: Balancing bandwidth is 104857600 bytes/s
+[aiops-lab-dn1] 2026-10-29 02:22:32,005 INFO datanode.DataNode: Number threads for balancing is 100
+[aiops-lab-dn1] 2026-10-29 02:22:32,037 INFO util.log: Logging initialized @1080ms to org.eclipse.jetty.util.log.Slf4jLog
+[aiops-lab-dn1] 2026-10-29 02:22:32,099 WARN server.AuthenticationFilter: Unable to initialize FileSignerSecretProvider, falling back to use random secrets. Reason: Could not read signature secret file: /root/hadoop-http-auth-signature-secret
+[aiops-lab-dn1] 2026-10-29 02:22:32,104 INFO http.HttpRequestLog: Http request log for http.requests.datanode is not defined
+[aiops-lab-dn1] 2026-10-29 02:22:32,109 INFO http.HttpServer2: Added global filter 'safety' (class=org.apache.hadoop.http.HttpServer2$QuotingInputFilter)
+[aiops-lab-dn1] 2026-10-29 02:22:32,110 INFO http.HttpServer2: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context datanode
+[aiops-lab-dn1] 2026-10-29 02:22:32,110 INFO http.HttpServer2: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context static
+[aiops-lab-dn1] 2026-10-29 02:22:32,111 INFO http.HttpServer2: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context logs
+[aiops-lab-dn1] 2026-10-29 02:22:32,131 INFO http.HttpServer2: Jetty bound to port 40315
+[aiops-lab-dn1] 2026-10-29 02:22:32,132 INFO server.Server: jetty-9.4.51.v20230217; built: 2023-02-17T08:19:37.309Z; git: b45c405e4544384de066f814ed42ae3dceacdd49; jvm <:IP:>+1-post-1ubuntu1-24.04-Ubuntu
+[aiops-lab-dn1] 2026-10-29 02:22:32,144 INFO server.session: DefaultSessionIdManager workerName=node0
+[aiops-lab-dn1] 2026-10-29 02:22:32,144 INFO server.session: No SessionScavenger set, using defaults
+[aiops-lab-dn1] 2026-10-29 02:22:32,145 INFO server.session: node0 Scavenging every 600000ms
+[aiops-lab-dn1] 2026-10-29 02:22:32,153 INFO handler.ContextHandler: Started o.e.j.s.ServletContextHandler@560513ce{logs,/logs,file://<:PATH:>/,AVAILABLE}
+[aiops-lab-dn1] 2026-10-29 02:22:32,154 INFO handler.ContextHandler: Started o.e.j.s.ServletContextHandler@5dda6f9{static,/static,file://<:PATH:>/,AVAILABLE}
+[aiops-lab-dn1] 2026-10-29 02:22:32,227 INFO handler.ContextHandler: Started o.e.j.w.WebAppContext@538cd0f2{datanode,/,file://<:PATH:>/,AVAILABLE}{file:<:PATH:>}
+[aiops-lab-dn1] 2026-10-29 02:22:32,232 INFO server.AbstractConnector: Started ServerConnector@31c269fd{HTTP/1.1, (http/1.1)}{localhost:40315}
+[aiops-lab-dn1] 2026-10-29 02:22:32,233 INFO server.Server: Started @1276ms
+[aiops-lab-dn1] 2026-10-29 02:22:32,293 WARN web.DatanodeHttpServer: Got null for restCsrfPreventionFilter - will not do any filtering.
+[aiops-lab-dn1] 2026-10-29 02:22:32,336 INFO web.DatanodeHttpServer: Listening HTTP traffic on /<:IP:>
+[aiops-lab-dn1] 2026-10-29 02:22:32,339 INFO util.JvmPauseMonitor: Starting JVM pause monitor
+[aiops-lab-dn1] 2026-10-29 02:22:32,340 INFO datanode.DataNode: dnUserName = root
+[aiops-lab-dn1] 2026-10-29 02:22:32,340 INFO datanode.DataNode: supergroup = supergroup
+[aiops-lab-dn1] 2026-10-29 02:22:32,379 INFO ipc.CallQueueManager: Using callQueue: class java.util.concurrent.LinkedBlockingQueue, queueCapacity: 1000, scheduler: class org.apache.hadoop.ipc.DefaultRpcScheduler, ipcBackoff: false.
+[aiops-lab-dn1] 2026-10-29 02:22:32,389 INFO ipc.Server: Listener at <:IP:>
+[aiops-lab-dn1] 2026-10-29 02:22:32,390 INFO ipc.Server: Starting Socket Reader #1 for port 9867
+[aiops-lab-dn1] 2026-10-29 02:22:32,528 INFO datanode.DataNode: Opened IPC server at /<:IP:>
+[aiops-lab-dn1] 2026-10-29 02:22:32,549 INFO datanode.DataNode: Refresh request received for nameservices: null
+[aiops-lab-dn1] 2026-10-29 02:22:32,554 INFO datanode.DataNode: Starting BPOfferServices for nameservices: <default>
+[aiops-lab-dn1] 2026-10-29 02:22:32,561 INFO datanode.DataNode: Block pool <registering> (Datanode Uuid unassigned) service to localhost/<:IP:> starting to offer service
+[aiops-lab-dn1] 2026-10-29 02:22:32,565 INFO ipc.Server: IPC Server Responder: starting
+[aiops-lab-dn1] 2026-10-29 02:22:32,566 INFO ipc.Server: IPC Server listener on 9867: starting
+[aiops-lab-dn1] 2026-10-29 02:22:32,657 INFO datanode.DataNode: Acknowledging ACTIVE Namenode during handshakeBlock pool <registering> (Datanode Uuid unassigned) service to localhost/<:IP:>
+[aiops-lab-dn1] 2026-10-29 02:22:32,660 INFO common.Storage: Using 1 threads to upgrade data directories (dfs.datanode.parallel.volumes.load.threads.num=1, dataDirs=1)
+[aiops-lab-dn1] 2026-10-29 02:22:32,674 INFO common.Storage: Lock on <:PATH:> acquired by nodename 44715@WIN-20260727MVX
+[aiops-lab-dn1] 2026-10-29 02:22:32,705 INFO common.Storage: Analyzing storage directories for bpid BP-682513034-<:IP:>-1793206783995
+[aiops-lab-dn1] 2026-10-29 02:22:32,705 INFO common.Storage: Locking is disabled for <:PATH:><:IP:>-1793206783995
+[aiops-lab-dn1] 2026-10-29 02:22:32,715 INFO datanode.DataNode: Setting up storage: nsid=875119033;bpid=BP-682513034-<:IP:>-1793206783995;lv=-57;nsInfo=lv=-66;cid=CID-3253de66-8a28-49b5-bd58-86f4b77d78d4;nsid=875119033;c=1793206783995;bpid=BP-682513034-<:IP:>-1793206783995;dnuuid=aa8320a1-61f8-4e4c-babd-08593208d8bc
+[aiops-lab-dn1] 2026-10-29 02:22:32,722 INFO impl.FsDatasetImpl: The datanode lock is a read write lock
+[aiops-lab-dn1] 2026-10-29 02:22:32,774 INFO impl.FsDatasetImpl: Added new volume: DS-a6e46688-bb5e-41cf-8cb2-e22f208b7260
+[aiops-lab-dn1] 2026-10-29 02:22:32,774 INFO impl.FsDatasetImpl: Added volume - [DISK]file:/mnt/labvol, StorageType: DISK
+[aiops-lab-dn1] 2026-10-29 02:22:32,777 INFO impl.MemoryMappableBlockLoader: Initializing cache loader: MemoryMappableBlockLoader.
+[aiops-lab-dn1] 2026-10-29 02:22:32,779 INFO impl.FsDatasetImpl: Registered FSDatasetState MBean
+[aiops-lab-dn1] 2026-10-29 02:22:32,782 INFO impl.FsDatasetImpl: Adding block pool BP-682513034-<:IP:>-1793206783995
+[aiops-lab-dn1] 2026-10-29 02:22:32,783 INFO impl.FsDatasetImpl: Scanning block pool BP-682513034-<:IP:>-1793206783995 on volume /mnt/labvol...
+[aiops-lab-dn1] 2026-10-29 02:22:32,788 WARN impl.FsDatasetImpl: dfsUsed file missing in <:PATH:><:IP:>-1793206783995/current, will proceed with Du for space computation calculation, 
+[aiops-lab-dn1] 2026-10-29 02:22:32,802 INFO impl.FsDatasetImpl: Time taken to scan block pool BP-682513034-<:IP:>-1793206783995 on /mnt/labvol: 19ms
+[aiops-lab-dn1] 2026-10-29 02:22:32,802 INFO impl.FsDatasetImpl: Total time to scan all replicas for block pool BP-682513034-<:IP:>-1793206783995: 20ms
+[aiops-lab-dn1] 2026-10-29 02:22:32,803 INFO impl.FsDatasetImpl: Adding replicas to map for block pool BP-682513034-<:IP:>-1793206783995 on volume /mnt/labvol...
+[aiops-lab-dn1] 2026-10-29 02:22:32,803 INFO impl.BlockPoolSlice: Replica Cache file: <:PATH:><:IP:>-1793206783995/current/replicas doesn't exist 
+[aiops-lab-dn1] 2026-10-29 02:22:32,811 INFO impl.FsDatasetImpl: Time to add replicas to map for block pool BP-682513034-<:IP:>-1793206783995 on volume /mnt/labvol: 8ms
+[aiops-lab-dn1] 2026-10-29 02:22:32,811 INFO impl.FsDatasetImpl: Total time to add all replicas to map for block pool BP-682513034-<:IP:>-1793206783995: 9ms
+[aiops-lab-dn1] 2026-10-29 02:22:32,811 INFO checker.ThrottledAsyncChecker: Scheduling a check for /mnt/labvol
+[aiops-lab-dn1] 2026-10-29 02:22:32,817 INFO checker.DatasetVolumeChecker: Scheduled health check for volume /mnt/labvol
+[aiops-lab-dn1] 2026-10-29 02:22:32,823 INFO datanode.VolumeScanner: VolumeScanner(/mnt/labvol, DS-a6e46688-bb5e-41cf-8cb2-e22f208b7260): no suitable block pools found to scan.  Waiting 1809751921 ms.
+[aiops-lab-dn1] 2026-10-29 02:22:32,824 WARN datanode.DirectoryScanner: dfs.datanode.directoryscan.throttle.limit.ms.per.sec set to value above 1000 ms/sec. Assuming default value of -1
+[aiops-lab-dn1] 2026-10-29 02:22:32,825 INFO datanode.DirectoryScanner: Periodic Directory Tree Verification scan starting in 1571802ms with interval of 21600000ms and throttle limit of -1ms/s
+[aiops-lab-dn1] 2026-10-29 02:22:32,828 INFO datanode.DataNode: Block pool BP-682513034-<:IP:>-1793206783995 (Datanode Uuid aa8320a1-61f8-4e4c-babd-08593208d8bc) service to localhost/<:IP:> beginning handshake with NN
+[aiops-lab-dn1] 2026-10-29 02:22:32,854 INFO datanode.DataNode: Block pool BP-682513034-<:IP:>-1793206783995 (Datanode Uuid aa8320a1-61f8-4e4c-babd-08593208d8bc) service to localhost/<:IP:> successfully registered with NN
+[aiops-lab-dn1] 2026-10-29 02:22:32,855 INFO datanode.DataNode: For namenode localhost/<:IP:> using BLOCKREPORT_INTERVAL of 21600000msecs CACHEREPORT_INTERVAL of 10000msecs Initial delay: 0msecs; heartBeatInterval=2000
+[aiops-lab-dn1] 2026-10-29 02:22:32,855 INFO datanode.DataNode: Starting IBR Task Handler.
+[aiops-lab-dn1] 2026-10-29 02:22:32,897 INFO datanode.DataNode: After receiving heartbeat response, updating state of namenode localhost:9000 to active
+[aiops-lab-dn1] 2026-10-29 02:22:32,910 INFO datanode.DataNode: Successfully sent block report <:HEX:> with lease ID <:HEX:> to namenode: localhost/<:IP:>,  containing 1 storage report(s), of which we sent 1. The reports had 1 total blocks and used 1 RPC(s). This took 2 msecs to generate and 10 msecs for RPC and NN processing. Got back one command: FinalizeCommand/5.
+[aiops-lab-dn1] 2026-10-29 02:22:32,910 INFO datanode.DataNode: Got finalize command for block pool BP-682513034-<:IP:>-1793206783995

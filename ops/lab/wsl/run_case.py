@@ -84,8 +84,9 @@ def run(database):
                             f"disk_avail_bytes,{parts[3]}\n")
 
     _wsl("umount /mnt/labvol 2>/dev/null || true; sleep 2; "
-         "mount -o rw $(losetup -j /opt/lab/vol.img | cut -d: -f1) /mnt/labvol; "
-         "nohup hdfs datanode > /opt/lab/dn.log 2>&1 &", check=False)
+         "mount -o rw $(losetup -j /opt/lab/vol.img | cut -d: -f1) /mnt/labvol",
+         check=False)
+    _wsl("hdfs --daemon start datanode", check=False)
     live = _wait_live(120)
     recovered = datetime.now(timezone.utc)
     human = recovered + timedelta(seconds=5)
@@ -142,7 +143,7 @@ def run_heartbeat(database):
     case_dir.mkdir(parents=True, exist_ok=True)
 
     if not _wait_live(30):
-        _wsl("nohup hdfs datanode > /opt/lab/dn.log 2>&1 &", check=False)
+        _wsl("hdfs --daemon start datanode", check=False)
         _wait_live(90)
     start_line = int((_wsl("wc -l < /opt/lab/nn.log", check=False).strip() or "0"))
 
@@ -168,7 +169,7 @@ def run_heartbeat(database):
     text += "\n" + "\n".join(f"[aiops-lab-dn1] {line}" for line in dn_log.splitlines())
     text = redact(text) + "\n"
 
-    _wsl("nohup hdfs datanode > /opt/lab/dn.log 2>&1 &", check=False)
+    _wsl("hdfs --daemon start datanode", check=False)
     live = _wait_live(120)
     recovered = datetime.now(timezone.utc)
     human = recovered + timedelta(seconds=5)

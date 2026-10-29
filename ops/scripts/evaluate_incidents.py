@@ -36,9 +36,10 @@ SPLIT_FILE = ROOT / "resources/evaluation/lab/frozen_split.json"
 
 
 # 方法说明：_split 优先读取冻结清单，否则按事件 ID 哈希稳定划分 20%。
-def _split(incident_id, fraction=0.2):
-    if SPLIT_FILE.is_file():
-        data = json.loads(SPLIT_FILE.read_text(encoding="utf-8"))
+def _split(incident_id, fraction=0.2, split_file=None):
+    path = Path(split_file) if split_file else SPLIT_FILE
+    if path.is_file():
+        data = json.loads(path.read_text(encoding="utf-8"))
         return "test" if incident_id in data.get("test", []) else "train"
     bucket = int(hashlib.sha256(incident_id.encode("utf-8")).hexdigest(), 16) % 100
     return "test" if bucket < fraction * 100 else "train"
@@ -91,7 +92,7 @@ def _mttd(timestamps):
 
 
 # 方法说明：evaluate 汇总根因 Top-1/Top-3/MRR 与 MTTD。
-def evaluate(database, cases_dir, taxonomy=None):
+def evaluate(database, cases_dir, taxonomy=None, split_file=None):
     taxonomy = taxonomy or _taxonomy()
     rows, excluded = [], []
     for registry in database.all("SELECT incident_id,record_json FROM incident_registry "
@@ -118,7 +119,7 @@ def evaluate(database, cases_dir, taxonomy=None):
         hypotheses = report.get("hypotheses") or []
         rank, matched = _rank(hypotheses, labels.get("root_cause_code"), expected)
         rows.append({"incident_id": incident_id, "expected": expected, "rank": rank,
-                     "matched_by": matched, "split": _split(incident_id),
+                     "matched_by": matched, "split": _split(incident_id, split_file=split_file),
                      "top1": rank == 1, "top3": rank is not None and rank <= 3,
                      "mrr": (1.0 / rank) if rank else 0.0,
                      "mttd_seconds": _mttd(record["timestamps"]), "diagnosed": True})
@@ -185,10 +186,11 @@ def main(argv=None):
     parser.add_argument("--database", required=True)
     parser.add_argument("--cases", default=str(ROOT / "ops" / "lab" / "cases"))
     parser.add_argument("--output", default=str(ROOT / "resources/evaluation/lab/result"))
+    parser.add_argument("--split-file", default=None)
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    result = evaluate(Database(args.database), args.cases)
+    result = evaluate(Database(args.database), args.cases, split_file=args.split_file)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.with_suffix(".json").write_text(
