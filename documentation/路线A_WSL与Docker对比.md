@@ -19,7 +19,7 @@
 
 1. **注入保真度**
    - WSL 卷故障是**真实卷失败**：`mount -o ro` 后 DataNode 启动即报 `DiskErrorException: Too many failed volumes`，证据链完整；
-   - Docker 卷满靠 `dd` 填 tmpfs，NameNode 常常先拒绝分配，DN 收不到写请求，日志里没有 ENOSPC。
+   - Docker 卷满 28 例归因：6 例命中、**17 例排序**（码在但排第 2）、5 例证据缺失；`dd` 填盘确实让部分案例拿不到 ENOSPC，但主因是排序。
 2. **心跳可观测性**
    - WSL 把 `dfs.heartbeat.interval=2`、`recheck-interval=2000` 写进配置，约 20–25 秒就能看到 `removeDeadDatanode`；
    - Docker 固定窗口内经常等不到该日志。
