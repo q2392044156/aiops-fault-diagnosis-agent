@@ -1,0 +1,12 @@
+{
+  "incident_id": "inc_wsl_volume_20261029023924_9b0b",
+  "batch_id": "bat_425dbfc2199791da925bcabb",
+  "event_id": "evt_7b7f4e0a8e9ca0b923cd7c85",
+  "diagnosis_id": "dia_18f00b54f6012c829c23bbbe",
+  "report_id": "irpt_bc0cf6870b5739764218b0ac",
+  "agent_detected": "2026-10-29T02:39:34.811852+00:00",
+  "mode": "wsl",
+  "fault": "DN_VOLUME",
+  "live_recovered": true,
+  "imported": "ACTIVE"
+}

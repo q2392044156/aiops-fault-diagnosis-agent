@@ -52,10 +52,19 @@ def run(database):
 
     _wsl("/usr/lib/jvm/java-11-openjdk-amd64/bin/jps | awk '/DataNode/{print $1}' | "
          "xargs -r kill -9", check=False)
-    _wsl("sleep 3; umount /mnt/labvol 2>/dev/null || true", check=False)
+    for _ in range(15):
+        alive = _wsl("/usr/lib/jvm/java-11-openjdk-amd64/bin/jps | grep -c DataNode",
+                     check=False).strip()
+        if alive == "0":
+            break
+        time.sleep(1)
+    _wsl("umount /mnt/labvol 2>/dev/null || umount -l /mnt/labvol 2>/dev/null || true",
+         check=False)
+    _wsl("DEV=$(losetup -j /opt/lab/vol.img | cut -d: -f1); "
+         "mount -o ro \"$DEV\" /mnt/labvol; "
+         "findmnt -no OPTIONS /mnt/labvol", check=False)
     t0 = datetime.now(timezone.utc)
-    _wsl("mount -o ro $(losetup -j /opt/lab/vol.img | cut -d: -f1) /mnt/labvol; "
-         "nohup hdfs datanode > /opt/lab/dn_ro.log 2>&1 &")
+    _wsl("nohup hdfs datanode > /opt/lab/dn_ro.log 2>&1 & sleep 2")
 
     signal_at, found = datetime.now(timezone.utc), False
     deadline = time.monotonic() + 45

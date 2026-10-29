@@ -1,14 +1,17 @@
 {
- "note": "WSL 冻结测试集：事件 ID 排序后每 5 个取 1 个",
+ "note": "WSL 冻结测试集：活跃事件 ID 排序后每 5 个取 1 个",
  "fraction": 0.2,
- "total": 34,
+ "total": 48,
  "test": [
-  "inc_wsl_heartbeat_20261028181111_099f",
   "inc_wsl_heartbeat_20261028182246_9b4d",
   "inc_wsl_heartbeat_20261029021753_d389",
   "inc_wsl_volume_20261028172557_b263",
   "inc_wsl_volume_20261028173822_bd33",
   "inc_wsl_volume_20261028174902_59c4",
-  "inc_wsl_volume_20261028175939_1bd5"
+  "inc_wsl_volume_20261028175939_1bd5",
+  "inc_wsl_volume_20261029023717_2944",
+  "inc_wsl_volume_20261029023813_a665",
+  "inc_wsl_volume_20261029023913_2391",
+  "inc_wsl_volume_20261029024010_e071"
  ]
 }

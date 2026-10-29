@@ -190,7 +190,12 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    result = evaluate(Database(args.database), args.cases, split_file=args.split_file)
+    split_file = args.split_file
+    if split_file is None and "wsl_cases" in str(args.cases):
+        candidate = ROOT / "resources/evaluation/lab/wsl_split.json"
+        if candidate.is_file():
+            split_file = str(candidate)
+    result = evaluate(Database(args.database), args.cases, split_file=split_file)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.with_suffix(".json").write_text(
