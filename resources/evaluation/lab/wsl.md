@@ -3,10 +3,10 @@
 | 事件数 | 48 |
 | 可计入根因指标 | 48 |
 | 有诊断报告 | 48 |
-| Top-1 | 0.9792 |
+| Top-1 | 1.0 |
 | Top-3 | 1.0 |
-| MRR | 0.9896 |
-| Top-1 95% CI | [0.891, 0.9963] |
+| MRR | 1.0 |
+| Top-1 95% CI | [0.9259, 1.0] |
 | 冻结测试集 | n=10 Top-1=1.0 CI=[0.7225, 1.0] |
 | MTTD | N/A |
 | 排除原因 | {} |
@@ -54,10 +54,10 @@
 | inc_wsl_volume_20261029023850_3b7c | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029023901_1529 | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029024033_c77b | DataNode | 1 | code | N/A |
-| inc_wsl_volume_20261029043615_20c9 | DataNode | 2 | code | N/A |
 | inc_wsl_volume_20261029043753_e751 | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029043808_21ee | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029043823_00df | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029043838_c2a8 | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029043853_8867 | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029043909_6208 | DataNode | 1 | code | N/A |
+| inc_wsl_volume_20261029051043_1752 | DataNode | 1 | code | N/A |

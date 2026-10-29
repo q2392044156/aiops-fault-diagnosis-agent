@@ -77,6 +77,7 @@ def run(database):
                      check=False).strip()
         return count not in ("", "0")
 
+    nn_start = int((_wsl("wc -l < /opt/lab/nn.log", check=False).strip() or "0"))
     t0 = datetime.now(timezone.utc)
     injection_ok = _inject_ro() or _inject_ro()
 
@@ -92,7 +93,7 @@ def run(database):
 
     cutoff = (signal_at + timedelta(seconds=5)) if found else (t0 + timedelta(seconds=45))
     dn_log = _wsl("cat /opt/lab/dn_ro.log 2>/dev/null", check=False)
-    nn_log = _wsl("tail -200 /opt/lab/nn.log 2>/dev/null", check=False)
+    nn_log = _wsl(f"tail -n +{nn_start + 1} /opt/lab/nn.log 2>/dev/null", check=False)
     text = "\n".join(f"[aiops-lab-dn1] {line}" for line in dn_log.splitlines())
     text += "\n" + "\n".join(f"[aiops-lab-namenode] {line}"
                              for line in nn_log.splitlines())
