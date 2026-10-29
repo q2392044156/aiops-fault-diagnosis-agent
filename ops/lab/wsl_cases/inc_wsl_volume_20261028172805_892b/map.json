@@ -1,12 +1,9 @@
 {
   "incident_id": "inc_wsl_volume_20261028172805_892b",
-  "batch_id": "bat_8f0e615f284ee5f668d86a6a",
-  "event_id": "evt_2e4e995cfad50bcd1fee5a2d",
-  "diagnosis_id": "dia_64beefe6119fed9d872540c9",
-  "report_id": "irpt_2d4425c8c4b5819b7c58b551",
-  "agent_detected": "2026-10-28T17:28:09.973920+00:00",
-  "mode": "wsl",
-  "fault": "DN_VOLUME",
-  "live_recovered": true,
-  "imported": "ACTIVE"
+  "batch_id": "bat_dad1459204681c332ccb70a2",
+  "event_id": "evt_382c69307e2c49bb84302722",
+  "diagnosis_id": "dia_a34d5841b17ab8810f5e8d23",
+  "report_id": "irpt_3539f0a43cb01fa1b78eaf9c",
+  "agent_detected": "2026-10-29T05:58:24.797350+00:00",
+  "mode": "lab-ingest"
 }

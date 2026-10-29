@@ -3,22 +3,23 @@
     "incidents": 81,
     "eligible": 81,
     "diagnosed": 81,
-    "top1": 0.5062,
+    "top1": 0.5679,
     "top3": 0.7654,
-    "mrr": 0.6255,
+    "top5": 0.7778,
+    "mrr": 0.6574,
     "mttd_seconds": 46.6,
     "top1_ci95": [
-      0.3995,
-      0.6123
+      0.4594,
+      0.6703
     ],
     "excluded": 0,
     "exclusion_reasons": {},
     "test": {
       "n": 30,
-      "top1": 0.4667,
+      "top1": 0.5333,
       "top1_ci95": [
-        0.3023,
-        0.6386
+        0.3614,
+        0.6977
       ]
     }
   },
@@ -31,6 +32,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 63.42507,
       "diagnosed": true
@@ -43,6 +45,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 62.029111,
       "diagnosed": true
@@ -55,6 +58,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 61.440021,
       "diagnosed": true
@@ -67,6 +71,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 62.59572,
       "diagnosed": true
@@ -79,6 +84,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 61.298429,
       "diagnosed": true
@@ -91,6 +97,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 62.301606,
       "diagnosed": true
@@ -103,6 +110,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 61.768503,
       "diagnosed": true
@@ -115,6 +123,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 62.433725,
       "diagnosed": true
@@ -127,6 +136,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 64.202751,
       "diagnosed": true
@@ -139,6 +149,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 61.789751,
       "diagnosed": true
@@ -151,6 +162,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 63.044481,
       "diagnosed": true
@@ -163,6 +175,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 71.518681,
       "diagnosed": true
@@ -175,6 +188,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 71.12092,
       "diagnosed": true
@@ -187,6 +201,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 61.135118,
       "diagnosed": true
@@ -199,6 +214,7 @@
       "split": "test",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 79.682973,
       "diagnosed": true
@@ -211,6 +227,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 78.453414,
       "diagnosed": true
@@ -223,6 +240,7 @@
       "split": "test",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 81.432298,
       "diagnosed": true
@@ -235,6 +253,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 79.406115,
       "diagnosed": true
@@ -247,6 +266,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 83.053441,
       "diagnosed": true
@@ -259,6 +279,7 @@
       "split": "test",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 79.431094,
       "diagnosed": true
@@ -271,6 +292,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 82.184299,
       "diagnosed": true
@@ -283,6 +305,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 83.874639,
       "diagnosed": true
@@ -295,6 +318,7 @@
       "split": "test",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 82.876543,
       "diagnosed": true
@@ -307,6 +331,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 64.073394,
       "diagnosed": true
@@ -319,6 +344,7 @@
       "split": "test",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 78.717317,
       "diagnosed": true
@@ -331,6 +357,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 77.275545,
       "diagnosed": true
@@ -343,6 +370,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 74.366597,
       "diagnosed": true
@@ -355,6 +383,7 @@
       "split": "test",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 24.664636,
       "diagnosed": true
@@ -367,6 +396,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 27.855129,
       "diagnosed": true
@@ -379,6 +409,7 @@
       "split": "train",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 24.107181,
       "diagnosed": true
@@ -386,12 +417,13 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125425_ef0b",
       "expected": "DataNode",
-      "rank": 2,
+      "rank": 1,
       "matched_by": "code",
       "split": "test",
-      "top1": false,
+      "top1": true,
       "top3": true,
-      "mrr": 0.5,
+      "top5": true,
+      "mrr": 1.0,
       "mttd_seconds": 27.889247,
       "diagnosed": true
     },
@@ -403,6 +435,7 @@
       "split": "train",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 24.183862,
       "diagnosed": true
@@ -410,12 +443,13 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125522_31d2",
       "expected": "DataNode",
-      "rank": 2,
+      "rank": 1,
       "matched_by": "code",
       "split": "test",
-      "top1": false,
+      "top1": true,
       "top3": true,
-      "mrr": 0.5,
+      "top5": true,
+      "mrr": 1.0,
       "mttd_seconds": 27.782389,
       "diagnosed": true
     },
@@ -427,6 +461,7 @@
       "split": "train",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 24.161695,
       "diagnosed": true
@@ -434,12 +469,13 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125619_c5a7",
       "expected": "DataNode",
-      "rank": 2,
+      "rank": 1,
       "matched_by": "code",
       "split": "train",
-      "top1": false,
+      "top1": true,
       "top3": true,
-      "mrr": 0.5,
+      "top5": true,
+      "mrr": 1.0,
       "mttd_seconds": 28.101909,
       "diagnosed": true
     },
@@ -451,6 +487,7 @@
       "split": "test",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 24.368326,
       "diagnosed": true
@@ -463,6 +500,7 @@
       "split": "train",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 24.984958,
       "diagnosed": true
@@ -470,12 +508,13 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125749_fff9",
       "expected": "DataNode",
-      "rank": 2,
+      "rank": 1,
       "matched_by": "code",
       "split": "train",
-      "top1": false,
+      "top1": true,
       "top3": true,
-      "mrr": 0.5,
+      "top5": true,
+      "mrr": 1.0,
       "mttd_seconds": 29.608828,
       "diagnosed": true
     },
@@ -487,6 +526,7 @@
       "split": "test",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 24.643303,
       "diagnosed": true
@@ -494,12 +534,13 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125850_d215",
       "expected": "DataNode",
-      "rank": 2,
+      "rank": 1,
       "matched_by": "code",
       "split": "train",
-      "top1": false,
+      "top1": true,
       "top3": true,
-      "mrr": 0.5,
+      "top5": true,
+      "mrr": 1.0,
       "mttd_seconds": 28.15194,
       "diagnosed": true
     },
@@ -511,6 +552,7 @@
       "split": "test",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 24.917033,
       "diagnosed": true
@@ -523,6 +565,7 @@
       "split": "train",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 35.830265,
       "diagnosed": true
@@ -535,6 +578,7 @@
       "split": "train",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.5,
       "mttd_seconds": 35.955376,
       "diagnosed": true
@@ -547,6 +591,7 @@
       "split": "test",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 38.175311,
       "diagnosed": true
@@ -554,12 +599,13 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028135658_3859",
       "expected": "DataNode",
-      "rank": null,
-      "matched_by": null,
+      "rank": 4,
+      "matched_by": "code",
       "split": "train",
       "top1": false,
       "top3": false,
-      "mrr": 0.0,
+      "top5": true,
+      "mrr": 0.25,
       "mttd_seconds": 39.529776,
       "diagnosed": true
     },
@@ -571,6 +617,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 43.141658,
       "diagnosed": true
@@ -583,6 +630,7 @@
       "split": "test",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.3333333333333333,
       "mttd_seconds": 41.395997,
       "diagnosed": true
@@ -595,6 +643,7 @@
       "split": "train",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.3333333333333333,
       "mttd_seconds": 43.96048,
       "diagnosed": true
@@ -602,12 +651,13 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028140024_718d",
       "expected": "DataNode",
-      "rank": 2,
+      "rank": 3,
       "matched_by": "code",
       "split": "train",
       "top1": false,
       "top3": true,
-      "mrr": 0.5,
+      "top5": true,
+      "mrr": 0.3333333333333333,
       "mttd_seconds": 49.751266,
       "diagnosed": true
     },
@@ -619,6 +669,7 @@
       "split": "test",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.3333333333333333,
       "mttd_seconds": 49.272703,
       "diagnosed": true
@@ -631,6 +682,7 @@
       "split": "train",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.3333333333333333,
       "mttd_seconds": 50.152054,
       "diagnosed": true
@@ -643,6 +695,7 @@
       "split": "test",
       "top1": false,
       "top3": true,
+      "top5": true,
       "mrr": 0.3333333333333333,
       "mttd_seconds": 50.879555,
       "diagnosed": true
@@ -655,6 +708,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 49.805835,
       "diagnosed": true
@@ -667,6 +721,7 @@
       "split": "train",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 56.171711,
       "diagnosed": true
@@ -679,6 +734,7 @@
       "split": "test",
       "top1": false,
       "top3": false,
+      "top5": false,
       "mrr": 0.0,
       "mttd_seconds": 57.515736,
       "diagnosed": true
@@ -691,6 +747,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 28.727885,
       "diagnosed": true
@@ -703,6 +760,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 28.482249,
       "diagnosed": true
@@ -715,6 +773,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 32.096307,
       "diagnosed": true
@@ -727,6 +786,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 28.903133,
       "diagnosed": true
@@ -739,6 +799,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 29.091875,
       "diagnosed": true
@@ -751,6 +812,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 30.93434,
       "diagnosed": true
@@ -763,6 +825,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 29.367291,
       "diagnosed": true
@@ -775,6 +838,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 28.963317,
       "diagnosed": true
@@ -787,6 +851,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 29.621517,
       "diagnosed": true
@@ -799,6 +864,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 29.855189,
       "diagnosed": true
@@ -811,6 +877,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 28.870084,
       "diagnosed": true
@@ -823,6 +890,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 29.688122,
       "diagnosed": true
@@ -835,6 +903,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 29.729385,
       "diagnosed": true
@@ -847,6 +916,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 38.71243,
       "diagnosed": true
@@ -859,6 +929,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 41.831107,
       "diagnosed": true
@@ -871,6 +942,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 39.21787,
       "diagnosed": true
@@ -883,6 +955,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 41.840085,
       "diagnosed": true
@@ -895,6 +968,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 42.370362,
       "diagnosed": true
@@ -907,6 +981,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 37.348726,
       "diagnosed": true
@@ -919,6 +994,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 33.974356,
       "diagnosed": true
@@ -931,6 +1007,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 34.97352,
       "diagnosed": true
@@ -943,6 +1020,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 33.270053,
       "diagnosed": true
@@ -955,6 +1033,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 33.070544,
       "diagnosed": true
@@ -967,6 +1046,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 31.182541,
       "diagnosed": true
@@ -979,6 +1059,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 30.399137,
       "diagnosed": true
@@ -991,6 +1072,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": 30.47136,
       "diagnosed": true

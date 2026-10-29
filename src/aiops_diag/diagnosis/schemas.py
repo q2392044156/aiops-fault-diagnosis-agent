@@ -112,7 +112,7 @@ class GeneratedReportBody(StrictModel):
     # 变量说明：`observed_facts` 保存本模块或数据模型使用的稳定值。
     observed_facts: list[str] = Field(max_length=12)
     # 变量说明：`hypotheses` 保存本模块或数据模型使用的稳定值。
-    hypotheses: list[Hypothesis] = Field(max_length=3)
+    hypotheses: list[Hypothesis] = Field(max_length=5)
     # 变量说明：`checks` 保存本模块或数据模型使用的稳定值。
     checks: list[ActionAdvice] = Field(max_length=12)
     # 变量说明：`missing_information` 保存本模块或数据模型使用的稳定值。

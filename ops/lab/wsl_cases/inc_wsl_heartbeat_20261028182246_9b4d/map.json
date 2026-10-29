@@ -1,12 +1,9 @@
 {
   "incident_id": "inc_wsl_heartbeat_20261028182246_9b4d",
-  "batch_id": "bat_43627f3231d10cd271c303b5",
-  "event_id": "evt_d9bb74e18361dacee6b2b373",
-  "diagnosis_id": "dia_57a47a7533552c7260037e17",
-  "report_id": "irpt_19f70a0130ac3870186090e8",
-  "agent_detected": "2026-10-28T18:25:16.494566+00:00",
-  "mode": "wsl",
-  "fault": "DN_HEARTBEAT",
-  "live_recovered": false,
-  "imported": "ACTIVE"
+  "batch_id": "bat_af1755b7485eb83aa0c281d0",
+  "event_id": "evt_7b72fd50b426c5393f430fe2",
+  "diagnosis_id": "dia_b3ec08e32462806c77360da6",
+  "report_id": "irpt_24549486dbcdffa4edc30ea8",
+  "agent_detected": "2026-10-29T05:57:57.734818+00:00",
+  "mode": "lab-ingest"
 }

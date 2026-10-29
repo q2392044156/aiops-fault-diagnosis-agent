@@ -121,6 +121,7 @@ def evaluate(database, cases_dir, taxonomy=None, split_file=None):
         rows.append({"incident_id": incident_id, "expected": expected, "rank": rank,
                      "matched_by": matched, "split": _split(incident_id, split_file=split_file),
                      "top1": rank == 1, "top3": rank is not None and rank <= 3,
+                     "top5": rank is not None and rank <= 5,
                      "mrr": (1.0 / rank) if rank else 0.0,
                      "mttd_seconds": _mttd(record["timestamps"]), "diagnosed": True})
 
@@ -134,6 +135,8 @@ def evaluate(database, cases_dir, taxonomy=None, split_file=None):
         "top1": round(sum(row["top1"] for row in diagnosed) / len(diagnosed), 4)
         if diagnosed else "N/A",
         "top3": round(sum(row["top3"] for row in diagnosed) / len(diagnosed), 4)
+        if diagnosed else "N/A",
+        "top5": round(sum(row.get("top5", False) for row in diagnosed) / len(diagnosed), 4)
         if diagnosed else "N/A",
         "mrr": round(sum(row["mrr"] for row in diagnosed) / len(diagnosed), 4)
         if diagnosed else "N/A",
@@ -164,6 +167,7 @@ def markdown(result):
              f"| 有诊断报告 | {summary['diagnosed']} |",
              f"| Top-1 | {summary['top1']} |",
              f"| Top-3 | {summary['top3']} |",
+             f"| Top-5 | {summary['top5']} |",
              f"| MRR | {summary['mrr']} |",
              f"| Top-1 95% CI | {summary['top1_ci95']} |",
              f"| 冻结测试集 | n={summary['test']['n']} Top-1={summary['test']['top1']} "

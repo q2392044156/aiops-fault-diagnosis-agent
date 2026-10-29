@@ -5,6 +5,7 @@
     "diagnosed": 48,
     "top1": 1.0,
     "top3": 1.0,
+    "top5": 1.0,
     "mrr": 1.0,
     "mttd_seconds": "N/A",
     "top1_ci95": [
@@ -31,6 +32,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -43,6 +45,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -55,6 +58,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -67,6 +71,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -79,6 +84,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -91,6 +97,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -103,6 +110,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -115,6 +123,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -127,6 +136,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -139,6 +149,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -151,6 +162,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -163,6 +175,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -175,6 +188,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -187,6 +201,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -199,6 +214,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -211,6 +227,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -223,6 +240,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -235,6 +253,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -247,6 +266,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -259,6 +279,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -271,6 +292,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -283,6 +305,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -295,6 +318,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -307,6 +331,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -319,6 +344,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -331,6 +357,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -343,6 +370,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -355,6 +383,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -367,6 +396,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -379,6 +409,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -391,6 +422,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -403,6 +435,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -415,6 +448,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -427,6 +461,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -439,6 +474,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -451,6 +487,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -463,6 +500,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -475,6 +513,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -487,6 +526,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -499,6 +539,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -511,6 +552,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -523,6 +565,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -535,6 +578,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -547,6 +591,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -559,6 +604,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -571,6 +617,7 @@
       "split": "test",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -583,6 +630,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true
@@ -595,6 +643,7 @@
       "split": "train",
       "top1": true,
       "top3": true,
+      "top5": true,
       "mrr": 1.0,
       "mttd_seconds": null,
       "diagnosed": true

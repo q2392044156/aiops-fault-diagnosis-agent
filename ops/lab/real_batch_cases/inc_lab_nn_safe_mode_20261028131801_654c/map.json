@@ -1,9 +1,9 @@
 {
   "incident_id": "inc_lab_nn_safe_mode_20261028131801_654c",
-  "batch_id": "bat_f813d2cd2fff36f6148b624d",
-  "event_id": "evt_9656080787c7b4cf42b340d7",
-  "diagnosis_id": "dia_f1603180dc4eb5a66c5e6750",
-  "report_id": "irpt_11dc533e928715dc88b34455",
-  "agent_detected": "2026-10-28T15:03:14.975717+00:00",
+  "batch_id": "bat_c724f1295f16ae7572ba772e",
+  "event_id": "evt_785c6d0e4aaf500368fd2d6a",
+  "diagnosis_id": "dia_cfbbb757f387a46466198e4b",
+  "report_id": "irpt_5d7a47026f1bd792eda5154d",
+  "agent_detected": "2026-10-29T06:02:57.295160+00:00",
   "mode": "lab-ingest"
 }

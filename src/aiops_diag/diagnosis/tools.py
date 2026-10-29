@@ -160,7 +160,7 @@ class AgentTools:
                                            else 1, item[0]))
         doc_evidence = [document for _, document in ordered]
         hypotheses = []
-        for index, document in enumerate(doc_evidence[:3], 1):
+        for index, document in enumerate(doc_evidence[:5], 1):
             component = document.get("component") or (components[0] if components else None)
             support = [document["evidence_id"]]
             support.extend(row["evidence_id"] for row in log_evidence

@@ -80,7 +80,7 @@ python ops/lab/wsl/run_case.py --database runtime/lab/wsl.sqlite3
 | --- | --- | --- |
 | DN_VOLUME（只读 remount） | 38 | 1.0 |
 | DN_HEARTBEAT（kill + 2s 心跳） | 10 | 1.0 |
-| 合计 | **48** | **1.0**（95% CI [0.9259, 1.0]） |
+| 合计 | **48** | **1.0**（Top-3/5 均 1.0，95% CI [0.9259, 1.0]） |
 
 说明：
 

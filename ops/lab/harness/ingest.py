@@ -207,7 +207,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                         "max_active_seconds": 120, "optional_router_enabled": False,
                         "context_strategy": "full"},
            "tools": {"query_logs_limit": 50, "similar_incidents_limit": 3,
-                     "runbook_top_k": 3},
+                     "runbook_top_k": 5},
            "approval": {"ttl_hours": 24},
            "rag": {"provider": {"name": "deepseek"}, "budget": {}, "paths": {}}}
     release = {"schema_version": 1, "agent_version": "lab_agent", "release_id": "agr_lab",
