@@ -1,9 +1,0 @@
-{
-  "incident_id": "inc_lab_dn_heartbeat_20261028140942_67de",
-  "batch_id": "bat_f0917c728a48bea22c12c5e8",
-  "event_id": "evt_2f4078abb07ef1b8a457f25f",
-  "diagnosis_id": "dia_8c370b6457d0b534bb413cdd",
-  "report_id": "irpt_24c3c1885130b4ea3f0af66d",
-  "agent_detected": "2026-10-29T06:01:34.374289+00:00",
-  "mode": "lab-ingest"
-}

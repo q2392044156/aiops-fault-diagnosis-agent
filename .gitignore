@@ -26,3 +26,8 @@ __pycache__/
 # Demo runtime artifacts
 /demo/.runtime/
 demo_result.json
+
+# 实验数据集（本地生成，不入库）
+/ops/lab/cases/
+/ops/lab/wsl_cases/
+/ops/lab/real_batch_cases/

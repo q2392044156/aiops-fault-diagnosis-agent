@@ -175,29 +175,49 @@ python ops/scripts/mcp_smoke.py
 python -m aiops_diag.platform.mcp_server --database runtime/v12/service.sqlite3
 ```
 
-## 路线 A：受控故障实验台（MVP）
+## 路线 A：真实故障实验
 
-本机 Docker Compose 起 **1 NameNode + 3 DataNode**，注入真实故障并产出符合冻结 Schema 的 incident：
+两套实验台，共 **149 例真实注入**（WSL 68 + Docker 81）。数据集不随仓库分发（已加入 `.gitignore`），按脚本本地生成。
 
-| 故障族 | 注入方式 | 观测信号 |
+| 实验台 | 拓扑 | 故障族 | 注入形态 |
+| --- | --- | --- | --- |
+| WSL（Hadoop 3.3.6） | 1NN + 1DN | DN_VOLUME / DN_HEARTBEAT / NN_SAFE_MODE | 只读 remount / kill + 2s 心跳 / safemode |
+| Docker Compose | 1NN + 3DN | 同上 | dd 填盘 / kill / safemode |
+
+### 结果
+
+| 指标 | WSL 68 | Docker 81 |
 | --- | --- | --- |
-| `DN_VOLUME` | dn1（128MB tmpfs）用 `dd` 填满 | `No space left on device` / `Volume ... failed` |
-| `DN_HEARTBEAT` | `docker kill` dn2 | `Lost DataNode` |
-| `NN_SAFE_MODE` | `hdfs dfsadmin -safemode enter` | `Safe mode is ON` |
+| Top-1 | **100%**（CI [0.9465, 1.0]） | **56.8%**（CI [0.4594, 0.6703]） |
+| Top-3 | 100% | 76.5% |
+| Top-5 | 100% | 77.8% |
+| MRR | 1.00 | 0.6574 |
+| 冻结测试集 | n=14，100% | n=30，53.3% |
+| 分族 | 卷 38/38、心跳 10/10、安全模式 20/20 | 卷 6/28、心跳 14/27、安全模式 26/26 |
 
-已实测一次真实的 NameNode 安全模式故障：**fault_start → 信号 +1.69s**，25s 观测窗，日志脱敏后 570 字节，`incident validate` 通过、`root_cause_metrics=AVAILABLE`。
+Docker 81 例失败归因：**命中 46、证据缺失 5、召回缺失 13、排序错误 17**——卷满主要是排序，心跳主要是召回，真正缺证据只有 5 例。
 
-```powershell
+两套数字**不能相加**：注入形态、拓扑、样本量都不同。
+
+### 复现
+
+```bash
+# WSL
+bash ops/lab/wsl/readonly_volume.sh
+python ops/lab/wsl/run_case.py --fault DN_VOLUME --database runtime/lab/wsl.sqlite3
+python ops/lab/wsl/run_case.py --fault DN_HEARTBEAT --database runtime/lab/wsl.sqlite3
+python ops/lab/wsl/run_case.py --fault NN_SAFE_MODE --database runtime/lab/wsl.sqlite3
+python ops/scripts/evaluate_incidents.py --database runtime/lab/wsl.sqlite3 --cases ops/lab/wsl_cases
+
+# Docker
 docker compose -f ops/lab/compose.yaml up -d
-python ops/lab/harness/run_case.py --fault NN_SAFE_MODE --observe 25 --import-db runtime/lab/mvp.sqlite3
-python ops/lab/harness/ingest.py --case ops/lab/cases/<incident_id> --database runtime/lab/mvp.sqlite3
-python ops/lab/harness/run_batch.py --per-fault 7 --database runtime/lab/batch.sqlite3
-python ops/lab/harness/run_batch.py --real --per-fault 7 --observe 15 --database runtime/lab/real_batch.sqlite3
-python ops/scripts/evaluate_incidents.py --database runtime/lab/mvp.sqlite3 --cases ops/lab/cases
+python ops/lab/harness/run_batch.py --real --per-fault 7 --observe 12 --database runtime/lab/real_batch.sqlite3
 docker compose -f ops/lab/compose.yaml down -v
 ```
 
-**真实集群 81 例**（28 卷满 + 27 心跳丢失 + 26 安全模式）：严格代码级 **Top-1 56.8%**（95% CI [0.4594, 0.6703]），Top-3 76.5%，Top-5 77.8%，MRR 0.66，MTTD 46.6s；冻结测试集 n=30，Top-1 53.3%（CI [0.36, 0.70]）。分族：安全模式 26/26、心跳 14/27、卷满 1/28。**注意：此前 85.4% 是组件级口径（码不对但组件对也算中），不能当作代码级成绩。** Docker Desktop 下卷满/心跳被判定为"环境不支持"；**WSL 单机 Hadoop 已补上卷故障与心跳**：68 例（38 卷 + 10 心跳 + 20 安全模式）Top-1 **100%**（CI [0.9465, 1.0]），见 [WSL 实验台](ops/lab/wsl/README.md) 与 [WSL/Docker 对比](documentation/路线A_WSL与Docker对比.md)；一页版结论见 [路线A 最终报告](documentation/路线A_最终报告.md)。详见 [路线 A MVP 报告](documentation/路线A_MVP.md) 与 [实验台说明](ops/lab/README.md)。
+数据集默认忽略；如需复核，运行上述命令会在 `ops/lab/wsl_cases/`、`ops/lab/real_batch_cases/` 本地生成证据与 incident。
+
+详见 [路线 A 最终报告](documentation/路线A_最终报告.md)、[WSL/Docker 对比](documentation/路线A_WSL与Docker对比.md) 与 [失败归因](resources/evaluation/lab/failure_attribution.md)。
 
 ## 项目结构
 
