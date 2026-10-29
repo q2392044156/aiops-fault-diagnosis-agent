@@ -50,21 +50,35 @@ def run(database):
     case_dir = ROOT / "ops" / "lab" / "wsl_cases" / case_id
     case_dir.mkdir(parents=True, exist_ok=True)
 
-    _wsl("/usr/lib/jvm/java-11-openjdk-amd64/bin/jps | awk '/DataNode/{print $1}' | "
-         "xargs -r kill -9", check=False)
-    for _ in range(15):
-        alive = _wsl("/usr/lib/jvm/java-11-openjdk-amd64/bin/jps | grep -c DataNode",
+    def _inject_ro():
+        _wsl("/usr/lib/jvm/java-11-openjdk-amd64/bin/jps | awk '/DataNode/{print $1}' | "
+             "xargs -r kill -9", check=False)
+        for _ in range(15):
+            if _wsl("/usr/lib/jvm/java-11-openjdk-amd64/bin/jps | grep -c DataNode",
+                    check=False).strip() == "0":
+                break
+            time.sleep(1)
+        _wsl("umount /mnt/labvol 2>/dev/null; umount /mnt/labvol 2>/dev/null; "
+             "umount -l /mnt/labvol 2>/dev/null; true", check=False)
+        options = _wsl("DEV=$(losetup -j /opt/lab/vol.img | cut -d: -f1); "
+                       "if [ -z \"$DEV\" ]; then DEV=$(losetup -f); "
+                       "losetup \"$DEV\" /opt/lab/vol.img; fi; "
+                       "mount -o ro \"$DEV\" /mnt/labvol 2>/dev/null; "
+                       "findmnt -no OPTIONS /mnt/labvol", check=False)
+        if "ro" not in options:
+            _wsl("mount -o remount,ro /mnt/labvol", check=False)
+            options = _wsl("findmnt -no OPTIONS /mnt/labvol", check=False)
+        if "ro" not in options:
+            return False
+        _wsl("rm -f /opt/lab/dn_ro.log; nohup hdfs datanode > /opt/lab/dn_ro.log "
+             "2>&1 & sleep 3")
+        time.sleep(2)
+        count = _wsl("grep -c 'Too many failed volumes' /opt/lab/dn_ro.log || true",
                      check=False).strip()
-        if alive == "0":
-            break
-        time.sleep(1)
-    _wsl("umount /mnt/labvol 2>/dev/null || umount -l /mnt/labvol 2>/dev/null || true",
-         check=False)
-    _wsl("DEV=$(losetup -j /opt/lab/vol.img | cut -d: -f1); "
-         "mount -o ro \"$DEV\" /mnt/labvol; "
-         "findmnt -no OPTIONS /mnt/labvol", check=False)
+        return count not in ("", "0")
+
     t0 = datetime.now(timezone.utc)
-    _wsl("nohup hdfs datanode > /opt/lab/dn_ro.log 2>&1 & sleep 2")
+    injection_ok = _inject_ro() or _inject_ro()
 
     signal_at, found = datetime.now(timezone.utc), False
     deadline = time.monotonic() + 45
@@ -92,9 +106,11 @@ def run(database):
             metrics_csv += (f"{cutoff.isoformat()},aiops-lab-dn1,DataNode,"
                             f"disk_avail_bytes,{parts[3]}\n")
 
-    _wsl("umount /mnt/labvol 2>/dev/null || true; sleep 2; "
-         "mount -o rw $(losetup -j /opt/lab/vol.img | cut -d: -f1) /mnt/labvol",
-         check=False)
+    _wsl("umount /mnt/labvol 2>/dev/null || umount -l /mnt/labvol 2>/dev/null || true; "
+         "sleep 2; DEV=$(losetup -j /opt/lab/vol.img | cut -d: -f1); "
+         "if [ -z \"$DEV\" ]; then DEV=$(losetup -f); "
+         "losetup \"$DEV\" /opt/lab/vol.img; fi; "
+         "mount -o rw \"$DEV\" /mnt/labvol", check=False)
     _wsl("hdfs --daemon start datanode", check=False)
     live = _wait_live(120)
     recovered = datetime.now(timezone.utc)
@@ -136,7 +152,7 @@ def run(database):
     mapping = ingest_log(case_id, logs_path, database_path, t0.isoformat(),
                          signal_at.isoformat(), "template", focus_component="DataNode")
     mapping.update({"fault": "DN_VOLUME", "mode": "wsl", "live_recovered": live,
-                    "imported": imported["status"]})
+                    "injection_ok": injection_ok, "imported": imported["status"]})
     (case_dir / "map.json").write_text(
         __import__("json").dumps(mapping, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8")

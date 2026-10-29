@@ -3,22 +3,22 @@
     "incidents": 48,
     "eligible": 48,
     "diagnosed": 48,
-    "top1": 0.8542,
+    "top1": 0.9792,
     "top3": 1.0,
-    "mrr": 0.9271,
+    "mrr": 0.9896,
     "mttd_seconds": "N/A",
     "top1_ci95": [
-      0.7283,
-      0.9275
+      0.891,
+      0.9963
     ],
     "excluded": 0,
     "exclusion_reasons": {},
     "test": {
       "n": 10,
-      "top1": 0.8,
+      "top1": 1.0,
       "top1_ci95": [
-        0.4902,
-        0.9433
+        0.7225,
+        1.0
       ]
     }
   },
@@ -504,91 +504,91 @@
       "diagnosed": true
     },
     {
-      "incident_id": "inc_wsl_volume_20261029023913_2391",
-      "expected": "DataNode",
-      "rank": 2,
-      "matched_by": "code",
-      "split": "test",
-      "top1": false,
-      "top3": true,
-      "mrr": 0.5,
-      "mttd_seconds": null,
-      "diagnosed": true
-    },
-    {
-      "incident_id": "inc_wsl_volume_20261029023924_9b0b",
-      "expected": "DataNode",
-      "rank": 2,
-      "matched_by": "code",
-      "split": "train",
-      "top1": false,
-      "top3": true,
-      "mrr": 0.5,
-      "mttd_seconds": null,
-      "diagnosed": true
-    },
-    {
-      "incident_id": "inc_wsl_volume_20261029023936_9603",
-      "expected": "DataNode",
-      "rank": 2,
-      "matched_by": "code",
-      "split": "train",
-      "top1": false,
-      "top3": true,
-      "mrr": 0.5,
-      "mttd_seconds": null,
-      "diagnosed": true
-    },
-    {
-      "incident_id": "inc_wsl_volume_20261029023947_8061",
-      "expected": "DataNode",
-      "rank": 2,
-      "matched_by": "code",
-      "split": "train",
-      "top1": false,
-      "top3": true,
-      "mrr": 0.5,
-      "mttd_seconds": null,
-      "diagnosed": true
-    },
-    {
-      "incident_id": "inc_wsl_volume_20261029023959_c184",
-      "expected": "DataNode",
-      "rank": 2,
-      "matched_by": "code",
-      "split": "train",
-      "top1": false,
-      "top3": true,
-      "mrr": 0.5,
-      "mttd_seconds": null,
-      "diagnosed": true
-    },
-    {
-      "incident_id": "inc_wsl_volume_20261029024010_e071",
-      "expected": "DataNode",
-      "rank": 2,
-      "matched_by": "code",
-      "split": "test",
-      "top1": false,
-      "top3": true,
-      "mrr": 0.5,
-      "mttd_seconds": null,
-      "diagnosed": true
-    },
-    {
-      "incident_id": "inc_wsl_volume_20261029024022_82b9",
-      "expected": "DataNode",
-      "rank": 2,
-      "matched_by": "code",
-      "split": "train",
-      "top1": false,
-      "top3": true,
-      "mrr": 0.5,
-      "mttd_seconds": null,
-      "diagnosed": true
-    },
-    {
       "incident_id": "inc_wsl_volume_20261029024033_c77b",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "test",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261029043615_20c9",
+      "expected": "DataNode",
+      "rank": 2,
+      "matched_by": "code",
+      "split": "train",
+      "top1": false,
+      "top3": true,
+      "mrr": 0.5,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261029043753_e751",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "train",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261029043808_21ee",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "train",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261029043823_00df",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "train",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261029043838_c2a8",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "test",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261029043853_8867",
+      "expected": "DataNode",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "train",
+      "top1": true,
+      "top3": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    },
+    {
+      "incident_id": "inc_wsl_volume_20261029043909_6208",
       "expected": "DataNode",
       "rank": 1,
       "matched_by": "code",

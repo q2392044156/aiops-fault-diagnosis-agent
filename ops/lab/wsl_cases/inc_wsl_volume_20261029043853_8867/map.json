@@ -1,0 +1,13 @@
+{
+  "incident_id": "inc_wsl_volume_20261029043853_8867",
+  "batch_id": "bat_271d2ef1213e448c0990d0af",
+  "event_id": "evt_d154f0a8bdcb6faf7842eaa9",
+  "diagnosis_id": "dia_d8894b38e962a448cdea7495",
+  "report_id": "irpt_de4c4410299fd29d3f270cf0",
+  "agent_detected": "2026-10-29T04:39:07.520552+00:00",
+  "mode": "wsl",
+  "fault": "DN_VOLUME",
+  "live_recovered": true,
+  "injection_ok": true,
+  "imported": "ACTIVE"
+}
