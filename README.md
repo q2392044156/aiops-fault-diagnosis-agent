@@ -3,81 +3,44 @@
 [![ci](https://github.com/q2392044156/aiops-fault-diagnosis-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/q2392044156/aiops-fault-diagnosis-agent/actions/workflows/ci.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-这是一个面向 HDFS 日志与调用链数据的故障诊断研究原型。项目希望解决的不是“让大模型自动修机器”，而是一个更实际的问题：当系统出现异常时，如何把海量日志压缩成可核查的事件，再结合固定版本的运维知识，给出带证据、可追溯、可人工复核的诊断报告。
+面向 HDFS 日志与调用链的故障诊断研究原型。它不追求"让大模型自动修机器"，而是回答一个更实际的问题：**当系统异常时，如何把海量日志压缩成可核查的事件，再结合冻结版本的运维知识，给出带证据、可追溯、可人工复核的诊断报告。**
 
-当前代码版本为 **v1.2 RC1**（Python 包版本 `1.2.0rc1`）。它已经完成代码实现、公开数据适配和本地工程验证，可作为后续接入真实故障数据与独立评测的开发基线；它仍是研究候选版本，不代表已经达到生产可用标准。
+系统遵守两条硬边界：
 
-## 快速开始（5 分钟，无需 API Key）
+1. 只给异常线索、证据引用和只读排查建议，**不执行**重启、删除、切流、写库；所有建议固定 `execution_allowed=false`。
+2. 没有合格真实根因标签时，不把公开故障注入标签包装成生产根因，也不虚报 Top-1 与 MTTD。
 
-不需要下载数据集，也不需要配置 API Key：仓库内置一个离线端到端演示，一条 HDFS 日志 → 异常会话 → 事件 → 受控诊断 → 带引用的报告 → 人工复核，全程约 1 秒。
+当前版本 **v1.2 RC1**（`1.2.0rc1`），含路线 A 真实故障实验。
 
-```powershell
-conda activate aiops-fault-diagnosis-agent
-python demo/run_demo.py            # 离线，不花钱
-python demo/run_demo.py --online   # 在线，单次约 ¥0.03（需 DEEPSEEK_API_KEY）
-```
+---
 
-也可以直接看 [demo/README.md](demo/README.md)（含 3 分钟演示脚本）和[架构总览](documentation/ARCHITECTURE.md)。
+## 最新结果
 
-跑全量测试与结构校验：
+| 实验台 | 样本 | Top-1 | Top-3 | Top-5 | 冻结测试集 |
+| --- | --- | --- | --- | --- | --- |
+| WSL 单机（Hadoop 3.3.6） | 68（38 卷 + 10 心跳 + 20 安全模式） | **100%**（CI [0.9465, 1.0]） | 100% | 100% | n=14，100% |
+| Docker Compose（1NN+3DN） | 81（28 卷 + 27 心跳 + 26 安全模式） | **56.8%**（CI [0.4594, 0.6703]） | 76.5% | 77.8% | n=30，53.3% |
 
-```powershell
-python -m pytest -q --basetemp=.pytest-tmp
-python ops/scripts/validate_project_structure.py
-```
+Docker 81 例失败归因：**命中 46、证据缺失 5、召回缺失 13、排序错误 17**——卷满主要是排序，心跳主要是召回，真正缺证据只有 5 例。
 
-> Windows 上如果默认临时目录不可写，请保留 `--basetemp=.pytest-tmp`；CI 使用同样的命令。
+六项工程能力（每项都有代码、单测与数字）：
 
-## 项目背景
+| 能力 | 关键结果 |
+| --- | --- |
+| P0-1 工具路由 | 规则 93.3% > 受控 90.0% > 自由 66.7%；受控参数 100% 结构化 |
+| P0-2 轨迹评测 | 30 例封存：18 clean + 12 abstained，0 重试、0 越权引用 |
+| P0-3 上下文工程 | 压缩省 36.5% token，Schema/引用/双类证据持平 |
+| P1-4 可观测性 | 单次诊断 29 个 span，6.73s 中 6.59s 在生成 |
+| P1-5 红队 | 40/40 拦截（100%），0/10 误杀 |
+| P2-6 MCP | 5 个只读工具，initialize/list/call 冒烟通过 |
 
-传统日志告警通常只能告诉运维人员“哪里可能不正常”，不能直接回答以下问题：
+> 两套实验数字**不能相加**：注入形态、拓扑、样本量都不同。
 
-- 这次异常涉及哪些日志、组件和调用链？
-- 推测的原因依据是什么，能否回到原始证据核对？
-- 模型失败、超预算或证据不足时，系统会不会编造结论或执行危险操作？
-- 诊断中断后重试，是否会重复调用付费模型、重复生成报告或重复发起审批？
-- 实验数据、参数、知识库和发布制品能否被冻结并复现？
+---
 
-本项目围绕这些问题逐步实现了一条受控诊断链路：先做数据清洗、会话切分和异常检测，再从版本固定的知识库中检索相关运维资料，最后由受约束的 Agent 生成带引用的报告，并把高风险或证据不足的结果交给人工复核。
+## 系统如何工作
 
-系统始终遵守两个边界：
-
-1. 只提供异常线索、证据引用和只读排查建议，不执行重启、删除、切流、写库等操作；所有建议固定为 `execution_allowed=false`。
-2. 没有合格真实根因标签时，不把公开故障注入标签包装成生产根因，也不虚报根因准确率和 MTTD。
-
-## 已完成的工作
-
-### v1.0：从日志到受控诊断闭环
-
-- 处理公开 HDFS 日志，形成流式解析、block 会话聚合、稳定切分和审计协议。
-- 使用冻结的 Drain3 模板与 TF-IDF + Logistic Regression 完成异常检测；同时实现 LSTM 作为研究对照。
-- 建立原创运维知识卡片，使用 BM25、BGE ONNX 和 RRF 做混合检索。
-- 接入 DeepSeek 生成结构化诊断报告，要求报告中的结论能够引用当前发布版本中的证据。
-- 实现确定性 Agent 状态机、工具预算、失败降级、人工审批和审计日志。
-- 提供 FastAPI、后台 worker、Streamlit 复核台和 CPU Docker Compose 部署。
-
-### v1.1：引入 LangChain / LangGraph，但保留确定性控制
-
-- 增加确定性 `RetrievalQueryBuilder`，从脱敏后的组件、等级、版本和白名单信号生成最多三个检索计划。
-- 使用 LangChain 适配检索器和结构化报告链，使用 LangGraph 编排固定诊断节点。
-- LLM 不负责自由选择工具；工具顺序、调用预算和安全分支仍由程序控制。
-- 保留原有 SQLite 业务状态、人工审批和 legacy 回退路径。
-- 完成真实冻结索引对比、在线 DeepSeek 链路验证、30 例一次性封存验收和故障恢复演练。
-
-### v1.2：补齐跨数据集、Trace、Checkpoint 和真实故障入口
-
-- 新增公开数据适配器：
-  - LogHub Hadoop 按 application 转换为脱敏日志事件。
-  - HDFS v3 TraceBench 按采集场景转换为组件、操作、边和失败计数等聚合 Trace 事件。
-- 将“诊断快照”和“评测标签”物理分离；服务只导入诊断快照，避免评测标签泄漏到在线诊断。
-- 新增只读工具 `read_trace_summary`。服务只读取聚合 Trace 摘要，不返回原始 Trace 或公开故障标签。
-- 报告 Schema 升级为 v2，支持 Trace 证据和观测结束时间；只有观测证据与知识文档证据同时存在时才进入报告生成。
-- 将 LangGraph checkpoint 接入服务 SQLite，用 `<release_id>:<diagnosis_id>:<revision>` 标识一次图运行。
-- 恢复时复用已经完成的工具结果，避免重复付费调用、冲突报告和重复审批。
-- 定义真实故障数据协议，覆盖授权、保留期限、证据引用、五类时间戳、根因标签、导入审计和删除审计。
-- 提供独立的 v1.2 Compose 配置和运行卷，并保留回退到 v1.1 Framework RC2 的配置。
-
-## 当前系统如何工作
+![架构总览](documentation/architecture.png)
 
 ```text
 HDFS 日志 / 聚合 Trace
@@ -91,178 +54,63 @@ HDFS 日志 / 聚合 Trace
 只读日志 / Trace 工具          固定版本知识证据
           └──────────┬──────────────┘
                      ↓
-          LangGraph 固定流程 + SQLite checkpoint
+         确定性 Agent 状态机 + SQLite 状态
                      ↓
-          LangChain 结构化报告链 / 安全模板降级
+         结构化报告 / 安全模板降级
                      ↓
               人工复核与审计留痕
 ```
 
-三个服务的职责如下：
+Agent 节点固定：`RECEIVED → VALIDATED → DETECTED → EVIDENCE_COLLECTED → RETRIEVED → HYPOTHESES_RANKED → REPORT_VALIDATED`。预算：8 次工具调用、3 次 LLM 调用、12k token、120s、最多 2 次修订。
 
-- `api`：接收批次、创建诊断、查询事件/报告/工具调用、处理人工审批。
-- `worker`：执行异常检测、检索、Agent 工作流和报告生成。
-- `ui`：提供 Streamlit 页面，供用户查看诊断结果并进行复核。
+三个服务：
 
-SQLite 是任务、预算、工具缓存、报告、审批和审计的业务真相源。LangGraph checkpoint 只记录流程恢复需要的图状态，不替代业务表，也不保存原始日志、评测标签或密钥。
+- `api`：接收批次、创建诊断、查询事件/报告/工具调用、处理人工审批；
+- `worker`：执行检测、检索、Agent 工作流与报告生成；
+- `ui`：Streamlit 复核台。
 
-## 实验与验证结果
+SQLite 是任务、预算、工具缓存、报告、审批与审计的业务真相源；checkpoint 只保存流程恢复需要的图状态。
 
-### 已冻结的历史基线
+底层模型基线（冻结）：
 
-| 阶段 | 结果 |
-|---|---|
-| 数据规模 | 11,175,629 行日志；575,061 个 block 会话；16,838 个异常会话 |
-| 默认异常检测模型 | TF-IDF + Logistic Regression：测试 F1 `0.883181`、AP `0.789731`、FPR `0.006374` |
-| LSTM 研究对照 | 三个 seed：测试 F1 `0.883363 ± 0.000708`、AP `0.974166 ± 0.020106` |
-| 知识检索 | Hybrid Top-3：Rtest Recall `0.975`、MRR `0.9375`、nDCG `0.7827` |
-| v1.0 Agent 在线评测 | 40 例 × 3 次真实 DeepSeek；任务成功、强制复核召回、引用合法率均为 `100%` |
-| v1.0 工程验收 | 100 项测试通过；全新 Python 3.11.17 环境和无缓存 Compose 验收通过 |
-| v1.1 Framework RC2 | 158 项测试通过；真实索引开发集 12/12；在线链路 18/18；一次性封存集 30/30；安全硬门禁均为 0 |
+| 组件 | 指标 |
+| --- | --- |
+| 异常检测（TF-IDF + LR） | F1 0.883181、AP 0.789731、FPR 0.006374 |
+| 知识检索（Hybrid Top-3） | Recall 0.975、MRR 0.9375、nDCG 0.7827 |
 
-这些数字有明确边界：HDFS_v1 没有真实根因标签，因此异常检测指标不能解释成根因准确率；Rtest 的无答案误返回率为 20%，高于 Rdev 的 10%；v1.0 的 LLM 可选工具路由准确率仅 55%，低于 80% 门槛，所以正式流程关闭了自由工具路由。
+完整分层与四条不变量见 [ARCHITECTURE.md](documentation/ARCHITECTURE.md)。
 
-### v1.2 RC1 验证结果
+---
 
-| 验证项 | 结果 |
-|---|---|
-| 公开数据转换 | 419/419 个事件成功；419 个诊断快照与 419 个标签一一对应 |
-| 数据构成 | LogHub Hadoop 55 个日志事件；HDFS v3 TraceBench 364 个 Trace 事件 |
-| 稳定分组切分 | development 265、calibration 87、public independent_test 67 |
-| 服务导入 | 419 个事件成功；重复导入保持幂等 |
-| 自动化测试 | 全量 `164 passed`；保留 1 个既有 pytest `cache_dir` 警告 |
-| 在线工程验证 | 3/3 个真实 DeepSeek 开发案例通过；每例 1 次模型调用；Schema v2 3/3 |
-| 在线调用规模 | 共 5,958 tokens，估算费用约 `¥0.012810` |
-| 运行时安全门禁 | 非法引用、越权工具、可执行建议、预算突破、标签泄漏、恢复后重复调用/审批等检查均为 0 |
-| 容器验证 | `aiops-fault-diagnosis-agent:v1.2-rc1` 构建通过；API、worker、UI 的 Compose 配置验证通过 |
+## 快速开始（Demo，约 5 分钟，无需 API Key）
 
-v1.2 的三个在线案例来自开发分区，只能证明工程链路能够工作，不能证明生产诊断效果。公开 `independent_test` 是组隔离分区，但数据和标签已经公开，不是严格封存盲测。TraceBench 的故障注入标签也没有经过真实工单和独立人员确认，因此生产根因 Top-1、Top-3、MRR、误报率和 MTTD 均为 `N/A`。
-
-详细证据见 [v1.2 RC1 实施报告](documentation/v1.2_RC1_实施报告.md)、[v1.2 评测摘要](resources/evaluation/v1.2/v12_rc1_validation/report.md) 和 [机器可读结果](resources/evaluation/v1.2/v12_rc1_validation/result.json)。
-
-## 架构总览
-
-![架构总览](documentation/architecture.png)
-
-完整分层、模块边界与四条不变量见 [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md)（含可编辑的 Mermaid 源）；图示文件为 [architecture.png](documentation/architecture.png)（2000×1280）与 [architecture.svg](documentation/architecture.svg)，可直接插入 PPT 或简历。
-
-## 能力增强（P0-1 ～ P2-6）
-
-在 v1.2 冻结之后，围绕 LLM/Agent 工程补了六块能力，每块都有可运行的代码、单测和实测数字：
-
-| 项 | 做了什么 | 关键结果 | 报告 |
-| --- | --- | --- | --- |
-| **P0-1 工具路由** | `query_metrics` 接真实指标；function calling + JSON Schema + 白名单 + 回落 | 规则 93.3% > 受控 90.0% > 自由 66.7%；受控参数 100% 结构化，成本 3.6× | [报告](documentation/P0-1_工具路由.md) |
-| **P0-2 轨迹评测** | 步骤、工具、重试、证据覆盖、拒答/失败分类、`pass^k` | 30 例封存：18 clean + 12 abstained，0 重试、0 越权引用 | [报告](documentation/P0-2_轨迹评测.md) |
-| **P0-3 上下文工程** | token 预算、证据压缩、种子证据、引用裁剪 | 省 36.5% 上下文 token，Schema/引用/双类证据持平 | [报告](documentation/P0-3_上下文工程.md) |
-| **P1-4 可观测性** | SQLite trace/span、`/diagnoses/{id}/trace` API、Streamlit 瀑布 | 单次诊断 29 个 span；生成阶段占 6.59s / 6.73s | [报告](documentation/P1-4_可观测性.md) |
-| **P1-5 红队评测** | 50 例打在真实防御函数上（注入/引用/参数/结构/动作/预算） | 40/40 拦截（100%），0/10 误杀（0%） | [报告](documentation/P1-5_红队评测.md) |
-| **P2-6 MCP 服务** | 零依赖 stdio JSON-RPC，暴露 5 个只读工具 | `initialize` / `tools/list` / `tools/call` 冒烟通过 | [报告](documentation/P2-6_MCP服务.md) |
-
-复现命令（其中路由与上下文消融需要 `DEEPSEEK_API_KEY`）：
+仓库内置离线端到端演示：一条 HDFS 日志 → 异常会话 → 事件 → 受控诊断 → 带引用的报告 → 人工复核，全程约 1 秒。
 
 ```powershell
-python ops/scripts/evaluate_router.py
-python ops/scripts/evaluate_trajectory.py --database runtime/v12/service.sqlite3
-python ops/scripts/evaluate_context.py --database runtime/v12/service.sqlite3
-python ops/scripts/run_redteam.py
-python ops/scripts/mcp_smoke.py
+conda activate aiops-fault-diagnosis-agent
+python demo/run_demo.py            # 离线，不花钱
+python demo/run_demo.py --online   # 在线，单次约 ¥0.03（需 DEEPSEEK_API_KEY）
 ```
 
-单个工具也可以通过 MCP 直接被 Claude Desktop / Cursor 调用：
+预期看到：`diagnosis_status`、`final_status=APPROVED_REPORT`、工具调用次数与报告引用。
+
+- 3 分钟演示脚本：[demo/README.md](demo/README.md)
+- 全量测试与结构校验：
 
 ```powershell
-python -m aiops_diag.platform.mcp_server --database runtime/v12/service.sqlite3
+python -m pytest -q --basetemp=.pytest-tmp
+python ops/scripts/validate_project_structure.py
 ```
 
-## 路线 A：真实故障实验
+> Windows 上若默认临时目录不可写，保留 `--basetemp=.pytest-tmp`。
 
-两套实验台，共 **149 例真实注入**（WSL 68 + Docker 81）。数据集不随仓库分发（已加入 `.gitignore`），按脚本本地生成。
+---
 
-| 实验台 | 拓扑 | 故障族 | 注入形态 |
-| --- | --- | --- | --- |
-| WSL（Hadoop 3.3.6） | 1NN + 1DN | DN_VOLUME / DN_HEARTBEAT / NN_SAFE_MODE | 只读 remount / kill + 2s 心跳 / safemode |
-| Docker Compose | 1NN + 3DN | 同上 | dd 填盘 / kill / safemode |
+## 完整复现
 
-### 结果
+### 1. 安装
 
-| 指标 | WSL 68 | Docker 81 |
-| --- | --- | --- |
-| Top-1 | **100%**（CI [0.9465, 1.0]） | **56.8%**（CI [0.4594, 0.6703]） |
-| Top-3 | 100% | 76.5% |
-| Top-5 | 100% | 77.8% |
-| MRR | 1.00 | 0.6574 |
-| 冻结测试集 | n=14，100% | n=30，53.3% |
-| 分族 | 卷 38/38、心跳 10/10、安全模式 20/20 | 卷 6/28、心跳 14/27、安全模式 26/26 |
-
-Docker 81 例失败归因：**命中 46、证据缺失 5、召回缺失 13、排序错误 17**——卷满主要是排序，心跳主要是召回，真正缺证据只有 5 例。
-
-两套数字**不能相加**：注入形态、拓扑、样本量都不同。
-
-### 复现
-
-```bash
-# WSL
-bash ops/lab/wsl/readonly_volume.sh
-python ops/lab/wsl/run_case.py --fault DN_VOLUME --database runtime/lab/wsl.sqlite3
-python ops/lab/wsl/run_case.py --fault DN_HEARTBEAT --database runtime/lab/wsl.sqlite3
-python ops/lab/wsl/run_case.py --fault NN_SAFE_MODE --database runtime/lab/wsl.sqlite3
-python ops/scripts/evaluate_incidents.py --database runtime/lab/wsl.sqlite3 --cases ops/lab/wsl_cases
-
-# Docker
-docker compose -f ops/lab/compose.yaml up -d
-python ops/lab/harness/run_batch.py --real --per-fault 7 --observe 12 --database runtime/lab/real_batch.sqlite3
-docker compose -f ops/lab/compose.yaml down -v
-```
-
-数据集默认忽略；如需复核，运行上述命令会在 `ops/lab/wsl_cases/`、`ops/lab/real_batch_cases/` 本地生成证据与 incident。
-
-详见 [路线 A 最终报告](documentation/路线A_最终报告.md)、[WSL/Docker 对比](documentation/路线A_WSL与Docker对比.md) 与 [失败归因](resources/evaluation/lab/failure_attribution.md)。
-
-## 项目结构
-
-
-```text
-aiops-fault-diagnosis-agent/
-├─ src/aiops_diag/
-│  ├─ data/                       # 数据接入、脱敏、审计和标准化
-│  ├─ detection/                  # LR/LSTM 检测与模型选择
-│  ├─ knowledge/                  # BM25/BGE/RRF 检索与证据约束报告生成
-│  ├─ diagnosis/                  # Agent、查询规划和 LangChain/LangGraph 编排
-│  ├─ evaluation/                 # 轨迹、路由、红队与框架对照评测
-│  ├─ platform/                   # FastAPI、worker、SQLite 和 Streamlit
-│  └─ release/                    # 发布冻结、校验和导出
-├─ resources/                     # 配置、知识卡与评测结果
-├─ ops/                           # Docker、运维/验收脚本与红队用例
-├─ documentation/                 # 技术报告、验收结果和演示资料
-├─ tests/                         # 自动化测试
-├─ demo/                          # 离线端到端演示（无需 Key 与大数据集）
-├─ documentation/                 # 技术报告、架构总览与验收记录
-├─ Makefile                       # demo / test / validate 快捷命令
-├─ LICENSE                        # MIT
-├─ PROJECT_STRUCTURE.md           # 依赖方向、模块边界和兼容约定
-├─ pyproject.toml                 # 包元数据与依赖声明
-└─ README.md
-```
-
-`data/`、`artifacts/`、`experiments/`、`runtime/` 和本地环境目录默认不提交 Git：它们分别保存原始/处理数据、冻结制品、实验中间结果和运行时数据库。复现实验时需要在本地准备这些内容。
-
-每个源码模块均带有独立 `README.md`，逐个说明目录内 Python 文件的职责和主要入口。完整依赖方向见 [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)。
-
-## 如何运行
-
-### 1. 环境要求
-
-- Python `3.11`（项目声明范围为 `>=3.11,<3.12`）
-- Conda（推荐）
-- Docker 与 Docker Compose（仅容器部署需要）
-- DeepSeek API Key（仅在线报告生成需要；离线测试和模板降级不需要）
-
-以下命令均在仓库根目录执行。
-
-### 2. 创建开发环境
-
-现有 `environment.yml` 包含研究依赖；v1.2 还需要安装锁定的 Framework 依赖：
+要求 Python 3.11（`>=3.11,<3.12`）、Conda（推荐）、Docker（仅容器实验需要）。
 
 ```powershell
 conda env create --file environment.yml
@@ -271,139 +119,113 @@ conda run --name aiops-fault-diagnosis-agent python -m pip install -e ".[dev,res
 conda run --name aiops-fault-diagnosis-agent python -m pip check
 ```
 
-如果不需要重新创建环境，可直接在已有 Python 3.11 环境中安装 `requirements-framework-lock.txt`，再以 editable 模式安装本项目。
-
-### 3. 运行测试
+### 2. 测试与校验
 
 ```powershell
-conda run --name aiops-fault-diagnosis-agent python -m pytest -q
-```
-
-检查功能目录、模块 README、旧包引用和中文源码说明：
-
-```powershell
+conda run --name aiops-fault-diagnosis-agent python -m pytest -q --basetemp=.pytest-tmp
 conda run --name aiops-fault-diagnosis-agent python ops/scripts/validate_project_structure.py
 ```
 
-只验证 v1.2：
+### 3. 路线 A：WSL 单机（推荐，故障更真实）
 
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m pytest -q `
-  tests/test_v12_external_data.py tests/test_v12_runtime.py tests/test_framework_v12.py
+依赖 WSL2 + Ubuntu + JDK 11 + Hadoop 3.3.6，数据目录是 64MB ext4 loop 镜像。
+
+```bash
+bash ops/lab/wsl/readonly_volume.sh
+python ops/lab/wsl/run_case.py --fault DN_VOLUME --database runtime/lab/wsl.sqlite3
+python ops/lab/wsl/run_case.py --fault DN_HEARTBEAT --database runtime/lab/wsl.sqlite3
+python ops/lab/wsl/run_case.py --fault NN_SAFE_MODE --database runtime/lab/wsl.sqlite3
+python ops/scripts/evaluate_incidents.py --database runtime/lab/wsl.sqlite3 --cases ops/lab/wsl_cases
 ```
 
-### 4. 准备并审计 v1.2 公开数据
+说明与安装步骤见 [ops/lab/wsl/README.md](ops/lab/wsl/README.md)。
 
-先按 `resources/configs/data_v12_external.yaml` 中的 `source_root` 放置 LogHub Hadoop 与 HDFS v3 TraceBench 数据，再运行：
-
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data `
-  v12-external prepare --config resources/configs/data_v12_external.yaml
-
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data `
-  v12-external audit --config resources/configs/data_v12_external.yaml
-```
-
-将某个分区导入服务 SQLite：
+### 4. 路线 A：Docker Compose（规模化，环境受限）
 
 ```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.data `
-  v12-external import-service `
-  --config resources/configs/data_v12_external.yaml `
-  --split development `
-  --database runtime/v12/service.sqlite3 `
-  --artifact-root runtime/v12/imports
+docker compose -f ops/lab/compose.yaml up -d
+python ops/lab/harness/run_batch.py --real --per-fault 7 --observe 12 --database runtime/lab/real_batch.sqlite3
+python ops/scripts/evaluate_incidents.py --database runtime/lab/real_batch.sqlite3 --cases ops/lab/real_batch_cases
+docker compose -f ops/lab/compose.yaml down -v
 ```
 
-### 5. 运行 v1.2 评测
+### 5. 评测、红队与 MCP
 
 ```powershell
-conda run --name aiops-fault-diagnosis-agent python ops/scripts/evaluate_v12.py `
-  --database runtime/v12/service.sqlite3 `
-  --output resources/evaluation/v1.2/v12_rc1_validation
+python ops/scripts/evaluate_router.py
+python ops/scripts/evaluate_trajectory.py --database runtime/v12/service.sqlite3
+python ops/scripts/evaluate_context.py --database runtime/v12/service.sqlite3
+python ops/scripts/run_redteam.py
+python ops/scripts/attribute_failures.py --database runtime/lab/real_batch.sqlite3 --cases ops/lab/real_batch_cases --output resources/evaluation/lab/failure_attribution
+python ops/scripts/mcp_smoke.py
 ```
 
-在线小规模验证需要在当前 shell 中设置 `DEEPSEEK_API_KEY` 和 `DEEPSEEK_TRACKING_ID`，或按 `.env.example` 准备本地 `.env`；密钥文件不会提交 Git。
+路由与上下文消融需要 `DEEPSEEK_API_KEY`；其余可离线运行。
 
-```powershell
-conda run --name aiops-fault-diagnosis-agent python ops/scripts/validate_v12_online.py --count 3
+### 6. 数据与制品
+
+`data/`、`artifacts/`、`experiments/`、`runtime/`、`ops/lab/*_cases/` 均不提交 Git，需在本地生成。密钥只放在 `.env`（已忽略），示例见 [.env.example](.env.example)。
+
+---
+
+## 目录结构
+
+```text
+aiops-fault-diagnosis-agent/
+├─ src/aiops_diag/
+│  ├─ data/          # 接入、脱敏、审计与标准化
+│  ├─ detection/     # LR/LSTM 检测
+│  ├─ knowledge/     # BM25/BGE/RRF 检索与报告生成
+│  ├─ diagnosis/     # Agent、路由、工具与编排
+│  ├─ evaluation/    # 轨迹、路由、红队评测
+│  ├─ platform/      # FastAPI、worker、SQLite、Streamlit、MCP
+│  └─ release/       # 发布冻结与导出
+├─ resources/        # 配置、知识卡、评测结果
+├─ ops/              # 实验台、脚本与红队用例
+├─ documentation/    # 报告、架构与验收记录
+├─ tests/            # 自动化测试
+├─ demo/             # 离线端到端演示
+├─ Makefile
+├─ LICENSE
+└─ pyproject.toml
 ```
 
-### 6. 本地启动 API 与 worker
+依赖方向与模块边界见 [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)，每个源码目录有独立 `README.md`。
 
-发布制品和数据路径由 `resources/configs/service_v12_rc1.yaml` 指定。准备好相应的本地制品后执行：
+---
 
-```powershell
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.platform `
-  verify --config resources/configs/service_v12_rc1.yaml
+## 文档索引
 
-# 终端 1
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.platform `
-  worker --config resources/configs/service_v12_rc1.yaml
+| 内容 | 路径 |
+| --- | --- |
+| 一页版路线 A 最终报告 | [documentation/路线A_最终报告.md](documentation/路线A_最终报告.md) |
+| WSL / Docker 对比 | [documentation/路线A_WSL与Docker对比.md](documentation/路线A_WSL与Docker对比.md) |
+| 失败归因 | [resources/evaluation/lab/failure_attribution.md](resources/evaluation/lab/failure_attribution.md) |
+| WSL 指标 | [resources/evaluation/lab/wsl.md](resources/evaluation/lab/wsl.md) |
+| Docker 指标 | [resources/evaluation/lab/real_batch.md](resources/evaluation/lab/real_batch.md) |
+| 工具路由 | [documentation/P0-1_工具路由.md](documentation/P0-1_工具路由.md) |
+| 轨迹评测 | [documentation/P0-2_轨迹评测.md](documentation/P0-2_轨迹评测.md) |
+| 上下文工程 | [documentation/P0-3_上下文工程.md](documentation/P0-3_上下文工程.md) |
+| 可观测性 | [documentation/P1-4_可观测性.md](documentation/P1-4_可观测性.md) |
+| 红队 | [documentation/P1-5_红队评测.md](documentation/P1-5_红队评测.md) |
+| MCP | [documentation/P2-6_MCP服务.md](documentation/P2-6_MCP服务.md) |
+| 架构 | [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md) |
 
-# 终端 2
-conda run --name aiops-fault-diagnosis-agent python -m aiops_diag.platform `
-  serve --config resources/configs/service_v12_rc1.yaml
-```
+---
 
-本地 API 默认监听 `http://127.0.0.1:8000`，接口文档位于 `http://127.0.0.1:8000/docs`。
+## 边界与已知限制
 
-### 7. 使用 Docker Compose 启动 v1.2
+- **真实数据仍偏窄**：只有 3 个根因码、实验室注入，不是生产工单；
+- **Docker 指标不理想**：Top-1 56.8%，主要受排序/召回拖累；
+- **WSL 100% 有天花板效应**：单机、单形态、测试集 14 例；
+- **MTTD 不可用**：Docker 含观测窗，WSL 未落库；
+- **未覆盖**：真实 ENOSPC、IO error、网络分区、HA、NameNode 不可用、多故障叠加；
+- **不是独立盲测**：同一脚本、同一机器生成。
 
-```powershell
-docker build -f ops/deployment/Dockerfile `
-  -t aiops-fault-diagnosis-agent:v1.2-rc1 .
+这些问题在 [路线A_最终报告.md](documentation/路线A_最终报告.md) 中有完整说明。
 
-docker compose --env-file .env `
-  -f ops/deployment/compose.yaml `
-  -f ops/deployment/compose.v12-rc1.yaml `
-  up -d --no-build
-```
+---
 
-容器启动后：
+## License
 
-- OpenAPI：`http://127.0.0.1:8012/docs`
-- Streamlit：`http://127.0.0.1:8512`
-
-v1.2 使用独立运行卷。需要回退时，在同一组 Compose 命令中再追加 `-f ops/deployment/compose.v12-rollback.yaml`，即可切回 Framework RC2 镜像和独立回退卷；该过程不会迁移或覆盖 v1.2 数据库。
-
-## 真实故障数据生命周期
-
-真实故障记录必须符合 [冻结 Schema](resources/evaluation/v1.2/real_incident_protocol/incident.schema.json)。常用命令如下：
-
-```powershell
-# 只校验文件，不写数据库
-python -m aiops_diag.data incident validate --input incident.json
-
-# 导入、审计与删除
-python -m aiops_diag.data incident import --input incident.json --database runtime/v12/service.sqlite3
-python -m aiops_diag.data incident audit --incident-id INCIDENT_ID --database runtime/v12/service.sqlite3
-python -m aiops_diag.data incident delete --incident-id INCIDENT_ID `
-  --database runtime/v12/service.sqlite3 --reason "保留期限已到"
-```
-
-导入前会检查授权有效性、时区、截止时间和事后信息泄漏；根因标签或时间戳不合格时，相关根因指标与 MTTD 自动返回 `N/A`。
-
-## 安全与复现约束
-
-- 标签不参与解析、模板拟合、开发抽样或在线特征构造。
-- 模板只在训练区间拟合，验证、测试和服务阶段只使用冻结 `match()`。
-- 原始 IP、PID、路径、命令、URL、密钥样式和提示注入文本会被过滤或替换。
-- DeepSeek Key 和 Tracking ID 只从环境变量或 Docker Secret 读取，不写入 Git、日志、SQLite 或报告。
-- 无证据时不调用 LLM；坏 JSON、非法引用、超预算和模型故障都会安全降级并留下审计记录。
-- 审批只表示人工看过报告，不会触发实际运维操作。
-- 镜像以非 root UID `10001` 运行，使用只读根文件系统、移除 capabilities，并启用 `no-new-privileges`。
-
-当前版本的下一步不是继续在公开标签上调参，而是按冻结协议接入经过授权、脱敏和独立签署的真实事件，建立按时间、集群和故障族隔离的新封存集，再运行一次正式评测。
-
-## 许可证
-
-本项目采用 [MIT License](LICENSE)。第三方依赖与数据集的许可见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
-
-## English Summary
-
-A reproducible AIOps research prototype for HDFS log and trace diagnosis. It turns raw logs into block-level sessions, scores them with a frozen Drain3 + TF-IDF/Logistic Regression model, retrieves evidence from a frozen 30-card knowledge base (BM25 + BGE ONNX + RRF), and drives a deterministic, read-only agent that must cite retrieved evidence. Every recommendation is hard-coded to `execution_allowed=false`; risky or low-confidence cases are routed to human review, and budgets, leases, checkpoints and approvals are persisted in SQLite.
-
-Current status: **v1.2 RC1 research candidate**. Engineering paths, budgets and safety gates are verified; production root-cause accuracy and MTTD are reported as `N/A` because no authorized, independently signed HDFS incident dataset is available yet.
-
-Run the offline demo with `python demo/run_demo.py`; architecture is in [documentation/ARCHITECTURE.md](documentation/ARCHITECTURE.md).
+MIT，见 [LICENSE](LICENSE)。
