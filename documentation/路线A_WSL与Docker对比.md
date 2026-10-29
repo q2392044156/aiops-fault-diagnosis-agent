@@ -37,7 +37,16 @@
 - 48 例的 Top-1 100% 不代表通用准确率，CI 下限 0.926；ENOSPC 形态仍未打通；
 - Docker 的 81 例仍是历史记录，环境限制未解除。
 
-## 5. 冻结切分格式
+## 5. 结论与范围（2026-10-29 定稿）
+
+- **保留**：卷故障 = 只读 remount；心跳 = kill + 2s 心跳；
+- **不做**：真实 ENOSPC、IO error 注入；
+- **原因**：
+  - ENOSPC 被 NameNode 容量预检挡住，写请求到不了 DN；
+  - WSL 的 device-mapper 只提供 `verity / striped / linear / error`，**没有 `flakey`**，无法做 `error_writes` 形态；
+- 因此 48 例（38 卷 + 10 心跳）的 **Top-1 100%** 是"只读卷故障 + 心跳丢失"这一范围的结论，不外推到写满/慢盘/网络故障。
+
+## 6. 冻结切分格式
 
 两套实验台使用同一个 JSON schema，评测脚本按 `--split-file` 读取；未显式指定且 cases 目录含 `wsl_cases` 时自动使用 WSL 切分。
 
@@ -50,7 +59,7 @@
 | `resources/evaluation/lab/frozen_split.json` | Docker 81 例的 30 例测试集 |
 | `resources/evaluation/lab/wsl_split.json` | WSL 29 例的 6 例测试集 |
 
-## 6. 复现
+## 7. 复现
 
 ```bash
 python ops/lab/wsl/run_case.py --fault DN_VOLUME --database runtime/lab/wsl.sqlite3

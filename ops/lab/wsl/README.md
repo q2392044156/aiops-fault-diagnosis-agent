@@ -87,3 +87,7 @@ python ops/lab/wsl/run_case.py --database runtime/lab/wsl.sqlite3
 - 心跳注入需要 `dfs.heartbeat.interval=2` + `recheck-interval=2000`，已写入 WSL 的 `hdfs-site.xml`；
 - 部分案例 `live_recovered=false`：`nohup hdfs datanode &` 在 wsl 会话退出后可能被回收，建议改用 `hdfs --daemon start datanode`；
 - 21 份证据在 `ops/lab/wsl_cases/`。
+
+## 范围说明（定稿）
+
+卷故障只保留"只读 remount"这一形态。真实 ENOSPC 被 NameNode 容量预检挡住；WSL 的 `dmsetup targets` 只有 `verity/striped/linear/error`，没有 `flakey`，无法做 `error_writes` 的 IO 故障注入。因此 48 例 100% 只代表"只读卷故障 + 心跳丢失"。
