@@ -1,0 +1,12 @@
+{
+  "incident_id": "inc_wsl_safe_mode_20261029101355_f925",
+  "batch_id": "bat_ee86afde49f8504a30ab4918",
+  "event_id": "evt_5bec700ff788ce08e3db06c1",
+  "diagnosis_id": "dia_01f722ae906523d2188b5957",
+  "report_id": "irpt_3a0e8706ce17e6f6d7f581b2",
+  "agent_detected": "2026-10-29T10:14:02.911828+00:00",
+  "mode": "wsl",
+  "fault": "NN_SAFE_MODE",
+  "live_recovered": true,
+  "imported": "ACTIVE"
+}

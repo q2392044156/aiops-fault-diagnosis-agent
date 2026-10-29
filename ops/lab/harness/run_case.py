@@ -178,6 +178,8 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         if spec["mode"] == "kill":
             _docker("kill", spec["container"])
+        elif spec["mode"] == "stop":
+            _docker("stop", spec["container"])
         else:
             _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['inject']}",
                     check=False)
@@ -193,18 +195,21 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         if remaining > 0:
             time.sleep(remaining)
         cutoff = window_end
-        logs = _capture_logs(sorted({spec["container"], "aiops-lab-namenode"}),
-                              t0.isoformat(), cutoff.isoformat())
+        containers = {spec["container"], "aiops-lab-namenode"}
+        if spec["mode"] == "stop":
+            containers = {spec["signal_container"]}
+        logs = _capture_logs(sorted(containers), t0.isoformat(), cutoff.isoformat())
         metrics = _metrics(["aiops-lab-namenode", "aiops-lab-dn1", "aiops-lab-dn2",
                             "aiops-lab-dn3"])
         if writer is not None:
             writer.terminate()
             writer.wait(timeout=10)
-        if spec["mode"] == "kill":
+        if spec["mode"] in ("kill", "stop"):
             _docker("start", spec["container"])
         else:
-            _docker("exec", spec["container"], "bash", f"/lab/inject/{spec['recover']}",
-                    check=False)
+            if spec["recover"]:
+                _docker("exec", spec["container"], "bash",
+                        f"/lab/inject/{spec['recover']}", check=False)
             if fault == "DN_VOLUME":
                 time.sleep(2)
                 _docker("restart", spec["container"])

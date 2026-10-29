@@ -53,17 +53,19 @@ class CardRetriever:
                apply_gate=True, code=None):
         tokens = set(re.findall(r"[a-z0-9]+", (query or "").lower()))
         pool = self.cards
+        if code:
+            narrowed = [card for card in self.cards if card.get("root_cause_code") == code]
+            if narrowed:
+                pool = narrowed
         if component:
-            matched = [card for card in self.cards if component.lower() in
+            matched = [card for card in pool if component.lower() in
                        [str(item).lower() for item in card["component"]]]
             if matched:
                 pool = matched
-        if code:
-            narrowed = [card for card in pool if card.get("root_cause_code") == code]
-            if narrowed:
-                pool = narrowed
         signals = {"DN_VOLUME": ("no space left", "volume failed", "failed volume",
                                  "disk full"),
+                   "NN_AVAILABILITY": ("connection refused", "failed to connect",
+                                       "retrying connect"),
                    "DN_HEARTBEAT": ("lost heartbeat", "dead datanode", "removedead"),
                    "NN_SAFE_MODE": ("safe mode",)}
         lowered = (query or "").lower()

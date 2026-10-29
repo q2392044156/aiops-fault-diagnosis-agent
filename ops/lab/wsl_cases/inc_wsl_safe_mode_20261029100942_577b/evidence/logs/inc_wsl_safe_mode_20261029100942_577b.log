@@ -1,0 +1,2 @@
+[aiops-lab-namenode] 2026-10-29 18:09:52,668 INFO hdfs.StateChange: STATE* Safe mode is ON.
+[aiops-lab-namenode] It was turned on manually. Use "hdfs dfsadmin -safemode leave" to turn safe mode off.

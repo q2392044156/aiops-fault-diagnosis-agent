@@ -144,6 +144,8 @@ class AgentTools:
     # 变量说明：CODE_SIGNALS 是根因码对应的日志特征词，用于同组件内互斥排序。
     CODE_SIGNALS = {"DN_VOLUME": ("no space left", "volume failed", "failed volume",
                                   "disk full"),
+                    "NN_AVAILABILITY": ("connection refused", "failed to connect",
+                                        "retrying connect"),
                     "DN_HEARTBEAT": ("lost heartbeat", "dead datanode", "removedead"),
                     "NN_SAFE_MODE": ("safe mode",)}
 

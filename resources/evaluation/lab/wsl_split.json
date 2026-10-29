@@ -1,10 +1,14 @@
 {
  "note": "WSL 冻结测试集：活跃事件 ID 排序后每 5 个取 1 个",
  "fraction": 0.2,
- "total": 48,
+ "total": 68,
  "test": [
   "inc_wsl_heartbeat_20261028182246_9b4d",
   "inc_wsl_heartbeat_20261029021753_d389",
+  "inc_wsl_safe_mode_20261029100552_0ce9",
+  "inc_wsl_safe_mode_20261029100942_577b",
+  "inc_wsl_safe_mode_20261029101100_aa83",
+  "inc_wsl_safe_mode_20261029101252_d201",
   "inc_wsl_volume_20261028172557_b263",
   "inc_wsl_volume_20261028173822_bd33",
   "inc_wsl_volume_20261028174902_59c4",

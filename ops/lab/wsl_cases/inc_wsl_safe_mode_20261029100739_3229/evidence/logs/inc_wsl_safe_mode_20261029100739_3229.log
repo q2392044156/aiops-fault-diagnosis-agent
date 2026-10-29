@@ -1,0 +1,3 @@
+[aiops-lab-namenode] 2026-10-29 18:07:49,603 INFO namenode.FSEditLog: Number of transactions: 9 Total time for transactions(ms): 11 Number of transactions batched in Syncs: 519 Number of syncs: 9 SyncTimes(ms): 42 
+[aiops-lab-namenode] 2026-10-29 18:07:49,603 INFO hdfs.StateChange: STATE* Safe mode is ON.
+[aiops-lab-namenode] It was turned on manually. Use "hdfs dfsadmin -safemode leave" to turn safe mode off.

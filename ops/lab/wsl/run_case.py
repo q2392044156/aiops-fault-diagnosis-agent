@@ -245,17 +245,100 @@ def run_heartbeat(database):
             "recovered": live, "mapping": mapping}
 
 
+# 方法说明：run_safemode 执行一次 NameNode 安全模式实验并产出 incident。
+def run_safemode(database):
+    started = datetime.now(timezone.utc)
+    case_id = f"inc_wsl_safe_mode_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
+    case_dir = ROOT / "ops" / "lab" / "wsl_cases" / case_id
+    case_dir.mkdir(parents=True, exist_ok=True)
+
+    if not _wait_live(30):
+        _wsl("hdfs --daemon start datanode", check=False)
+        _wait_live(90)
+    _wsl("hdfs dfsadmin -safemode leave", check=False)
+    nn_start = int((_wsl("wc -l < /opt/lab/nn.log", check=False).strip() or "0"))
+
+    t0 = datetime.now(timezone.utc)
+    _wsl("hdfs dfsadmin -safemode enter", check=False)
+
+    signal_at, found = datetime.now(timezone.utc), False
+    deadline = time.monotonic() + 30
+    while time.monotonic() < deadline:
+        count = _wsl(f"tail -n +{nn_start + 1} /opt/lab/nn.log | "
+                     "grep -c 'Safe mode is ON' || true", check=False).strip()
+        if count and count != "0":
+            signal_at, found = datetime.now(timezone.utc), True
+            break
+        time.sleep(2)
+
+    cutoff = (signal_at + timedelta(seconds=5)) if found else (t0 + timedelta(seconds=30))
+    nn_log = _wsl(f"tail -n +{nn_start + 1} /opt/lab/nn.log", check=False)
+    text = "\n".join(f"[aiops-lab-namenode] {line}" for line in nn_log.splitlines())
+    text = redact(text) + "\n"
+
+    _wsl("hdfs dfsadmin -safemode leave", check=False)
+    live = _wait_live(60)
+    recovered = datetime.now(timezone.utc)
+    human = recovered + timedelta(seconds=5)
+
+    logs_path = case_dir / "evidence" / "logs" / f"{case_id}.log"
+    metrics_path = case_dir / "evidence" / "metrics" / f"{case_id}.csv"
+    ticket_path = case_dir / "evidence" / "tickets" / f"{case_id}.md"
+    for path in (logs_path, metrics_path, ticket_path):
+        path.parent.mkdir(parents=True, exist_ok=True)
+    logs_path.write_text(text, encoding="utf-8")
+    metrics_csv = "timestamp,host_alias,component,metric,value\n"
+    metrics_path.write_text(metrics_csv, encoding="utf-8")
+    ticket_path.write_text("# 值班记录\n\n集群只读，按只读流程排查。\n", encoding="utf-8")
+
+    record = build_incident(
+        incident_id=case_id, cluster_alias="cluster_wsl", fault_code="NN_SAFE_MODE",
+        fault_family="nn_safe_mode",
+        timestamps={"fault_start": t0, "first_observable_signal": signal_at,
+                    "agent_detected": None, "human_confirmed": human,
+                    "recovered": recovered},
+        log_ref={"ref_id": f"log_{case_id}", "content_sha256": sha256_text(text),
+                 "redaction_status": "approved_redacted"},
+        metric_ref={"ref_id": f"metrics_{case_id}",
+                    "content_sha256": sha256_text(metrics_csv),
+                    "redaction_status": "approved_redacted"},
+        ticket_ref={"ref_id": f"ticket_{case_id}",
+                    "content_sha256": sha256_text(ticket_path.read_text(encoding="utf-8")),
+                    "redaction_status": "approved_redacted"},
+        cutoff_time=cutoff)
+    write_incident(case_dir / "incident.json", record)
+
+    from aiops_diag.platform.db import Database
+    from aiops_diag.data.incident_v12 import import_incident
+    database_path = database
+    database = Database(database_path)
+    database.init()
+    imported = import_incident(database, case_dir / "incident.json")
+
+    mapping = ingest_log(case_id, logs_path, database_path, t0.isoformat(),
+                         signal_at.isoformat(), "template", focus_component="NameNode")
+    mapping.update({"fault": "NN_SAFE_MODE", "mode": "wsl", "live_recovered": live,
+                    "imported": imported["status"]})
+    (case_dir / "map.json").write_text(
+        __import__("json").dumps(mapping, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8")
+    return {"case_id": case_id, "case_dir": str(case_dir), "found": found,
+            "recovered": live, "mapping": mapping}
+
+
 # 方法说明：main 解析参数并执行实验。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="WSL single-node volume experiment")
     parser.add_argument("--database", default=str(ROOT / "runtime/lab/wsl.sqlite3"))
     parser.add_argument("--fault", default="DN_VOLUME",
-                        choices=("DN_VOLUME", "DN_HEARTBEAT"))
+                        choices=("DN_VOLUME", "DN_HEARTBEAT", "NN_SAFE_MODE"))
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     if args.fault == "DN_HEARTBEAT":
         print(run_heartbeat(args.database))
+    elif args.fault == "NN_SAFE_MODE":
+        print(run_safemode(args.database))
     else:
         print(run(args.database))
     return 0

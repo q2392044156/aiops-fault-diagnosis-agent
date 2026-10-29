@@ -74,13 +74,14 @@ python ops/lab/wsl/run_case.py --database runtime/lab/wsl.sqlite3
 
 关键修复：容器/WSL 日志里没有时间戳的行（如 `DiskErrorException`）此前会被排到末尾并截断；现在用 incident 的 `fault_start` 兜底，保证关键行进入证据。
 
-## 批量结果（2026-10-29，48 例）
+## 批量结果（2026-10-29，68 例）
 
 | 故障族 | n | Top-1 |
 | --- | --- | --- |
 | DN_VOLUME（只读 remount） | 38 | 1.0 |
 | DN_HEARTBEAT（kill + 2s 心跳） | 10 | 1.0 |
-| 合计 | **48** | **1.0**（Top-3/5 均 1.0，95% CI [0.9259, 1.0]） |
+| NN_SAFE_MODE（safemode enter/leave） | 20 | 1.0 |
+| 合计 | **68** | **1.0**（Top-3/5 均 1.0，95% CI [0.9465, 1.0]） |
 
 说明：
 

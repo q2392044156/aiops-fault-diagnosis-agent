@@ -1,14 +1,14 @@
 | 指标 | 值 |
 | --- | --- |
-| 事件数 | 48 |
-| 可计入根因指标 | 48 |
-| 有诊断报告 | 48 |
+| 事件数 | 68 |
+| 可计入根因指标 | 68 |
+| 有诊断报告 | 68 |
 | Top-1 | 1.0 |
 | Top-3 | 1.0 |
 | Top-5 | 1.0 |
 | MRR | 1.0 |
-| Top-1 95% CI | [0.9259, 1.0] |
-| 冻结测试集 | n=10 Top-1=1.0 CI=[0.7225, 1.0] |
+| Top-1 95% CI | [0.9465, 1.0] |
+| 冻结测试集 | n=14 Top-1=1.0 CI=[0.7847, 1.0] |
 | MTTD | N/A |
 | 排除原因 | {} |
 
@@ -24,6 +24,26 @@
 | inc_wsl_heartbeat_20261029021900_65a6 | DataNode | 1 | code | N/A |
 | inc_wsl_heartbeat_20261029021930_b52c | DataNode | 1 | code | N/A |
 | inc_wsl_heartbeat_20261029022001_8c37 | DataNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029100552_0ce9 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029100657_11bf | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029100739_3229 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029100751_9214 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029100901_c26a | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029100942_577b | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029100951_b1ed | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101000_2dfc | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101042_5aa6 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101051_cf35 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101100_aa83 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101143_57fd | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101152_8b33 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101201_d3d0 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101243_d185 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101252_d201 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101301_d6f2 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101346_cddd | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101355_f925 | NameNode | 1 | code | N/A |
+| inc_wsl_safe_mode_20261029101404_3a4e | NameNode | 1 | code | N/A |
 | inc_wsl_volume_20261028172557_b263 | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261028172753_163c | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261028172759_14c3 | DataNode | 1 | code | N/A |
