@@ -31,6 +31,7 @@
 | P1-5 红队评测 | [P1-5_红队评测.md](P1-5_红队评测.md) |
 | P2-6 MCP 服务 | [P2-6_MCP服务.md](P2-6_MCP服务.md) |
 | P2-7 LangGraph 实验 | [P2-7_LangGraph实验.md](P2-7_LangGraph实验.md) |
+| P2-8 LangGraph 全量对比 | [P2-8_LangGraph全量对比.md](P2-8_LangGraph全量对比.md) |
 
 ## 3. 架构与结构
 
