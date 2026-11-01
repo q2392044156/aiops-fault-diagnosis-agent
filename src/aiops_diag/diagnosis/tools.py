@@ -149,6 +149,11 @@ class AgentTools:
                     "DN_HEARTBEAT": ("lost heartbeat", "dead datanode", "removedead"),
                     "NN_SAFE_MODE": ("safe mode",)}
 
+    # 变量说明：WEAK_TERMS 是无强信号时的弱先验词，只用于候选内重排。
+    WEAK_TERMS = {"DN_VOLUME": ("volume", "disk", "space", "磁盘", "卷"),
+                  "DN_HEARTBEAT": ("heartbeat", "dead", "lost", "心跳", "失联"),
+                  "NN_SAFE_MODE": ("safe mode", "safemode", "安全模式")}
+
     # 方法说明：`rank_root_causes` 完成当前步骤的业务处理；参数为 `log_evidence`、`doc_evidence`、`components`。
     @staticmethod
     def rank_root_causes(log_evidence, doc_evidence, components):
@@ -157,9 +162,13 @@ class AgentTools:
                             for row in log_evidence).lower()
         matched = {code for code, signals in AgentTools.CODE_SIGNALS.items()
                    if any(signal in messages for signal in signals)}
+        weak = {code: sum(messages.count(word) for word in words)
+                for code, words in AgentTools.WEAK_TERMS.items()}
         ordered = sorted(enumerate(doc_evidence),
                          key=lambda item: (0 if item[1].get("root_cause_code") in matched
-                                           else 1, item[0]))
+                                           else 1,
+                                           -weak.get(item[1].get("root_cause_code"), 0),
+                                           item[0]))
         doc_evidence = [document for _, document in ordered]
         hypotheses = []
         for index, document in enumerate(doc_evidence[:5], 1):

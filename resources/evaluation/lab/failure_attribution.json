@@ -5,10 +5,10 @@
       "total": 27
     },
     "DN_VOLUME": {
-      "ranking_error": 17,
+      "hit": 21,
       "total": 28,
-      "hit": 6,
-      "evidence_missing": 5
+      "evidence_missing": 5,
+      "ranking_error": 2
     },
     "NN_SAFE_MODE": {
       "hit": 26,
@@ -181,8 +181,8 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125300_bd4c",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028125328_573e",
@@ -193,8 +193,8 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125358_e146",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028125425_ef0b",
@@ -205,8 +205,8 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125455_eaa0",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028125522_31d2",
@@ -217,8 +217,8 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125552_301e",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028125619_c5a7",
@@ -229,14 +229,14 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125650_20f0",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028125720_5124",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028125749_fff9",
@@ -247,8 +247,8 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125822_3755",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028125850_d215",
@@ -259,20 +259,20 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028125921_4f0d",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028135443_560d",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028135526_cf09",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 2
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028135610_05a2",
@@ -283,8 +283,8 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028135658_3859",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 4
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028135746_9d53",
@@ -295,8 +295,8 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028135839_855b",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 3
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028135930_4f44",
@@ -307,20 +307,20 @@
     {
       "incident_id": "inc_lab_dn_volume_20261028140024_718d",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 3
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028140129_6b4d",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 3
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028140231_33cf",
       "code": "DN_VOLUME",
-      "reason": "ranking_error",
-      "rank": 3
+      "reason": "hit",
+      "rank": 1
     },
     {
       "incident_id": "inc_lab_dn_volume_20261028140333_367b",
