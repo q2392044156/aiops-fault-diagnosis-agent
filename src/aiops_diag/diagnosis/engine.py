@@ -437,7 +437,7 @@ class AgentEngine:
         event = detected["data"]["event"]
         self._save(run, state, budget, "DETECTED")
 
-        query_limit = max(200, int(self.cfg["tools"]["query_logs_limit"]))
+        query_limit = max(1000, int(self.cfg["tools"]["query_logs_limit"]))
         logs = self._invoke(run, state, budget, "query_logs", {
             "event_id": event_id, "limit": query_limit},
             lambda: self.tools.query_logs(event_id, query_limit))
@@ -446,10 +446,15 @@ class AgentEngine:
         log_rows = logs.get("data", {}).get("items", [])
         limit = int(self.cfg["tools"]["query_logs_limit"])
         if len(log_rows) > limit:
+            signals = tuple(word for words in AgentTools.CODE_SIGNALS.values()
+                            for word in words)
+            signal_rows = [row for row in log_rows
+                           if any(word in (row.get("redacted_message") or "").lower()
+                                  for word in signals)]
             severe = [row for row in log_rows
                       if row.get("level") in ("ERROR", "WARN", "FATAL")]
             seen, picked = set(), []
-            for row in severe + log_rows[-limit:]:
+            for row in signal_rows + severe + log_rows[-limit:]:
                 if row["log_id"] not in seen:
                     picked.append(row)
                     seen.add(row["log_id"])
@@ -511,8 +516,16 @@ class AgentEngine:
         signal_text = " ".join(severe + rest)[:2000]
         all_text = " ".join((row.get("redacted_message") or "")
                             for row in log_rows).lower()
-        detected_codes = [code for code, signals in AgentTools.CODE_SIGNALS.items()
-                          if any(signal in all_text for signal in signals)]
+        order = {"DN_VOLUME": 0, "NN_SAFE_MODE": 1, "DN_HEARTBEAT": 2,
+                 "NN_AVAILABILITY": 3}
+        scored = {}
+        for code, signals in AgentTools.CODE_SIGNALS.items():
+            hits = [signal for signal in signals if signal in all_text]
+            if hits:
+                scored[code] = (len(hits), sum(all_text.count(signal) for signal in hits))
+        detected_codes = [code for code, _ in sorted(
+            scored.items(),
+            key=lambda item: (-item[1][0], -item[1][1], order.get(item[0], 9)))]
         code_text = " ".join(detected_codes)
         query = ("HDFS异常事件只读排查 " + " ".join(components[:3]) + " "
                  + signal_text + " " + code_text)
@@ -520,7 +533,7 @@ class AgentEngine:
             "query": query, "top_k": self.cfg["tools"]["runbook_top_k"]},
             lambda: self.tools.retrieve_runbook(
                 query, component_hint, None, self.cfg["tools"]["runbook_top_k"],
-                code=detected_codes[0] if len(detected_codes) == 1 else None))
+                code=detected_codes[0] if detected_codes else None))
         doc_rows = retrieved.get("data", {}).get("items", []) if retrieved["ok"] else []
         doc_items = [document_evidence(row, self.retriever.manifest["kb_release_id"])
                      for row in doc_rows]
