@@ -3,11 +3,11 @@
 | 事件数 | 68 |
 | 可计入根因指标 | 68 |
 | 有诊断报告 | 68 |
-| Top-1 | 1.0 |
+| Top-1 | 0.9853 |
 | Top-3 | 1.0 |
 | Top-5 | 1.0 |
-| MRR | 1.0 |
-| Top-1 95% CI | [0.9465, 1.0] |
+| MRR | 0.9926 |
+| Top-1 95% CI | [0.9213, 0.9974] |
 | 冻结测试集 | n=14 Top-1=1.0 CI=[0.7847, 1.0] |
 | MTTD | N/A |
 | 排除原因 | {} |
@@ -15,7 +15,7 @@
 | 事件 | 期望组件 | 名次 | 匹配依据 | MTTD(s) |
 | --- | --- | --- | --- | --- |
 | inc_wsl_heartbeat_20261028182246_9b4d | DataNode | 1 | code | N/A |
-| inc_wsl_heartbeat_20261028182517_df45 | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261028182517_df45 | DataNode | 2 | code | N/A |
 | inc_wsl_heartbeat_20261029021428_c460 | DataNode | 1 | code | N/A |
 | inc_wsl_heartbeat_20261029021614_5c10 | DataNode | 1 | code | N/A |
 | inc_wsl_heartbeat_20261029021722_90e9 | DataNode | 1 | code | N/A |

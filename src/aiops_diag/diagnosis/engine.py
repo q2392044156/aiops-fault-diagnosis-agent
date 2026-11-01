@@ -61,6 +61,25 @@ def utcnow():
     return datetime.now(timezone.utc).isoformat()
 
 
+# 方法说明：select_log_rows 优先保留信号行、严重行与窗口尾部，再用尾部补齐。
+def select_log_rows(log_rows, limit):
+    limit = int(limit)
+    if len(log_rows) <= limit:
+        return log_rows
+    signals = tuple(word for words in AgentTools.CODE_SIGNALS.values() for word in words)
+    signal_rows = [row for row in log_rows
+                   if any(word in (row.get("redacted_message") or "").lower()
+                          for word in signals)]
+    severe = [row for row in log_rows
+              if row.get("level") in ("ERROR", "WARN", "FATAL")]
+    seen, picked = set(), []
+    for row in signal_rows + severe + log_rows[-limit:]:
+        if row["log_id"] not in seen:
+            picked.append(row)
+            seen.add(row["log_id"])
+    return picked[:limit]
+
+
 # 类说明：`AgentEngine` 封装本模块内聚的数据和行为。
 class AgentEngine:
     # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `cfg`、`database`、`retriever`、`service_manifest`、`release`、`client`。
@@ -445,20 +464,7 @@ class AgentEngine:
             state["review_reasons"].append("tool_failure")
         log_rows = logs.get("data", {}).get("items", [])
         limit = int(self.cfg["tools"]["query_logs_limit"])
-        if len(log_rows) > limit:
-            signals = tuple(word for words in AgentTools.CODE_SIGNALS.values()
-                            for word in words)
-            signal_rows = [row for row in log_rows
-                           if any(word in (row.get("redacted_message") or "").lower()
-                                  for word in signals)]
-            severe = [row for row in log_rows
-                      if row.get("level") in ("ERROR", "WARN", "FATAL")]
-            seen, picked = set(), []
-            for row in signal_rows + severe + log_rows[-limit:]:
-                if row["log_id"] not in seen:
-                    picked.append(row)
-                    seen.add(row["log_id"])
-            log_rows = picked[:limit]
+        log_rows = select_log_rows(log_rows, limit)
         log_items = [log_evidence(row, self.service_manifest["release_id"]) for row in log_rows]
         components = sorted({row.get("component") for row in log_rows if row.get("component")})
         weights = {}
@@ -525,7 +531,10 @@ class AgentEngine:
                 scored[code] = (len(hits), sum(all_text.count(signal) for signal in hits))
         detected_codes = [code for code, _ in sorted(
             scored.items(),
-            key=lambda item: (-item[1][0], -item[1][1], order.get(item[0], 9)))]
+            key=lambda item: (-item[1][1], order.get(item[0], 9), -item[1][0]))]
+        if "DN_VOLUME" in detected_codes and "DN_HEARTBEAT" in detected_codes:
+            detected_codes.remove("DN_VOLUME")
+            detected_codes.insert(0, "DN_VOLUME")
         code_text = " ".join(detected_codes)
         query = ("HDFS异常事件只读排查 " + " ".join(components[:3]) + " "
                  + signal_text + " " + code_text)

@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, timezone
 from pydantic import Field, ValidationError
 
 from aiops_diag.diagnosis.engine import AgentEngine as LegacyAgentEngine
+from aiops_diag.diagnosis.engine import select_log_rows
 from aiops_diag.diagnosis.engine import INJECTION
 import aiops_diag.diagnosis.engine as legacy_engine
 from aiops_diag.diagnosis.schemas import (ActionAdvice, Evidence, GeneratedReportBody,
@@ -132,6 +133,8 @@ class AgentEngine(LegacyAgentEngine):
         if not logs["ok"]:
             state["review_reasons"].append("tool_failure")
         log_rows = logs.get("data", {}).get("items", [])
+        log_rows = select_log_rows(
+            log_rows, min(50, int(self.cfg["tools"]["query_logs_limit"])))
         log_items = [log_evidence(row, self.service_manifest["release_id"])
                      for row in log_rows]
         framework_items, framework_query_rows = self._collect_framework_evidence(

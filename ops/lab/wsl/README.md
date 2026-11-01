@@ -79,9 +79,9 @@ python ops/lab/wsl/run_case.py --database runtime/lab/wsl.sqlite3
 | 故障族 | n | Top-1 |
 | --- | --- | --- |
 | DN_VOLUME（只读 remount） | 38 | 1.0 |
-| DN_HEARTBEAT（kill + 2s 心跳） | 10 | 1.0 |
+| DN_HEARTBEAT（kill + 2s 心跳） | 10 | 0.9 |
 | NN_SAFE_MODE（safemode enter/leave） | 20 | 1.0 |
-| 合计 | **68** | **1.0**（Top-3/5 均 1.0，95% CI [0.9465, 1.0]） |
+| 合计 | **68** | **0.9853**（Top-3/5 均 1.0，95% CI [0.9213, 0.9974]） |
 
 说明：
 

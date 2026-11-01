@@ -3,14 +3,14 @@
     "incidents": 68,
     "eligible": 68,
     "diagnosed": 68,
-    "top1": 1.0,
+    "top1": 0.9853,
     "top3": 1.0,
     "top5": 1.0,
-    "mrr": 1.0,
+    "mrr": 0.9926,
     "mttd_seconds": "N/A",
     "top1_ci95": [
-      0.9465,
-      1.0
+      0.9213,
+      0.9974
     ],
     "excluded": 0,
     "exclusion_reasons": {},
@@ -40,13 +40,13 @@
     {
       "incident_id": "inc_wsl_heartbeat_20261028182517_df45",
       "expected": "DataNode",
-      "rank": 1,
+      "rank": 2,
       "matched_by": "code",
       "split": "train",
-      "top1": true,
+      "top1": false,
       "top3": true,
       "top5": true,
-      "mrr": 1.0,
+      "mrr": 0.5,
       "mttd_seconds": null,
       "diagnosed": true
     },
