@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 import pyarrow as pa
 import pyarrow.parquet as pq
+import yaml
 
 from aiops_diag.data.common import digest, key
 from aiops_diag.diagnosis.engine import AgentEngine, AgentYield
@@ -149,7 +150,7 @@ def _parse(text, session_id, fallback=None):
 
 # 方法说明：ingest 把一条实验日志接入平台并跑一次模板诊断。
 def ingest_log(case_id, log_path, database_path, start, end, mode="template",
-               focus_component=None):
+               focus_component=None, agent_backend="native"):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
@@ -216,9 +217,25 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                "rag_version": "lab", "kb_release_id": "kb_lab_cards",
                "tool_manifest_hash": "lab", "risk_policy_hash": "lab",
                "prompt_version": "lab"}
-    engine = AgentEngine(cfg, database, CardRetriever(),
-                         {"release_id": "lab_rule_lr", "model_id": "lab_rule_detector",
-                          "threshold": 1.0}, release, client=OfflineClient())
+    detector = {"release_id": "lab_rule_lr", "model_id": "lab_rule_detector",
+                "threshold": 1.0}
+    if agent_backend == "langgraph":
+        from aiops_diag.diagnosis.framework.graph import LangGraphAgentEngine
+        cfg.update({
+            "v12": {"enabled": True},
+            "execution_backend": "langgraph",
+            "tools": {**cfg["tools"], "query_logs_limit": 1000},
+            "report_backend": "legacy",
+            "query_builder": dict(
+                yaml.safe_load((ROOT / "resources" / "configs" / "query_builder_v1.yaml")
+                               .read_text(encoding="utf-8")),
+                config_sha256=digest(ROOT / "resources" / "configs" / "query_builder_v1.yaml")),
+        })
+        engine = LangGraphAgentEngine(cfg, database, CardRetriever(), detector,
+                                      release, client=OfflineClient())
+    else:
+        engine = AgentEngine(cfg, database, CardRetriever(), detector, release,
+                             client=OfflineClient())
     fingerprint = key([event_id, mode, "agr_lab"])
     diagnosis_id = "dia_" + fingerprint[:24]
     budget = {"max_tool_calls": 8, "max_llm_calls": 3, "max_tokens": 12000,
@@ -247,7 +264,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
 
 
 # 方法说明：ingest 读取已生成的案例并调用 ingest_log，回填 map.json。
-def ingest(case_dir, database_path, mode="template"):
+def ingest(case_dir, database_path, mode="template", agent_backend="native"):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
@@ -256,7 +273,7 @@ def ingest(case_dir, database_path, mode="template"):
     mapping = ingest_log(incident["incident_id"], logs_path, database_path,
                          incident["timestamps"]["fault_start"],
                          incident["timestamps"]["first_observable_signal"], mode,
-                         focus_component=focus)
+                         focus_component=focus, agent_backend=agent_backend)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
@@ -267,10 +284,14 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Ingest a lab case into the diagnosis chain")
     parser.add_argument("--case", required=True)
     parser.add_argument("--database", required=True)
+    parser.add_argument("--agent-backend", choices=("native", "langgraph"),
+                        default="native")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    print(json.dumps(ingest(args.case, args.database), ensure_ascii=False, indent=2))
+    print(json.dumps(ingest(args.case, args.database,
+                            agent_backend=args.agent_backend),
+                     ensure_ascii=False, indent=2))
     return 0
 
 
