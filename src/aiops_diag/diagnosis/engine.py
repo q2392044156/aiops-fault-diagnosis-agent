@@ -61,6 +61,27 @@ def utcnow():
     return datetime.now(timezone.utc).isoformat()
 
 
+# 变量说明：CODE_ORDER 是同一优先级下的稳定排序。
+CODE_ORDER = {"DN_VOLUME": 0, "NN_SAFE_MODE": 1, "DN_HEARTBEAT": 2,
+              "NN_AVAILABILITY": 3}
+
+
+# 方法说明：detected_codes_from_text 按信号出现次数与上游优先级返回根因码。
+def detected_codes_from_text(text):
+    scored = {}
+    for code, signals in AgentTools.CODE_SIGNALS.items():
+        hits = [signal for signal in signals if signal in text]
+        if hits:
+            scored[code] = (len(hits), sum(text.count(signal) for signal in hits))
+    codes = [code for code, _ in sorted(
+        scored.items(),
+        key=lambda item: (-item[1][1], CODE_ORDER.get(item[0], 9), -item[1][0]))]
+    if "DN_VOLUME" in codes and "DN_HEARTBEAT" in codes:
+        codes.remove("DN_VOLUME")
+        codes.insert(0, "DN_VOLUME")
+    return codes
+
+
 # 方法说明：select_log_rows 优先保留信号行、严重行与窗口尾部，再用尾部补齐。
 def select_log_rows(log_rows, limit):
     limit = int(limit)
@@ -522,19 +543,7 @@ class AgentEngine:
         signal_text = " ".join(severe + rest)[:2000]
         all_text = " ".join((row.get("redacted_message") or "")
                             for row in log_rows).lower()
-        order = {"DN_VOLUME": 0, "NN_SAFE_MODE": 1, "DN_HEARTBEAT": 2,
-                 "NN_AVAILABILITY": 3}
-        scored = {}
-        for code, signals in AgentTools.CODE_SIGNALS.items():
-            hits = [signal for signal in signals if signal in all_text]
-            if hits:
-                scored[code] = (len(hits), sum(all_text.count(signal) for signal in hits))
-        detected_codes = [code for code, _ in sorted(
-            scored.items(),
-            key=lambda item: (-item[1][1], order.get(item[0], 9), -item[1][0]))]
-        if "DN_VOLUME" in detected_codes and "DN_HEARTBEAT" in detected_codes:
-            detected_codes.remove("DN_VOLUME")
-            detected_codes.insert(0, "DN_VOLUME")
+        detected_codes = detected_codes_from_text(all_text)
         code_text = " ".join(detected_codes)
         query = ("HDFS异常事件只读排查 " + " ".join(components[:3]) + " "
                  + signal_text + " " + code_text)

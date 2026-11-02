@@ -3,12 +3,12 @@
 | 事件数 | 81 |
 | 可计入根因指标 | 81 |
 | 有诊断报告 | 81 |
-| Top-1 | 0.7531 |
-| Top-3 | 0.7531 |
-| Top-5 | 0.7778 |
-| MRR | 0.7593 |
-| Top-1 95% CI | [0.6492, 0.8341] |
-| 冻结测试集 | n=30 Top-1=0.7333 CI=[0.5555, 0.8582] |
+| Top-1 | 0.9136 |
+| Top-3 | 0.9136 |
+| Top-5 | 0.9383 |
+| MRR | 0.9198 |
+| Top-1 95% CI | [0.8322, 0.9575] |
+| 冻结测试集 | n=30 Top-1=0.9 CI=[0.7438, 0.9654] |
 | MTTD | 46.6 |
 | 排除原因 | {} |
 
@@ -28,19 +28,19 @@
 | inc_lab_dn_heartbeat_20261028131228_dec0 | DataNode | 1 | code | 71.518681 |
 | inc_lab_dn_heartbeat_20261028131346_8850 | DataNode | 1 | code | 71.12092 |
 | inc_lab_dn_heartbeat_20261028131504_4831 | DataNode | 1 | code | 61.135118 |
-| inc_lab_dn_heartbeat_20261028140806_f963 | DataNode | - | - | 79.682973 |
-| inc_lab_dn_heartbeat_20261028140942_67de | DataNode | - | - | 78.453414 |
-| inc_lab_dn_heartbeat_20261028141114_7bfb | DataNode | - | - | 81.432298 |
-| inc_lab_dn_heartbeat_20261028141253_f4a4 | DataNode | - | - | 79.406115 |
-| inc_lab_dn_heartbeat_20261028141430_c705 | DataNode | - | - | 83.053441 |
-| inc_lab_dn_heartbeat_20261028141610_cf5f | DataNode | - | - | 79.431094 |
-| inc_lab_dn_heartbeat_20261028141745_c5de | DataNode | - | - | 82.184299 |
-| inc_lab_dn_heartbeat_20261028141924_e77c | DataNode | - | - | 83.874639 |
-| inc_lab_dn_heartbeat_20261028142107_ca7e | DataNode | - | - | 82.876543 |
-| inc_lab_dn_heartbeat_20261028142247_7c84 | DataNode | - | - | 64.073394 |
-| inc_lab_dn_heartbeat_20261028142406_5600 | DataNode | - | - | 78.717317 |
-| inc_lab_dn_heartbeat_20261028142546_a65f | DataNode | - | - | 77.275545 |
-| inc_lab_dn_heartbeat_20261028142717_be88 | DataNode | - | - | 74.366597 |
+| inc_lab_dn_heartbeat_20261028140806_f963 | DataNode | 1 | code | 79.682973 |
+| inc_lab_dn_heartbeat_20261028140942_67de | DataNode | 1 | code | 78.453414 |
+| inc_lab_dn_heartbeat_20261028141114_7bfb | DataNode | 1 | code | 81.432298 |
+| inc_lab_dn_heartbeat_20261028141253_f4a4 | DataNode | 1 | code | 79.406115 |
+| inc_lab_dn_heartbeat_20261028141430_c705 | DataNode | 1 | code | 83.053441 |
+| inc_lab_dn_heartbeat_20261028141610_cf5f | DataNode | 1 | code | 79.431094 |
+| inc_lab_dn_heartbeat_20261028141745_c5de | DataNode | 1 | code | 82.184299 |
+| inc_lab_dn_heartbeat_20261028141924_e77c | DataNode | 1 | code | 83.874639 |
+| inc_lab_dn_heartbeat_20261028142107_ca7e | DataNode | 1 | code | 82.876543 |
+| inc_lab_dn_heartbeat_20261028142247_7c84 | DataNode | 1 | code | 64.073394 |
+| inc_lab_dn_heartbeat_20261028142406_5600 | DataNode | 1 | code | 78.717317 |
+| inc_lab_dn_heartbeat_20261028142546_a65f | DataNode | 1 | code | 77.275545 |
+| inc_lab_dn_heartbeat_20261028142717_be88 | DataNode | 1 | code | 74.366597 |
 | inc_lab_dn_volume_20261028125300_bd4c | DataNode | 1 | code | 24.664636 |
 | inc_lab_dn_volume_20261028125328_573e | DataNode | 1 | code | 27.855129 |
 | inc_lab_dn_volume_20261028125358_e146 | DataNode | 1 | code | 24.107181 |

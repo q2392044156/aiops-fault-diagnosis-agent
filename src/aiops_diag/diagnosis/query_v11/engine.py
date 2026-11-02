@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from pydantic import Field, ValidationError
 
 from aiops_diag.diagnosis.engine import AgentEngine as LegacyAgentEngine
-from aiops_diag.diagnosis.engine import select_log_rows
+from aiops_diag.diagnosis.engine import detected_codes_from_text, select_log_rows
 from aiops_diag.diagnosis.engine import INJECTION
 import aiops_diag.diagnosis.engine as legacy_engine
 from aiops_diag.diagnosis.schemas import (ActionAdvice, Evidence, GeneratedReportBody,
@@ -135,6 +135,10 @@ class AgentEngine(LegacyAgentEngine):
         log_rows = logs.get("data", {}).get("items", [])
         log_rows = select_log_rows(
             log_rows, min(50, int(self.cfg["tools"]["query_logs_limit"])))
+        all_text = " ".join((row.get("redacted_message") or "")
+                            for row in log_rows).lower()
+        detected = detected_codes_from_text(all_text)
+        code_hint = detected[0] if detected else None
         log_items = [log_evidence(row, self.service_manifest["release_id"])
                      for row in log_rows]
         framework_items, framework_query_rows = self._collect_framework_evidence(
@@ -177,7 +181,7 @@ class AgentEngine(LegacyAgentEngine):
                 "query_plan": plan, "top_k": self.cfg["tools"]["runbook_top_k"]},
                 lambda plan=plan: self.tools.retrieve_runbook(
                     plan["query"], plan["component"], plan["product_version"],
-                    self.cfg["tools"]["runbook_top_k"]))
+                    self.cfg["tools"]["runbook_top_k"], code=code_hint))
             retrieval_results.append(result)
             if not result.get("ok"):
                 state["review_reasons"].append("tool_failure")

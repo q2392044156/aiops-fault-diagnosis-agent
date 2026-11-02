@@ -14,13 +14,20 @@ class CandidateAgentTools(AgentTools):
         return value
 
     # 方法说明：`retrieve_runbook` 完成当前步骤的业务处理；参数为 `query`、`component`、`product_version`、`top_k`。
-    def retrieve_runbook(self, query, component=None, product_version=None, top_k=3):
-        value = super().retrieve_runbook(query, component, product_version, top_k)
+    def retrieve_runbook(self, query, component=None, product_version=None, top_k=3,
+                         code=None):
+        value = super().retrieve_runbook(query, component, product_version, top_k,
+                                         code=code)
         if not value.get("ok"):
             return value
-        raw = self.retriever.search(
-            query, mode="frozen", top_k=int(top_k), component=component,
-            product_version=product_version, apply_gate=False)
+        try:
+            raw = self.retriever.search(
+                query, mode="frozen", top_k=int(top_k), component=component,
+                product_version=product_version, apply_gate=False, code=code)
+        except TypeError:
+            raw = self.retriever.search(
+                query, mode="frozen", top_k=int(top_k), component=component,
+                product_version=product_version, apply_gate=False)
         candidates = [{name: item.get(name) for name in (
             "chunk_id", "doc_id", "section_path", "source_version",
             "rrf_score", "dense_score", "bm25_score")}
