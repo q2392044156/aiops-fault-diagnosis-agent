@@ -38,6 +38,75 @@ Docker 81 例失败归因：**命中 74、证据缺失 5、召回缺失 0、排�
 
 ---
 
+## 两种执行后端：主引擎与 LangGraph
+
+同一套业务表、同一批 incident，提供两种编排方式：
+
+| 维度 | 主引擎（默认） | LangGraph 后端 |
+| --- | --- | --- |
+| 入口 | `diagnosis/engine.py` | `diagnosis/framework/graph.py` + `query_v11/engine.py` |
+| 编排 | 自研 7 节点状态机 | `StateGraph` + 条件路由 |
+| 状态 | SQLite 业务表 | 业务表 + checkpoint |
+| 开关 | 无需配置 | `agent_backend: framework_candidate` + `execution_backend: langgraph` |
+| 用途 | 路线 A 主结果 | 框架对照、面试演示 |
+
+### 主引擎：实现过程
+
+1. **取证**：`query_logs` 拉全量窗口，`select_log_rows` 按“信号行 → ERROR/WARN → 窗口尾部”保留 50 行；
+2. **信号码**：`detected_codes_from_text` 按出现次数排序，卷故障与心跳并存时卷优先（上游因）；
+3. **检索**：把信号码传给 `retrieve_runbook(..., code=...)`，检索池收窄到对应根因卡；
+4. **排序**：`rank_root_causes` 先按强信号，再按弱先验（volume/disk/heartbeat），最后看证据；
+5. **报告**：证据白名单 + Pydantic 校验；失败或引用越权走模板降级。
+
+运行：
+
+```powershell
+python ops/lab/harness/ingest.py --case <case_dir> --database runtime/lab/wsl.sqlite3
+python ops/scripts/evaluate_incidents.py --database runtime/lab/wsl.sqlite3 --cases ops/lab/wsl_cases
+```
+
+### LangGraph：实现过程
+
+1. **建图**：7 个业务节点映射为图节点，`START` 按持久化 `current_node` 条件路由；
+2. **单步推进**：每次 `graph.invoke` 只执行一个节点，然后 `END`；遇到 `AgentYield` 写回让出节点；
+3. **checkpoint**：`DatabaseCheckpointSaver` 写 SQLite，thread 为 `<release>:<diagnosis>:<revision>`；
+4. **对齐检索**：候选路径复用 `detected_codes_from_text`，并把 code 传入 `retrieve_runbook`，补齐信号码硬过滤；
+5. **业务表仍是真相源**：图只保存最小进度，预算/工具/审批都在 SQLite。
+
+运行：
+
+```powershell
+# 单例
+python ops/lab/harness/ingest.py --case <case_dir> --database runtime/lab/lg_wsl.sqlite3 --agent-backend langgraph
+
+# 5 例 PoC
+python ops/lab/harness/langgraph_poc.py
+
+# 服务方式
+python -m aiops_diag.platform serve --config resources/configs/service_v12_rc1.yaml
+```
+
+全量重放的做法：复制案例与数据库 → 清空旧报告 → 逐例带 `--agent-backend langgraph` 重放 → 用同一评测脚本评分；结果文件见 [P2-8 报告](documentation/P2-8_LangGraph全量对比.md)。
+
+### 两种方式的结果对比
+
+| 指标 | WSL 主引擎 | WSL LangGraph | Docker 主引擎 | Docker LangGraph |
+| --- | --- | --- | --- | --- |
+| Top-1 | **98.5%**（67/68） | **98.5%**（67/68） | **91.4%**（74/81） | **91.4%**（74/81） |
+| Top-3 | 100% | 100% | 93.8% | 91.4% |
+| Top-5 | 100% | 100% | 93.8% | 93.8% |
+| MRR | 0.9926 | 0.9926 | 0.9218 | 0.9198 |
+| 冻结测试集 | n=14，100% | n=14，100% | n=30，90.0% | n=30，90.0% |
+| checkpoint | — | 1224 条 | — | 1458 条 |
+
+说明：
+
+- Docker LangGraph 最初只有 75.3%（心跳 14/27），补齐信号码硬过滤后到 91.4%（心跳 27/27）；
+- 两套引擎使用**独立数据库**，不能把结果混在一起算平均；
+- 图编排不改变指标，真正决定指标的是证据选择与检索策略。
+
+---
+
 ## 系统如何工作
 
 ![架构总览](documentation/architecture.png)
