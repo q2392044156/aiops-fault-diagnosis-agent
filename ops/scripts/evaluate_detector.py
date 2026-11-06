@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, "src")
 sys.path.insert(0, "ops/lab/harness")
 from aiops_diag.detection.source_detector import TemplateNoveltyDetector
-from windows import load_windows
+from windows import load_normal_windows, load_windows
 
 
 # 方法说明：_windows 返回案例集合的正常/故障窗口。
@@ -80,6 +80,7 @@ def main(argv=None):
     parser.add_argument("--diagnosis", default=None)
     parser.add_argument("--cv", type=int, default=0)
     parser.add_argument("--save", default=None)
+    parser.add_argument("--normal-dir", default=None)
     args = parser.parse_args(argv)
     cases = [case for case in sorted(Path(args.cases).glob("*"))
              if (case / "incident.json").is_file()]
@@ -87,6 +88,42 @@ def main(argv=None):
     if args.diagnosis and Path(args.diagnosis).is_file():
         rows = json.loads(Path(args.diagnosis).read_text(encoding="utf-8"))["rows"]
         top1 = {row["incident_id"]: bool(row.get("top1")) for row in rows}
+    if args.normal_dir:
+        normal = load_normal_windows(args.normal_dir, args.source_type)
+        split = int(len(normal) * 0.7)
+        train_normal, test_normal = normal[:split], normal[split:]
+        _, fault = _windows(cases, args.source_type)
+        detector = TemplateNoveltyDetector(args.target_fpr).fit(train_normal)
+        fp = sum(1 for rows in test_normal if _score(rows, detector))
+        hits = sum(1 for rows in fault if _score(rows, detector))
+        e2e_hits = 0
+        e2e_total = 0
+        for case in cases:
+            window = load_windows(case, args.source_type)
+            if not window or not window["fault"]:
+                continue
+            detected = _score(window["fault"], detector)
+            e2e_hits += int(detected and top1.get(window["incident_id"], False))
+            e2e_total += 1
+        result = {"source_type": args.source_type, "model": "template_novelty",
+                  "normal_source": "captured", "normal_windows": len(normal),
+                  "train_normal": len(train_normal), "test_normal": len(test_normal),
+                  "test": {"threshold": detector.threshold, "normal": len(test_normal),
+                           "false_positive": fp,
+                           "fpr": round(fp / len(test_normal), 4) if test_normal else None,
+                           "fault": len(fault), "detected": hits,
+                           "recall": round(hits / len(fault), 4) if fault else None},
+                  "end_to_end": {"cases": e2e_total, "hits": e2e_hits,
+                                 "top1": round(e2e_hits / e2e_total, 4) if e2e_total else None}}
+        if args.save:
+            TemplateNoveltyDetector(args.target_fpr).fit(normal).save(args.save)
+            result["saved"] = str(args.save)
+        Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n",
+                                     encoding="utf-8")
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+
     if args.cv and args.cv > 1:
         buckets = [[] for _ in range(args.cv)]
         for index, case in enumerate(cases):

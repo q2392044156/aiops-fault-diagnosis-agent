@@ -24,3 +24,17 @@ def load_windows(case_dir, source_type=None):
     fault = [row for row in rows if (row.get("timestamp_utc") or "") >= start]
     return {"incident_id": incident["incident_id"], "source_type": source_type,
             "normal": normal, "fault": fault, "fault_start": start}
+
+
+# 方法说明：load_normal_windows 读取独立正常目录中的每份日志。
+def load_normal_windows(directory, source_type="docker_container", window_lines=50):
+    windows = []
+    for log in sorted(Path(directory).glob("*.log")):
+        rows = parse_lines(source_type,
+                           log.read_text(encoding="utf-8", errors="replace").splitlines(),
+                           log.name, "2026-10-28T00:00:00+00:00")
+        for start in range(0, len(rows), int(window_lines)):
+            chunk = rows[start:start + int(window_lines)]
+            if chunk:
+                windows.append(chunk)
+    return windows

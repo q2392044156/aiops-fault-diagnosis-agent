@@ -54,6 +54,14 @@ Docker Desktop 的 loop 在反复挂载后不可用（`losetup` 返回 rc=1）�
 - 安装与脚本：[wsl/](wsl/)
 - 只读卷注入证据：[documentation/results/wsl_volume/readonly_evidence.txt](../../documentation/results/wsl_volume/readonly_evidence.txt)
 
+## 采集稳态正常窗口
+
+```powershell
+docker compose -f ops/lab/compose.yaml up -d
+python ops/lab/harness/capture_normal.py --minutes 5 --output ops/lab/normal/steady_5m
+python ops/scripts/evaluate_detector.py --cases ops/lab/real_batch_cases --source-type docker_container --normal-dir ops/lab/normal/steady_5m/logs --output resources/evaluation/lab/detector_docker_steady.json --diagnosis resources/evaluation/lab/frozen_docker.json
+```
+
 ## 设计约束
 
 - **快照截止**：日志与指标只采集到 `cutoff = fault_start + observe`，恢复动作在 cutoff 之后执行；

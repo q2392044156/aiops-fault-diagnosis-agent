@@ -1,0 +1,23 @@
+{
+  "source_type": "docker_container",
+  "model": "template_novelty",
+  "normal_source": "captured",
+  "normal_windows": 14,
+  "train_normal": 9,
+  "test_normal": 5,
+  "test": {
+    "threshold": 0.0,
+    "normal": 5,
+    "false_positive": 0,
+    "fpr": 0.0,
+    "fault": 74,
+    "detected": 74,
+    "recall": 1.0
+  },
+  "end_to_end": {
+    "cases": 74,
+    "hits": 69,
+    "top1": 0.9324
+  },
+  "saved": "artifacts/detectors/docker_steady.json"
+}
