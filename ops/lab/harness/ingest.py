@@ -21,6 +21,7 @@ import yaml
 
 from aiops_diag.data.adapters import parse_lines
 from aiops_diag.data.common import digest, key
+from aiops_diag.platform.events import build_event, gate_session
 from aiops_diag.diagnosis.engine import AgentEngine, AgentYield
 from aiops_diag.platform.db import Database
 from aiops_diag.platform.pipeline import LOG_SCHEMA
@@ -172,7 +173,8 @@ def _parse(text, session_id, fallback=None, source_type="docker_container", matc
 # 方法说明：ingest 把一条实验日志接入平台并跑一次模板诊断。
 def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                focus_component=None, agent_backend="native", retriever_kind="cards",
-               retriever=None, source_type="docker_container", matcher=None):
+               retriever=None, source_type="docker_container", matcher=None,
+               event_source="import", gate_threshold=0.6):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
@@ -209,23 +211,39 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
         artifacts[name] = {"relative_path": name, "sha256": digest(path)}
 
     detected = datetime.now(timezone.utc).isoformat()
-    event_id = "evt_" + key([case_id, tag])[:24]
+    if event_source == "model":
+        decision = gate_session(rows, gate_threshold)
+    else:
+        decision = {"decision": "PASS", "score": 1.0, "reason": "import"}
+    passed = decision["decision"] == "PASS"
+    event_id = ("evt_" + key([case_id, tag])[:24]) if passed else None
     counts = {"total_lines": total, "parsed_lines": len(rows),
               "quarantined_lines": total - len(rows), "session_count": 1,
-              "anomaly_count": 1, "event_count": 1}
+              "anomaly_count": int(passed), "event_count": int(passed)}
+    events = [build_event(event_id, batch_id, session_id, rows, decision["score"],
+                          gate_threshold, focus_component or "lab", start, end,
+                          detected)] if passed else []
+    members = [{"event_id": event_id, "session_id": session_id}] if passed else []
     database.complete(task_id, directory, counts,
                       [{"session_id": session_id, "start_time": start, "end_time": end,
-                        "line_count": len(rows), "unknown_count": 0, "anomaly_score": 2.0,
-                        "threshold": 1.0, "prediction": 1,
+                        "line_count": len(rows), "unknown_count": 0,
+                        "anomaly_score": decision["score"],
+                        "threshold": gate_threshold, "prediction": int(passed),
                         "first_log_id": rows[0]["log_id"], "last_log_id": rows[-1]["log_id"],
                         "host_alias": focus_component or "lab"}],
-                      [{"event_id": event_id, "batch_id": batch_id,
-                        "host_alias": focus_component or "lab",
-                        "start_time": start, "end_time": end, "detected_at": detected,
-                        "max_anomaly_score": 2.0, "threshold": 1.0, "session_count": 1,
-                        "status": "ANOMALY_DETECTED"}],
-                      [{"event_id": event_id, "session_id": session_id}],
-                      artifacts, task["lease_token"])
+                      events, members, artifacts, task["lease_token"])
+    if not passed:
+        return {"incident_id": case_id, "batch_id": batch_id, "event_id": None,
+                "diagnosis_id": None, "report_id": None, "agent_detected": None,
+                "mode": "lab-ingest", "gate_decision": "REJECT",
+                "gate_score": decision["score"], "gate_reason": decision["reason"]}
+    database.set_event_metadata(event_id, {
+        "detector_release_id": "lab_gate_v1",
+        "detector_score": str(decision["score"]),
+        "detector_threshold": str(gate_threshold),
+        "gate_decision": "PASS",
+        "gate_reason": decision["reason"],
+    })
 
     cfg = {"agent_version": "lab_agent", "v12": {"enabled": False},
            "workflow": {"max_tool_calls": 8, "max_llm_calls": 3, "max_tokens": 12000,
@@ -297,7 +315,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
 # 方法说明：ingest 读取已生成的案例并调用 ingest_log，回填 map.json。
 def ingest(case_dir, database_path, mode="template", agent_backend="native",
            retriever_kind="cards", retriever=None, template_dir=None, matcher=None,
-           source_type=None):
+           source_type=None, event_source="import", gate_threshold=0.6):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
@@ -313,7 +331,8 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
                          incident["timestamps"]["first_observable_signal"], mode,
                          focus_component=focus, agent_backend=agent_backend,
                          retriever_kind=retriever_kind, retriever=retriever,
-                         source_type=source_type, matcher=matcher)
+                         source_type=source_type, matcher=matcher,
+                         event_source=event_source, gate_threshold=gate_threshold)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
@@ -329,6 +348,8 @@ def main(argv=None):
     parser.add_argument("--retriever", choices=("cards", "frozen"), default="cards")
     parser.add_argument("--template-dir")
     parser.add_argument("--source-type", choices=("docker_container", "wsl"))
+    parser.add_argument("--event-source", choices=("model", "import"), default="import")
+    parser.add_argument("--gate-threshold", type=float, default=0.6)
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -336,7 +357,9 @@ def main(argv=None):
                             agent_backend=args.agent_backend,
                             retriever_kind=args.retriever,
                             template_dir=args.template_dir,
-                            source_type=args.source_type),
+                            source_type=args.source_type,
+                            event_source=args.event_source,
+                            gate_threshold=args.gate_threshold),
                      ensure_ascii=False, indent=2))
     return 0
 

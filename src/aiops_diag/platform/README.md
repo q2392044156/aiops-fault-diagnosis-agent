@@ -21,6 +21,7 @@
 | `tracing.py` | 记录诊断链路的 trace/span 并写入 SQLite。 | `Tracer`、`Trace`、`SpanRecord` |
 | `metrics_store.py` | 读取 CSV/JSONL 指标并按主机与时间窗聚合。 | `MetricsStore` |
 | `db.py` | 管理 SQLite 任务、预算、报告、审批和审计记录。 | `IdempotencyConflict`、`QueueFull`、`LeaseLost`、`ApprovalConflict`、`ApprovalExpired`、`now`、`_deadline`、`Database` |
+| `events.py` | 对会话打分并做异常门禁，构建事件。 | `score_rows`、`gate_session`、`build_event` |
 | `pipeline.py` | 连接服务请求、检测、检索与诊断流程。 | `BufferedWriter`、`_raw_rows`、`_parquet_rows`、`_host_alias`、`_stage_db`、`_session_rows`、`_score_sessions`、`_event_groups` 等 |
 | `release.py` | 校验并生成当前模块的不可变发布清单。 | `_read`、`_w2_run`、`_components`、`_bundle_names`、`publish`、`verify`、`ReleaseMetadata`、`FrozenRelease` |
 | `runtime.py` | 装配配置、数据库、发布制品和后台 worker。 | `ServiceRuntime` |

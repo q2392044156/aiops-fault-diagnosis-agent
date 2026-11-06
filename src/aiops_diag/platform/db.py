@@ -253,7 +253,9 @@ class Database:
     # 方法说明：`set_event_metadata` 完成当前步骤的业务处理；参数为 `event_id`、`values`。
     def set_event_metadata(self, event_id, values):
         allowed = {"product_version", "source_type", "dataset", "split",
-                   "snapshot_hash", "cluster_alias"}
+                   "snapshot_hash", "cluster_alias", "detector_release_id",
+                   "detector_score", "detector_threshold", "gate_decision",
+                   "gate_reason"}
         unknown = set(values) - allowed
         if unknown:
             raise ValueError("Unsupported event metadata")
