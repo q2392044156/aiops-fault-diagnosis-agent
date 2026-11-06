@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-net-replace-datanode-on-failure",
+  "title": "写失败时替换 DataNode 配置",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "HDFS Client"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "pipeline 失败",
+    "替换 DataNode",
+    "小集群写入"
+  ],
+  "evidence_required": [
+    "官方说明该开关在 DataNode/网络故障时移除失败节点并继续写，默认 true，并提示小集群可考虑 NEVER/关闭；证据包括配置值、集群规模、pipeline 失败率。"
+  ],
+  "root_cause_codes": [
+    "NETWORK_CONNECTIVITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.client.block.write.replace-datanode-on-failure.enable",
+  "source_quote": "If there is a datanode/network failure in the write pipeline, DFSClient will try to remove the failed datanode from the pipeline and then continue writing with the remaining datanodes.",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.client.block.write.replace-datanode-on-failure.enable 控制写 pipeline 遇到 DataNode/网络故障时，是否移除失败节点并补充新节点。官方默认 true；小集群（3 节点或更少）可能因找不到替换节点而出现较高 pipeline 失败率。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方说明该开关在 DataNode/网络故障时移除失败节点并继续写，默认 true，并提示小集群可考虑 NEVER/关闭；证据包括配置值、集群规模、pipeline 失败率。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读核对开关与 policy；2. 统计 pipeline 失败与替换事件；3. 核对集群节点数是否过小；4. 不修改配置。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "在小集群关闭该能力可能导致写入直接失败，开启又可能频繁重建 pipeline；配置调整需结合集群规模评估，排查阶段禁止修改。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

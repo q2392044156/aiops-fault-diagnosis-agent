@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-pipe-packet-ack",
+  "title": "写 pipeline 的 packet 与 ack",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "HDFS Client",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "packet",
+    "ack",
+    "checksum"
+  ],
+  "evidence_required": [
+    "源码注释说明 packet/chunk/checksum 与 pipeline 首节点；需收集客户端 packet 重传、ack 超时和 DataStreamer 日志。"
+  ],
+  "root_cause_codes": [
+    "CLIENT_WRITE_PIPELINE"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-dfsoutputstream-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs-client/src/main/java/org/apache/hadoop/hdfs/DFSOutputStream.java#L80-L90",
+  "source_section": "DFSOutputStream 类注释：packet 与 pipeline",
+  "source_quote": "Data is broken up into packets, each packet is typically 64K in size. A packet comprises of chunks. Each chunk is typically 512 bytes and has an associated checksum ... DataStreamer ... sends it to the first datanode in the pipeline.",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "DFSOutputStream 把写入拆成 packet（通常 64K），packet 由 chunk（通常 512B，带 checksum）组成，DataStreamer 负责发往 pipeline 的第一个 DataNode，并等待 ack。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码注释说明 packet/chunk/checksum 与 pipeline 首节点；需收集客户端 packet 重传、ack 超时和 DataStreamer 日志。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看客户端 packet/ack 异常；2. 定位 pipeline 首节点；3. 检查该节点 DataXceiver 与磁盘；4. 不修改客户端参数。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "客户端参数调整可能掩盖网络/磁盘问题；排查阶段只记录证据，变更需审批。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

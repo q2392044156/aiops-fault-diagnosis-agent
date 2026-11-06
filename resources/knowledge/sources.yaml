@@ -49,3 +49,60 @@ sources:
     accessed_at: "2026-11-06"
     license: Apache-2.0
     usage: Original Chinese summaries only; no full-text redistribution.
+
+  - source_id: apache-hadoop-fsdatasetimpl-3.3.5
+    title: Apache Hadoop 3.3.5 FsDatasetImpl.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/fsdataset/impl/FsDatasetImpl.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hadoop-diskchecker-3.3.5
+    title: Apache Hadoop 3.3.5 DiskChecker.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/DiskChecker.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hadoop-datanode-3.3.5
+    title: Apache Hadoop 3.3.5 DataNode.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/DataNode.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hadoop-fsnamesystem-3.3.5
+    title: Apache Hadoop 3.3.5 FSNamesystem.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/FSNamesystem.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hadoop-datastreamer-3.3.5
+    title: Apache Hadoop 3.3.5 DataStreamer.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs-client/src/main/java/org/apache/hadoop/hdfs/DataStreamer.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hadoop-dfsoutputstream-3.3.5
+    title: Apache Hadoop 3.3.5 DFSOutputStream.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs-client/src/main/java/org/apache/hadoop/hdfs/DFSOutputStream.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hadoop-dataxceiver-3.3.5
+    title: Apache Hadoop 3.3.5 DataXceiver.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/DataXceiver.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.

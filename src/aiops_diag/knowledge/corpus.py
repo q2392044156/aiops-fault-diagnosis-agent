@@ -73,7 +73,7 @@ def validate_corpus(cfg):
         url = source.get("source_url")
         if url:
             parsed = urlparse(url)
-            if parsed.scheme != "https" or parsed.hostname not in {"hadoop.apache.org"}:
+            if parsed.scheme != "https" or parsed.hostname not in {"hadoop.apache.org", "github.com"}:
                 raise ValueError(f"Source URL is not allowlisted: {url}")
     return cards, sources
 

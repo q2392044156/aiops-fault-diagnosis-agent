@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-net-client-socket-timeout",
+  "title": "客户端 Socket 超时配置",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "HDFS Client"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "SocketTimeoutException",
+    "客户端读超时",
+    "连接响应慢"
+  ],
+  "evidence_required": [
+    "官方说明该参数是“所有 socket 的默认超时”，单位为毫秒，默认 60000；排查时需结合客户端 SocketTimeoutException、目标节点和时间窗。"
+  ],
+  "root_cause_codes": [
+    "NETWORK_CONNECTIVITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.client.socket-timeout",
+  "source_quote": "Default timeout value in milliseconds for all sockets. Default: 60000",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.client.socket-timeout 是 HDFS 客户端所有 socket 的默认超时，官方默认 60000 ms。它决定客户端等待 NameNode 或 DataNode 响应的最长时间；超时只说明连接或响应慢，不能直接判定网络分区。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方说明该参数是“所有 socket 的默认超时”，单位为毫秒，默认 60000；排查时需结合客户端 SocketTimeoutException、目标节点和时间窗。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看当前 dfs.client.socket-timeout 取值；2. 把客户端超时日志与目标 NameNode/DataNode、时间窗对齐；3. 检查是否集中在同一节点或链路；4. 不修改配置，只记录证据。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "调大超时可能掩盖真实故障并拖慢失败检测；配置变更需要滚动重启，排查阶段禁止修改。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

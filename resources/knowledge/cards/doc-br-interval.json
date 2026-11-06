@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-br-interval",
+  "title": "块报告间隔配置",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "块报告间隔",
+    "BLOCK_REPORT",
+    "报告延迟"
+  ],
+  "evidence_required": [
+    "官方说明该参数决定块报告间隔，单位毫秒，默认 21600000；需结合 DataNode 块报告日志和 NameNode 接收时间。"
+  ],
+  "root_cause_codes": [
+    "BLOCK_REPORT"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.blockreport.intervalMsec",
+  "source_quote": "Determines block reporting interval in milliseconds. Default: 21600000",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.blockreport.intervalMsec 决定 DataNode 全量块报告的间隔，官方默认 21600000 ms（6 小时）。间隔越长，NameNode 发现块缺失/副本异常的时间越晚。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方说明该参数决定块报告间隔，单位毫秒，默认 21600000；需结合 DataNode 块报告日志和 NameNode 接收时间。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读核对当前间隔；2. 对照最近一次块报告时间；3. 检查是否有增量/立即报告；4. 不修改间隔。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "缩短间隔会增加 NameNode 与网络负载；调整需容量评估，排查阶段只记录。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

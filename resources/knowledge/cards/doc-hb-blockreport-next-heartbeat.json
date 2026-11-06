@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-hb-blockreport-next-heartbeat",
+  "title": "DataNode 在下一次心跳发送块报告",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "块报告延迟",
+    "心跳调度",
+    "下一次心跳"
+  ],
+  "evidence_required": [
+    "源码注释说明块报告安排在 next heartbeat；需收集心跳间隔配置、块报告时间戳和 NameNode 接收记录。"
+  ],
+  "root_cause_codes": [
+    "DN_HEARTBEAT"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-datanode-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/DataNode.java#L3201-L3204",
+  "source_section": "DataNode：scheduleAllBlockReport 注释",
+  "source_quote": "This methods arranges for the data node to send the block report at the next heartbeat.",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "DataNode 的 scheduleAllBlockReport 会把块报告安排在下一次心跳发送。心跳间隔和心跳是否正常，会直接影响块报告到达 NameNode 的时间。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码注释说明块报告安排在 next heartbeat；需收集心跳间隔配置、块报告时间戳和 NameNode 接收记录。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读核对心跳间隔与下次心跳时间；2. 对照 NameNode 收到块报告的时间；3. 检查心跳是否持续正常；4. 不调整间隔。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "调小心跳间隔会增加 NameNode 负载，调大则会延迟块报告和故障发现；配置变更需评估，排查阶段禁止修改。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

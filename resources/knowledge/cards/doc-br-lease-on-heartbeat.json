@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-br-lease-on-heartbeat",
+  "title": "心跳触发立即块报告",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "立即块报告",
+    "心跳间隔过长",
+    "报告租约"
+  ],
+  "evidence_required": [
+    "源码注释说明长时间未心跳会请求 immediate block report；需收集心跳间隔、块报告租约请求和 NameNode 日志。"
+  ],
+  "root_cause_codes": [
+    "BLOCK_REPORT"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-fsnamesystem-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/FSNamesystem.java#L4292-L4298",
+  "source_section": "FSNamesystem：handleHeartbeat 注释",
+  "source_quote": "If a substantial amount of time passed since the last datanode heartbeat then request an immediate block report.",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "FSNamesystem 的 handleHeartbeat 注释说明：如果距离上次心跳过了较长时间，会请求立即块报告。也就是说，心跳延迟不仅影响存活判断，还会触发额外的块报告。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码注释说明长时间未心跳会请求 immediate block report；需收集心跳间隔、块报告租约请求和 NameNode 日志。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看 NameNode 是否请求立即块报告；2. 对齐心跳时间与报告时间；3. 检查对应 DataNode 心跳是否抖动；4. 不调整心跳。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "频繁触发立即报告会增加 NameNode 负载；应先定位心跳抖动原因，而不是修改阈值。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

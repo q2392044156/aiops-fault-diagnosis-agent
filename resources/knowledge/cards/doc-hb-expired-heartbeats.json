@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-hb-expired-heartbeats",
+  "title": "NameNode 过期心跳计数",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "ExpiredHeartbeats",
+    "心跳过期",
+    "节点超时"
+  ],
+  "evidence_required": [
+    "源码显示该指标为计数器，返回 datanodeStatistics 的过期心跳数；需结合指标时间序列、NameNode 日志、DataNode 进程状态和网络事件。"
+  ],
+  "root_cause_codes": [
+    "DN_HEARTBEAT"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-fsnamesystem-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/FSNamesystem.java#L4599-L4602",
+  "source_section": "FSNamesystem：ExpiredHeartbeats 指标",
+  "source_quote": "@Metric(value = {\"ExpiredHeartbeats\", \"Number of expired heartbeats\"}, type = Metric.Type.COUNTER) public int getExpiredHeartbeats() { return datanodeStatistics.getExpiredHeartbeats(); }",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "FSNamesystem 暴露 ExpiredHeartbeats 计数器，统计过期心跳次数。它上升说明有心跳未在预期时间内到达，但计数器本身不区分网络、进程崩溃还是 NameNode 负载。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码显示该指标为计数器，返回 datanodeStatistics 的过期心跳数；需结合指标时间序列、NameNode 日志、DataNode 进程状态和网络事件。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查询 JMX/指标中的 ExpiredHeartbeats；2. 对齐时间窗与 NameNode dead node 日志；3. 核对对应 DataNode 是否仍存活；4. 不重启节点。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "过期心跳可能是网络分区、GC 停顿或进程崩溃；仅凭计数器不能定位根因，重启可能掩盖问题。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

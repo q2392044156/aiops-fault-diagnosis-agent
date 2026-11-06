@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-net-datanode-write-timeout",
+  "title": "DataNode 写超时配置",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "HDFS Client",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "写超时",
+    "pipeline 卡住",
+    "客户端写慢"
+  ],
+  "evidence_required": [
+    "官方说明该参数是客户端 socket 写 DataNode 的超时，单位毫秒，默认 480000；证据包括当前取值、写入卡顿时间、pipeline 异常日志。"
+  ],
+  "root_cause_codes": [
+    "NETWORK_CONNECTIVITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.datanode.socket.write.timeout",
+  "source_quote": "Timeout in ms for clients socket writes to DataNodes. Default: 480000",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.datanode.socket.write.timeout 控制客户端向 DataNode 写 socket 的超时，官方默认 480000 ms（8 分钟）。超时较长时，写 pipeline 故障会较晚暴露；需要结合 DataXceiver/DataStreamer 日志判断。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方说明该参数是客户端 socket 写 DataNode 的超时，单位毫秒，默认 480000；证据包括当前取值、写入卡顿时间、pipeline 异常日志。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读核对当前 dfs.datanode.socket.write.timeout；2. 对照客户端写入卡顿时长与 pipeline 报错时间；3. 查看目标 DataNode 的 DataXceiver 异常；4. 不修改超时。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "缩短超时可能增加误判，调大超时可能延长故障窗口；配置变更需评估并走变更流程，排查阶段禁止修改。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

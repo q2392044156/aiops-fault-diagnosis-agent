@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-net-pipeline-bad-datanode",
+  "title": "写 pipeline 中剔除坏 DataNode",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "HDFS Client",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "pipeline 恢复",
+    "剔除 DataNode",
+    "写入重试"
+  ],
+  "evidence_required": [
+    "源码注释说明错误时 outstanding packets 被移动、通过剔除坏 DataNode 建立新 pipeline；证据包括 DataStreamer 日志中的 pipeline recovery、被剔除节点和发生次数。"
+  ],
+  "root_cause_codes": [
+    "NETWORK_CONNECTIVITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-datastreamer-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs-client/src/main/java/org/apache/hadoop/hdfs/DataStreamer.java#L109-L111",
+  "source_section": "DataStreamer 类注释：pipeline 错误恢复",
+  "source_quote": "In case of error, all outstanding packets are moved from ackQueue. A new pipeline is setup by eliminating the bad datanode from the original pipeline.",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "DataStreamer 在写 pipeline 出错时，会把未确认的 packet 从 ackQueue 移出，并通过剔除坏 DataNode 重建 pipeline。偶发一次是正常恢复；短时间内反复出现，才说明网络或 DataNode 持续异常。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码注释说明错误时 outstanding packets 被移动、通过剔除坏 DataNode 建立新 pipeline；证据包括 DataStreamer 日志中的 pipeline recovery、被剔除节点和发生次数。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读检索 DataStreamer 的 pipeline 恢复/剔除日志；2. 统计同一节点被剔除的次数；3. 对照该节点的网络、磁盘和 DataXceiver 日志；4. 不手工下线节点。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "pipeline 恢复是自动机制，手工干预可能扩大影响；若同一节点反复被剔除，应升级到网络/硬件排查，而不是直接重启集群。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

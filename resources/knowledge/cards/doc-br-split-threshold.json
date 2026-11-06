@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-br-split-threshold",
+  "title": "块报告拆分阈值",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "块报告拆分",
+    "单条消息",
+    "多存储目录"
+  ],
+  "evidence_required": [
+    "官方说明低于阈值合并、超过阈值拆分，默认 1000000；需结合 DataNode 块数、存储目录数和 NameNode 报告接收日志。"
+  ],
+  "root_cause_codes": [
+    "BLOCK_REPORT"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.blockreport.split.threshold",
+  "source_quote": "If the number of blocks on the DataNode is below this threshold then it will send block reports for all Storage Directories in a single message. ... Default: 1000000",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.blockreport.split.threshold 控制块报告是否按存储目录拆分：块数低于阈值时所有存储目录合并为一条消息，超过阈值则每个存储目录单独发送。默认 1000000。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方说明低于阈值合并、超过阈值拆分，默认 1000000；需结合 DataNode 块数、存储目录数和 NameNode 报告接收日志。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读核对阈值；2. 统计 DataNode 块数与存储目录数；3. 对照 NameNode 收到的报告条数；4. 不修改阈值。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "阈值调整会影响 NameNode 瞬时负载和报告延迟；变更需评估，排查阶段禁止修改。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

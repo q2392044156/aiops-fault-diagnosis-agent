@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-hb-slow-peer-disk",
+  "title": "心跳携带慢节点与慢盘报告",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "SlowPeerReports",
+    "SlowDiskReports",
+    "心跳负载"
+  ],
+  "evidence_required": [
+    "源码签名显示 handleHeartbeat 接收 slowPeers 和 slowDisks；需收集 NameNode 心跳处理日志、慢节点/慢盘指标和对应 DataNode 日志。"
+  ],
+  "root_cause_codes": [
+    "DN_HEARTBEAT"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-fsnamesystem-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/FSNamesystem.java#L4303-L4309",
+  "source_section": "FSNamesystem：handleHeartbeat 参数",
+  "source_quote": "HeartbeatResponse handleHeartbeat(DatanodeRegistration nodeReg, StorageReport[] reports, ..., @Nonnull SlowPeerReports slowPeers, @Nonnull SlowDiskReports slowDisks)",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "FSNamesystem.handleHeartbeat 的入参包含 slowPeers 与 slowDisks，说明心跳除了存活信号，还携带慢节点/慢盘报告。心跳异常时不能只看“有没有心跳”，还要看这些附加报告。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码签名显示 handleHeartbeat 接收 slowPeers 和 slowDisks；需收集 NameNode 心跳处理日志、慢节点/慢盘指标和对应 DataNode 日志。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看 NameNode 是否记录 slow peer/disk；2. 对齐对应 DataNode 与磁盘；3. 检查网络延迟与磁盘 await；4. 不重启节点。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "慢盘/慢节点可能由硬件或网络引起，重启不能修复；应先隔离证据并升级到存储/网络排查。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

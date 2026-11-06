@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-pipe-writeblock-stage",
+  "title": "DataNode 写块阶段与 pipeline 参数",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "BlockConstructionStage",
+    "pipelineSize",
+    "写块异常"
+  ],
+  "evidence_required": [
+    "源码签名显示 writeBlock 接收 targets、stage、pipelineSize；需收集 DataXceiver 异常、目标节点列表和 pipeline 阶段日志。"
+  ],
+  "root_cause_codes": [
+    "CLIENT_WRITE_PIPELINE"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-dataxceiver-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/DataXceiver.java#L668-L686",
+  "source_section": "DataXceiver：writeBlock 签名",
+  "source_quote": "public void writeBlock(final ExtendedBlock block, ..., final DatanodeInfo[] targets, ..., final BlockConstructionStage stage, final int pipelineSize, ...)",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "DataXceiver.writeBlock 的签名包含 targets、BlockConstructionStage、pipelineSize 等参数，说明 DataNode 写块时要处理 pipeline 目标、阶段和长度；这些参数异常会直接导致写 pipeline 失败。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码签名显示 writeBlock 接收 targets、stage、pipelineSize；需收集 DataXceiver 异常、目标节点列表和 pipeline 阶段日志。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看 writeBlock 异常与 stage；2. 核对 targets 是否可达；3. 检查 pipelineSize 与集群副本数；4. 不修改 DataNode 配置。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "写块阶段异常可能由网络、磁盘或副本配置引起；重启 DataNode 可能丢失现场，应先保留日志。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

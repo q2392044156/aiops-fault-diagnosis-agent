@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-net-deadnode-probe-timeout",
+  "title": "死节点探测连接超时",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "HDFS Client"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "死节点探测",
+    "连接超时",
+    "失败切换慢"
+  ],
+  "evidence_required": [
+    "官方说明该参数为探测死节点的连接超时，单位毫秒，默认 20000；需结合客户端探测日志、目标节点状态与 NameNode 节点列表。"
+  ],
+  "root_cause_codes": [
+    "NETWORK_CONNECTIVITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.client.deadnode.detection.probe.connection.timeout.ms",
+  "source_quote": "Connection timeout for probing dead node in milliseconds. Default: 20000",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.client.deadnode.detection.probe.connection.timeout.ms 是客户端探测死节点的连接超时，官方默认 20000 ms。它影响客户端发现节点不可达的速度，但探测超时不等于该节点已被确认死亡。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方说明该参数为探测死节点的连接超时，单位毫秒，默认 20000；需结合客户端探测日志、目标节点状态与 NameNode 节点列表。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看当前探测超时；2. 对照客户端探测失败记录与目标节点；3. 核对 NameNode 的 live/dead 节点列表；4. 不修改超时。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "探测超时调得过短会放大瞬时网络抖动，调得过长会延迟故障切换；配置变更需评估，排查阶段禁止修改。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

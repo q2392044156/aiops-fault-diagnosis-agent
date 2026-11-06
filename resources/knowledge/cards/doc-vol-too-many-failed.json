@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-vol-too-many-failed",
+  "title": "DataNode 卷失败数超过容忍度",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "Too many failed volumes",
+    "卷失败数超限",
+    "DataNode 退出"
+  ],
+  "evidence_required": [
+    "源码消息包含 current valid volumes、volumes configured、volumes failed、volume failures tolerated 四项计数；需收集完整日志和 dfs.datanode.failed.volumes.tolerated 配置。"
+  ],
+  "root_cause_codes": [
+    "DN_VOLUME"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-fsdatasetimpl-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/fsdataset/impl/FsDatasetImpl.java#L337-L342",
+  "source_section": "FsDatasetImpl：Too many failed volumes",
+  "source_quote": "throw new DiskErrorException(\"Too many failed volumes - current valid volumes: \" + storage.getNumStorageDirs() + \", volumes configured: \" + volsConfigured + \", volumes failed: \" + volsFailed + \", volume failures tolerated: \" + volFailuresTo",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "FsDatasetImpl 在失败卷数量超过容忍度时抛出 DiskErrorException，消息包含当前有效卷、配置卷数、失败卷数和容忍值。出现该消息说明 DataNode 已无法维持正常卷集合，可能停止服务。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码消息包含 current valid volumes、volumes configured、volumes failed、volume failures tolerated 四项计数；需收集完整日志和 dfs.datanode.failed.volumes.tolerated 配置。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读解析日志中的四个计数；2. 核对容忍度配置；3. 逐卷检查挂载、权限和磁盘事件；4. 对照 NameNode 的 dead/live 列表；不重启、不删除卷。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "重启可能让节点短暂恢复又再次失败，删除卷数据会造成副本丢失；该状态应升级到存储/硬件处理，禁止在排查阶段做破坏性操作。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

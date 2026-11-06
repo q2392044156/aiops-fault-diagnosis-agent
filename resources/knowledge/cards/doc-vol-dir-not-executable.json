@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-vol-dir-not-executable",
+  "title": "DataNode 数据目录不可执行",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "Directory is not executable",
+    "目录权限异常",
+    "卷不可用"
+  ],
+  "evidence_required": [
+    "源码显示不可执行时抛出 DiskErrorException 并带上目录路径；需收集日志、目录权限、属主和挂载选项。"
+  ],
+  "root_cause_codes": [
+    "DN_VOLUME"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-diskchecker-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/DiskChecker.java#L170-L172",
+  "source_section": "DiskChecker：目录不可执行异常",
+  "source_quote": "if (!FileUtil.canExecute(dir)) { throw new DiskErrorException(\"Directory is not executable: \" + dir.toString()); }",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "DiskChecker 发现数据目录不可执行时抛出 DiskErrorException，日志文本为 Directory is not executable。目录缺少执行位时无法进入/遍历，DataNode 会把它视为卷异常。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码显示不可执行时抛出 DiskErrorException 并带上目录路径；需收集日志、目录权限、属主和挂载选项。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看日志目录路径；2. 用 ls -ld 检查执行位；3. 核对挂载是否 noexec；4. 检查同节点其他卷；不执行 chmod/remount。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "noexec 挂载或权限变更可能是安全策略，不应为了恢复而直接去掉；变更需审批，排查阶段只记录证据。"
+    }
+  ],
+  "license": "Apache-2.0"
+}
