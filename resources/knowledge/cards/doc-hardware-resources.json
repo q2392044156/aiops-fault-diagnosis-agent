@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-hardware-resources",
+  "title": "HDFS HA 集群硬件资源核对卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "NameNode 硬件不等价",
+    "JournalNode 少于 3 个",
+    "JN 数量非奇数",
+    "容错数量误判"
+  ],
+  "evidence_required": [
+    "片段说明：Active 与 Standby NameNode 机器硬件应彼此等价，并与非 HA 集群所用硬件等价；JournalNode 较轻重，可与 NameNode、JobTracker 或 YARN ResourceManager 共置；至少 3 个 JN，N 个 JN 最多容忍 (N-1)/2 个故障。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "Hardware resources",
+  "source_quote": "In order to deploy an HA cluster, you should prepare the following: NameNode machines - the machines on which you run the Active and Standby NameNodes should have equivalent hardware to each other, and equivalent hardwar",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡面向 HDFS HA 集群硬件资源规划，依据官方片段梳理 NameNode 与 JournalNode 的部署要点。重点包括 Active/Standby NameNode 硬件等价、JournalNode 轻量可共置、至少 3 个 JournalNode，以及奇数扩容与容错关系。仅用于只读核对，不涉及数据修改操作。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明：Active 与 Standby NameNode 机器硬件应彼此等价，并与非 HA 集群所用硬件等价；JournalNode 较轻重，可与 NameNode、JobTracker 或 YARN ResourceManager 共置；至少 3 个 JN，N 个 JN 最多容忍 (N-1)/2 个故障。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 核对 Active 与 Standby NameNode 机器硬件是否彼此等价，且与非 HA 规划硬件等价。2. 核对 JournalNode 所在机器，确认其较轻重并可合理与 NameNode、JobTracker 或 YARN ResourceManager 共置。3. 核对 JournalNode 至少 3 个；超过 3 个时核对是否为奇数，并按 N 个 JN 最多容忍 (N-1)/2 个故障理解。仅做只读检查。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "本卡仅依据片段做只读核对，不推荐执行会修改数据的操作；不得据本片段擅自调整 JournalNode 数量或硬件配置，实际变更与故障容忍结论以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

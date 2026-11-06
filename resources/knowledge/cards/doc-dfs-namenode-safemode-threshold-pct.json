@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-namenode-safemode-threshold-pct",
+  "title": "NameNode 安全模式块百分比阈值",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "安全模式不退",
+    "块复制不足",
+    "阈值配置异常",
+    "永久安全模式"
+  ],
+  "evidence_required": [
+    "官方片段说明：该参数控制满足最小复制要求的块百分比；小于等于0不等待特定百分比，大于1使安全模式永久，默认0.999f。"
+  ],
+  "root_cause_codes": [
+    "NN_SAFE_MODE"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.namenode.safemode.threshold-pct",
+  "source_quote": "Specifies the percentage of blocks that should satisfy the minimal replication requirement defined by dfs.namenode.replication.min. Values less than or equal to 0 mean not to wait for any particular percentage of blocks ",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "该配置指定退出安全模式前，需要满足 dfs.namenode.replication.min 所定义最小复制要求的块百分比。取值小于等于0表示退出安全模式前不等待特定百分比；大于1会使安全模式永久。默认值为0.999f。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段说明：该参数控制满足最小复制要求的块百分比；小于等于0不等待特定百分比，大于1使安全模式永久，默认0.999f。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读查看当前 dfs.namenode.safemode.threshold-pct 取值，确认是否为默认0.999f或小于等于1；只读核对 dfs.namenode.replication.min 的定义，理解最小复制要求；记录取值是否小于等于0或大于1，仅作判断，不修改配置。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "将取值设为大于1会使安全模式永久，属于高风险；小于等于0会改变退出安全模式的等待条件。禁止按本卡执行修改配置，实际变更以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-journalnode",
+  "title": "HDFS journalnode 命令知识卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "JournalNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "journalnode 命令",
+    "HDFS HA with QJM",
+    "服务启动"
+  ],
+  "evidence_required": [
+    "官方片段：标题为 journalnode；正文为 Usage: hdfs journalnode，并说明该命令启动用于 HDFS HA with QJM 的 journalnode。片段未给出其他参数、阈值或操作步骤。"
+  ],
+  "root_cause_codes": [
+    "JOURNAL_QUORUM"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "journalnode",
+  "source_quote": "Usage: hdfs journalnode This command starts a journalnode for use with HDFS HA with QJM.",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡依据官方片段说明 hdfs journalnode 命令：其用途是启动供 HDFS HA with QJM 使用的 journalnode。片段仅给出该命令的 Usage 与适用场景，未提供参数、阈值、排障步骤或只读检查命令，因此实际运维应以官方文档为准，避免把服务启动操作误当作只读检查。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段：标题为 journalnode；正文为 Usage: hdfs journalnode，并说明该命令启动用于 HDFS HA with QJM 的 journalnode。片段未给出其他参数、阈值或操作步骤。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读核对：查阅官方文档中 journalnode 命令说明，确认其适用场景为 HDFS HA with QJM；核对当前集群架构是否属于 HDFS HA with QJM；确认待查角色为 journalnode。仅做信息核对，不执行启动操作；具体检查方式以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "hdfs journalnode 用于启动 journalnode，属于服务启动操作，不是只读检查；不得在未确认 HDFS HA with QJM 场景时执行，禁止将其当作排查步骤推荐。以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

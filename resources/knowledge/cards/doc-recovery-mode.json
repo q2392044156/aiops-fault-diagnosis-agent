@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-recovery-mode",
+  "title": "HDFS NameNode Recovery Mode 恢复模式",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "元数据存储损坏",
+    "仅剩损坏存储位置",
+    "需恢复大部分数据",
+    "NameNode启动恢复模式",
+    "可能数据丢失"
+  ],
+  "evidence_required": [
+    "官方片段指出：Recovery mode 是特殊 NameNode 启动模式，可能恢复大部分数据；启动命令为 namenode -recover，-force 会强制选择第一项；使用前应备份 edit log 和 fsimage。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "source_section": "Recovery Mode",
+  "source_quote": "Typically, you will configure multiple metadata storage locations. Then, if one storage location is corrupt, you can read the metadata from one of the other storage locations. However, what can you do if the only storage",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "当配置了多个元数据存储位置时，若其中一个损坏，可从其他位置读取元数据；若唯一可用存储位置也损坏，官方文档提到 NameNode 有 Recovery mode，可能恢复大部分数据。启动方式为 namenode -recover，交互提示可选操作；-force 会强制总选第一项。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段指出：Recovery mode 是特殊 NameNode 启动模式，可能恢复大部分数据；启动命令为 namenode -recover，-force 会强制选择第一项；使用前应备份 edit log 和 fsimage。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1) 检查是否配置多个 metadata storage locations；2) 逐一确认各存储位置是否可读，判断是否仅一个损坏且可从其他位置读取；3) 确认是否仅剩损坏的存储位置；4) 若考虑 Recovery mode，先对照官方文档并确认已有 edit log 与 fsimage 备份；不要执行恢复命令。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "禁止在未备份 edit log 和 fsimage 时执行 namenode -recover 或 -force；Recovery mode 可能导致数据丢失，-force 会强制选择第一项；是否可用以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-checkpoint-node",
+  "title": "HDFS Checkpoint Node 检查点机制",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "检查点周期超限",
+    "未检查点事务增多",
+    "edits 累积",
+    "fsimage 滞后"
+  ],
+  "evidence_required": [
+    "片段说明 Checkpoint Node 由 bin/hdfs namenode -checkpoint 启动，位置与 Web 接口由 dfs.namenode.backup.address、dfs.namenode.backup.http-address 配置；checkpoint.period 默认 1 小时，checkpoint.txns 默认 100 万。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "source_section": "Checkpoint Node",
+  "source_quote": "NameNode persists its namespace using two files: fsimage, which is the latest checkpoint of the namespace and edits, a journal (log) of changes to the namespace since the checkpoint. When a NameNode starts up, it merges ",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "NameNode 以 fsimage 和 edits 日志持久化命名空间，启动时合并二者得到最新元数据并重写 fsimage、开启新 edits。Checkpoint Node 周期性从活动 NameNode 下载 fsimage 与 edits，本地合并后上传新 image；其内存需求与 NameNode 同量级，通常另机部署，位置和 Web 接口由 backup 地址参数配置，触发受 period、txns 控制。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明 Checkpoint Node 由 bin/hdfs namenode -checkpoint 启动，位置与 Web 接口由 dfs.namenode.backup.address、dfs.namenode.backup.http-address 配置；checkpoint.period 默认 1 小时，checkpoint.txns 默认 100 万。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读核对：查看 dfs.namenode.backup.address 与 dfs.namenode.backup.http-address 的配置值；查看 dfs.namenode.checkpoint.period 与 dfs.namenode.checkpoint.txns 的当前值；确认 Checkpoint Node 所在主机及存储目录结构与 NameNode 目录一致。不要启动检查点流程。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "启动检查点会触发下载、合并与上传流程，不属于只读检查；运维步骤中不得执行会修改数据的选项，不确定时以官方文档为准。片段未给出删除、迁移、格式化或复制类操作说明。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

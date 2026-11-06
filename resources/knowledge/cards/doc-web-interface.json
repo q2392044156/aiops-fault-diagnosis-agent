@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-web-interface",
+  "title": "HDFS Web 界面只读检查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "查看集群状态",
+    "确认DataNode列表",
+    "浏览文件系统",
+    "访问NameNode首页"
+  ],
+  "evidence_required": [
+    "官方片段说明 NameNode 与 DataNode 各有内部 Web 服务器；默认 NameNode 首页为 http://namenode-name:9870/，列出 DataNode 和集群基本统计，并提供“Browse the file system”链接。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "source_section": "Web Interface",
+  "source_quote": "NameNode and DataNode each run an internal web server in order to display basic information about the current status of the cluster. With the default configuration, the NameNode front page is at http://namenode-name:9870",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "NameNode 和 DataNode 均运行内部 Web 服务器，用于展示集群当前状态的基本信息。默认配置下，NameNode 首页地址为 http://namenode-name:9870/，页面会列出集群中的 DataNode 以及集群基本统计信息，也可通过首页链接浏览文件系统。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段说明 NameNode 与 DataNode 各有内部 Web 服务器；默认 NameNode 首页为 http://namenode-name:9870/，列出 DataNode 和集群基本统计，并提供“Browse the file system”链接。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 在浏览器中访问默认 NameNode 前端地址 http://namenode-name:9870/；2. 查看首页列出的 DataNodes 和集群基本统计信息；3. 如需浏览文件系统，点击首页中的“Browse the file system”链接。以上均为只读查看。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "本卡仅涉及 Web 界面只读查看；片段未提供删除、移动、格式化或复制等修改数据选项。若遇到 -delete、-move、-format、-replicate 等选项，禁止执行，以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

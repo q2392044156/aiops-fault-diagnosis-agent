@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-storagepolicies",
+  "title": "HDFS 存储策略检查要点",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "策略查询",
+    "策略设置",
+    "satisfier状态",
+    "只读检查"
+  ],
+  "evidence_required": [
+    "官方片段列出 hdfs storagepolicies 的用法，包括 -listPolicies、-setStoragePolicy、-getStoragePolicy、-unsetStoragePolicy、-satisfyStoragePolicy、-isSatisfierRunning 和 -help。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "storagepolicies",
+  "source_quote": "Usage: hdfs storagepolicies [-listPolicies] [-setStoragePolicy -path <path> -policy <policy>] [-getStoragePolicy -path <path>] [-unsetStoragePolicy -path <path>] [-satisfyStoragePolicy -path <path>] [-isSatisfierRunning]",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "hdfs storagepolicies 用于列出、获取、设置和取消 HDFS 存储策略；片段还列出 -isSatisfierRunning 与 -help。运维检查时应优先使用只读子命令确认策略现状与 satisfier 运行状态，任何设置、取消或落实策略的操作都不应当作检查步骤，具体行为以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段列出 hdfs storagepolicies 的用法，包括 -listPolicies、-setStoragePolicy、-getStoragePolicy、-unsetStoragePolicy、-satisfyStoragePolicy、-isSatisfierRunning 和 -help。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：1）执行 hdfs storagepolicies -listPolicies 查看全部策略；2）执行 hdfs storagepolicies -getStoragePolicy -path <path> 查看指定路径策略；3）执行 hdfs storagepolicies -isSatisfierRunning 查看 satisfier 是否运行；4）执行 hdfs storagepolicies -help <command-name> 查看子命令帮助。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "-setStoragePolicy、-unsetStoragePolicy、-satisfyStoragePolicy 会改变或落实存储策略，禁止在只读检查中执行；不要用这些选项做排障验证，确需操作时以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

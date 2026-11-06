@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-jmxget",
+  "title": "HDFS jmxget 只读查看 JMX 信息",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "查看JMX信息",
+    "指定NameNode服务",
+    "指定DataNode服务",
+    "MBean端口连接",
+    "同机VM连接"
+  ],
+  "evidence_required": [
+    "片段说明 hdfs jmxget 用于 Dump JMX information from a service；支持 -help、-localVM、-port、-server、-service；-service 可选 NameNode|DataNode，默认 NameNode；-server 默认 localhost。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "jmxget",
+  "source_quote": "Usage: hdfs jmxget [-localVM ConnectorURL | -port port | -server mbeanserver | -service service] COMMAND_OPTION Description -help print help -localVM ConnectorURL connect to the VM on the same machine -port mbean server ",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "hdfs jmxget 用于从服务中导出 JMX 信息，片段给出的用法包含 -localVM、-port、-server、-service 和 -help。默认连接 localhost 的 MBean Server，默认 JMX 服务为 NameNode；也可通过 -service 指定 NameNode 或 DataNode，并通过 -server、-port 或 -localVM 调整连接目标。该命令适合做只读信息查看，具体参数行为以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明 hdfs jmxget 用于 Dump JMX information from a service；支持 -help、-localVM、-port、-server、-service；-service 可选 NameNode|DataNode，默认 NameNode；-server 默认 localhost。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 先执行 hdfs jmxget -help 查看帮助；2. 默认服务为 NameNode，需要查看 DataNode 时使用 -service DataNode；3. 需要指定 MBean Server 时使用 -server，片段说明默认 localhost；4. 需要指定端口时使用 -port；同机 VM 场景可按片段使用 -localVM ConnectorURL。以上均为只读信息查看。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "该命令片段仅用于导出 JMX 信息，未描述任何修改数据的能力；应只做信息查看，不要自行附加未在片段中出现的修改类参数。参数含义或连接方式不确定时，以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

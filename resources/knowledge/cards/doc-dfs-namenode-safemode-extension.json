@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-namenode-safemode-extension",
+  "title": "安全模式延长时间配置检查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "安全模式延长",
+    "默认值30000",
+    "时间单位后缀",
+    "大小写不敏感",
+    "阈值后延长"
+  ],
+  "evidence_required": [
+    "片段说明：该参数决定达到阈值后安全模式的延长时间，支持多种时间单位后缀且大小写不敏感，时间单位说明见 dfs.heartbeat.interval；默认值 30000。"
+  ],
+  "root_cause_codes": [
+    "NN_SAFE_MODE"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.namenode.safemode.extension",
+  "source_quote": "Determines extension of safe mode in milliseconds after the threshold level is reached. Support multiple time unit suffix (case insensitive), as described in dfs.heartbeat.interval. Default: 30000",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.namenode.safemode.extension 决定达到阈值后安全模式的延长时间，以毫秒为基准，支持多种时间单位后缀且后缀大小写不敏感，时间单位说明参考 dfs.heartbeat.interval，默认值 30000。仅依据该片段说明含义与默认值。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明：该参数决定达到阈值后安全模式的延长时间，支持多种时间单位后缀且大小写不敏感，时间单位说明见 dfs.heartbeat.interval；默认值 30000。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：查看 dfs.namenode.safemode.extension 当前配置值；核对默认值是否为 30000；确认是否带时间单位后缀；若带后缀，按 dfs.heartbeat.interval 所述时间单位规则理解，并注意后缀大小写不敏感；以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "该参数影响达到阈值后安全模式的延长时间，误读默认值或时间单位后缀可能造成等待时长判断偏差；变更配置需以官方文档为准，本文不提供修改数据的操作。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

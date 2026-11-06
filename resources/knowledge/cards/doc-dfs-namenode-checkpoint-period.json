@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-namenode-checkpoint-period",
+  "title": "HDFS 检查点周期参数说明",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "检查点周期",
+    "时间单位后缀",
+    "默认 3600",
+    "参数含义"
+  ],
+  "evidence_required": [
+    "官方片段：dfs.namenode.checkpoint.period 表示两次周期性检查点之间的秒数，支持时间单位后缀，未指定单位时按秒，默认 3600。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.namenode.checkpoint.period",
+  "source_quote": "The number of seconds between two periodic checkpoints. Support multiple time unit suffix(case insensitive), as described in dfs.heartbeat.interval.If no time unit is specified then seconds is assumed. Default: 3600",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡说明 HDFS 配置项 dfs.namenode.checkpoint.period。官方片段指出，该项表示两次周期性检查点之间的秒数，支持大小写不敏感的时间单位后缀；若未指定时间单位则按秒处理，默认值为 3600。阅读时仅作参数含义核对，具体运维操作以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段：dfs.namenode.checkpoint.period 表示两次周期性检查点之间的秒数，支持时间单位后缀，未指定单位时按秒，默认 3600。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读核对：确认配置项名称为 dfs.namenode.checkpoint.period；确认其含义是两次周期性检查点之间的秒数；确认支持大小写不敏感的时间单位后缀；确认未指定时间单位时按秒处理；确认默认值为 3600。仅做信息核对，不修改配置，以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "该参数涉及周期性检查点的时间间隔；片段未给出修改步骤或安全阈值，调整前应以官方文档为准，禁止执行片段外命令。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

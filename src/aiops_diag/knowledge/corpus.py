@@ -38,12 +38,12 @@ def load_sources(path):
 def validate_corpus(cfg):
     cards = load_cards(cfg["paths"]["cards_dir"])
     sources = load_sources(cfg["paths"]["sources"])
-    if len(cards) != 30:
-        raise ValueError(f"Knowledge corpus must contain exactly 30 cards, found {len(cards)}")
-    if sum(card.get("category") == "hdfs" for card in cards) != 24:
-        raise ValueError("Knowledge corpus must contain exactly 24 HDFS cards")
-    if sum(card.get("category") == "operations" for card in cards) != 6:
-        raise ValueError("Knowledge corpus must contain exactly 6 operations cards")
+    if len(cards) < 30:
+        raise ValueError(f"Knowledge corpus must contain at least 30 cards, found {len(cards)}")
+    if sum(card.get("category") == "hdfs" for card in cards) < 24:
+        raise ValueError("Knowledge corpus must contain at least 24 HDFS cards")
+    if sum(card.get("category") == "operations" for card in cards) < 6:
+        raise ValueError("Knowledge corpus must contain at least 6 operations cards")
     source_map = {item["source_id"]: item for item in sources}
     if len(source_map) != len(sources):
         raise ValueError("Source identifiers must be unique")

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-replication",
+  "title": "dfs.replication 默认块副本数说明",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "默认副本数",
+    "创建未指定副本",
+    "默认值为3",
+    "配置项含义",
+    "只读核查"
+  ],
+  "evidence_required": [
+    "官方片段标题为 dfs.replication，正文说明它是 Default block replication，即默认块副本数；文件创建时可指定实际副本数，创建时未指定则采用默认值；片段给出的 Default 为 3。"
+  ],
+  "root_cause_codes": [
+    "BLOCK_REPLICATION"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.replication",
+  "source_quote": "Default block replication. The actual number of replications can be specified when the file is created. The default is used if replication is not specified in create time. Default: 3",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡说明 dfs.replication 配置项的含义：它表示默认的块副本数。文件在创建时可以显式指定实际的副本数量；如果创建时没有指定副本数，则使用该默认值。官方片段给出的默认值为 3。片段未涉及副本调整的操作方法，具体配置方式与生效范围以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段标题为 dfs.replication，正文说明它是 Default block replication，即默认块副本数；文件创建时可指定实际副本数，创建时未指定则采用默认值；片段给出的 Default 为 3。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查建议：一、查阅官方文档中 dfs.replication 条目，确认其含义为默认块副本数、默认值为 3；二、核对文件创建时是否显式指定副本数，未指定则按默认值理解；三、需要确认实际取值时，以官方文档给出的查询方式为准，本片段未提供具体命令，不得自行推定。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未给出任何修改类选项；若在其他文档中见到会改变副本数或数据布局的操作，一律禁止执行。本卡不推荐任何写操作，实际调整方式与影响以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

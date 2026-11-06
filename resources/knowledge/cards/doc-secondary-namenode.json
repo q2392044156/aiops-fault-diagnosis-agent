@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-secondary-namenode",
+  "title": "Secondary NameNode 检查点与 edits 日志管理",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "edits日志过大",
+    "NameNode重启变慢",
+    "检查点未及时",
+    "未检查点事务多",
+    "Secondary内存需求高"
+  ],
+  "evidence_required": [
+    "片段指出检查点启动由 dfs.namenode.checkpoint.period（默认 1 小时）和 dfs.namenode.checkpoint.txns（默认 100 万未检查点事务）控制；Secondary NameNode 保存最新检查点，目录结构与主 NameNode 目录相同，检查点镜像可供主 NameNode 读取。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "source_section": "Secondary NameNode",
+  "source_quote": "The NameNode stores modifications to the file system as a log appended to a native file system file, edits. When a NameNode starts up, it reads HDFS state from an image file, fsimage, and then applies edits from the edit",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "NameNode 将文件系统修改写入 edits 日志，启动时读取 fsimage 并应用 edits，再写新 fsimage 并以空 edits 运行；因仅在启动时合并，繁忙集群的 edits 可能变大并延长下次重启。Secondary NameNode 周期性合并 fsimage 与 edits，使 edits 大小受限，通常运行在不同机器，内存需求与主 NameNode 同量级。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段指出检查点启动由 dfs.namenode.checkpoint.period（默认 1 小时）和 dfs.namenode.checkpoint.txns（默认 100 万未检查点事务）控制；Secondary NameNode 保存最新检查点，目录结构与主 NameNode 目录相同，检查点镜像可供主 NameNode 读取。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：查看 dfs.namenode.checkpoint.period 与 dfs.namenode.checkpoint.txns 的当前配置值；观察 edits 日志大小及 NameNode 重启耗时是否增长；确认 Secondary NameNode 是否运行在与主 NameNode 不同的机器，并核对其内存需求是否与主 NameNode 同量级；查看最新 checkpoint 目录结构是否与主 NameNode 目录一致、检查点镜像是否就绪。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未给出修改类操作；不要执行未在官方文档确认的删除、移动、格式化或复制操作，以免影响 edits、fsimage 或 checkpoint。涉及变更时以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

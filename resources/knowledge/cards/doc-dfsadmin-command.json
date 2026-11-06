@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfsadmin-command",
+  "title": "DFSAdmin 命令只读检查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "需看HDFS统计",
+    "需查支持命令",
+    "需核对NameNode",
+    "运维只读检查"
+  ],
+  "evidence_required": [
+    "官方片段《DFSAdmin Command》指出，bin/hdfs dfsadmin 支持若干 HDFS 管理操作，-help 列出当前支持的命令，-report 报告 HDFS 基本统计，部分信息也见 NameNode 前端页面。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/user-guide.html",
+  "source_section": "DFSAdmin Command",
+  "source_quote": "The bin/hdfs dfsadmin command supports a few HDFS administration related operations. The bin/hdfs dfsadmin -help command lists all the commands currently supported. For e.g.: -report: reports basic statistics of HDFS. So",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本文依据《DFSAdmin Command》片段整理 HDFS 运维只读检查。bin/hdfs dfsadmin 支持若干 HDFS 管理操作；-help 可列出当前支持的命令，-report 可报告 HDFS 基本统计信息，部分信息也可在 NameNode 前端页面查看。卡片仅保留只读检查，不推荐会改变集群状态的选项。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段《DFSAdmin Command》指出，bin/hdfs dfsadmin 支持若干 HDFS 管理操作，-help 列出当前支持的命令，-report 报告 HDFS 基本统计，部分信息也见 NameNode 前端页面。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1）使用 bin/hdfs dfsadmin -help 查看当前支持的 dfsadmin 命令；2）使用 bin/hdfs dfsadmin -report 查看 HDFS 基本统计信息；3）对照 NameNode 前端页面核对部分统计信息。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "-finalizeUpgrade 会删除上次升级备份，-refreshNodes 会更新 NameNode 允许连接的 DataNode 集合，-safemode 可手动进入或离开安全模式；这些会改变集群状态，禁止作为步骤执行。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

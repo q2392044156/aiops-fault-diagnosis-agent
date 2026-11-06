@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-backup-node",
+  "title": "HDFS Backup Node 只读检查知识卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "备份节点",
+    "检查点",
+    "命名空间同步",
+    "单实例限制",
+    "内存要求"
+  ],
+  "evidence_required": [
+    "片段说明 Backup node 具备 Checkpoint 功能，并在内存中维护与 active NameNode 同步的 namespace 副本；它接收 edits journal 流并持久化，同时应用编辑到内存 namespace；无需下载 fsimage 与 edits 即可创建检查点；NameNode 一次仅支持一个 Backup node。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "source_section": "Backup Node",
+  "source_quote": "The Backup node provides the same checkpointing functionality as the Checkpoint node, as well as maintaining an in-memory, up-to-date copy of the file system namespace that is always synchronized with the active NameNode",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "Backup node 提供与 Checkpoint node 相同的检查点功能，并在内存中维护与 active NameNode 同步的 namespace 副本；它接收 edits journal 流并持久化，同时将编辑应用到内存 namespace，无需下载 fsimage 和 edits 即可创建检查点。NameNode 一次仅支持一个 Backup node，使用 Backup node 时不得注册 Checkpoint node，其内存要求与 NameNode 相同。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明 Backup node 具备 Checkpoint 功能，并在内存中维护与 active NameNode 同步的 namespace 副本；它接收 edits journal 流并持久化，同时应用编辑到内存 namespace；无需下载 fsimage 与 edits 即可创建检查点；NameNode 一次仅支持一个 Backup node。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读核对 dfs.namenode.backup.address 与 dfs.namenode.backup.http-address 配置；确认同一时间仅一个 Backup node；确认使用 Backup node 时无 Checkpoint node 注册；核对 Backup node 内存要求与 NameNode 相同；若 NameNode 采用无持久化存储方案，核对已使用 -importCheckpoint 且未配置 edits 类型持久化目录。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "bin/hdfs namenode -backup 与 -importCheckpoint 属于启动/配置操作，检查阶段禁止执行；使用 Backup node 时不得注册 Checkpoint node，且不得并发使用多个 Backup node；以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

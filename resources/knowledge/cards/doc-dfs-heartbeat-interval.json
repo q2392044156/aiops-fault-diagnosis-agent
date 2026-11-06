@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-heartbeat-interval",
+  "title": "dfs.heartbeat.interval 心跳间隔配置说明",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "心跳间隔不明确",
+    "单位后缀疑问",
+    "默认值待核对"
+  ],
+  "evidence_required": [
+    "官方片段标题为 dfs.heartbeat.interval，正文说明其用于确定 DataNode 心跳间隔，单位为秒；支持 ms、s、m、h、d 后缀，未指定单位按秒解释，默认值为 3。"
+  ],
+  "root_cause_codes": [
+    "DN_HEARTBEAT"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.heartbeat.interval",
+  "source_quote": "Determines datanode heartbeat interval in seconds. Can use the following suffix (case insensitive): ms(millis), s(sec), m(min), h(hour), d(day) to specify the time (such as 2s, 2m, 1h, etc.). Or provide complete number i",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.heartbeat.interval 用于确定 DataNode 心跳间隔，单位为秒。取值可用 ms、s、m、h、d 等大小写不敏感后缀，也可直接填写完整秒数；未指定单位时按秒解释。默认值为 3。本卡只依据该片段核对含义、单位与默认值，不扩展未给出的操作或阈值。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段标题为 dfs.heartbeat.interval，正文说明其用于确定 DataNode 心跳间隔，单位为秒；支持 ms、s、m、h、d 后缀，未指定单位按秒解释，默认值为 3。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看配置项 dfs.heartbeat.interval 的当前取值；2. 核对取值是否使用 ms、s、m、h、d 等后缀，或是否为完整秒数；3. 核对未写单位时是否按秒解释；4. 对照官方片段给出的默认值 3 做只读核对。不要执行任何修改配置或数据操作。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段仅说明 dfs.heartbeat.interval 的含义、单位与默认值，未给出变更操作步骤；调整该配置可能影响 DataNode 心跳行为，应以官方文档为准，禁止将推测步骤当作操作建议。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

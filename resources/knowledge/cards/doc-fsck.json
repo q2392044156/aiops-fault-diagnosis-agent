@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-fsck",
+  "title": "HDFS fsck 只读检查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "缺失块",
+    "副本异常",
+    "打开写入文件",
+    "存储策略",
+    "维护状态"
+  ],
+  "evidence_required": [
+    "官方片段给出 hdfs fsck <path> 用法，并列出 -files、-blocks、-locations、-racks、-replicaDetails、-upgradedomains、-list-corruptfileblocks、-openforwrite、-storagepolicies、-maintenance、-blockId 等选项；-showprogress 已弃用。"
+  ],
+  "root_cause_codes": [
+    "BLOCK_REPLICATION"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "fsck",
+  "source_quote": "Usage: hdfs fsck <path> [-list-corruptfileblocks | [-move | -delete | -openforwrite] [-files [-blocks [-locations | -racks | -replicaDetails | -upgradedomains]]] [-includeSnapshots] [-showprogress] [-storagepolicies] [-m",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "HDFS fsck 从指定路径开始检查文件系统，可输出被检查文件、块报告、块位置、网络拓扑、副本详情、升级域等信息，也可列出缺失块及所属文件、打开写入的文件、存储策略摘要和维护状态节点详情。本卡片仅保留只读查看选项，具体以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段给出 hdfs fsck <path> 用法，并列出 -files、-blocks、-locations、-racks、-replicaDetails、-upgradedomains、-list-corruptfileblocks、-openforwrite、-storagepolicies、-maintenance、-blockId 等选项；-showprogress 已弃用。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 用 hdfs fsck <path> 从指定路径开始检查。2. 只读查看可加 -files、-files -blocks、-files -blocks -locations、-files -blocks -racks。3. 列出缺失块及所属文件用 -list-corruptfileblocks；查看打开写入文件用 -openforwrite。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "禁止执行 -delete、-move、-replicate 等会删除、移动数据或触发复制的选项；这些选项不属于只读检查步骤，绝不能作为修复建议推荐。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

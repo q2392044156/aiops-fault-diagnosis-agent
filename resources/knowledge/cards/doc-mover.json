@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-mover",
+  "title": "HDFS mover 数据迁移与 pinning 说明",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "迁移范围不清",
+    "默认根目录风险",
+    "pinning 默认关闭",
+    "favored nodes 限制",
+    "HBase 本地性"
+  ],
+  "evidence_required": [
+    "片段给出 Usage: hdfs mover [-p <files/dirs> | -f <local file name>] COMMAND_OPTION；说明 -f 为本地列表文件、-p 为空格分隔列表、省略时默认根目录；pinning 自 2.7.0 引入，默认关闭，配置项 dfs.datanode.block-pinning.enabled。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "mover",
+  "source_quote": "Usage: hdfs mover [-p <files/dirs> | -f <local file name>] COMMAND_OPTION Description -f <local file> Specify a local file containing a list of HDFS files/dirs to migrate. -p <files/dirs> Specify a space separated list o",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "hdfs mover 是 HDFS 数据迁移工具，可用 -p 指定空格分隔的 HDFS 文件/目录列表，或用 -f 指定含列表的本地文件；两者省略时默认根目录。自 2.7.0 起引入 pinning，防止特定副本被 balancer/mover 移动，默认关闭；启用后仅影响写入 create() 指定 favored nodes 的块，可用于维护 HBase regionserver 数据本地性。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段给出 Usage: hdfs mover [-p <files/dirs> | -f <local file name>] COMMAND_OPTION；说明 -f 为本地列表文件、-p 为空格分隔列表、省略时默认根目录；pinning 自 2.7.0 引入，默认关闭，配置项 dfs.datanode.block-pinning.enabled。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读核对官方用法：确认 -p 接收空格分隔的 HDFS 文件/目录列表；确认 -f 接收包含列表的本地文件；确认 -p 与 -f 均省略时默认根目录；确认 pinning 配置项 dfs.datanode.block-pinning.enabled 默认关闭及其适用范围。仅做文档核对，不实际运行迁移。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "禁止执行 hdfs mover 迁移：该工具会移动数据块副本，-p/-f 决定迁移范围，二者省略默认根目录；pinning 默认关闭，启用后仅影响 favored nodes 写入的块。生产须审批，不得执行迁移。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

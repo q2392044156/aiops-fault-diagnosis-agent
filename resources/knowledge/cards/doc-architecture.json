@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-architecture",
+  "title": "HDFS HA 架构与故障切换同步要点",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "双Active风险",
+    "命名空间分叉",
+    "切换前未同步",
+    "数据丢失风险"
+  ],
+  "evidence_required": [
+    "官方文档 Architecture 片段指出：HA 集群中 Active NameNode 负责全部客户端操作，Standby 作为 worker 维护状态；命名空间修改由 Active 持久记录到多数 JournalNodes，Standby 读取 edits 并在切换前读完。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "Architecture",
+  "source_quote": "In a typical HA cluster, two or more separate machines are configured as NameNodes. At any point in time, exactly one of the NameNodes is in an Active state, and the others are in a Standby state. The Active NameNode is ",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "在典型 HA 集群中，两台或多台独立机器配置为 NameNode，任一时刻恰好一个为 Active，其余为 Standby。Active 负责所有客户端操作，Standby 维护足够状态以便快速故障切换。Active 的命名空间修改会持久记录到多数 JournalNodes，Standby 持续读取并应用 edits；故障切换前会确保已读取全部 edits。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方文档 Architecture 片段指出：HA 集群中 Active NameNode 负责全部客户端操作，Standby 作为 worker 维护状态；命名空间修改由 Active 持久记录到多数 JournalNodes，Standby 读取 edits 并在切换前读完。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：1）确认同一时刻仅一个 NameNode 为 Active，其余为 Standby；2）确认 Standby 是否持续监听并从 JournalNodes 读取 edits；3）确认 DataNodes 已配置所有 NameNode 位置，并向它们发送块位置信息与心跳；4）故障切换前确认 Standby 已读取 JournalNodes 中全部 edits。以上均为状态核对，不执行修改操作。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "同一时刻只能有一个 Active；否则命名空间状态会快速分叉，存在数据丢失或错误结果风险。JournalNodes 仅允许一个 NameNode 写入，用于防止 split-brain；切换前 Standby 须读完全部 edits。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

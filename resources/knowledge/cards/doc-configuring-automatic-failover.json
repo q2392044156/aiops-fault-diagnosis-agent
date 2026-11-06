@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-configuring-automatic-failover",
+  "title": "HDFS 自动故障转移配置检查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "自动故障转移未启用",
+    "ZooKeeper 地址缺失",
+    "配置项取值异常",
+    "按 nameservice 配置疑问"
+  ],
+  "evidence_required": [
+    "官方片段指出：自动故障转移配置需新增两个参数，hdfs-site.xml 增加 dfs.ha.automatic-failover.enabled=true；core-site.xml 增加 ha.zookeeper.quorum，值为 ZooKeeper 服务的主机端口对列表，例如 zk1.example.com:2181 等。"
+  ],
+  "root_cause_codes": [
+    "HA_STANDBY_LAG"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "Configuring automatic failover",
+  "source_quote": "The configuration of automatic failover requires the addition of two new parameters to your configuration. In your hdfs-site.xml file, add: <property> <name>dfs.ha.automatic-failover.enabled</name> <value>true</value> </",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡片说明 HDFS 自动故障转移所需的关键配置项：在 hdfs-site.xml 中设置 dfs.ha.automatic-failover.enabled 为 true，表示集群启用自动故障转移；在 core-site.xml 中设置 ha.zookeeper.quorum，列出运行 ZooKeeper 服务的主机端口对。配置键可加 nameservice ID 后缀，以便按 nameservice 单独配置。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段指出：自动故障转移配置需新增两个参数，hdfs-site.xml 增加 dfs.ha.automatic-failover.enabled=true；core-site.xml 增加 ha.zookeeper.quorum，值为 ZooKeeper 服务的主机端口对列表，例如 zk1.example.com:2181 等。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "核对 hdfs-site.xml 中是否配置 dfs.ha.automatic-failover.enabled，并确认其值是否为 true；核对 core-site.xml 中是否配置 ha.zookeeper.quorum，并确认其值是否为已列出的 ZooKeeper 主机端口对。若集群启用 federation 且需按 nameservice 配置，可检查对应配置键是否带 nameservice ID 后缀。如需确认其他控制自动故障转移行为的参数，以官方文档为准。仅进行只读检查。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段中的参数属于配置项，修改配置文件会影响集群行为，应在变更窗口按官方文档执行并做好备份。本文不涉及 -delete、-move、-format、-replicate 等选项，禁止执行任何会修改数据的命令。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

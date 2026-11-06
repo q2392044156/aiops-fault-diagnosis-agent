@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-namenode",
+  "title": "HDFS NameNode 命令选项运维知识卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "误用格式化选项",
+    "升级回滚风险",
+    "HA 初始化风险",
+    "元数据改动风险"
+  ],
+  "evidence_required": [
+    "片段给出 hdfs namenode 的 Usage 列表，包含 -backup、-checkpoint、-format、-upgrade、-rollback、-importCheckpoint、-bootstrapStandby 等选项，并说明 -format 会启动、格式化后关闭 NameNode。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "namenode",
+  "source_quote": "Usage: hdfs namenode [-backup] | [-checkpoint] | [-format [-clusterid cid ] [-force] [-nonInteractive] ] | [-upgrade [-clusterid cid] [-renameReserved<k-v pairs>] ] | [-upgradeOnly [-clusterid cid] [-renameReserved<k-v p",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "官方片段说明 hdfs namenode 支持备份、检查点、格式化、升级、回滚、滚动升级、导入检查点、初始化共享编辑目录及备用节点引导等用法。该命令涉及 NameNode 元数据与存储目录，使用前必须按官方文档确认适用场景和参数。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段给出 hdfs namenode 的 Usage 列表，包含 -backup、-checkpoint、-format、-upgrade、-rollback、-importCheckpoint、-bootstrapStandby 等选项，并说明 -format 会启动、格式化后关闭 NameNode。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "仅做只读检查：核对当前 Hadoop 版本与 NameNode 角色；确认是否处于升级或 HA 场景；查阅官方文档核对各选项含义与适用条件；不执行会改动元数据或存储目录的操作。变更类命令须按官方文档另行审批。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "禁止执行 -format、-upgrade、-rollback、-importCheckpoint、-initializeSharedEdits、-bootstrapStandby、-recover 等变更选项；它们会格式化、升级、回滚或改动元数据/存储目录，风险高，须按官方文档审批。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

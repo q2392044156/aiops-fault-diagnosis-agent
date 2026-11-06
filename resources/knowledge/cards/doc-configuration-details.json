@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-configuration-details",
+  "title": "HDFS HA NameNode 配置要点",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "HA NameNode 配置",
+    "nameservice 逻辑名",
+    "NameNode ID 列表",
+    "配置键顺序",
+    "DataNode 识别"
+  ],
+  "evidence_required": [
+    "官方片段指出，配置 HA NameNodes 必须在 hdfs-site.xml 添加若干配置选项；设置顺序不重要，但 dfs.nameservices 和 dfs.ha.namenodes.[nameservice ID] 的值将决定后续配置项的键。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "Configuration details",
+  "source_quote": "To configure HA NameNodes, you must add several configuration options to your hdfs-site.xml configuration file. The order in which you set these configurations is unimportant, but the values you choose for dfs.nameservic",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡依据官方片段说明 HDFS HA NameNode 的 hdfs-site.xml 配置要点：需添加若干配置项，设置顺序不重要，但 dfs.nameservices 与 dfs.ha.namenodes.[nameservice ID] 的取值会决定后续配置键，因此应先确定这两个值；nameservice 逻辑名还用作集群绝对 HDFS 路径的 authority 组件。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段指出，配置 HA NameNodes 必须在 hdfs-site.xml 添加若干配置选项；设置顺序不重要，但 dfs.nameservices 和 dfs.ha.namenodes.[nameservice ID] 的值将决定后续配置项的键。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读查看 hdfs-site.xml 中是否已配置 dfs.nameservices，并记录其逻辑名（例如 mycluster）；只读确认该逻辑名将作为集群绝对 HDFS 路径的 authority 组件；只读查看 dfs.ha.namenodes.[nameservice ID] 是否为逗号分隔的 NameNode ID 列表；只读核对 DataNode 用于确定集群内全部 NameNode 的该列表；不要改动配置。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未给出任何修改类操作；若运维场景出现 -delete、-move、-format、-replicate 等会修改数据的选项，禁止执行，只能按官方文档进行只读核对，具体以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

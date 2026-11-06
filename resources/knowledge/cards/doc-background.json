@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-background",
+  "title": "HDFS NameNode 单点故障与高可用背景",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "NameNode不可用",
+    "集群整体不可用",
+    "维护停机",
+    "SPOF",
+    "热备切换"
+  ],
+  "evidence_required": [
+    "片段明确：Hadoop 2.0.0 前 NameNode 为 SPOF；单 NameNode 不可用会导致集群不可用；计划维护会产生停机窗口；高可用以两个（3.0.0 起更多）冗余 NameNode 的 Active/Passive 热备实现快速或优雅切换。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "Background",
+  "source_quote": "Prior to Hadoop 2.0.0, the NameNode was a single point of failure (SPOF) in an HDFS cluster. Each cluster had a single NameNode, and if that machine or process became unavailable, the cluster as a whole would be unavaila",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "片段指出 Hadoop 2.0.0 前 NameNode 是 HDFS 单点故障：集群仅一个 NameNode，机器或进程不可用会使集群整体不可用，直到重启或在另一台机器启动；计划内软硬件升级也会造成停机。高可用通过 Active/Passive 热备运行两个（3.0.0 起可更多）冗余 NameNode 应对。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段明确：Hadoop 2.0.0 前 NameNode 为 SPOF；单 NameNode 不可用会导致集群不可用；计划维护会产生停机窗口；高可用以两个（3.0.0 起更多）冗余 NameNode 的 Active/Passive 热备实现快速或优雅切换。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读核对：确认当前是否仍为单 NameNode 架构，以及是否存在单点故障风险；确认是否已配置 Active/Passive 冗余 NameNode 与热备；确认计划维护是否可能造成停机窗口。片段未给出具体检查命令，执行细节以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未出现 -delete、-move、-format、-replicate 等选项；不得执行任何会修改 HDFS 数据的操作。高可用配置与切换涉及生产变更，禁止仅凭本卡操作，以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

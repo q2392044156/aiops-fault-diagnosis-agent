@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-overview",
+  "title": "HDFS 集群组成与只读状态检查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "集群组成不清",
+    "状态查看需求",
+    "元数据与数据职责混淆",
+    "配置疑问"
+  ],
+  "evidence_required": [
+    "片段说明：NameNode 管理文件系统元数据，DataNode 存储实际数据；客户端向 NameNode 获取元数据或修改信息，并直接与 DataNode 进行文件 I/O；NameNode 和 DataNode 内置 Web 服务器，便于检查当前状态。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "source_section": "Overview",
+  "source_quote": "HDFS is the primary distributed storage used by Hadoop applications. A HDFS cluster primarily consists of a NameNode that manages the file system metadata and DataNodes that store the actual data. The HDFS Architecture G",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "HDFS 是 Hadoop 应用的主要分布式存储，集群由管理元数据的 NameNode 和存储实际数据的 DataNode 组成。客户端向 NameNode 获取文件元数据或修改信息，并直接与 DataNode 进行文件 I/O。NameNode 与 DataNode 内置 Web 服务器，便于检查当前状态。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明：NameNode 管理文件系统元数据，DataNode 存储实际数据；客户端向 NameNode 获取元数据或修改信息，并直接与 DataNode 进行文件 I/O；NameNode 和 DataNode 内置 Web 服务器，便于检查当前状态。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "仅做只读检查：1. 通过 NameNode 与 DataNode 的内置 Web 服务器查看当前状态，具体访问方式以官方文档为准；2. 使用 Hadoop 支持的 shell 类命令查看 HDFS 信息时，只执行只读查看，不执行任何修改类选项；3. 核对客户端是否先向 NameNode 获取元数据、再与 DataNode 进行文件 I/O。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未给出任何修改类选项或阈值；涉及 -delete、-move、-format、-replicate 等会修改数据的操作禁止执行，也不在本卡只读检查范围内；其他配置与命令以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

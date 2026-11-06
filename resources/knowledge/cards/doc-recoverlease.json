@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-recoverlease",
+  "title": "HDFS recoverLease 租约恢复命令用法速查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "租约未释放",
+    "文件写入受阻",
+    "路径非 HDFS",
+    "重试次数默认"
+  ],
+  "evidence_required": [
+    "片段原文：Usage: hdfs debug recoverLease -path <path> [-retries <num-retries>]；[-path path] 为要恢复租约的 HDFS 路径；[-retries num-retries] 指客户端重试调用 recoverLease 的次数，默认 1；且路径必须位于 HDFS 文件系统。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "recoverLease",
+  "source_quote": "Usage: hdfs debug recoverLease -path <path> [-retries <num-retries>] COMMAND_OPTION Description [-path path] HDFS path for which to recover the lease. [-retries num-retries] Number of times the client will retry calling ",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "官方片段说明 hdfs debug recoverLease 用于对指定路径恢复租约，路径通过 -path 指定，且该路径必须位于 HDFS 文件系统上；-retries 用于指定客户端调用 recoverLease 的重试次数，默认重试次数为 1。本卡片只整理片段中出现的参数含义与只读核对要点，不扩展片段之外的命令或步骤，实际处理以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段原文：Usage: hdfs debug recoverLease -path <path> [-retries <num-retries>]；[-path path] 为要恢复租约的 HDFS 路径；[-retries num-retries] 指客户端重试调用 recoverLease 的次数，默认 1；且路径必须位于 HDFS 文件系统。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1）按片段给定的用法格式核对参数：命令形如 hdfs debug recoverLease -path <path>，可选 [-retries <num-retries>]。2）只读确认待处理的路径确实位于 HDFS 文件系统上，因为片段要求该路径必须 reside on an HDFS file system。3）规划重试次数时留意片段说明默认重试次数为 1，未显式指定即按默认。以上仅作参数与前提核对，不执行任何修改数据的操作。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未提及任何删除、移动、格式化或副本调整类选项，禁止在未获官方文档确认前执行此类修改数据的操作；recoverLease 会改变指定路径的租约状态，属需谨慎对待的操作。执行前应与相关方确认，具体行为以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

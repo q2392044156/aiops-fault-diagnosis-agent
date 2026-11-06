@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-datanode-failed-volumes-tolerated",
+  "title": "dfs.datanode.failed.volumes.tolerated 配置说明",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "卷故障",
+    "DataNode 停止服务",
+    "默认关闭",
+    "有效卷不足"
+  ],
+  "evidence_required": [
+    "官方片段说明：该值是 DataNode 停止提供服务前允许失败的卷数量；默认任何卷故障都会导致 DataNode 关闭；取值应大于或等于 -1，-1 表示至少 1 个有效卷；默认值为 0。"
+  ],
+  "root_cause_codes": [
+    "DN_VOLUME"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.datanode.failed.volumes.tolerated",
+  "source_quote": "The number of volumes that are allowed to fail before a datanode stops offering service. By default any volume failure will cause a datanode to shutdown. The value should be greater than or equal to -1 , -1 represents mi",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "该配置表示 DataNode 在停止提供服务前允许失败的卷数量。默认值为 0，即任何卷故障都会导致 DataNode 关闭。取值应大于或等于 -1，其中 -1 表示至少保留 1 个有效卷。该参数用于描述卷故障容忍行为。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段说明：该值是 DataNode 停止提供服务前允许失败的卷数量；默认任何卷故障都会导致 DataNode 关闭；取值应大于或等于 -1，-1 表示至少 1 个有效卷；默认值为 0。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读核对配置项 dfs.datanode.failed.volumes.tolerated 的当前取值；确认该取值是否大于或等于 -1；确认是否理解 -1 表示至少 1 个有效卷；结合 DataNode 服务状态做只读确认。具体查看方式与命令以官方文档为准，不执行任何修改数据的操作。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "修改该参数可能改变 DataNode 在卷故障时是否停止提供服务的行为；默认 0 表示任何卷故障都会导致 DataNode 关闭；调整前应评估影响，禁止执行会修改数据的操作，以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

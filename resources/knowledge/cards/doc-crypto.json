@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-crypto",
+  "title": "HDFS crypto 命令只读检查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "加密区列表",
+    "命令帮助",
+    "透明加密",
+    "用法查询"
+  ],
+  "evidence_required": [
+    "片段仅列出 hdfs crypto 的 -createZone、-listZones、-provisionTrash、-help <command-name> 用法，并指向透明加密文档。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "crypto",
+  "source_quote": "Usage: hdfs crypto -createZone -keyName <keyName> -path <path> hdfs crypto -listZones hdfs crypto -provisionTrash -path <path> hdfs crypto -help <command-name> See the HDFS Transparent Encryption Documentation for more i",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡依据官方 crypto 片段，说明 HDFS 透明加密相关命令的用法入口：创建加密区、列出加密区、为路径准备回收站以及查看命令帮助。片段只给出命令语法和参考文档指引，未提供参数取值、阈值或操作步骤，实际使用应以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段仅列出 hdfs crypto 的 -createZone、-listZones、-provisionTrash、-help <command-name> 用法，并指向透明加密文档。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：1）执行 hdfs crypto -listZones 查看现有加密区列表；2）执行 hdfs crypto -help <command-name> 查看指定 crypto 子命令的帮助信息。不要在本卡步骤中执行其他 crypto 选项；具体用法、参数与限制以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段中的 -createZone 与 -provisionTrash 会创建加密区或准备回收站，属于变更类操作，禁止作为本卡步骤执行；执行前须按官方文档评估。片段未给出回滚、权限或影响范围说明，以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

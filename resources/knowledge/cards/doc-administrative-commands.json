@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-administrative-commands",
+  "title": "HDFS HA NameNode 管理命令只读检查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "状态查询",
+    "健康检查",
+    "命令用法",
+    "HA管理"
+  ],
+  "evidence_required": [
+    "官方片段列出 hdfs haadmin 用法包含 -getServiceState、-getAllServiceState、-checkHealth、-help 等子命令，并指出具体子命令用法应运行 hdfs haadmin -help <command> 查询。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "Administrative commands",
+  "source_quote": "Now that your HA NameNodes are configured and started, you will have access to some additional commands to administer your HA HDFS cluster. Specifically, you should familiarize yourself with all of the subcommands of the",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "在 HA NameNodes 已配置并启动后，可使用额外的管理命令维护 HA HDFS 集群。官方片段建议熟悉 hdfs haadmin 的全部子命令；不带参数运行该命令会显示用法信息。片段还说明本指南描述各子命令的高层用途，具体用法应运行 hdfs haadmin -help <command> 查询。本卡仅写只读检查。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段列出 hdfs haadmin 用法包含 -getServiceState、-getAllServiceState、-checkHealth、-help 等子命令，并指出具体子命令用法应运行 hdfs haadmin -help <command> 查询。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 运行 hdfs haadmin（不带参数）查看用法信息。2. 运行 hdfs haadmin -getAllServiceState 查看所有服务状态。3. 运行 hdfs haadmin -getServiceState <serviceId> 查看指定 NameNode 状态。4. 运行 hdfs haadmin -checkHealth <serviceId> 检查指定服务健康。5. 运行 hdfs haadmin -help <command> 查询具体子命令用法。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段中的 transitionToActive、transitionToStandby 与 failover 会改变 NameNode 状态，且 transitionToActive/transitionToStandby 不执行 fencing，应很少使用；这些操作禁止作为只读检查步骤执行。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

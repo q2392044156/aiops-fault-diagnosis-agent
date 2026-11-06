@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-safemode",
+  "title": "HDFS Safemode 只读状态检查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "Safemode开启",
+    "启动等待DataNode",
+    "只读阻止修改",
+    "首页状态",
+    "块上报未完成"
+  ],
+  "evidence_required": [
+    "片段说明：NameNode 启动时加载 fsimage 与 edits log，等待 DataNode 上报块，此期间处于 Safemode；Safemode 基本为只读模式，不允许修改文件系统或块；首页显示其开关状态。"
+  ],
+  "root_cause_codes": [
+    "NN_SAFE_MODE"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "source_section": "Safemode",
+  "source_quote": "During start up the NameNode loads the file system state from the fsimage and the edits log file. It then waits for DataNodes to report their blocks so that it does not prematurely start replicating the blocks though eno",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "NameNode 启动时加载 fsimage 与 edits log，并等待 DataNode 上报块，避免在副本已足够时过早复制；此期间处于 Safemode。Safemode 对 HDFS 基本是只读模式，不允许修改文件系统或块。通常 DataNode 上报大多数块可用后，NameNode 会自动退出；首页显示 Safemode 开或关。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明：NameNode 启动时加载 fsimage 与 edits log，等待 DataNode 上报块，此期间处于 Safemode；Safemode 基本为只读模式，不允许修改文件系统或块；首页显示其开关状态。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 打开 NameNode 首页，查看 Safemode 显示为 on 还是 off。2. 观察启动阶段：NameNode 加载 fsimage 与 edits log 后，会等待 DataNode 上报块。3. 仅做只读核对：确认 Safemode 是否因自动退出条件未满足而持续开启；命令细节以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段提到可显式使用 bin/hdfs dfsadmin -safemode 将 HDFS 置于 Safemode；该操作会改变集群状态，不作为排障步骤推荐。禁止执行任何会修改数据的选项；不确定时以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

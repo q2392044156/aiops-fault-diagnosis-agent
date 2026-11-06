@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-balancer",
+  "title": "HDFS balancer 负载均衡工具知识卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "Balancer"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "节点间不均衡",
+    "blockpool 不均衡",
+    "空闲迭代退出",
+    "升级期间运行",
+    "副本被移动"
+  ],
+  "evidence_required": [
+    "片段说明 hdfs balancer 支持 -policy（datanode 默认、blockpool）、-threshold、-exclude/-include/-source、-blockpools、-idleiterations、-runDuringUpgrade、-asService；-h|--help 显示帮助并退出。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "balancer",
+  "source_quote": "Usage: hdfs balancer [-policy <policy>] [-threshold <threshold>] [-exclude [-f <hosts-file> | <comma-separated list of hosts>]] [-include [-f <hosts-file> | <comma-separated list of hosts>]] [-source [-f <hosts-file> | <",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "hdfs balancer 是集群负载均衡工具，可按 datanode（默认）或 blockpool 策略运行，并通过阈值、排除/包含/源节点、blockpool、空闲迭代、升级期间运行和常驻服务等选项控制；按 Ctrl-C 可停止再平衡。blockpool 策略更严格。2.7.0 起引入 pinning 防止部分副本被 balancer/mover 移动，默认禁用，具体配置项以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明 hdfs balancer 支持 -policy（datanode 默认、blockpool）、-threshold、-exclude/-include/-source、-blockpools、-idleiterations、-runDuringUpgrade、-asService；-h|--help 显示帮助并退出。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：运行 hdfs balancer -h 或 --help 查看用法与帮助后退出；对照帮助确认 -policy（datanode 默认、blockpool）、-threshold、-exclude/-include/-source、-blockpools、-idleiterations、-runDuringUpgrade、-asService 的含义；确认 blockpool 策略更严格、pinning 默认禁用，配置项以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "balancer 会移动副本，属于修改性操作；本卡不推荐执行实际再平衡，只做只读帮助检查。-runDuringUpgrade 通常不希望使用，因不会影响过载机器已用空间；阈值与 pinning 配置以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

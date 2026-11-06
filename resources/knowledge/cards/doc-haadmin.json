@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-haadmin",
+  "title": "HDFS haadmin 只读状态检查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "NameNode 状态不明",
+    "HA 状态查询",
+    "健康检查",
+    "服务状态确认"
+  ],
+  "evidence_required": [
+    "片段列出 -getServiceState 用于判断指定 NameNode 是 Active 还是 Standby，-getAllServiceState 返回所有 NameNode 状态，-checkHealth 检查指定 NameNode 健康度，-help 显示命令帮助；并说明 transition 类命令会转换状态，且警告 No fencing is done。"
+  ],
+  "root_cause_codes": [
+    "HA_STANDBY_LAG"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "haadmin",
+  "source_quote": "Usage: hdfs haadmin -transitionToActive <serviceId> [--forceactive] hdfs haadmin -transitionToStandby <serviceId> hdfs haadmin -transitionToObserver <serviceId> hdfs haadmin -failover [--forcefence] [--forceactive] <serv",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "haadmin 是 HDFS HA 管理命令，官方用法包含多个子命令，用于查询 NameNode 服务状态、检查健康度，以及获取帮助信息。片段还列出 transitionToActive、transitionToStandby、transitionToObserver 和 failover 等会改变 NameNode 状态的操作，并提示部分转换不做 fencing。运维排查时应优先使用只读子命令确认状态。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段列出 -getServiceState 用于判断指定 NameNode 是 Active 还是 Standby，-getAllServiceState 返回所有 NameNode 状态，-checkHealth 检查指定 NameNode 健康度，-help 显示命令帮助；并说明 transition 类命令会转换状态，且警告 No fencing is done。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：执行 hdfs haadmin -getAllServiceState 查看所有 NameNode 状态；对目标 serviceId 执行 hdfs haadmin -getServiceState <serviceId> 判断 Active 或 Standby；执行 hdfs haadmin -checkHealth <serviceId> 检查健康度；执行 hdfs haadmin -help <command> 查看帮助。上述均为查询操作。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "transitionToActive、transitionToStandby、transitionToObserver 与 failover 会改变 NameNode 状态，片段还警告部分转换不做 fencing；排查时禁止执行这些变更操作，以免影响 HA 状态。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

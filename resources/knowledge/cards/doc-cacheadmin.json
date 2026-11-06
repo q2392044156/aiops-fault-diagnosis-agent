@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-cacheadmin",
+  "title": "HDFS 缓存管理 cacheadmin 只读检查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "缓存指令不清",
+    "缓存池状态不明",
+    "只读核对需求",
+    "变更风险需隔离"
+  ],
+  "evidence_required": [
+    "片段显示：cacheadmin 支持 -listDirectives [-stats] [-path <path>] [-pool <pool>] [-id <id>]，支持 -listPools [-stats] [<name>]，并提供 -help <command-name>；同时列出添加、修改、移除指令及池的子命令用法。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "cacheadmin",
+  "source_quote": "Usage: hdfs cacheadmin [-addDirective -path <path> -pool <pool-name> [-force] [-replication <replication>] [-ttl <time-to-live>]] hdfs cacheadmin [-modifyDirective -id <id> [-path <path>] [-force] [-replication <replicat",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "官方片段给出 hdfs cacheadmin 的用法，涵盖缓存指令与缓存池的添加、修改、移除、列出及帮助子命令。本卡仅用于运维前的只读核对：通过列指令、列池与帮助信息确认现状，不执行任何会改变缓存管理状态的子命令。具体语义与限制以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段显示：cacheadmin 支持 -listDirectives [-stats] [-path <path>] [-pool <pool>] [-id <id>]，支持 -listPools [-stats] [<name>]，并提供 -help <command-name>；同时列出添加、修改、移除指令及池的子命令用法。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查可执行：1）运行 hdfs cacheadmin -help <command-name> 查看指定子命令用法；2）运行 hdfs cacheadmin -listDirectives，可按需附加 [-stats]、[-path <path>] [-pool <pool>] [-id <id>]；3）运行 hdfs cacheadmin -listPools，可按需附加 [-stats] 或 [<name>]。仅记录输出，不执行任何变更操作。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段中的 -addDirective、-modifyDirective、-removeDirective、-removeDirectives、-addPool、-modifyPool、-removePool 会改变缓存管理状态，禁止作为检查步骤执行；本卡不提供这些变更操作的步骤。涉及变更时以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

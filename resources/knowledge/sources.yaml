@@ -16,3 +16,36 @@ sources:
     accessed_at: "2026-10-13"
     license: project-original
     usage: Original generic safety rules; not an enterprise runbook.
+
+  - source_id: apache-hdfs-commands-3.3.5
+    title: Apache Hadoop 3.3.5 HDFS Commands Guide
+    publisher: Apache Software Foundation
+    source_url: https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hdfs-ha-qjm-3.3.5
+    title: Apache Hadoop 3.3.5 HDFS High Availability Using QJM
+    publisher: Apache Software Foundation
+    source_url: https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hdfs-user-guide-3.3.5
+    title: Apache Hadoop 3.3.5 HDFS Users Guide
+    publisher: Apache Software Foundation
+    source_url: https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hdfs-default-3.3.5
+    title: Apache Hadoop 3.3.5 hdfs-default.xml
+    publisher: Apache Software Foundation
+    source_url: https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.

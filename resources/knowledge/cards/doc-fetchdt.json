@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-fetchdt",
+  "title": "HDFS fetchdt 委派令牌获取知识卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "令牌获取",
+    "NN_Url 核对",
+    "续期者名称",
+    "令牌打印"
+  ],
+  "evidence_required": [
+    "官方片段写明：Usage: hdfs fetchdt <opts> <token_file_path>；--webservice 的 NN_Url 以 http 或 https 开头；--renewer 为 delegation token renewer 名称；--print 打印 delegation token；token_file_path 用于存储令牌。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "fetchdt",
+  "source_quote": "Usage: hdfs fetchdt <opts> <token_file_path> COMMAND_OPTION Description --webservice NN_Url Url to contact NN on (starts with http or https) --renewer name Name of the delegation token renewer --cancel Cancel the delegat",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "fetchdt 用于从 NameNode 获取 Delegation Token。命令形式为 hdfs fetchdt <opts> <token_file_path>，可用 --webservice 指定以 http 或 https 开头的 NN_Url，用 --renewer 指定续期者名称，并支持 --cancel、--renew、--print 等令牌操作；token_file_path 用于存放令牌。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段写明：Usage: hdfs fetchdt <opts> <token_file_path>；--webservice 的 NN_Url 以 http 或 https 开头；--renewer 为 delegation token renewer 名称；--print 打印 delegation token；token_file_path 用于存储令牌。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 核对 fetchdt 用法，确认 token_file_path 与 NameNode 的对应关系。2. 检查 --webservice 的 NN_Url 是否以 http 或 https 开头，仅做地址核对。3. 如需读取令牌，仅用 --print；不得执行 --cancel 或 --renew。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "--cancel 会取消令牌，--renew 会续期令牌，均改变令牌状态，检查时禁止执行；--print 会输出令牌，需注意保密，防止泄露。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

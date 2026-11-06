@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-verifymeta",
+  "title": "HDFS verifyMeta 元数据与块文件校验",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "元数据校验异常",
+    "校验和不匹配",
+    "块文件校验异常",
+    "需核查元数据",
+    "需核查块文件"
+  ],
+  "evidence_required": [
+    "官方片段说明 verifyMeta 用法为 hdfs debug verifyMeta -meta <metadata-file> [-block <block-file>]，用于校验 HDFS 元数据与块文件；指定块文件时校验元数据中的校验和是否与块文件匹配。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "verifyMeta",
+  "source_quote": "Usage: hdfs debug verifyMeta -meta <metadata-file> [-block <block-file>] COMMAND_OPTION Description -block block-file Optional parameter to specify the absolute path for the block file on the local file system of the dat",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡说明 HDFS debug verifyMeta 的只读校验用途。该命令需要指定 DataNode 本地文件系统上的元数据文件绝对路径，可选指定块文件绝对路径；指定块文件后，会校验元数据文件中的校验和是否与块文件匹配。适用于排查元数据与块文件一致性时参考，具体以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段说明 verifyMeta 用法为 hdfs debug verifyMeta -meta <metadata-file> [-block <block-file>]，用于校验 HDFS 元数据与块文件；指定块文件时校验元数据中的校验和是否与块文件匹配。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 确认待查元数据文件在 DataNode 本地文件系统上的绝对路径；2. 如需同时校验块文件，确认块文件绝对路径；3. 执行 hdfs debug verifyMeta -meta <metadata-file>，需要时追加 [-block <block-file>]；4. 查看命令输出，确认元数据与块文件校验和是否匹配。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "该命令用于校验，不涉及数据修改；若输出显示校验和不匹配，不要自行改动元数据或块文件，应保留现场并依据官方文档进一步确认处理方式。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

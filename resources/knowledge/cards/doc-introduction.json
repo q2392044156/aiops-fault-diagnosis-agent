@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-introduction",
+  "title": "HDFS 手动与自动故障转移识别",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "active 故障不切换",
+    "手动 failover",
+    "standby 未接管",
+    "自动切换缺失"
+  ],
+  "evidence_required": [
+    "官方片段明确：手动故障转移模式下，系统不会在 active NameNode 故障时自动触发到 standby 的 failover；自动故障转移部分说明如何配置和部署 automatic failover。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "Introduction",
+  "source_quote": "The above sections describe how to configure manual failover. In that mode, the system will not automatically trigger a failover from the active to the standby NameNode, even if the active node has failed. This section d",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "该片段区分 HDFS 手动故障转移与自动故障转移：手动模式下，即使 active NameNode 已故障，系统也不会自动从 active 切换到 standby NameNode；自动故障转移则需按官方文档进行配置和部署。本文仅依据片段提示运维人员先识别当前模式，避免对手动模式产生自动切换预期。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段明确：手动故障转移模式下，系统不会在 active NameNode 故障时自动触发到 standby 的 failover；自动故障转移部分说明如何配置和部署 automatic failover。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 对照官方文档确认当前部署是手动故障转移还是自动故障转移；2. 若为手动模式，只读核对并记录片段所述行为：active NameNode 故障时不会自动触发到 standby 的 failover；3. 只读查看配置说明是否涉及 automatic failover 的配置与部署，不执行切换或修改配置，具体以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "若误将手动故障转移模式当作自动模式，active NameNode 故障时不会自动切换到 standby，可能延长服务不可用时间；任何配置变更均以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

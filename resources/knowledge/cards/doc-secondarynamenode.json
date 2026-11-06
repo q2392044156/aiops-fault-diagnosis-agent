@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-secondarynamenode",
+  "title": "SecondaryNameNode 只读检查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "未检查点事务数",
+    "检查点选项",
+    "格式化风险",
+    "只读排查"
+  ],
+  "evidence_required": [
+    "官方片段给出 Usage: hdfs secondarynamenode [-checkpoint [force]] | [-format] | [-geteditsize]；其中 -geteditsize 打印 NameNode 上未检查点的事务数，-checkpoint 与 -format 分别涉及检查点和本地存储格式化。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "secondarynamenode",
+  "source_quote": "Usage: hdfs secondarynamenode [-checkpoint [force]] | [-format] | [-geteditsize] COMMAND_OPTION Description -checkpoint [force] Checkpoints the SecondaryNameNode if EditLog size >= fs.checkpoint.size. If force is used, c",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡依据官方 secondarynamenode 命令片段整理，说明该命令用于运行 HDFS SecondaryNameNode，并列出 -checkpoint [force]、-format、-geteditsize 三个选项。运维排查时应优先采用只读方式了解未检查点事务数；检查点与格式化相关选项不应混入只读检查步骤。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段给出 Usage: hdfs secondarynamenode [-checkpoint [force]] | [-format] | [-geteditsize]；其中 -geteditsize 打印 NameNode 上未检查点的事务数，-checkpoint 与 -format 分别涉及检查点和本地存储格式化。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "仅执行只读检查：运行 hdfs secondarynamenode -geteditsize，读取并记录其打印的 NameNode 未检查点事务数；依据官方片段核对该输出含义。若需了解 SecondaryNameNode 的其他说明，查阅官方 Secondary Namenode 文档，不将检查点或格式化动作纳入只读检查。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "禁止执行 hdfs secondarynamenode -format，该选项会格式化启动时的本地存储；-checkpoint 与 -checkpoint force 会触发检查点动作，不应作为只读检查步骤。上述选项均不得在排查中随意执行，具体以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

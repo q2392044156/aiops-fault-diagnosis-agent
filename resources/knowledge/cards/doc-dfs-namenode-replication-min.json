@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-namenode-replication-min",
+  "title": "dfs.namenode.replication.min 最小块副本数配置项",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "副本下限疑问",
+    "默认值确认",
+    "配置项核对",
+    "文档依据不足"
+  ],
+  "evidence_required": [
+    "官方片段：标题“dfs.namenode.replication.min”；正文“Minimal block replication. Default: 1”。可确认的仅为该配置项表示最小块副本数且默认值为 1。"
+  ],
+  "root_cause_codes": [
+    "BLOCK_REPLICATION"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.namenode.replication.min",
+  "source_quote": "Minimal block replication. Default: 1",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "该知识卡说明配置项 dfs.namenode.replication.min，官方片段称其含义为最小块副本数（Minimal block replication），默认值为 1。片段仅给出名称、简短释义与默认值，未提供命令、阈值调整方法或故障处理步骤；实际运维判断应以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段：标题“dfs.namenode.replication.min”；正文“Minimal block replication. Default: 1”。可确认的仅为该配置项表示最小块副本数且默认值为 1。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "片段未提供只读检查命令。可只读核对配置项名称 dfs.namenode.replication.min、简短释义 Minimal block replication 与默认值 1 是否与官方文档一致；具体检查方式以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未提供任何修改数据或配置的选项与操作说明；禁止依据本片段执行修改类操作。涉及变更须以官方文档为准，避免产生数据风险。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs",
+  "title": "HDFS dfs 命令使用说明",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "用法不清楚",
+    "选项需核对",
+    "文件系统命令",
+    "查官方指南"
+  ],
+  "evidence_required": [
+    "官方片段写明：Usage: hdfs dfs [COMMAND [COMMAND_OPTIONS]]；用于在 Hadoop 支持的文件系统上运行文件系统命令；各种 COMMAND_OPTIONS 见 File System Shell Guide。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "dfs",
+  "source_quote": "Usage: hdfs dfs [COMMAND [COMMAND_OPTIONS]] Run a filesystem command on the file system supported in Hadoop. The various COMMAND_OPTIONS can be found at File System Shell Guide.",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡说明 hdfs dfs 的基本用法：通过 hdfs dfs [COMMAND [COMMAND_OPTIONS]] 在 Hadoop 支持的文件系统上运行文件系统命令。不同 COMMAND_OPTIONS 的说明需查阅官方 File System Shell Guide。卡片仅整理只读检查思路，不扩展片段之外的命令、参数或结论，具体以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段写明：Usage: hdfs dfs [COMMAND [COMMAND_OPTIONS]]；用于在 Hadoop 支持的文件系统上运行文件系统命令；各种 COMMAND_OPTIONS 见 File System Shell Guide。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 阅读官方片段，确认 hdfs dfs 的用途是运行 Hadoop 支持的文件系统命令。2. 在官方 File System Shell Guide 中核对目标 COMMAND 与 COMMAND_OPTIONS 的说明。3. 仅按官方文档选择只读检查方式，不执行任何修改数据的操作；不确定时以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未给出具体 COMMAND_OPTIONS 的安全边界；凡涉及修改数据的选项均禁止执行，本卡不推荐写操作。实际使用前须查阅官方文档，不确定时以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

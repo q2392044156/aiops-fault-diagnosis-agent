@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-zkfc",
+  "title": "HDFS zkfc 只读检查与格式化风险提示",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "ZKFC 进程状态",
+    "HA 运行状态",
+    "Zookeeper 实例状态",
+    "格式化操作风险"
+  ],
+  "evidence_required": [
+    "片段列出 hdfs zkfc 的 -formatZK、-force、-nonInteractive 和 -h 选项；-formatZK 用于格式化 Zookeeper 实例，-h 显示帮助；该命令启动供 HDFS HA with QJM 使用的 Zookeeper Failover Controller 进程。"
+  ],
+  "root_cause_codes": [
+    "HA_STANDBY_LAG"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "zkfc",
+  "source_quote": "Usage: hdfs zkfc [-formatZK [-force] [-nonInteractive]] COMMAND_OPTION Description -formatZK Format the Zookeeper instance. -force: formats the znode if the znode exists. -nonInteractive: formats the znode aborts if the ",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "zkfc 命令用于启动 Zookeeper Failover Controller 进程，配合 HDFS HA with QJM 使用。片段还列出 -formatZK 及 -force、-nonInteractive 等格式化选项，以及 -h 帮助选项。知识卡仅整理只读检查与风险提示，不推荐执行任何格式化操作。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段列出 hdfs zkfc 的 -formatZK、-force、-nonInteractive 和 -h 选项；-formatZK 用于格式化 Zookeeper 实例，-h 显示帮助；该命令启动供 HDFS HA with QJM 使用的 Zookeeper Failover Controller 进程。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 使用 hdfs zkfc -h 查看帮助，确认可用选项仅为片段所列。2. 核对命令是否用于启动与 HDFS HA with QJM 配合的 Zookeeper Failover Controller 进程。3. 若需进一步确认格式化相关选项含义，以官方文档为准，不在检查阶段执行。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "-formatZK 会格式化 Zookeeper 实例，-force、-nonInteractive 涉及 znode 已存在时的格式化行为，可能修改 ZooKeeper 数据，禁止在检查或排障中执行；如需操作以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-diskbalancer",
+  "title": "HDFS diskbalancer 只读检查与状态查询",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "卷使用不均",
+    "需查平衡状态",
+    "需看卷信息",
+    "计划状态未知"
+  ],
+  "evidence_required": [
+    "官方片段标题为 diskbalancer，正文给出 hdfs diskbalancer 的 Usage，包含 -plan、-execute、-query、-cancel、-report 等选项，并说明 -query 获取 datanode 当前 diskbalancer 状态、-report 报告 datanode 卷信息，详见 HDFS Diskbalancer。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "diskbalancer",
+  "source_quote": "Usage: hdfs diskbalancer [-plan <datanode> -fs <namenodeURI>] [-execute <planfile>] [-query <datanode>] [-cancel <planfile>] [-cancel <planID> -node <datanode>] [-report -node <file://> | [<DataNodeID|IP|Hostname>,...]] ",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "hdfs diskbalancer 是 HDFS 的磁盘平衡命令行工具。片段中的选项说明：-plan 创建计划，-execute 在 datanode 上执行给定计划，-query 从 datanode 获取当前 diskbalancer 状态，-cancel 取消运行中的计划，-report 报告 datanode 的卷信息。更多说明以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段标题为 diskbalancer，正文给出 hdfs diskbalancer 的 Usage，包含 -plan、-execute、-query、-cancel、-report 等选项，并说明 -query 获取 datanode 当前 diskbalancer 状态、-report 报告 datanode 卷信息，详见 HDFS Diskbalancer。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：1）用 -query <datanode> 从该 datanode 获取当前 diskbalancer 状态；2）用 -report -node <file://> 或 -report -node [<DataNodeID|IP|Hostname>,...] 报告 datanode 的卷信息；3）用 -report -node -top <topnum> 查看指定数量的报告结果。以上仅为查询与报告，参数取值以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段中的 -execute（在 datanode 上执行给定计划）与 -cancel（取消运行中的计划）会改变节点数据分布，禁止作为检查步骤执行；-plan 会创建计划文件。确需执行前以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

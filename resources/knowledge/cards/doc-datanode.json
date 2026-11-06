@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-datanode",
+  "title": "HDFS DataNode 命令选项知识卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "DataNode 启动",
+    "版本回滚",
+    "滚动升级回滚",
+    "命令用法"
+  ],
+  "evidence_required": [
+    "官方片段列出 Usage: hdfs datanode [-regular | -rollback | -rollingupgrade rollback] COMMAND_OPTION，并说明 -regular 为默认正常启动，-rollback 需先停止 DataNode 并分发旧版 Hadoop，-rollingupgrade rollback 回滚滚动升级。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "datanode",
+  "source_quote": "Usage: hdfs datanode [-regular | -rollback | -rollingupgrade rollback] COMMAND_OPTION Description -regular Normal datanode startup (default). -rollback Rollback the datanode to the previous version. This should be used a",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "该片段说明 hdfs datanode 的用法与三个选项：-regular 为默认的正常 DataNode 启动方式；-rollback 用于在停止 DataNode 并分发旧版 Hadoop 后回滚到上一版本；-rollingupgrade rollback 用于回滚滚动升级操作。片段仅描述命令用途，未给出监控、诊断或只读检查命令。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段列出 Usage: hdfs datanode [-regular | -rollback | -rollingupgrade rollback] COMMAND_OPTION，并说明 -regular 为默认正常启动，-rollback 需先停止 DataNode 并分发旧版 Hadoop，-rollingupgrade rollback 回滚滚动升级。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "片段未提供只读检查命令；仅可查阅官方文档核对 Usage 与各选项含义，确认 -regular、-rollback、-rollingupgrade rollback 的描述，不执行任何启动或回滚动作；具体只读检查方式以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "禁止将 -rollback、-rollingupgrade rollback 作为步骤执行；片段说明二者分别用于回滚到上一版本和回滚滚动升级，且 -rollback 需先停止 DataNode 并分发旧版 Hadoop。片段未给出安全条件，操作以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

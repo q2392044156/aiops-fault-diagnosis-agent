@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-deployment-details",
+  "title": "HDFS HA 部署与 NameNode 元数据同步检查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "JournalNode未启动",
+    "NameNode元数据未同步",
+    "HA初始化未完成",
+    "edits不足"
+  ],
+  "evidence_required": [
+    "片段提到 hdfs --daemon start journalnode、hdfs namenode -format、-bootstrapStandby 与 -initializeSharedEdits，并说明 bootstrapStandby 用于未格式化 NameNode、initializeSharedEdits 用于非 HA 转 HA。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "Deployment details",
+  "source_quote": "After all of the necessary configuration options have been set, you must start the JournalNode daemons on the set of machines where they will run. This can be done by running the command “hdfs --daemon start journalnode”",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "官方片段描述 HDFS HA 部署细节：配置项设置完成后，需在将运行 JournalNode 的机器上启动 JournalNode 并等待启动；随后需初始同步两个 HA NameNode 的磁盘元数据。片段区分新集群格式化、已格式化或非 HA 转 HA 的元数据复制，以及非 HA 转 HA 时初始化 JournalNode 的 edits 数据。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段提到 hdfs --daemon start journalnode、hdfs namenode -format、-bootstrapStandby 与 -initializeSharedEdits，并说明 bootstrapStandby 用于未格式化 NameNode、initializeSharedEdits 用于非 HA 转 HA。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "片段未给出只读检查命令。执行前仅可依据官方文档核对：必要配置项是否已设置、JournalNode 将运行的机器清单、NameNode 是否已格式化，以及是否属于非 HA 转 HA 场景；具体只读检查方式以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "禁止执行 -format；-bootstrapStandby、-initializeSharedEdits 会同步/初始化元数据或 edits，可能改数据，禁止作为只读步骤。其余以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

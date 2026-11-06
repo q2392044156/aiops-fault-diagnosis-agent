@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-getconf",
+  "title": "HDFS getconf 配置信息只读查询",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "需核对节点列表",
+    "需查RPC地址",
+    "需查配置键值",
+    "需确认文件路径"
+  ],
+  "evidence_required": [
+    "官方片段列出 hdfs getconf 可用选项：-namenodes、-secondaryNameNodes、-backupNodes、-journalNodes、-includeFile、-excludeFile、-nnRpcAddresses、-confKey [key]，分别获取对应列表、文件路径、RPC 地址或配置键值。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html",
+  "source_section": "getconf",
+  "source_quote": "Usage: hdfs getconf -namenodes hdfs getconf -secondaryNameNodes hdfs getconf -backupNodes hdfs getconf -journalNodes hdfs getconf -includeFile hdfs getconf -excludeFile hdfs getconf -nnRpcAddresses hdfs getconf -confKey ",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "hdfs getconf 用于从配置目录获取配置信息并进行后处理，可查询集群中的 namenode、secondary namenode、backup node、journal node 列表，也可获取 include 文件、exclude 文件路径、namenode RPC 地址以及指定配置键的值。该命令适合做只读核对，具体输出以官方文档和实际配置为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段列出 hdfs getconf 可用选项：-namenodes、-secondaryNameNodes、-backupNodes、-journalNodes、-includeFile、-excludeFile、-nnRpcAddresses、-confKey [key]，分别获取对应列表、文件路径、RPC 地址或配置键值。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：执行 hdfs getconf -namenodes、-secondaryNameNodes、-backupNodes、-journalNodes 查看对应节点列表；执行 -includeFile、-excludeFile 查看对应文件路径；执行 -nnRpcAddresses 查看 namenode RPC 地址；执行 -confKey [key] 查看指定配置键值。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "本片段仅涉及 getconf 查询，未给出修改类选项；查询结果只用于核对配置。不要据 excludeFile 路径自行下线节点或改配置，任何变更应以官方文档为准并走审批。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

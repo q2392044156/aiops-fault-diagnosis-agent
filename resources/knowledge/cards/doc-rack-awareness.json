@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-rack-awareness",
+  "title": "HDFS 机架感知拓扑检查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "拓扑识别不清",
+    "容量利用待优化",
+    "配置依据不足",
+    "需查官方文档"
+  ],
+  "evidence_required": [
+    "官方片段指出：HDFS 集群可识别每个节点所在机架的拓扑；为优化数据容量与使用，配置该拓扑很重要；更多细节需查看 common 文档中的 rack awareness。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "source_section": "Rack Awareness",
+  "source_quote": "A HDFS cluster can recognize the topology of racks where each nodes are put. It is important to configure this topology in order to optimize the data capacity and usage. For more detail, please check the rack awareness i",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "该知识卡说明 HDFS 集群能够识别各节点所在机架的拓扑，并强调配置该拓扑对优化数据容量与使用很重要。片段仅指向 common 文档中的 rack awareness 以获取更多细节，未给出具体命令、参数或阈值。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段指出：HDFS 集群可识别每个节点所在机架的拓扑；为优化数据容量与使用，配置该拓扑很重要；更多细节需查看 common 文档中的 rack awareness。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：1.查阅集群拓扑或机架感知相关说明，确认集群是否声明可识别节点所在机架；2.核对节点与机架的对应关系是否已在文档中记录；3.如需更多细节，仅查阅 common 文档中的 rack awareness，并以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未提供可执行命令、参数或阈值；不要依据本卡擅自修改机架拓扑，也不要执行任何会改动 HDFS 数据的操作。实际配置与操作以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

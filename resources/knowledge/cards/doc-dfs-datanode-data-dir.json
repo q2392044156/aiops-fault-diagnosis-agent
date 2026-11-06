@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-datanode-data-dir",
+  "title": "dfs.datanode.data.dir 数据目录配置",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "存储类型未标记",
+    "默认DISK",
+    "逗号分隔多目录",
+    "目录不存在",
+    "默认临时路径"
+  ],
+  "evidence_required": [
+    "片段说明：该配置决定 DataNode 块存储的本地目录；逗号分隔列表会使用所有目录；目录应打存储类型标签；未标记默认 DISK；不存在的目录在权限允许时会创建；默认 file://${hadoop.tmp.dir}/dfs/data。"
+  ],
+  "root_cause_codes": [
+    "DN_VOLUME"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.datanode.data.dir",
+  "source_quote": "Determines where on the local filesystem an DFS data node should store its blocks. If this is a comma-delimited list of directories, then data will be stored in all named directories, typically on different devices. The ",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "该配置决定 DataNode 在本地文件系统存储块的位置。若为逗号分隔目录列表，数据会存入所有列出的目录，通常位于不同设备。目录可用 [SSD]/[DISK]/[ARCHIVE]/[RAM_DISK] 标记存储类型，以配合 HDFS 存储策略；未显式标记时默认 DISK。默认值 file://${hadoop.tmp.dir}/dfs/data。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明：该配置决定 DataNode 块存储的本地目录；逗号分隔列表会使用所有目录；目录应打存储类型标签；未标记默认 DISK；不存在的目录在权限允许时会创建；默认 file://${hadoop.tmp.dir}/dfs/data。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：查看 dfs.datanode.data.dir 当前值；核对是否以逗号分隔列出各目录；确认各目录的存储类型标签是否为 SSD、DISK、ARCHIVE 或 RAM_DISK；核对未标记目录是否按默认 DISK 理解；只读确认目录存在性与本地权限；核对默认值 file://${hadoop.tmp.dir}/dfs/data。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "该配置涉及 DataNode 块存储目录，修改后可能改变块存放位置；片段未给出变更、迁移或回滚步骤，任何变更前以官方文档为准。检查时应保持只读，避免对目录做写操作。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

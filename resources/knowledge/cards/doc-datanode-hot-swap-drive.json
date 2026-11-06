@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-datanode-hot-swap-drive",
+  "title": "DataNode 热插拔磁盘只读检查",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "数据卷变更",
+    "重配置查询",
+    "热插拔磁盘",
+    "配置核对"
+  ],
+  "evidence_required": [
+    "片段指出 DataNode 支持热插拔驱动器，可不关闭 DataNode 新增或替换 HDFS 数据卷；需更新 dfs.datanode.data.dir；可用 dfsadmin -reconfig datanode HOST:PORT status 查询重配置状态，livenodes 可面向存活节点。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-user-guide-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html",
+  "source_section": "DataNode Hot Swap Drive",
+  "source_quote": "Datanode supports hot swappable drives. The user can add or replace HDFS data volumes without shutting down the DataNode. The following briefly describes the typical hot swapping drive procedure: If there are new storage",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "该片段说明 DataNode 支持热插拔磁盘，可在不关闭 DataNode 的情况下新增或替换 HDFS 数据卷。典型流程涉及准备并挂载新存储目录、更新 dfs.datanode.data.dir 配置、启动重配置并查询状态，完成后可卸载已移除的数据卷目录。本卡片只整理其中可只读核对的检查点，具体操作以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段指出 DataNode 支持热插拔驱动器，可不关闭 DataNode 新增或替换 HDFS 数据卷；需更新 dfs.datanode.data.dir；可用 dfsadmin -reconfig datanode HOST:PORT status 查询重配置状态，livenodes 可面向存活节点。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查：1）核对 DataNode 配置中 dfs.datanode.data.dir 所列数据卷目录是否符合预期；2）在重配置期间使用 dfsadmin -reconfig datanode HOST:PORT status 查询任务状态；3）如需覆盖所有存活 DataNode，可使用 dfsadmin -reconfig datanode livenodes status 查询状态。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段含 format、mount、start、umount 等会改动存储或重配置状态的操作，不能作为只读检查步骤；尤其 format 会修改数据，禁止在检查中执行。实际操作以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

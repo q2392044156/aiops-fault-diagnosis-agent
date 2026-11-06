@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-blocksize",
+  "title": "dfs.blocksize 默认块大小配置",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "默认块大小",
+    "字节单位",
+    "容量后缀",
+    "新文件配置"
+  ],
+  "evidence_required": [
+    "官方片段说明：dfs.blocksize 是新文件的默认块大小，单位为字节；支持 k/m/g/t/p/e 后缀或完整字节数；默认值为 134217728。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.blocksize",
+  "source_quote": "The default block size for new files, in bytes. You can use the following suffix (case insensitive): k(kilo), m(mega), g(giga), t(tera), p(peta), e(exa) to specify the size (such as 128k, 512m, 1g, etc.), Or provide comp",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.blocksize 用于指定新文件的默认块大小，单位为字节。配置值可使用不区分大小写的 k、m、g、t、p、e 后缀表示 kilo 到 exa，也可直接填写完整字节数，例如 128k、512m、1g；官方片段给出的默认值为 134217728。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段说明：dfs.blocksize 是新文件的默认块大小，单位为字节；支持 k/m/g/t/p/e 后缀或完整字节数；默认值为 134217728。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "只读检查 dfs.blocksize 当前取值，确认单位为字节或使用 k/m/g/t/p/e 后缀；核对默认值是否为 134217728；确认后缀大小写不敏感；确认新文件默认块大小的表达方式是否清晰。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "本片段仅说明 dfs.blocksize 的默认值与单位后缀，未提供任何修改数据的操作步骤。禁止执行删除、移动、格式化、复制等会修改数据的操作；调整配置或处理数据时以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

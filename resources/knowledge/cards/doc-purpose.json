@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-purpose",
+  "title": "HDFS HA 与 QJM 文档目的说明",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "HA 配置疑问",
+    "QJM 管理疑问",
+    "架构理解不足",
+    "文档定位不清"
+  ],
+  "evidence_required": [
+    "官方片段标题为 Purpose，正文指出本指南概述 HDFS HA 特性，并说明使用 QJM 配置和管理 HA HDFS 集群；同时假定读者了解 HDFS 集群通用组件与节点类型，并建议参考 HDFS Architecture guide。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "Purpose",
+  "source_quote": "This guide provides an overview of the HDFS High Availability (HA) feature and how to configure and manage an HA HDFS cluster, using the Quorum Journal Manager (QJM) feature. This document assumes that the reader has a g",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "该片段说明本文档旨在概述 HDFS 高可用（HA）特性，并介绍如何使用 Quorum Journal Manager（QJM）配置和管理 HA HDFS 集群。文档假定读者已对 HDFS 集群中的通用组件和节点类型有基本了解，架构细节需参考 HDFS Architecture guide。片段未展开具体配置命令、检查步骤或故障处理流程。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段标题为 Purpose，正文指出本指南概述 HDFS HA 特性，并说明使用 QJM 配置和管理 HA HDFS 集群；同时假定读者了解 HDFS 集群通用组件与节点类型，并建议参考 HDFS Architecture guide。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "片段未提供具体只读检查命令，因此步骤仅限于文档核对：确认文档主题是否为 HDFS HA 与 QJM；确认读者是否已具备 HDFS 集群通用组件和节点类型的基础理解；架构细节以官方 HDFS Architecture guide 为准，不执行任何变更操作。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段仅说明文档目的与读者假设，未给出任何配置、管理或故障处理操作，也未涉及修改数据的选项；不得据此推断或执行变更操作，实际配置与管理以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfs-namenode-heartbeat-recheck-interval",
+  "title": "HDFS DataNode 心跳重检间隔配置说明",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode",
+    "DataNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "过期 DataNode 检查",
+    "心跳间隔关联",
+    "单位毫秒",
+    "默认 300000"
+  ],
+  "evidence_required": [
+    "官方片段说明：该时间决定检查过期 DataNode 的间隔；结合 dfs.heartbeat.interval 可计算判定 DataNode 是否 stale 的间隔，单位为毫秒，默认 300000。"
+  ],
+  "root_cause_codes": [
+    "DN_HEARTBEAT"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.namenode.heartbeat.recheck-interval",
+  "source_quote": "This time decides the interval to check for expired datanodes. With this value and dfs.heartbeat.interval, the interval of deciding the datanode is stale or not is also calculated. The unit of this configuration is milli",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡说明 dfs.namenode.heartbeat.recheck-interval 的官方定义：它决定检查过期 DataNode 的间隔，并与 dfs.heartbeat.interval 共同用于计算判定 DataNode 是否 stale 的间隔；配置单位为毫秒，默认值为 300000。卡片仅做只读核对，不提供修改操作。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方片段说明：该时间决定检查过期 DataNode 的间隔；结合 dfs.heartbeat.interval 可计算判定 DataNode 是否 stale 的间隔，单位为毫秒，默认 300000。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看该配置项说明，确认其用于检查过期 DataNode 的间隔。2. 只读确认配置单位为毫秒，默认值为 300000。3. 只读对照 dfs.heartbeat.interval，理解 DataNode 是否 stale 的判定间隔由二者共同计算。4. 仅做核对，不执行修改。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段未提供修改命令、阈值或操作步骤；不得据此执行任何变更。若需调整参数，应以官方文档为准并另行评估，禁止直接修改。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

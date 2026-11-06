@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-hdfs-upgrade-finalization-rollback-with-ha-enabled",
+  "title": "HA 环境下 HDFS 升级/终结/回滚知识卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "JN未全部运行",
+    "升级操作失败",
+    "回滚操作失败",
+    "终结操作失败"
+  ],
+  "evidence_required": [
+    "片段说明：HA 下 NameNode 依赖的磁盘元数据分布在两个 HA NameNode 上，使用 QJM 时还分布在 JournalNodes 上；执行升级、回滚或终结时所有 JN 必须运行，任一 JN 宕机都会导致操作失败。"
+  ],
+  "root_cause_codes": [
+    "HA_STANDBY_LAG"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-ha-qjm-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html",
+  "source_section": "HDFS Upgrade/Finalization/Rollback with HA Enabled",
+  "source_quote": "When moving between versions of HDFS, sometimes the newer software can simply be installed and the cluster restarted. Sometimes, however, upgrading the version of HDFS you’re running may require changing on-disk data. In",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "在 HDFS 版本间迁移时，有时安装新软件并重启集群即可，有时需要变更磁盘数据，此时须使用升级/终结/回滚机制。启用 HA 后复杂度更高，因为 NameNode 依赖的磁盘元数据分布在两个 HA NameNode 上，使用 QJM 时还分布在 JournalNodes 上。本文档描述 HA 环境下的相关流程。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段说明：HA 下 NameNode 依赖的磁盘元数据分布在两个 HA NameNode 上，使用 QJM 时还分布在 JournalNodes 上；执行升级、回滚或终结时所有 JN 必须运行，任一 JN 宕机都会导致操作失败。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "仅做只读核对：确认当前为 HA 环境，并核对共享 edits 是否使用 QJM；确认所有 JournalNodes 处于运行状态；确认待操作的两个 NameNode 状态与文档要求一致；确认新版本软件已安装。不要在本卡片中执行任何升级、回滚或终结动作，具体以官方文档为准。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段中的 -upgrade 会升级 NameNode 本地存储目录和共享 edit log，属于会改动数据的操作，禁止作为只读检查步骤执行；升级、回滚、终结均需按官方流程，以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

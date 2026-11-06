@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-dfsadmin",
+  "title": "HDFS dfsadmin 只读巡检卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "节点离线",
+    "安全模式",
+    "容量异常",
+    "拓扑不清",
+    "打开文件多"
+  ],
+  "evidence_required": [
+    "片段列出 hdfs dfsadmin 的 Usage，包括 -report [-live|-dead|-decommissioning...]、-safemode get、-printTopology、-getDatanodeInfo、-listOpenFiles 等只读相关入口。"
+  ],
+  "root_cause_codes": [],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-commands-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/commands.html",
+  "source_section": "dfsadmin",
+  "source_quote": "Usage: hdfs dfsadmin [-report [-live] [-dead] [-decommissioning] [-enteringmaintenance] [-inmaintenance] [-slownodes]] hdfs dfsadmin [-safemode enter | leave | get | wait | forceExit] hdfs dfsadmin [-saveNamespace [-befo",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "本卡基于官方 dfsadmin 片段，整理 HDFS 运维中可用的只读检查入口，包括集群报告、节点状态、安全模式、拓扑、指定 DataNode 信息与打开文件列表。卡片仅用于巡检参考，不推荐任何会修改数据或集群状态的命令；具体参数与适用版本以官方文档为准。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "片段列出 hdfs dfsadmin 的 Usage，包括 -report [-live|-dead|-decommissioning...]、-safemode get、-printTopology、-getDatanodeInfo、-listOpenFiles 等只读相关入口。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 执行 hdfs dfsadmin -report 查看集群报告；2. 用 -report -live、-report -dead、-report -decommissioning 查看对应节点状态；3. 执行 -safemode get 查看安全模式；4. 执行 -printTopology 查看拓扑；5. 执行 -listOpenFiles 查看打开文件。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "片段含 -deleteBlockPool、-shutdownDatanode、-evictWriters、-saveNamespace、-rollEdits、-finalizeUpgrade 等变更选项，巡检中禁止执行；不确定时以官方文档为准。"
+    }
+  ],
+  "license": "Apache-2.0"
+}
