@@ -17,6 +17,8 @@
 | `build_framework_rc2_acceptance_manifest.py` | 执行评测或验收并输出机器可读结果。 | `load_json`、`sha256`、`evidence`、`main` |
 | `attribute_failures.py` | 对失败样例做证据缺失/召回缺失/排序错误归因。 | `attribute`、`summarize` |
 | `evaluate_incidents.py` | 用 incident 标签与报告计算 Top-1/Top-3/MRR/MTTD。 | `evaluate`、`markdown` |
+| `evaluate_gate.py` | 用正常/故障窗口评测门禁的 FPR 与 Recall。 | `_metrics`、`main` |
+| `evaluate_detector.py` | 训练模板新颖度检测器并评测正常/故障窗口。 | `_windows`、`_metrics`、`main` |
 | `run_redteam.py` | 运行红队用例并输出拦截率与误杀率。 | `main` |
 | `mcp_smoke.py` | 以子进程方式冒烟验证 MCP 服务器。 | `_rpc`、`main` |
 | `evaluate_context.py` | 对同一批报告做上下文策略消融并输出对比表。 | `_load_env`、`_client`、`_cases`、`_citation_check`、`main` |

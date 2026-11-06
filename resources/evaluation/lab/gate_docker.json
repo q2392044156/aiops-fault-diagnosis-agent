@@ -1,0 +1,20 @@
+{
+  "baseline": {
+    "threshold": 0.6,
+    "normal": 65,
+    "false_positive": 46,
+    "fpr": 0.7077,
+    "fault": 74,
+    "detected": 66,
+    "recall": 0.8919
+  },
+  "calibrated": {
+    "threshold": 1.0,
+    "normal": 65,
+    "false_positive": 20,
+    "fpr": 0.3077,
+    "fault": 74,
+    "detected": 38,
+    "recall": 0.5135
+  }
+}

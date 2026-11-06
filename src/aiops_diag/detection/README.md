@@ -16,6 +16,7 @@
 | `__main__.py` | 实现 `python -m` 命令行入口和参数分发。 | `inspect`、`main` |
 | `config.py` | 读取、校验并规范化当前模块的 YAML 配置。 | `load`、`resolved` |
 | `source_templates.py` | 按日志来源构建并加载 Drain3 模板。 | `build`、`SourceTemplateMatcher` |
+| `source_detector.py` | 基于正常模板集合计算窗口新颖度。 | `TemplateNoveltyDetector` |
 | `evaluation.py` | 计算当前模块的评测指标并输出结构化结果。 | `_false_positive_events`、`_fmt`、`_publish_docs`、`evaluate` |
 | `lstm_config.py` | 定义 LSTM 训练与推理配置。 | `load_lstm`、`resolved_lstm` |
 | `lstm_model.py` | 实现 LSTM 异常检测网络结构。 | `seed_everything`、`resolve_device`、`SequenceDataset`、`collate_sequences`、`LSTMClassifier` |

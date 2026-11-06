@@ -1,0 +1,23 @@
+{
+  "source_type": "docker_container",
+  "train_cases": 56,
+  "test_cases": 25,
+  "model": "template_novelty",
+  "train_normal_windows": 51,
+  "test_normal_windows": 14,
+  "test_fault_windows": 25,
+  "test": {
+    "threshold": 0.0,
+    "normal": 14,
+    "false_positive": 1,
+    "fpr": 0.0714,
+    "fault": 25,
+    "detected": 25,
+    "recall": 1.0
+  },
+  "end_to_end": {
+    "cases": 25,
+    "hits": 25,
+    "top1": 1.0
+  }
+}
