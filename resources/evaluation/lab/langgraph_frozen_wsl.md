@@ -3,19 +3,19 @@
 | 事件数 | 68 |
 | 可计入根因指标 | 68 |
 | 有诊断报告 | 68 |
-| Top-1 | 0.8676 |
-| Top-3 | 1.0 |
-| Top-5 | 1.0 |
-| MRR | 0.9338 |
-| Top-1 95% CI | [0.7672, 0.9288] |
-| 冻结测试集 | n=14 Top-1=0.8571 CI=[0.6006, 0.9599] |
+| Top-1 | 0.9853 |
+| Top-3 | 0.9853 |
+| Top-5 | 0.9853 |
+| MRR | 0.9853 |
+| Top-1 95% CI | [0.9213, 0.9974] |
+| 冻结测试集 | n=14 Top-1=1.0 CI=[0.7847, 1.0] |
 | MTTD | N/A |
 | 排除原因 | {} |
 
 | 事件 | 期望组件 | 名次 | 匹配依据 | MTTD(s) |
 | --- | --- | --- | --- | --- |
 | inc_wsl_heartbeat_20261028182246_9b4d | DataNode | 1 | code | N/A |
-| inc_wsl_heartbeat_20261028182517_df45 | DataNode | 1 | code | N/A |
+| inc_wsl_heartbeat_20261028182517_df45 | DataNode | - | - | N/A |
 | inc_wsl_heartbeat_20261029021428_c460 | DataNode | 1 | code | N/A |
 | inc_wsl_heartbeat_20261029021614_5c10 | DataNode | 1 | code | N/A |
 | inc_wsl_heartbeat_20261029021722_90e9 | DataNode | 1 | code | N/A |
@@ -63,15 +63,15 @@
 | inc_wsl_volume_20261028180147_050f | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261028180355_74ec | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261028180603_05fc | DataNode | 1 | code | N/A |
-| inc_wsl_volume_20261029023705_8181 | DataNode | 2 | code | N/A |
-| inc_wsl_volume_20261029023717_2944 | DataNode | 2 | code | N/A |
-| inc_wsl_volume_20261029023728_878b | DataNode | 2 | code | N/A |
-| inc_wsl_volume_20261029023739_2e24 | DataNode | 2 | code | N/A |
-| inc_wsl_volume_20261029023750_4b46 | DataNode | 2 | code | N/A |
-| inc_wsl_volume_20261029023802_3461 | DataNode | 2 | code | N/A |
-| inc_wsl_volume_20261029023813_a665 | DataNode | 2 | code | N/A |
-| inc_wsl_volume_20261029023825_e77b | DataNode | 2 | code | N/A |
-| inc_wsl_volume_20261029023838_3aa2 | DataNode | 2 | code | N/A |
+| inc_wsl_volume_20261029023705_8181 | DataNode | 1 | code | N/A |
+| inc_wsl_volume_20261029023717_2944 | DataNode | 1 | code | N/A |
+| inc_wsl_volume_20261029023728_878b | DataNode | 1 | code | N/A |
+| inc_wsl_volume_20261029023739_2e24 | DataNode | 1 | code | N/A |
+| inc_wsl_volume_20261029023750_4b46 | DataNode | 1 | code | N/A |
+| inc_wsl_volume_20261029023802_3461 | DataNode | 1 | code | N/A |
+| inc_wsl_volume_20261029023813_a665 | DataNode | 1 | code | N/A |
+| inc_wsl_volume_20261029023825_e77b | DataNode | 1 | code | N/A |
+| inc_wsl_volume_20261029023838_3aa2 | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029023850_3b7c | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029023901_1529 | DataNode | 1 | code | N/A |
 | inc_wsl_volume_20261029024033_c77b | DataNode | 1 | code | N/A |

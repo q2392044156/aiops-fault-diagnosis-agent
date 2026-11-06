@@ -85,6 +85,16 @@ def detected_codes_from_text(text):
     return codes
 
 
+# 方法说明：weak_code_hint 在无强信号时用弱词给出保守的根因码先验。
+def weak_code_hint(text):
+    volume = sum(text.count(word) for word in ("volume", "disk", "space", "磁盘", "卷"))
+    heartbeat = sum(text.count(word) for word in ("heartbeat", "lost datanode",
+                                                  "dead datanode", "心跳", "失联"))
+    if volume >= 5 and volume >= 2 * max(1, heartbeat):
+        return "DN_VOLUME"
+    return None
+
+
 # 方法说明：select_log_rows 优先保留信号行、严重行与窗口尾部，再用尾部补齐。
 def select_log_rows(log_rows, limit):
     limit = int(limit)

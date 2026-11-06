@@ -9,7 +9,8 @@ from datetime import datetime, timedelta, timezone
 from pydantic import Field, ValidationError
 
 from aiops_diag.diagnosis.engine import AgentEngine as LegacyAgentEngine
-from aiops_diag.diagnosis.engine import detected_codes_from_text, select_log_rows
+from aiops_diag.diagnosis.engine import (detected_codes_from_text, select_log_rows,
+                                          weak_code_hint)
 from aiops_diag.diagnosis.engine import INJECTION
 import aiops_diag.diagnosis.engine as legacy_engine
 from aiops_diag.diagnosis.schemas import (ActionAdvice, Evidence, GeneratedReportBody,
@@ -138,7 +139,7 @@ class AgentEngine(LegacyAgentEngine):
         all_text = " ".join((row.get("redacted_message") or "")
                             for row in log_rows).lower()
         detected = detected_codes_from_text(all_text)
-        code_hint = detected[0] if detected else None
+        code_hint = detected[0] if detected else weak_code_hint(all_text)
         log_items = [log_evidence(row, self.service_manifest["release_id"])
                      for row in log_rows]
         framework_items, framework_query_rows = self._collect_framework_evidence(
@@ -186,6 +187,11 @@ class AgentEngine(LegacyAgentEngine):
             if not result.get("ok"):
                 state["review_reasons"].append("tool_failure")
         doc_rows = self._merge_documents(retrieval_results)
+        if code_hint:
+            matching = [row for row in doc_rows
+                        if row.get("root_cause_code") == code_hint]
+            if matching:
+                doc_rows = matching
         doc_items = [document_evidence(row, self.retriever.manifest["kb_release_id"])
                      for row in doc_rows]
         evidence = [*observational_items, *doc_items]
