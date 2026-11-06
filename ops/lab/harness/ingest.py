@@ -19,6 +19,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import yaml
 
+from aiops_diag.data.adapters import parse_lines
 from aiops_diag.data.common import digest, key
 from aiops_diag.diagnosis.engine import AgentEngine, AgentYield
 from aiops_diag.platform.db import Database
@@ -149,47 +150,34 @@ class OfflineClient:
 
 
 # 方法说明：_parse 把容器日志转换为平台日志行。
-def _parse(text, session_id, fallback=None):
-    rows, total = [], 0
-    for line in text.splitlines():
-        total += 1
-        if not line.strip():
+def _parse(text, session_id, fallback=None, source_type="docker_container", matcher=None):
+    total = len(text.splitlines())
+    rows = []
+    for row in parse_lines(source_type, text.splitlines(), session_id, fallback):
+        if not (row.get("message") or "").strip():
             continue
-        match = LINE.match(line)
-        if match:
-            host = match.group("host")
-            stamp = match.group("stamp").replace(" ", "T") + "+00:00"
-            level = match.group("level")
-            rest = match.group("rest")
-            component, _, message = rest.partition(":")
-        else:
-            prefix = re.match(r"^\[([^\]]+)\]\s*(.*)$", line)
-            host = prefix.group(1) if prefix else "lab"
-            content = prefix.group(2) if prefix else line
-            stamp = fallback
-            level = "ERROR" if ("Exception" in content or "ERROR" in content) else "INFO"
-            component, message = "lab", content
-        if "namenode" in host:
-            component = "NameNode"
-        elif "dn" in host or "datanode" in host:
-            component = "DataNode"
-        rows.append({"log_id": "log_" + key([session_id, total])[:20],
-                     "raw_line_no": total, "timestamp": stamp, "level": level,
-                     "component": component, "redacted_message": message.strip(),
-                     "template_id": 2 if level in ("ERROR", "WARN") else 1,
-                     "session_ids": [session_id], "parse_status": "ok"})
+        level = row.get("level")
+        template_id = (matcher.match(row) if matcher is not None else
+                       (2 if level in ("ERROR", "WARN") else 1))
+        rows.append({"log_id": row["log_id"], "raw_line_no": row["raw_line_no"],
+                     "timestamp": (row.get("timestamp_utc") or row.get("timestamp_local")
+                                   or fallback),
+                     "level": level, "component": row.get("component"),
+                     "redacted_message": (row.get("message") or "").strip(),
+                     "template_id": template_id, "session_ids": [session_id],
+                     "parse_status": row.get("parse_status")})
     return rows, total
 
 
 # 方法说明：ingest 把一条实验日志接入平台并跑一次模板诊断。
 def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                focus_component=None, agent_backend="native", retriever_kind="cards",
-               retriever=None):
+               retriever=None, source_type="docker_container", matcher=None):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
     session_id = "ses_" + key([case_id, tag])[:20]
-    rows, total = _parse(text, session_id, start)
+    rows, total = _parse(text, session_id, start, source_type, matcher)
 
     database = Database(database_path)
     database.init()
@@ -308,17 +296,24 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
 
 # 方法说明：ingest 读取已生成的案例并调用 ingest_log，回填 map.json。
 def ingest(case_dir, database_path, mode="template", agent_backend="native",
-           retriever_kind="cards", retriever=None):
+           retriever_kind="cards", retriever=None, template_dir=None, matcher=None,
+           source_type=None):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
     code = incident["labels"]["root_cause_code"]
     focus = "NameNode" if code.startswith("NN_") else "DataNode"
+    if source_type is None:
+        source_type = "wsl" if "wsl_cases" in str(case_dir) else "docker_container"
+    if matcher is None and template_dir:
+        from aiops_diag.detection.source_templates import SourceTemplateMatcher
+        matcher = SourceTemplateMatcher(template_dir)
     mapping = ingest_log(incident["incident_id"], logs_path, database_path,
                          incident["timestamps"]["fault_start"],
                          incident["timestamps"]["first_observable_signal"], mode,
                          focus_component=focus, agent_backend=agent_backend,
-                         retriever_kind=retriever_kind, retriever=retriever)
+                         retriever_kind=retriever_kind, retriever=retriever,
+                         source_type=source_type, matcher=matcher)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
@@ -332,12 +327,16 @@ def main(argv=None):
     parser.add_argument("--agent-backend", choices=("native", "langgraph"),
                         default="native")
     parser.add_argument("--retriever", choices=("cards", "frozen"), default="cards")
+    parser.add_argument("--template-dir")
+    parser.add_argument("--source-type", choices=("docker_container", "wsl"))
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print(json.dumps(ingest(args.case, args.database,
                             agent_backend=args.agent_backend,
-                            retriever_kind=args.retriever),
+                            retriever_kind=args.retriever,
+                            template_dir=args.template_dir,
+                            source_type=args.source_type),
                      ensure_ascii=False, indent=2))
     return 0
 
