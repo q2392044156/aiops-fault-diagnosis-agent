@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-nn-blockpool-inconsistent",
+  "title": "NameNode 块池 ID 不一致",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "InconsistentFSStateException",
+    "blockpoolID 不一致",
+    "NameNode 启动失败"
+  ],
+  "evidence_required": [
+    "源码显示 block pool ID 为空或不匹配时抛出 InconsistentFSStateException 并给出期望值；需收集 VERSION 文件、各存储目录的 blockpoolID 和 NameNode 启动日志。"
+  ],
+  "root_cause_codes": [
+    "NN_AVAILABILITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-nnstorage-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/NNStorage.java#L1041-L1052",
+  "source_section": "NNStorage：块池 ID 校验",
+  "source_quote": "throw new InconsistentFSStateException(storage, \"Unexepcted blockpoolID \" + bpid + \" . Expected \" + blockpoolID);",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "NNStorage 在读取存储目录时校验 block pool ID：VERSION 文件缺少 block pool ID，或与已记录的 ID 不一致，会抛出 InconsistentFSStateException，NameNode 可能无法启动。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码显示 block pool ID 为空或不匹配时抛出 InconsistentFSStateException 并给出期望值；需收集 VERSION 文件、各存储目录的 blockpoolID 和 NameNode 启动日志。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看 VERSION 文件中的 blockpoolID；2. 对比同节点多个存储目录；3. 核对 NameNode 启动日志；4. 不执行 format。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "format 会重建命名空间并丢失数据；该异常需按官方恢复流程处理，排查阶段只记录证据。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

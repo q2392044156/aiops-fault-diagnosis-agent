@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-nn-image-corruption",
+  "title": "NameNode 镜像损坏后退出",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "image corruption",
+    "NameNode 退出",
+    "fsimage 损坏"
+  ],
+  "evidence_required": [
+    "源码注释说明镜像损坏被检测到后 NameNode 会立即退出；需收集 NameNode 日志、fsimage/edits 校验结果和最近一次 checkpoint。"
+  ],
+  "root_cause_codes": [
+    "NN_AVAILABILITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-fsimage-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/FSImage.java#L100-L102",
+  "source_section": "FSImage：镜像损坏标志",
+  "source_quote": "If true, then image corruption was detected. The NameNode process will exit immediately after saving the image.",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "FSImage 中存在镜像损坏标志：一旦检测到 image corruption，NameNode 会在保存镜像后立即退出。该行为用于避免用损坏的命名空间继续服务。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码注释说明镜像损坏被检测到后 NameNode 会立即退出；需收集 NameNode 日志、fsimage/edits 校验结果和最近一次 checkpoint。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看 NameNode 退出日志与 image corruption 关键字；2. 核对 fsimage/edits 文件与校验和；3. 检查最近 checkpoint 与 SecondaryNameNode；4. 不执行 format。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "格式化会丢失整个命名空间；应使用备份/HA 切换/官方恢复流程，严禁在排查阶段 format 或删除元数据。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

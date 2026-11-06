@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-nn-du-reserved",
+  "title": "NameNode 存储预留空间配置",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "预留空间",
+    "NameNode 存储卷",
+    "磁盘阈值"
+  ],
+  "evidence_required": [
+    "官方说明该参数是 NameNode 存储目录的预留空间，默认 100MB，支持单位后缀；需结合各目录 df 和实际配置。"
+  ],
+  "root_cause_codes": [
+    "NN_AVAILABILITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.namenode.resource.du.reserved",
+  "source_quote": "The amount of space to reserve/require for a NameNode storage directory in bytes. The default is 100MB.",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.namenode.resource.du.reserved 指定每个 NameNode 存储目录应预留的空间，官方默认 104857600 字节（100MB）。可用空间低于该值会被资源检查判为不可用。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方说明该参数是 NameNode 存储目录的预留空间，默认 100MB，支持单位后缀；需结合各目录 df 和实际配置。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读核对当前 du.reserved；2. 对 name/edits 目录执行 df；3. 计算可用空间与预留值差距；4. 不修改配置。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "调低预留可能让 NameNode 在磁盘将满时继续写入；调高可能误触发安全模式；变更需容量评估。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

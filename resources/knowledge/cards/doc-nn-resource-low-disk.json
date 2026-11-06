@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-nn-resource-low-disk",
+  "title": "NameNode 磁盘资源不足",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "磁盘空间不足",
+    "NameNode 进入安全模式",
+    "资源检查失败"
+  ],
+  "evidence_required": [
+    "源码显示可用空间小于预留值时记录警告并返回 false；配置说明资源检查间隔默认 5000ms，低于最小卷数会进入 safemode。需收集 NameNode 日志、各存储目录 df 和配置值。"
+  ],
+  "root_cause_codes": [
+    "NN_AVAILABILITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-namenoderesourcechecker-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/NameNodeResourceChecker.java#L81-L94",
+  "source_section": "NameNodeResourceChecker：磁盘可用空间低于预留值",
+  "source_quote": "Space available on volume ... is ..., which is below the configured reserved amount ...",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "NameNodeResourceChecker 定期检查 NameNode 存储卷，若可用空间低于 dfs.namenode.resource.du.reserved 就记录警告并返回资源不可用；配置说明进一步指出，可用卷数低于下限时 NameNode 会进入安全模式。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码显示可用空间小于预留值时记录警告并返回 false；配置说明资源检查间隔默认 5000ms，低于最小卷数会进入 safemode。需收集 NameNode 日志、各存储目录 df 和配置值。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看 NameNode 日志中的 volume 与 reserved 值；2. 对每个 name/edits 目录执行 df -h；3. 核对 du.reserved 与 checked.volumes.minimum；4. 不删除文件、不改配置。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "清理 NameNode 元数据目录或调低预留值都可能造成不可逆风险；应升级到存储扩容/人工审批，排查阶段禁止删除。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

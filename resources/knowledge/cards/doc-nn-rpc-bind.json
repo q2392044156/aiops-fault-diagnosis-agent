@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-nn-rpc-bind",
+  "title": "NameNode RPC 端口绑定",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "RPC 端口占用",
+    "NameNode 启动失败",
+    "连接被拒绝"
+  ],
+  "evidence_required": [
+    "源码显示启动日志会打印 binding 的 host:port；需结合 NameNode 启动日志、ss/netstat 端口监听和 dfs.namenode.rpc-address 配置。"
+  ],
+  "root_cause_codes": [
+    "NN_AVAILABILITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hadoop-namenoderpcserver-3.3.5"
+  ],
+  "source_url": "https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/NameNodeRpcServer.java#L447-L451",
+  "source_section": "NameNodeRpcServer：RPC 绑定日志",
+  "source_quote": "LOG.info(\"RPC server is binding to \" + bindHost + \":\" + rpcAddr.getPort());",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "NameNodeRpcServer 启动时会绑定 RPC 地址与端口；如果端口被占用、地址不可用或权限不足，绑定失败会导致 NameNode RPC 服务无法启动。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "源码显示启动日志会打印 binding 的 host:port；需结合 NameNode 启动日志、ss/netstat 端口监听和 dfs.namenode.rpc-address 配置。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看 NameNode 启动日志中的 binding 地址；2. 用 ss/netstat 检查端口占用；3. 核对 rpc-address 配置；4. 不 kill 进程、不改端口。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "结束占用进程可能影响其他服务，改端口需要重启与客户端配置同步；应走变更审批。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

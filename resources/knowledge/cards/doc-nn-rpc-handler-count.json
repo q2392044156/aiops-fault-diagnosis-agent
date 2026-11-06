@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "doc_id": "doc-nn-rpc-handler-count",
+  "title": "NameNode RPC 处理线程数",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5"
+  ],
+  "symptoms": [
+    "RPC 队列满",
+    "客户端超时",
+    "NameNode 响应慢"
+  ],
+  "evidence_required": [
+    "官方说明该参数是 NameNode RPC server 线程数，默认 10；需结合 RPC 队列长度、调用延迟和客户端超时日志。"
+  ],
+  "root_cause_codes": [
+    "NN_AVAILABILITY"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-default-3.3.5"
+  ],
+  "source_url": "https://hadoop.apache.org/docs/r3.3.5/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml",
+  "source_section": "dfs.namenode.handler.count",
+  "source_quote": "The number of Namenode RPC server threads that listen to requests from clients. Default: 10",
+  "maintained_at": "2026-11-06",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "dfs.namenode.handler.count 是 NameNode RPC 服务器处理客户端请求的线程数，官方默认 10。线程耗尽时请求会排队，表现为客户端超时或 NameNode 响应变慢。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "官方说明该参数是 NameNode RPC server 线程数，默认 10；需结合 RPC 队列长度、调用延迟和客户端超时日志。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读检查",
+      "text": "1. 只读查看当前 handler.count；2. 查看 RPC 队列与调用延迟指标；3. 对照客户端超时时间窗；4. 不修改线程数。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与升级",
+      "text": "增大线程数会增加 CPU 与锁竞争，可能让问题更糟；调整需压测与滚动重启，排查阶段禁止修改。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

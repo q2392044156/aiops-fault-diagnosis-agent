@@ -106,3 +106,36 @@ sources:
     accessed_at: "2026-11-06"
     license: Apache-2.0
     usage: Original Chinese summaries only; no full-text redistribution.
+
+  - source_id: apache-hadoop-namenoderesourcechecker-3.3.5
+    title: Apache Hadoop 3.3.5 NameNodeResourceChecker.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/NameNodeResourceChecker.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hadoop-fsimage-3.3.5
+    title: Apache Hadoop 3.3.5 FSImage.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/FSImage.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hadoop-nnstorage-3.3.5
+    title: Apache Hadoop 3.3.5 NNStorage.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/NNStorage.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
+  - source_id: apache-hadoop-namenoderpcserver-3.3.5
+    title: Apache Hadoop 3.3.5 NameNodeRpcServer.java
+    publisher: Apache Software Foundation
+    source_url: https://github.com/apache/hadoop/blob/rel/release-3.3.5/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/NameNodeRpcServer.java
+    source_version: "3.3.5"
+    accessed_at: "2026-11-06"
+    license: Apache-2.0
+    usage: Original Chinese summaries only; no full-text redistribution.
