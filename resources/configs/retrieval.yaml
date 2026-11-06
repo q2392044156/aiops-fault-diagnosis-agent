@@ -13,7 +13,7 @@ paths:
 model:
   repo_id: BAAI/bge-small-zh-v1.5
   revision: 7999e1d3359715c523056ef9478215996d62a620
-  query_prefix: "为这个句子生成表示以用于检索相关文章："
+  query_prefix: 为这个句子生成表示以用于检索相关文章：
   dimension: 512
   max_length: 512
   batch_size: 32
@@ -27,11 +27,17 @@ bm25:
   b: 0.75
 retrieval:
   candidate_k: 20
-  final_k_candidates: [3, 5, 10]
+  final_k_candidates:
+  - 3
+  - 5
+  - 10
   rrf_constant: 60
-  modes: [bm25, dense, hybrid]
+  modes:
+  - bm25
+  - dense
+  - hybrid
 gate:
-  max_no_answer_false_rate: 0.10
+  max_no_answer_false_rate: 0.1
 release_integrity:
-  registry_sha256: 090be6d921661e743514315a51bdadc808ef49ad442ef3a6959ddbea701ea526
+  registry_sha256: 0c765bcc48fc97d6a42ba7bd7cded39d64cc2b2e0d8f1c9bbc6ba701458b9700
   manifest_sha256: c034d110b659eafd8a109d3d9242063d39f6828e2ca38e7421f695bc2efd3324

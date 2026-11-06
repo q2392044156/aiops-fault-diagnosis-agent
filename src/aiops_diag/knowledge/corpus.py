@@ -95,8 +95,11 @@ def _chunk_id(kb_version, variant, doc_id, section_path, text):
 # 方法说明：`_metadata` 完成当前步骤的业务处理；参数为 `card`、`sources`。
 def _metadata(card, sources):
     source = sources[card["source_ids"][0]]
+    codes = card.get("root_cause_codes") or []
     return {
         "doc_id": card["doc_id"], "title": card["title"],
+        "root_cause_codes": codes,
+        "root_cause_code": codes[0] if codes else None,
         "component": card["component"], "product": card["product"],
         "version_scope": card["version_scope"], "risk_level": card["risk_level"],
         "source_id": source["source_id"], "source_url": source.get("source_url"),

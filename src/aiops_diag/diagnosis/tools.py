@@ -146,7 +146,8 @@ class AgentTools:
                                   "disk full"),
                     "NN_AVAILABILITY": ("connection refused", "failed to connect",
                                         "retrying connect"),
-                    "DN_HEARTBEAT": ("lost heartbeat", "dead datanode", "removedead"),
+                    "DN_HEARTBEAT": ("lost heartbeat", "lost datanode",
+                                     "dead datanode", "removedead"),
                     "NN_SAFE_MODE": ("safe mode",)}
 
     # 变量说明：WEAK_TERMS 是无强信号时的弱先验词，只用于候选内重排。

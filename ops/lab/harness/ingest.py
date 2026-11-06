@@ -67,7 +67,8 @@ class CardRetriever:
                                  "disk full"),
                    "NN_AVAILABILITY": ("connection refused", "failed to connect",
                                        "retrying connect"),
-                   "DN_HEARTBEAT": ("lost heartbeat", "dead datanode", "removedead"),
+                   "DN_HEARTBEAT": ("lost heartbeat", "lost datanode",
+                                    "dead datanode", "removedead"),
                    "NN_SAFE_MODE": ("safe mode",)}
         lowered = (query or "").lower()
         codes = [code for code, words in signals.items()
@@ -103,6 +104,38 @@ class CardRetriever:
                           "dense_score": None, "rrf_score": 1.0 / (60 + rank)})
         return {"status": "evidence_found" if items else "insufficient_evidence",
                 "mode": "lab", "items": items, "gate_score": 1.0 if items else None}
+
+
+# 类说明：FrozenCodeRetriever 在冻结检索器上补一层根因码过滤。
+class FrozenCodeRetriever:
+    # 方法说明：__init__ 保存底层冻结检索器。
+    def __init__(self, inner):
+        self.inner = inner
+        self.manifest = inner.manifest
+
+    # 方法说明：search 在需要时扩大召回并按根因码过滤。
+    def search(self, query, mode=None, top_k=3, component=None, product_version=None,
+               apply_gate=True, code=None):
+        result = self.inner.search(query, mode=mode, top_k=10,
+                                   component=component,
+                                   product_version=product_version, apply_gate=False)
+        items = result.get("items", [])
+        if code:
+            code_chunks = [chunk for chunk in getattr(self.inner.engine, "chunks", [])
+                           if chunk.get("root_cause_code") == code]
+            items = code_chunks[:int(top_k)] + items
+        seen, unique = set(), []
+        for item in items:
+            doc = item.get("doc_id") or item.get("chunk_id")
+            if doc in seen:
+                continue
+            seen.add(doc)
+            unique.append(item)
+        return {**result, "items": unique[:int(top_k)]}
+
+    # 方法说明：__getattr__ 透传 chunk 等方法。
+    def __getattr__(self, name):
+        return getattr(self.inner, name)
 
 
 # 类说明：OfflineClient 表示实验室接入不调用付费模型。
@@ -150,7 +183,8 @@ def _parse(text, session_id, fallback=None):
 
 # 方法说明：ingest 把一条实验日志接入平台并跑一次模板诊断。
 def ingest_log(case_id, log_path, database_path, start, end, mode="template",
-               focus_component=None, agent_backend="native"):
+               focus_component=None, agent_backend="native", retriever_kind="cards",
+               retriever=None):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
@@ -219,6 +253,15 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                "prompt_version": "lab"}
     detector = {"release_id": "lab_rule_lr", "model_id": "lab_rule_detector",
                 "threshold": 1.0}
+    if retriever is None:
+        if retriever_kind == "frozen":
+            from aiops_diag.knowledge.config import load as load_knowledge
+            from aiops_diag.knowledge.release import FrozenRetriever
+            retriever = FrozenCodeRetriever(
+                FrozenRetriever(load_knowledge(
+                    ROOT / "resources" / "configs" / "retrieval.yaml")))
+        else:
+            retriever = CardRetriever()
     if agent_backend == "langgraph":
         from aiops_diag.diagnosis.framework.graph import LangGraphAgentEngine
         cfg.update({
@@ -231,10 +274,10 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                                .read_text(encoding="utf-8")),
                 config_sha256=digest(ROOT / "resources" / "configs" / "query_builder_v1.yaml")),
         })
-        engine = LangGraphAgentEngine(cfg, database, CardRetriever(), detector,
+        engine = LangGraphAgentEngine(cfg, database, retriever, detector,
                                       release, client=OfflineClient())
     else:
-        engine = AgentEngine(cfg, database, CardRetriever(), detector, release,
+        engine = AgentEngine(cfg, database, retriever, detector, release,
                              client=OfflineClient())
     fingerprint = key([event_id, mode, "agr_lab"])
     diagnosis_id = "dia_" + fingerprint[:24]
@@ -264,7 +307,8 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
 
 
 # 方法说明：ingest 读取已生成的案例并调用 ingest_log，回填 map.json。
-def ingest(case_dir, database_path, mode="template", agent_backend="native"):
+def ingest(case_dir, database_path, mode="template", agent_backend="native",
+           retriever_kind="cards", retriever=None):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
@@ -273,7 +317,8 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native"):
     mapping = ingest_log(incident["incident_id"], logs_path, database_path,
                          incident["timestamps"]["fault_start"],
                          incident["timestamps"]["first_observable_signal"], mode,
-                         focus_component=focus, agent_backend=agent_backend)
+                         focus_component=focus, agent_backend=agent_backend,
+                         retriever_kind=retriever_kind, retriever=retriever)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
@@ -286,11 +331,13 @@ def main(argv=None):
     parser.add_argument("--database", required=True)
     parser.add_argument("--agent-backend", choices=("native", "langgraph"),
                         default="native")
+    parser.add_argument("--retriever", choices=("cards", "frozen"), default="cards")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print(json.dumps(ingest(args.case, args.database,
-                            agent_backend=args.agent_backend),
+                            agent_backend=args.agent_backend,
+                            retriever_kind=args.retriever),
                      ensure_ascii=False, indent=2))
     return 0
 

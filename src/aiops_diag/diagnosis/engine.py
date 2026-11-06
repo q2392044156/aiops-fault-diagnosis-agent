@@ -79,6 +79,9 @@ def detected_codes_from_text(text):
     if "DN_VOLUME" in codes and "DN_HEARTBEAT" in codes:
         codes.remove("DN_VOLUME")
         codes.insert(0, "DN_VOLUME")
+    if "NN_SAFE_MODE" in codes and ("safe mode" in text or "safemode" in text):
+        codes.remove("NN_SAFE_MODE")
+        codes.insert(0, "NN_SAFE_MODE")
     return codes
 
 
