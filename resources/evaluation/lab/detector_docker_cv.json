@@ -1,0 +1,74 @@
+{
+  "source_type": "docker_container",
+  "model": "template_novelty",
+  "cv": 5,
+  "cases": 81,
+  "test": {
+    "thresholds": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "normal": 65,
+    "false_positive": 35,
+    "fpr": 0.5385,
+    "fault": 74,
+    "detected": 68,
+    "recall": 0.9189,
+    "end_to_end": {
+      "cases": 74,
+      "hits": 64,
+      "top1": 0.8649
+    }
+  },
+  "folds": [
+    {
+      "threshold": 0.0,
+      "normal": 11,
+      "false_positive": 6,
+      "fault": 16,
+      "detected": 16,
+      "e2e_hits": 15,
+      "e2e_total": 16
+    },
+    {
+      "threshold": 0.0,
+      "normal": 14,
+      "false_positive": 9,
+      "fault": 14,
+      "detected": 12,
+      "e2e_hits": 12,
+      "e2e_total": 14
+    },
+    {
+      "threshold": 0.0,
+      "normal": 12,
+      "false_positive": 7,
+      "fault": 15,
+      "detected": 13,
+      "e2e_hits": 12,
+      "e2e_total": 15
+    },
+    {
+      "threshold": 0.0,
+      "normal": 13,
+      "false_positive": 6,
+      "fault": 14,
+      "detected": 14,
+      "e2e_hits": 12,
+      "e2e_total": 14
+    },
+    {
+      "threshold": 0.0,
+      "normal": 15,
+      "false_positive": 7,
+      "fault": 15,
+      "detected": 13,
+      "e2e_hits": 13,
+      "e2e_total": 15
+    }
+  ],
+  "saved": "artifacts/detectors/docker_container.json"
+}

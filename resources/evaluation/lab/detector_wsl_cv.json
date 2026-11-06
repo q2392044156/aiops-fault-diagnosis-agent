@@ -1,0 +1,74 @@
+{
+  "source_type": "wsl",
+  "model": "template_novelty",
+  "cv": 5,
+  "cases": 68,
+  "test": {
+    "thresholds": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "normal": 47,
+    "false_positive": 0,
+    "fpr": 0.0,
+    "fault": 68,
+    "detected": 68,
+    "recall": 1.0,
+    "end_to_end": {
+      "cases": 68,
+      "hits": 67,
+      "top1": 0.9853
+    }
+  },
+  "folds": [
+    {
+      "threshold": 0.0,
+      "normal": 10,
+      "false_positive": 0,
+      "fault": 14,
+      "detected": 14,
+      "e2e_hits": 14,
+      "e2e_total": 14
+    },
+    {
+      "threshold": 0.0,
+      "normal": 10,
+      "false_positive": 0,
+      "fault": 14,
+      "detected": 14,
+      "e2e_hits": 13,
+      "e2e_total": 14
+    },
+    {
+      "threshold": 0.0,
+      "normal": 9,
+      "false_positive": 0,
+      "fault": 14,
+      "detected": 14,
+      "e2e_hits": 14,
+      "e2e_total": 14
+    },
+    {
+      "threshold": 0.0,
+      "normal": 9,
+      "false_positive": 0,
+      "fault": 13,
+      "detected": 13,
+      "e2e_hits": 13,
+      "e2e_total": 13
+    },
+    {
+      "threshold": 0.0,
+      "normal": 9,
+      "false_positive": 0,
+      "fault": 13,
+      "detected": 13,
+      "e2e_hits": 13,
+      "e2e_total": 13
+    }
+  ],
+  "saved": "artifacts/detectors/wsl.json"
+}

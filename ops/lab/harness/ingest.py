@@ -174,7 +174,7 @@ def _parse(text, session_id, fallback=None, source_type="docker_container", matc
 def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                focus_component=None, agent_backend="native", retriever_kind="cards",
                retriever=None, source_type="docker_container", matcher=None,
-               event_source="import", gate_threshold=0.6):
+               event_source="import", gate_threshold=0.6, detector_path=None):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
@@ -212,7 +212,11 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
 
     detected = datetime.now(timezone.utc).isoformat()
     if event_source == "model":
-        decision = gate_session(rows, gate_threshold)
+        if detector_path:
+            from aiops_diag.detection.source_detector import TemplateNoveltyDetector
+            decision = TemplateNoveltyDetector.load(detector_path).decide(rows)
+        else:
+            decision = gate_session(rows, gate_threshold)
     else:
         decision = {"decision": "PASS", "score": 1.0, "reason": "import"}
     passed = decision["decision"] == "PASS"
@@ -238,9 +242,9 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                 "mode": "lab-ingest", "gate_decision": "REJECT",
                 "gate_score": decision["score"], "gate_reason": decision["reason"]}
     database.set_event_metadata(event_id, {
-        "detector_release_id": "lab_gate_v1",
+        "detector_release_id": "novelty_v1" if detector_path else "lab_gate_v1",
         "detector_score": str(decision["score"]),
-        "detector_threshold": str(gate_threshold),
+        "detector_threshold": str(decision.get("threshold", gate_threshold)),
         "gate_decision": "PASS",
         "gate_reason": decision["reason"],
     })
@@ -308,14 +312,17 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                           (diagnosis_id,))
     mapping = {"incident_id": case_id, "batch_id": batch_id, "event_id": event_id,
                "diagnosis_id": diagnosis_id, "report_id": report["report_id"] if report else None,
-               "agent_detected": detected, "mode": "lab-ingest"}
+               "agent_detected": detected, "mode": "lab-ingest",
+               "gate_decision": "PASS", "gate_score": decision["score"],
+               "gate_reason": decision["reason"]}
     return mapping
 
 
 # 方法说明：ingest 读取已生成的案例并调用 ingest_log，回填 map.json。
 def ingest(case_dir, database_path, mode="template", agent_backend="native",
            retriever_kind="cards", retriever=None, template_dir=None, matcher=None,
-           source_type=None, event_source="import", gate_threshold=0.6):
+           source_type=None, event_source="import", gate_threshold=0.6,
+           detector_path=None):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
@@ -332,7 +339,8 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
                          focus_component=focus, agent_backend=agent_backend,
                          retriever_kind=retriever_kind, retriever=retriever,
                          source_type=source_type, matcher=matcher,
-                         event_source=event_source, gate_threshold=gate_threshold)
+                         event_source=event_source, gate_threshold=gate_threshold,
+                         detector_path=detector_path)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
@@ -350,6 +358,7 @@ def main(argv=None):
     parser.add_argument("--source-type", choices=("docker_container", "wsl"))
     parser.add_argument("--event-source", choices=("model", "import"), default="import")
     parser.add_argument("--gate-threshold", type=float, default=0.6)
+    parser.add_argument("--detector")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -359,7 +368,8 @@ def main(argv=None):
                             template_dir=args.template_dir,
                             source_type=args.source_type,
                             event_source=args.event_source,
-                            gate_threshold=args.gate_threshold),
+                            gate_threshold=args.gate_threshold,
+                            detector_path=args.detector),
                      ensure_ascii=False, indent=2))
     return 0
 

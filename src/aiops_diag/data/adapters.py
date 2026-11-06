@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from .canonical import canonical_log
 from .parser import BLOCK, parse as parse_hdfs
@@ -31,7 +31,7 @@ def _component(value):
 
 
 # 方法说明：_timestamp 把容器日志时间统一到 UTC。
-def _timestamp(stamp):
+def _timestamp(stamp, offset_hours=0):
     normalized = stamp.replace(",", ".")
     try:
         value = datetime.fromisoformat(normalized)
@@ -39,6 +39,8 @@ def _timestamp(stamp):
         return None, None
     if value.tzinfo is None:
         value = value.replace(tzinfo=timezone.utc)
+    if offset_hours:
+        value = value - timedelta(hours=float(offset_hours))
     return value.isoformat(), value.astimezone(timezone.utc).isoformat()
 
 
@@ -59,7 +61,7 @@ def parse_hdfs_v1(raw, number, offset, source_hash):
 
 # 方法说明：parse_container 解析 Docker/WSL 的 [host] 日志。
 def parse_container(raw, number, offset, source_hash, fallback=None,
-                    source_type="docker_container"):
+                    source_type="docker_container", timezone_offset_hours=0):
     text = raw.decode("utf-8", errors="replace") if isinstance(raw, bytes) else str(raw)
     text = text.rstrip("\r\n")
     raw_bytes = raw if isinstance(raw, bytes) else text.encode("utf-8")
@@ -75,7 +77,7 @@ def parse_container(raw, number, offset, source_hash, fallback=None,
             is_continuation=True, parser_version=f"{source_type}@1")
     host = match.group("host")
     stamp = match.group("stamp")
-    local, utc = _timestamp(stamp)
+    local, utc = _timestamp(stamp, timezone_offset_hours)
     rest = match.group("rest")
     detail = REST.match(rest)
     logger = detail.group("logger") if detail else None
@@ -93,19 +95,25 @@ def parse_container(raw, number, offset, source_hash, fallback=None,
 
 
 # 方法说明：parse_line 按来源分派单行解析。
-def parse_line(source_type, raw, number, offset, source_hash, fallback=None):
+def parse_line(source_type, raw, number, offset, source_hash, fallback=None,
+               timezone_offset_hours=None):
     if source_type == "hdfs_v1":
         return parse_hdfs_v1(raw, number, offset, source_hash)
     if source_type in ("docker_container", "wsl"):
-        return parse_container(raw, number, offset, source_hash, fallback, source_type)
+        if timezone_offset_hours is None:
+            timezone_offset_hours = 8 if source_type == "wsl" else 0
+        return parse_container(raw, number, offset, source_hash, fallback, source_type,
+                               timezone_offset_hours)
     raise ValueError(f"Unsupported source_type: {source_type}")
 
 
 # 方法说明：parse_lines 解析整份日志并累计字节偏移。
-def parse_lines(source_type, lines, source_hash, fallback=None):
+def parse_lines(source_type, lines, source_hash, fallback=None,
+                timezone_offset_hours=None):
     rows, offset = [], 0
     for number, line in enumerate(lines, 1):
         raw = line.encode("utf-8") if isinstance(line, str) else line
-        rows.append(parse_line(source_type, raw, number, offset, source_hash, fallback))
+        rows.append(parse_line(source_type, raw, number, offset, source_hash, fallback,
+                               timezone_offset_hours))
         offset += len(raw) + 1
     return rows
