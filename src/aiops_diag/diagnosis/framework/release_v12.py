@@ -21,10 +21,10 @@ AGENT_VERSION = "agent_v0.5.0_langgraph"
 # 变量说明：`GRAPH_VERSION` 保存本模块或数据模型使用的稳定值。
 GRAPH_VERSION = "graph_v1.2_checkpoint_v1"
 # 变量说明：`DATA_ADAPTER_VERSION` 保存本模块或数据模型使用的稳定值。
-DATA_ADAPTER_VERSION = "v12_open_data_v1"
+DATA_ADAPTER_VERSION = "hdfs_v1_only"
 # 变量说明：`V12_TOOLS` 保存本模块或数据模型使用的稳定值。
 V12_TOOLS = [
-    "detect_anomaly", "query_logs", "read_trace_summary", "query_metrics",
+    "detect_anomaly", "query_logs", "query_metrics",
     "search_similar_incidents", "retrieve_runbook", "rank_root_causes",
     "generate_incident_report", "request_human_approval",
 ]
@@ -38,7 +38,6 @@ def _value(cfg):
     base = json.loads((base_dir / "framework_candidate.json").read_text(encoding="utf-8"))
     package = root / "pyproject.toml"
     protocol_dir = root / "resources/evaluation/v1.2/real_incident_protocol"
-    data_protocol_dir = root / "resources/evaluation/v1.2/external_open_datasets"
     code_paths = [
         root / "src/aiops_diag/framework_v12/graph.py",
         root / "src/aiops_diag/framework_v12/checkpoint.py",
@@ -46,8 +45,6 @@ def _value(cfg):
         root / "src/aiops_diag/framework_v12/evaluation.py",
         root / "src/aiops_diag/framework_v12/release_v12.py",
         root / "src/aiops_diag/data/v12_contracts.py",
-        root / "src/aiops_diag/data/v12_external.py",
-        root / "src/aiops_diag/data/v12_import.py",
         root / "src/aiops_diag/data/incident_v12.py",
         root / "src/aiops_diag/data/__main__.py",
         root / "src/aiops_diag/agent_v11/engine.py",
@@ -56,8 +53,6 @@ def _value(cfg):
         root / "src/aiops_diag/service/db.py",
         root / "src/aiops_diag/service/config.py",
         root / "src/aiops_diag/service/runtime.py",
-        root / "ops/scripts/evaluate_v12.py",
-        root / "ops/scripts/validate_v12_online.py",
     ]
     dependency_paths = [
         root / "requirements-lock.txt",
@@ -77,7 +72,6 @@ def _value(cfg):
         root / "resources/evaluation/v1.2/v12_rc1_validation/online.json",
         root / "documentation/v1.2_RC1_实施报告.md",
     ]
-    data_manifest = root / "data/external/loghub/processing_manifest.json"
     value = {
         "schema_version": 2,
         "product_version": PRODUCT_VERSION,
@@ -119,8 +113,6 @@ def _value(cfg):
             str(path.relative_to(root)).replace("\\", "/"): digest(path)
             for path in evaluation_paths
         },
-        "external_data_manifest_sha256": (digest(data_manifest)
-                                                  if data_manifest.is_file() else None),
         "code_hashes": {str(path.relative_to(root)).replace("\\", "/"): digest(path)
                         for path in code_paths},
         "protocol_hashes": {

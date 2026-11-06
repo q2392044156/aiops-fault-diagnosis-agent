@@ -9,69 +9,9 @@ from langgraph.graph import END, START, StateGraph
 from aiops_diag.data.incident_v12 import (audit_incident, delete_incident,
                                           import_incident, metric_eligibility,
                                           validate_incident)
-from aiops_diag.data.v12_contracts import (DiagnosticSnapshotV12,
-                                            IncidentRecordV1)
-from aiops_diag.data.v12_import import import_snapshots
+from aiops_diag.data.v12_contracts import IncidentRecordV1
 from aiops_diag.diagnosis.framework.checkpoint import DatabaseCheckpointSaver
 from aiops_diag.platform.db import Database
-
-
-# 方法说明：`_jsonl` 完成当前步骤的业务处理；参数为 `path`、`rows`。
-def _jsonl(path, rows):
-    path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
-
-
-# 方法说明：`_trace_snapshot` 完成当前步骤的业务处理；参数为 无显式业务参数。
-def _trace_snapshot():
-    summary = {"task_count": 1, "report_count": 2, "edge_count": 1,
-               "operation_count": 3, "operation_type_count": 1,
-               "failed_event_count": 1, "component_counts": {"DataNode": 2},
-               "top_operations": {"readBlock": 3}}
-    base = {"schema_version": 1, "adapter_version": "v12_open_data_v1",
-            "event_id": "evt_ext_tracebench_test", "dataset": "hdfs_v3_tracebench",
-            "source_type": "public_dataset", "cluster_alias": "cluster_public",
-            "product_version": None, "components": ["DataNode"],
-            "observation_window": {"start": "2026-01-01T00:00:00+00:00",
-                                   "end": "2026-01-01T00:01:00+00:00"},
-            "log_templates": [], "trace_summary": summary, "signals": [],
-            "evidence_refs": [{"ref_id": "sha256:" + "a" * 64,
-                               "content_sha256": "a" * 64,
-                               "relative_path": "trace.csv", "bytes": 1,
-                               "redaction_status": "not_exported", "observed_at": None}]}
-    from aiops_diag.data.v12_external import canonical_hash
-    base["snapshot_hash"] = canonical_hash(base)
-    return DiagnosticSnapshotV12.model_validate(base).model_dump(mode="json")
-
-
-# 方法说明：`_label` 完成当前步骤的业务处理；参数为 无显式业务参数。
-def _label():
-    return {"schema_version": 1, "event_id": "evt_ext_tracebench_test",
-            "dataset": "hdfs_v3_tracebench", "group_id": "g1", "split": "development",
-            "anomaly_label": "anomaly", "injection_label": "test_injection",
-            "root_cause_label": None, "metric_eligibility": {
-                "public_injection_benchmark": True,
-                "production_root_cause_ranking": False, "mttd": False,
-                "reasons": ["root_cause_not_independently_confirmed"]}}
-
-
-# 方法说明：`test_external_snapshot_import_is_idempotent_and_keeps_labels_out` 完成当前步骤的业务处理；参数为 `tmp_path`。
-def test_external_snapshot_import_is_idempotent_and_keeps_labels_out(tmp_path):
-    db = Database(tmp_path / "service.sqlite3")
-    db.init()
-    snapshots = tmp_path / "snapshots.jsonl"
-    labels = tmp_path / "labels.jsonl"
-    _jsonl(snapshots, [_trace_snapshot()])
-    _jsonl(labels, [_label()])
-    first = import_snapshots(db, snapshots, labels, "development", tmp_path / "artifacts")
-    second = import_snapshots(db, snapshots, labels, "development", tmp_path / "artifacts")
-    assert first["imported"] == 1
-    assert second["deduplicated"] == 1
-    metadata = db.get_event_metadata("evt_ext_tracebench_test")
-    assert metadata["dataset"] == "hdfs_v3_tracebench"
-    assert "injection_label" not in metadata
-    stored = db.one("SELECT summary_json FROM event_trace_evidence WHERE event_id=?",
-                    ("evt_ext_tracebench_test",))
-    assert "test_injection" not in stored["summary_json"]
 
 
 # 方法说明：`test_database_checkpointer_survives_new_graph_instance` 完成当前步骤的业务处理；参数为 `tmp_path`。

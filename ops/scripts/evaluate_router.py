@@ -18,7 +18,7 @@ from aiops_diag.evaluation.router_eval import FREE_PROMPT, markdown, score
 from aiops_diag.knowledge.generation.client import BudgetLedger, DeepSeekClient
 
 # 变量说明：ALLOWLIST 是本次实验允许的三个只读工具。
-ALLOWLIST = ["query_metrics", "search_similar_incidents", "read_trace_summary"]
+ALLOWLIST = ["query_metrics", "search_similar_incidents"]
 # 变量说明：BUDGET 限制实验的总花费，避免脚本跑飞。
 BUDGET = {"max_total_tokens": 500000, "max_cost_cny": 5.0, "max_input_tokens_per_call": 10000,
           "input_cny_per_million": 2.0, "output_cny_per_million": 8.0}

@@ -22,7 +22,7 @@
 | 单步推进 | `framework/graph.py` | 每次调用只走一个节点，然后 END |
 | 让出/恢复 | `framework/graph.py` | 捕获 `AgentYield`，写回让出节点 |
 | SQLite checkpoint | `framework/checkpoint.py` | `get_tuple/put/list/delete`，thread = release:diagnosis:revision |
-| v1.2 工具 | `framework/tools_v12.py` | 真实指标、`read_trace_summary` |
+| v1.2 工具 | `framework/tools_v12.py` | 只读工具扩展点（Trace 已移除） |
 | LangChain 检索适配 | `framework/retriever.py` | 保留 release 元数据、空结果 fail-closed |
 | LangChain 报告链 | `framework/report_chain.py` | 结构化摘要、审计回调、降级 |
 | 发布校验 | `framework/release_v12.py` | 冻结/校验 v1.2 清单 |

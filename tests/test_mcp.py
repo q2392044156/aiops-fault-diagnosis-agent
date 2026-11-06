@@ -33,7 +33,7 @@ def test_mcp_initialize_and_list(tmp_path):
     tools = server.handle({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
     names = {item["name"] for item in tools["result"]["tools"]}
     assert names == {"detect_anomaly", "query_logs", "query_metrics",
-                     "search_similar_incidents", "read_trace_summary"}
+                     "search_similar_incidents"}
 
 
 # 方法说明：test_mcp_call_returns_text_and_rejects_bad_input 验证调用与参数校验。

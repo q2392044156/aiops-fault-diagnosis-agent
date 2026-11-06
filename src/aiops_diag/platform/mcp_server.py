@@ -14,7 +14,7 @@ from aiops_diag.platform.db import Database
 PROTOCOL = "2024-11-05"
 # 变量说明：TOOL_NAMES 是允许通过 MCP 暴露的只读工具。
 TOOL_NAMES = ("detect_anomaly", "query_logs", "query_metrics",
-              "search_similar_incidents", "read_trace_summary")
+              "search_similar_incidents")
 
 
 # 类说明：ToolFacade 把 MCP 调用适配到现有只读工具，不提供任何写操作。
@@ -42,20 +42,6 @@ class ToolFacade:
                                      "message": "Event was not found", "retryable": False})
             return self.tools.search_similar_incidents(
                 "", event, "", int(arguments.get("top_k", 5)))
-        if name == "read_trace_summary":
-            row = self.db.one("SELECT * FROM event_trace_evidence WHERE event_id=?",
-                              (event_id,))
-            if not row:
-                return result({"status": "not_available", "item": None},
-                              provenance={"event_id": event_id})
-            return result({"status": "available", "item": {
-                "event_id": event_id,
-                "summary": json.loads(row["summary_json"]),
-                "evidence_hash": row["evidence_hash"],
-                "source_version": row["source_version"],
-                "observed_at": row["observed_at"],
-                "observed_until": row["observed_until"]}},
-                provenance={"event_id": event_id, "source": "event_trace_evidence"})
         raise ValueError(f"Unknown tool: {name}")
 
 

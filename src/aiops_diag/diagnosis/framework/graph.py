@@ -134,29 +134,4 @@ class LangGraphAgentEngine(CandidateAgentEngine):
         finally:
             self._active_run = None
 
-    # 方法说明：`_collect_framework_evidence` 完成当前步骤的业务处理；参数为 `run`、`state`、`budget`、`event_id`。
-    def _collect_framework_evidence(self, run, state, budget, event_id):
-        if not hasattr(self.tools, "read_trace_summary"):
-            return [], []
-        if not self.db.one("SELECT 1 AS found FROM event_trace_evidence WHERE event_id=?",
-                           (event_id,)):
-            return [], []
-        from aiops_diag.diagnosis.framework.tools_v12 import trace_evidence
 
-        value = self._invoke(
-            run, state, budget, "read_trace_summary", {"event_id": event_id},
-            lambda: self.tools.read_trace_summary(event_id))
-        item = value.get("data", {}).get("item") if value.get("ok") else None
-        if not item:
-            state["review_reasons"].append("trace_evidence_unavailable")
-            return [], []
-        evidence = trace_evidence(item)
-        components = evidence.get("components") or ([evidence["component"]]
-                                                      if evidence.get("component") else [])
-        query_rows = [{
-            "component": component,
-            "level": "ERROR" if "trace_failures" in evidence["signals"] else "INFO",
-            "template_id": "trace_summary_v1",
-            "redacted_message": " ".join(evidence["signals"]),
-        } for component in components]
-        return [evidence], query_rows

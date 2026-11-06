@@ -1,7 +1,7 @@
 # P2-6：MCP 服务实施报告
 
 > 目标：把只读工具从"绑死在项目里"变成"任何 MCP 客户端都能调用"。
-> 结果：一个零依赖的 stdio MCP 服务器，暴露 5 个只读工具，`initialize / tools/list / tools/call` 全链路冒烟通过。
+> 结果：一个零依赖的 stdio MCP 服务器，暴露 4 个只读工具，`initialize / tools/list / tools/call` 全链路冒烟通过。
 
 ---
 
@@ -16,7 +16,7 @@
 | 组件 | 功能 | 文件 |
 | --- | --- | --- |
 | MCP 服务器 | JSON-RPC over stdio，实现 initialize / tools/list / tools/call | `platform/mcp_server.py` |
-| 工具门面 | 把 5 个只读工具适配成统一契约 | 同上 `ToolFacade` |
+| 工具门面 | 把 4 个只读工具适配成统一契约 | 同上 `ToolFacade` |
 | Schema | 复用 `tool_specs`，调用前校验参数 | `diagnosis/tool_specs.py` |
 | 冒烟脚本 | 子进程启动服务器并跑通三类请求 | `ops/scripts/mcp_smoke.py` |
 | 单测 | 握手、清单、调用、非法工具、非法参数、通知 | `tests/test_mcp.py` |
@@ -29,7 +29,6 @@
 | `query_logs` | 按事件读取脱敏日志（≤500 行） |
 | `query_metrics` | 读事件时间窗内的指标序列 |
 | `search_similar_incidents` | 检索历史已结案事件 |
-| `read_trace_summary` | 读聚合调用链摘要 |
 
 `retrieve_runbook` 没有暴露：它依赖冻结的检索制品，属于"部署相关"能力，强行塞进 MCP 会让服务启动依赖大文件。这是有意的取舍。
 
@@ -50,7 +49,7 @@ python ops/scripts/mcp_smoke.py
 {
   "server": {"name": "aiops-diag-readonly", "version": "1.0"},
   "tools": ["detect_anomaly", "query_logs", "query_metrics",
-            "search_similar_incidents", "read_trace_summary"],
+            "search_similar_incidents"],
   "read_only": true,
   "call": {"isError": false, "event": "evt_9658...", "ok": true}
 }
@@ -81,6 +80,6 @@ python ops/scripts/mcp_smoke.py
 
 ## 7. 面试可以这样讲
 
-1. "我的工具层不绑死在本项目里：它同时是一个 MCP 服务器，Claude Desktop 或 Cursor 可以直接发现并调用这 5 个只读工具。"
+1. "我的工具层不绑死在本项目里：它同时是一个 MCP 服务器，Claude Desktop 或 Cursor 可以直接发现并调用这 4 个只读工具。"
 2. "协议层只实现了 tools 能力，没有任何写方法；参数先过 JSON Schema，未知工具直接拒绝。"
 3. "这是零依赖实现——没装 MCP SDK，用 JSON-RPC over stdio 把协议跑通，也顺手验证了我对协议本身的理解。"

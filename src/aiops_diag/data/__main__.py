@@ -14,9 +14,6 @@ from .download import download
 from .incident_v12 import (audit_incident, delete_incident, import_incident,
                            load_incident, validate_incident)
 from .pipeline import build, split, subset, trace
-from .v12_external import (DEFAULT_SEED, audit_external_outputs,
-                           prepare_external_datasets)
-from .v12_import import import_snapshots
 from aiops_diag.platform.db import Database
 
 # 主入口函数, 根据命令行参数调用不同的数据准备功能
@@ -33,35 +30,6 @@ def _legacy(argv):
         return trace(cfg, args.log_id)
     return {"download": download, "build": build, "split": split,
             "subset": subset, "audit": audit}[args.command](cfg)
-
-
-# 方法说明：`_external` 完成当前步骤的业务处理；参数为 `argv`。
-def _external(argv):
-    parser = argparse.ArgumentParser(description="v1.2 public dataset workflow")
-    parser.add_argument("command", choices=["prepare", "audit", "import-service"])
-    parser.add_argument("--config", default="resources/configs/data_v12_external.yaml")
-    parser.add_argument("--source-root")
-    parser.add_argument("--seed", type=int)
-    parser.add_argument("--split", choices=["development", "calibration", "independent_test"])
-    parser.add_argument("--database")
-    parser.add_argument("--artifact-root")
-    args = parser.parse_args(argv)
-    config_path = Path(args.config).resolve()
-    raw = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-    root = config_root(config_path)
-    source = Path(args.source_root).resolve() if args.source_root else (
-        root / raw.get("source_root", "data/external/loghub")).resolve()
-    if args.command == "prepare":
-        return prepare_external_datasets(source, args.seed or int(raw.get("seed", DEFAULT_SEED)))
-    if args.command == "audit":
-        return audit_external_outputs(source)
-    if not args.split or not args.database or not args.artifact_root:
-        parser.error("import-service requires --split, --database and --artifact-root")
-    db = Database(args.database)
-    db.init()
-    return import_snapshots(
-        db, source / "processed/diagnostic_snapshots.jsonl",
-        source / "processed/evaluation_labels.jsonl", args.split, args.artifact_root)
 
 
 # 方法说明：`_incident` 完成当前步骤的业务处理；参数为 `argv`。

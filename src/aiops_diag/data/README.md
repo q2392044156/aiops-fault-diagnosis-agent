@@ -21,9 +21,7 @@
 | `incident_v12.py` | 校验 v1.2 真实故障事件协议和时间戳字段。 | `load_incident`、`metric_eligibility`、`validate_incident`、`import_incident`、`audit_incident`、`delete_incident` |
 | `parser.py` | 解析 LogHub HDFS 日志并生成统一记录。 | `timestamp`、`parse`、`normalized` |
 | `pipeline.py` | 串联原始日志解析、划分、注册和数据清单生成。 | `location`、`semantic_config`、`connect`、`finish`、`build`、`split`、`subset`、`trace` |
-| `v12_contracts.py` | 定义 v1.2 外部数据与故障事件的共享契约。 | `StrictModel`、`EvidenceRefV12`、`MetricEligibilityV12`、`ExternalEventV12`、`SafeLogTemplateV12`、`TraceSummaryV12`、`DiagnosticSnapshotV12`、`EvaluationLabelV12` 等 |
-| `v12_external.py` | 准备并审计 LogHub Hadoop 与 TraceBench 数据。 | `sha256_file`、`md5_file`、`canonical_hash`、`_atomic_text`、`_write_json`、`_write_jsonl`、`_event_id`、`_evidence_ref` 等 |
-| `v12_import.py` | 把外部公开数据转换为项目内部标准格式。 | `_read_jsonl`、`_write_logs`、`import_snapshots` |
+| `v12_contracts.py` | 定义 v1.2 故障事件的共享契约。 | `StrictModel`、`EvidenceRefV12`、`MetricEligibilityV12`、`ExternalEventV12`、`SafeLogTemplateV12`、`TraceSummaryV12`、`DiagnosticSnapshotV12`、`EvaluationLabelV12` 等 |
 
 ## 阅读建议
 

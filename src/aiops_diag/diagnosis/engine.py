@@ -187,8 +187,6 @@ class AgentEngine:
     # 方法说明：`_invoke` 完成当前步骤的业务处理；参数为 `run`、`state`、`budget`、`name`、`args`、`function`。
     def _invoke(self, run, state, budget, name, args, function):
         registered = set(TOOLS)
-        if getattr(self, "cfg", {}).get("v12", {}).get("enabled"):
-            registered.add("read_trace_summary")
         if name not in registered:
             raise ValueError("Tool is not registered")
         if budget["active_ms"] >= budget["max_active_ms"]:
@@ -333,8 +331,6 @@ class AgentEngine:
     # 方法说明：`_route_v2` 用 function calling 选择工具，并把拦截原因写入状态。
     def _route_v2(self, run, state, budget, summary):
         allowlist = ["query_metrics", "search_similar_incidents"]
-        if self.cfg.get("v12", {}).get("enabled"):
-            allowlist.append("read_trace_summary")
         router = ToolRouter(allowlist, max_tools=2)
         outcome = router.route(
             summary, lambda messages, tools: self._llm_tools(budget, messages, tools, state))
@@ -523,11 +519,7 @@ class AgentEngine:
                    "log_count": logs.get("data", {}).get("total", 0),
                    "metrics_available": metrics_available,
                    "historical_reports_available": bool(
-                       self.db.one("SELECT 1 AS found FROM incident_reports LIMIT 1")),
-                   "trace_available": bool(self.cfg.get("v12", {}).get("enabled") and
-                                           self.db.one("SELECT 1 AS found FROM "
-                                                       "event_trace_evidence WHERE event_id=?",
-                                                       (event_id,)))}
+                       self.db.one("SELECT 1 AS found FROM incident_reports LIMIT 1"))}
         if "optional_tools" in state:
             optional = state["optional_tools"]
         else:

@@ -58,21 +58,10 @@ TOOL_SPECS = {
             "additionalProperties": False,
         },
     },
-    "read_trace_summary": {
-        "name": "read_trace_summary",
-        "description": "读取该事件的聚合调用链摘要（任务数、失败数、组件分布），"
-                       "不返回原始 trace。仅当事件带 trace 证据时可用。",
-        "parameters": {
-            "type": "object",
-            "properties": {"event_id": {"type": "string", "pattern": EVENT_ID.pattern}},
-            "required": ["event_id"],
-            "additionalProperties": False,
-        },
-    },
 }
 
 # 变量说明：PRIORITY 决定超预算时的保留顺序。
-PRIORITY = ("query_metrics", "read_trace_summary", "search_similar_incidents")
+PRIORITY = ("query_metrics", "search_similar_incidents")
 
 
 # 方法说明：specs_for 把工具名转换为 function-calling 所需的定义列表。

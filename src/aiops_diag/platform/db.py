@@ -132,17 +132,6 @@ CREATE TABLE IF NOT EXISTS provider_reservations(
   scope TEXT NOT NULL, reserved_tokens INTEGER NOT NULL, reserved_cost_cny REAL NOT NULL,
   status TEXT NOT NULL, created_at TEXT NOT NULL, settled_at TEXT
 );
-CREATE TABLE IF NOT EXISTS external_event_imports(
-  event_id TEXT PRIMARY KEY REFERENCES events(event_id), dataset TEXT NOT NULL,
-  split TEXT NOT NULL, adapter_version TEXT NOT NULL, snapshot_hash TEXT NOT NULL,
-  source_hash TEXT NOT NULL, imported_at TEXT NOT NULL,
-  UNIQUE(event_id,adapter_version,snapshot_hash)
-);
-CREATE TABLE IF NOT EXISTS event_trace_evidence(
-  event_id TEXT PRIMARY KEY REFERENCES events(event_id), summary_json TEXT NOT NULL,
-  evidence_hash TEXT NOT NULL, source_version TEXT NOT NULL,
-  observed_at TEXT, observed_until TEXT
-);
 CREATE TABLE IF NOT EXISTS incident_registry(
   incident_id TEXT PRIMARY KEY, record_hash TEXT NOT NULL, record_json TEXT NOT NULL,
   authorization_id TEXT NOT NULL, retention_until TEXT NOT NULL, status TEXT NOT NULL,

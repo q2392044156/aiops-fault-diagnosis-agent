@@ -20,7 +20,7 @@
 | `release_v12.py` | 冻结并校验 v1.2 RC 发布清单。 | `_value`、`publish`、`verify` |
 | `report_chain.py` | 用 LangChain 组织提示词、结构化输出和降级。 | `_provider_messages`、`CandidateSummaryChain` |
 | `retriever.py` | 把现有混合检索器适配为 LangChain Retriever。 | `LangChainRetrieverAdapter` |
-| `tools_v12.py` | 实现 v1.2 指标、时间线和根因排序只读工具。 | `V12AgentTools`、`trace_evidence` |
+| `tools_v12.py` | v1.2 只读工具扩展点（Trace 能力已移除）。 | `V12AgentTools` |
 
 ## 阅读建议
 

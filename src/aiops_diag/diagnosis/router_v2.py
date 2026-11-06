@@ -13,9 +13,8 @@ ROUTER_V2_PROMPT = """你是只读诊断系统的工具路由器。你只能从�
 按以下规则判断：
 1. query_metrics：仅当 metrics_available=true 且（log_count<50 或组件属于 DataNode/NameNode/JournalNode/FSNamesystem）。
 2. search_similar_incidents：仅当 historical_reports_available=true 且 recurring_pattern=true。
-3. read_trace_summary：仅当 trace_available=true 且 log_count<100。
-4. 若命中多个，按 query_metrics > read_trace_summary > search_similar_incidents 的顺序保留前 {max_tools} 个。
-5. 没有命中时不要调用任何工具；空选择是合法答案。
+3. 若命中多个，按 query_metrics > search_similar_incidents 的顺序保留前 {max_tools} 个。
+4. 没有命中时不要调用任何工具；空选择是合法答案。
 """
 
 

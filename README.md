@@ -32,7 +32,7 @@ Docker 81 例失败归因：**命中 74、证据缺失 5、召回缺失 0、排�
 | P0-3 上下文工程 | 压缩省 36.5% token，Schema/引用/双类证据持平 |
 | P1-4 可观测性 | 单次诊断 29 个 span，6.73s 中 6.59s 在生成 |
 | P1-5 红队 | 40/40 拦截（100%），0/10 误杀 |
-| P2-6 MCP | 5 个只读工具，initialize/list/call 冒烟通过 |
+| P2-6 MCP | 4 个只读工具，initialize/list/call 冒烟通过 |
 
 > 知识库：30 → **104 张**（新增 74 张：50 张 Apache 3.3.5 文档摘要 + 24 张源码/配置证据卡）；平均 406 字，50 张带根因码，覆盖 10/11 个根因码。
 
@@ -114,7 +114,7 @@ python -m aiops_diag.platform serve --config resources/configs/service_v12_rc1.y
 ![架构总览](documentation/architecture.png)
 
 ```text
-HDFS 日志 / 聚合 Trace
+HDFS 日志
           ↓
 数据校验、脱敏、稳定分组切分
           ↓
@@ -122,7 +122,7 @@ HDFS 日志 / 聚合 Trace
           ↓
 确定性查询构建 ──→ BM25 + BGE ONNX + RRF 知识检索
           ↓                         ↓
-只读日志 / Trace 工具          固定版本知识证据
+只读日志工具          固定版本知识证据
           └──────────┬──────────────┘
                      ↓
          确定性 Agent 状态机 + SQLite 状态

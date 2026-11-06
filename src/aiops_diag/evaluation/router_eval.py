@@ -4,9 +4,9 @@ from __future__ import annotations
 
 
 # 变量说明：KNOWN_TOOLS 是评测中允许出现的工具集合。
-KNOWN_TOOLS = ("query_metrics", "read_trace_summary", "search_similar_incidents")
+KNOWN_TOOLS = ("query_metrics", "search_similar_incidents")
 # 变量说明：FREE_PROMPT 是“不设约束”的对照组提示，只给工具名、不给可用性规则。
-FREE_PROMPT = """你可以从以下工具中选择：query_metrics、search_similar_incidents、read_trace_summary。
+FREE_PROMPT = """你可以从以下工具中选择：query_metrics、search_similar_incidents。
 根据事件摘要选择你认为需要的工具，输出严格 JSON：{"next_tools": []}。"""
 
 
