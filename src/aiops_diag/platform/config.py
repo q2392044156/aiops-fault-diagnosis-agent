@@ -25,6 +25,9 @@ def load(path):
     backend = raw.get("agent_backend", "legacy")
     if backend not in ("legacy", "v11_candidate", "framework_candidate"):
         raise ValueError("Unsupported Agent backend")
+    event_source = raw.get("event_source", "model")
+    if event_source not in ("model", "import", "manual"):
+        raise ValueError("Unsupported event source")
     if backend in ("v11_candidate", "framework_candidate") and (
             not raw.get("agent_config") or set(raw.get("v11_candidate", {})) != {
                 "protocol", "calibration", "release_dir"}):
@@ -53,6 +56,7 @@ def load(path):
             execution_backend, report_backend, retrieval_backend)):
         raise ValueError("Framework adapters require the framework candidate backend")
     cfg = json.loads(json.dumps(raw))
+    cfg["event_source"] = event_source
     cfg["root"] = str(root)
     cfg["config_path"] = str(path)
     cfg["model"] = load_model_config(root / raw["model_config"])

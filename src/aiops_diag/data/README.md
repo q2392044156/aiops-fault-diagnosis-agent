@@ -16,6 +16,8 @@
 | `__main__.py` | 实现 `python -m` 命令行入口和参数分发。 | `_legacy`、`_external`、`_incident`、`main` |
 | `audit.py` | 检查原始数据哈希、来源、许可证、脱敏状态和污染风险。 | `audit` |
 | `common.py` | 提供数据模块共享的哈希、路径和序列化工具。 | `digest`、`canonical`、`key`、`save`、`config`、`verified_manifest` |
+| `canonical.py` | 定义跨来源日志的统一字段并补齐缺失字段。 | `CANONICAL_FIELDS`、`canonical_log`、`is_parsed` |
+| `adapters.py` | 按来源解析 HDFS_v1、Docker、WSL 日志。 | `parse_line`、`parse_lines`、`parse_hdfs_v1`、`parse_container` |
 | `download.py` | 按来源清单下载并校验公开数据文件。 | `fetch`、`extract`、`download`、`_download` |
 | `lab.py` | 构造受控实验的 incident 记录、脱敏证据与哈希。 | `build_incident`、`redact`、`write_evidence` |
 | `incident_v12.py` | 校验 v1.2 真实故障事件协议和时间戳字段。 | `load_incident`、`metric_eligibility`、`validate_incident`、`import_incident`、`audit_incident`、`delete_incident` |
