@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from math import sqrt
 from pathlib import Path
 
 from aiops_diag.detection.templates import content
@@ -15,11 +16,23 @@ def _text(row):
     return content(row)
 
 
+# 方法说明：wilson 计算二项比例的 Wilson 置信区间。
+def wilson(hits, total, z=1.96):
+    if not total:
+        return None
+    p = hits / total
+    denominator = 1 + z * z / total
+    center = (p + z * z / (2 * total)) / denominator
+    margin = z * sqrt(p * (1 - p) / total + z * z / (4 * total * total)) / denominator
+    return [round(max(0.0, center - margin), 4), round(min(1.0, center + margin), 4)]
+
+
 # 类说明：TemplateNoveltyDetector 用正常窗口的模板集合判断新颖度。
 class TemplateNoveltyDetector:
     # 方法说明：__init__ 设置目标误报率。
-    def __init__(self, target_fpr=0.05):
+    def __init__(self, target_fpr=0.05, min_threshold=0.05):
         self.target_fpr = float(target_fpr)
+        self.min_threshold = float(min_threshold)
         self.templates = set()
         self.threshold = 0.0
 
@@ -31,6 +44,7 @@ class TemplateNoveltyDetector:
             scores.sort()
             index = min(len(scores) - 1, int(len(scores) * (1.0 - self.target_fpr)))
             self.threshold = float(scores[index])
+        self.threshold = max(self.threshold, self.min_threshold)
         return self
 
     # 方法说明：score 返回窗口内未见模板的比例。
@@ -51,6 +65,7 @@ class TemplateNoveltyDetector:
     def save(self, path):
         payload = {"schema_version": 1, "model": "template_novelty",
                    "target_fpr": self.target_fpr, "threshold": self.threshold,
+                   "min_threshold": self.min_threshold,
                    "templates": sorted(self.templates)}
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         Path(path).write_text(json.dumps(payload, ensure_ascii=False) + "\n",
@@ -61,7 +76,8 @@ class TemplateNoveltyDetector:
     @classmethod
     def load(cls, path):
         payload = json.loads(Path(path).read_text(encoding="utf-8"))
-        detector = cls(payload.get("target_fpr", 0.05))
+        detector = cls(payload.get("target_fpr", 0.05),
+                       payload.get("min_threshold", 0.05))
         detector.templates = set(payload.get("templates", []))
         detector.threshold = float(payload.get("threshold", 0.0))
         return detector

@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, "src")
 sys.path.insert(0, "ops/lab/harness")
-from aiops_diag.detection.source_detector import TemplateNoveltyDetector
+from aiops_diag.detection.source_detector import TemplateNoveltyDetector, wilson
 from windows import load_normal_windows, load_windows
 
 
@@ -66,8 +66,11 @@ def _summary(folds):
             "fpr": round(false_positive / normal, 4) if normal else None,
             "fault": fault, "detected": detected,
             "recall": round(detected / fault, 4) if fault else None,
+            "fpr_ci": wilson(false_positive, normal),
+            "recall_ci": wilson(detected, fault),
             "end_to_end": {"cases": e2e_total, "hits": e2e_hits,
-                           "top1": round(e2e_hits / e2e_total, 4) if e2e_total else None}}
+                           "top1": round(e2e_hits / e2e_total, 4) if e2e_total else None,
+                           "top1_ci": wilson(e2e_hits, e2e_total)}}
 
 
 # 方法说明：main 执行单次切分或交叉验证。
@@ -112,9 +115,12 @@ def main(argv=None):
                            "false_positive": fp,
                            "fpr": round(fp / len(test_normal), 4) if test_normal else None,
                            "fault": len(fault), "detected": hits,
-                           "recall": round(hits / len(fault), 4) if fault else None},
+                           "recall": round(hits / len(fault), 4) if fault else None,
+                           "fpr_ci": wilson(fp, len(test_normal)),
+                           "recall_ci": wilson(hits, len(fault))},
                   "end_to_end": {"cases": e2e_total, "hits": e2e_hits,
-                                 "top1": round(e2e_hits / e2e_total, 4) if e2e_total else None}}
+                                 "top1": round(e2e_hits / e2e_total, 4) if e2e_total else None,
+                                 "top1_ci": wilson(e2e_hits, e2e_total)}}
         if args.save:
             TemplateNoveltyDetector(args.target_fpr).fit(normal).save(args.save)
             result["saved"] = str(args.save)
