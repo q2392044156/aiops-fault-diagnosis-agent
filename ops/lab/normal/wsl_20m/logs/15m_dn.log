@@ -1,0 +1,750 @@
+[aiops-lab-dn1] 2026-11-07 00:10:38,745 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741931_1107 src: /127.0.0.1:54372 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:10:38,766 INFO DataNode.clienttrace: src: /127.0.0.1:54372, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1520855557_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741931_1107, duration(ns): 18126189
+[aiops-lab-dn1] 2026-11-07 00:10:38,766 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741931_1107, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:10:40,742 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741930_1106 replica FinalizedReplica, blk_1073741930_1106, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741930 for deletion
+[aiops-lab-dn1] 2026-11-07 00:10:40,743 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741930_1106 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741930
+[aiops-lab-dn1] 2026-11-07 00:10:49,531 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741932_1108 src: /127.0.0.1:39282 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:10:49,564 INFO DataNode.clienttrace: src: /127.0.0.1:39282, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-987782233_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741932_1108, duration(ns): 30827151
+[aiops-lab-dn1] 2026-11-07 00:10:49,564 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741932_1108, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:10:52,743 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741931_1107 replica FinalizedReplica, blk_1073741931_1107, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741931 for deletion
+[aiops-lab-dn1] 2026-11-07 00:10:52,743 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741931_1107 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741931
+[aiops-lab-dn1] 2026-11-07 00:10:59,977 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741933_1109 src: /127.0.0.1:55486 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:10:59,993 INFO DataNode.clienttrace: src: /127.0.0.1:55486, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-445572706_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741933_1109, duration(ns): 14803548
+[aiops-lab-dn1] 2026-11-07 00:10:59,994 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741933_1109, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:11:00,745 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741932_1108 replica FinalizedReplica, blk_1073741932_1108, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741932 for deletion
+[aiops-lab-dn1] 2026-11-07 00:11:00,745 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741932_1108 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741932
+[aiops-lab-dn1] 2026-11-07 00:11:13,816 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741934_1110 src: /127.0.0.1:39596 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:11:13,834 INFO DataNode.clienttrace: src: /127.0.0.1:39596, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_266609982_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741934_1110, duration(ns): 15402514
+[aiops-lab-dn1] 2026-11-07 00:11:13,835 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741934_1110, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:11:16,081 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741933_1109 replica FinalizedReplica, blk_1073741933_1109, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741933 for deletion
+[aiops-lab-dn1] 2026-11-07 00:11:16,082 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741933_1109 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741933
+[aiops-lab-dn1] 2026-11-07 00:11:25,041 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741935_1111 src: /127.0.0.1:33864 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:11:25,057 INFO DataNode.clienttrace: src: /127.0.0.1:33864, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1527695935_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741935_1111, duration(ns): 14452269
+[aiops-lab-dn1] 2026-11-07 00:11:25,057 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741935_1111, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:11:28,081 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741934_1110 replica FinalizedReplica, blk_1073741934_1110, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741934 for deletion
+[aiops-lab-dn1] 2026-11-07 00:11:28,081 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741934_1110 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741934
+[aiops-lab-dn1] 2026-11-07 00:11:31,202 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741936_1112 src: /127.0.0.1:57614 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:11:39,595 INFO DataNode.clienttrace: src: /127.0.0.1:57614, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_538709413_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741936_1112, duration(ns): 14023531
+[aiops-lab-dn1] 2026-11-07 00:11:39,596 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741936_1112, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:11:41,419 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741935_1111 replica FinalizedReplica, blk_1073741935_1111, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741935 for deletion
+[aiops-lab-dn1] 2026-11-07 00:11:41,419 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741935_1111 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741935
+[aiops-lab-dn1] 2026-11-07 00:11:50,995 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741937_1113 src: /127.0.0.1:50206 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:11:51,016 INFO DataNode.clienttrace: src: /127.0.0.1:50206, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-131868308_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741937_1113, duration(ns): 18923090
+[aiops-lab-dn1] 2026-11-07 00:11:51,016 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741937_1113, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:11:53,421 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741936_1112 replica FinalizedReplica, blk_1073741936_1112, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741936 for deletion
+[aiops-lab-dn1] 2026-11-07 00:11:53,421 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741936_1112 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741936
+[aiops-lab-dn1] 2026-11-07 00:12:02,145 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741938_1114 src: /127.0.0.1:39954 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:12:02,165 INFO DataNode.clienttrace: src: /127.0.0.1:39954, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-554339706_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741938_1114, duration(ns): 17581741
+[aiops-lab-dn1] 2026-11-07 00:12:02,165 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741938_1114, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:12:05,420 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741937_1113 replica FinalizedReplica, blk_1073741937_1113, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741937 for deletion
+[aiops-lab-dn1] 2026-11-07 00:12:05,420 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741937_1113 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741937
+[aiops-lab-dn1] 2026-11-07 00:12:16,550 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741939_1115 src: /127.0.0.1:58846 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:12:16,565 INFO DataNode.clienttrace: src: /127.0.0.1:58846, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1580911461_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741939_1115, duration(ns): 13751434
+[aiops-lab-dn1] 2026-11-07 00:12:16,566 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741939_1115, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:12:20,755 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741938_1114 replica FinalizedReplica, blk_1073741938_1114, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741938 for deletion
+[aiops-lab-dn1] 2026-11-07 00:12:20,755 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741938_1114 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741938
+[aiops-lab-dn1] 2026-11-07 00:12:28,212 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741940_1116 src: /127.0.0.1:54416 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:12:28,232 INFO DataNode.clienttrace: src: /127.0.0.1:54416, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-706884671_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741940_1116, duration(ns): 17463088
+[aiops-lab-dn1] 2026-11-07 00:12:28,232 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741940_1116, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:12:28,758 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741939_1115 replica FinalizedReplica, blk_1073741939_1115, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741939 for deletion
+[aiops-lab-dn1] 2026-11-07 00:12:28,758 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741939_1115 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741939
+[aiops-lab-dn1] 2026-11-07 00:12:41,358 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741941_1117 src: /127.0.0.1:60614 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:12:41,377 INFO DataNode.clienttrace: src: /127.0.0.1:60614, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1196471687_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741941_1117, duration(ns): 16358889
+[aiops-lab-dn1] 2026-11-07 00:12:41,378 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741941_1117, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:12:48,096 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741940_1116 replica FinalizedReplica, blk_1073741940_1116, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741940 for deletion
+[aiops-lab-dn1] 2026-11-07 00:12:48,097 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741940_1116 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741940
+[aiops-lab-dn1] 2026-11-07 00:12:57,146 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741942_1118 src: /127.0.0.1:52352 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:12:57,163 INFO DataNode.clienttrace: src: /127.0.0.1:52352, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_821666613_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741942_1118, duration(ns): 14738359
+[aiops-lab-dn1] 2026-11-07 00:12:57,164 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741942_1118, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:13:00,101 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741941_1117 replica FinalizedReplica, blk_1073741941_1117, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741941 for deletion
+[aiops-lab-dn1] 2026-11-07 00:13:00,102 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741941_1117 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741941
+[aiops-lab-dn1] 2026-11-07 00:13:09,536 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741943_1119 src: /127.0.0.1:36938 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:13:09,554 INFO DataNode.clienttrace: src: /127.0.0.1:36938, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-715752038_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741943_1119, duration(ns): 15636710
+[aiops-lab-dn1] 2026-11-07 00:13:09,555 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741943_1119, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:13:12,102 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741942_1118 replica FinalizedReplica, blk_1073741942_1118, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741942 for deletion
+[aiops-lab-dn1] 2026-11-07 00:13:12,102 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741942_1118 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741942
+[aiops-lab-dn1] 2026-11-07 00:13:25,858 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741944_1120 src: /127.0.0.1:59958 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:13:25,885 INFO DataNode.clienttrace: src: /127.0.0.1:59958, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1502815791_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741944_1120, duration(ns): 24364197
+[aiops-lab-dn1] 2026-11-07 00:13:25,885 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741944_1120, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:13:27,437 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741943_1119 replica FinalizedReplica, blk_1073741943_1119, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741943 for deletion
+[aiops-lab-dn1] 2026-11-07 00:13:27,437 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741943_1119 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741943
+[aiops-lab-dn1] 2026-11-07 00:13:38,591 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741945_1121 src: /127.0.0.1:48522 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:13:38,614 INFO DataNode.clienttrace: src: /127.0.0.1:48522, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-691256192_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741945_1121, duration(ns): 21164137
+[aiops-lab-dn1] 2026-11-07 00:13:38,614 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741945_1121, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:13:41,435 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741944_1120 replica FinalizedReplica, blk_1073741944_1120, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741944 for deletion
+[aiops-lab-dn1] 2026-11-07 00:13:41,435 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741944_1120 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741944
+[aiops-lab-dn1] 2026-11-07 00:13:54,134 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741946_1122 src: /127.0.0.1:60158 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:13:54,155 INFO DataNode.clienttrace: src: /127.0.0.1:60158, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1146602523_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741946_1122, duration(ns): 18715361
+[aiops-lab-dn1] 2026-11-07 00:13:54,156 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741946_1122, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:13:56,773 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741945_1121 replica FinalizedReplica, blk_1073741945_1121, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741945 for deletion
+[aiops-lab-dn1] 2026-11-07 00:13:56,774 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741945_1121 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741945
+[aiops-lab-dn1] 2026-11-07 00:14:05,580 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741947_1123 src: /127.0.0.1:44242 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:14:05,597 INFO DataNode.clienttrace: src: /127.0.0.1:44242, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_314588963_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741947_1123, duration(ns): 15785972
+[aiops-lab-dn1] 2026-11-07 00:14:05,598 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741947_1123, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:14:08,774 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741946_1122 replica FinalizedReplica, blk_1073741946_1122, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741946 for deletion
+[aiops-lab-dn1] 2026-11-07 00:14:08,775 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741946_1122 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741946
+[aiops-lab-dn1] 2026-11-07 00:14:16,590 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741948_1124 src: /127.0.0.1:44636 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:14:16,603 INFO DataNode.clienttrace: src: /127.0.0.1:44636, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1062923901_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741948_1124, duration(ns): 11608111
+[aiops-lab-dn1] 2026-11-07 00:14:16,603 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741948_1124, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:14:18,784 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741947_1123 replica FinalizedReplica, blk_1073741947_1123, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741947 for deletion
+[aiops-lab-dn1] 2026-11-07 00:14:18,785 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741947_1123 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741947
+[aiops-lab-dn1] 2026-11-07 00:14:30,813 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741949_1125 src: /127.0.0.1:44322 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:14:30,829 INFO DataNode.clienttrace: src: /127.0.0.1:44322, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_96435809_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741949_1125, duration(ns): 14254863
+[aiops-lab-dn1] 2026-11-07 00:14:30,830 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741949_1125, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:14:34,136 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741948_1124 replica FinalizedReplica, blk_1073741948_1124, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741948 for deletion
+[aiops-lab-dn1] 2026-11-07 00:14:34,136 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741948_1124 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741948
+[aiops-lab-dn1] 2026-11-07 00:14:41,502 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741950_1126 src: /127.0.0.1:45846 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:14:41,519 INFO DataNode.clienttrace: src: /127.0.0.1:45846, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-2063501811_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741950_1126, duration(ns): 16047859
+[aiops-lab-dn1] 2026-11-07 00:14:41,520 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741950_1126, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:14:42,136 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741949_1125 replica FinalizedReplica, blk_1073741949_1125, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741949 for deletion
+[aiops-lab-dn1] 2026-11-07 00:14:42,137 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741949_1125 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741949
+[aiops-lab-dn1] 2026-11-07 00:14:52,391 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741951_1127 src: /127.0.0.1:40632 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:14:52,405 INFO DataNode.clienttrace: src: /127.0.0.1:40632, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_399544587_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741951_1127, duration(ns): 12571162
+[aiops-lab-dn1] 2026-11-07 00:14:52,406 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741951_1127, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:14:54,137 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741950_1126 replica FinalizedReplica, blk_1073741950_1126, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741950 for deletion
+[aiops-lab-dn1] 2026-11-07 00:14:54,137 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741950_1126 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741950
+[aiops-lab-dn1] 2026-11-07 00:15:06,591 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741952_1128 src: /127.0.0.1:33796 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:15:06,607 INFO DataNode.clienttrace: src: /127.0.0.1:33796, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-747766755_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741952_1128, duration(ns): 14697218
+[aiops-lab-dn1] 2026-11-07 00:15:06,608 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741952_1128, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:15:09,473 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741951_1127 replica FinalizedReplica, blk_1073741951_1127, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741951 for deletion
+[aiops-lab-dn1] 2026-11-07 00:15:09,474 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741951_1127 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741951
+[aiops-lab-dn1] 2026-11-07 00:15:17,621 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741953_1129 src: /127.0.0.1:53768 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:15:17,643 INFO DataNode.clienttrace: src: /127.0.0.1:53768, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_895591853_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741953_1129, duration(ns): 20140578
+[aiops-lab-dn1] 2026-11-07 00:15:17,643 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741953_1129, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:15:19,475 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741952_1128 replica FinalizedReplica, blk_1073741952_1128, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741952 for deletion
+[aiops-lab-dn1] 2026-11-07 00:15:19,475 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741952_1128 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741952
+[aiops-lab-dn1] 2026-11-07 00:15:28,944 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741954_1130 src: /127.0.0.1:40440 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:15:28,961 INFO DataNode.clienttrace: src: /127.0.0.1:40440, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_93009449_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741954_1130, duration(ns): 15572992
+[aiops-lab-dn1] 2026-11-07 00:15:28,962 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741954_1130, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:15:34,812 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741953_1129 replica FinalizedReplica, blk_1073741953_1129, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741953 for deletion
+[aiops-lab-dn1] 2026-11-07 00:15:34,812 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741953_1129 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741953
+[aiops-lab-dn1] 2026-11-07 00:15:42,614 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741955_1131 src: /127.0.0.1:57098 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:15:42,628 INFO DataNode.clienttrace: src: /127.0.0.1:57098, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_725695690_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741955_1131, duration(ns): 12668487
+[aiops-lab-dn1] 2026-11-07 00:15:42,628 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741955_1131, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:15:46,812 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741954_1130 replica FinalizedReplica, blk_1073741954_1130, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741954 for deletion
+[aiops-lab-dn1] 2026-11-07 00:15:46,812 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741954_1130 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741954
+[aiops-lab-dn1] 2026-11-07 00:15:53,037 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741956_1132 src: /127.0.0.1:33854 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:15:53,055 INFO DataNode.clienttrace: src: /127.0.0.1:33854, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_47663567_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741956_1132, duration(ns): 15865148
+[aiops-lab-dn1] 2026-11-07 00:15:53,055 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741956_1132, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:15:54,813 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741955_1131 replica FinalizedReplica, blk_1073741955_1131, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741955 for deletion
+[aiops-lab-dn1] 2026-11-07 00:15:54,813 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741955_1131 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741955
+[aiops-lab-dn1] 2026-11-07 00:16:06,979 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741957_1133 src: /127.0.0.1:45710 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:16:07,003 INFO DataNode.clienttrace: src: /127.0.0.1:45710, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1717300187_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741957_1133, duration(ns): 21318317
+[aiops-lab-dn1] 2026-11-07 00:16:07,004 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741957_1133, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:16:10,148 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741956_1132 replica FinalizedReplica, blk_1073741956_1132, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741956 for deletion
+[aiops-lab-dn1] 2026-11-07 00:16:10,149 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741956_1132 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741956
+[aiops-lab-dn1] 2026-11-07 00:16:17,296 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741958_1134 src: /127.0.0.1:48408 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:16:17,310 INFO DataNode.clienttrace: src: /127.0.0.1:48408, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_453941745_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741958_1134, duration(ns): 11838489
+[aiops-lab-dn1] 2026-11-07 00:16:17,310 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741958_1134, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:16:20,148 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741957_1133 replica FinalizedReplica, blk_1073741957_1133, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741957 for deletion
+[aiops-lab-dn1] 2026-11-07 00:16:20,148 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741957_1133 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741957
+[aiops-lab-dn1] 2026-11-07 00:16:28,295 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741959_1135 src: /127.0.0.1:40172 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:16:28,317 INFO DataNode.clienttrace: src: /127.0.0.1:40172, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-491132463_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741959_1135, duration(ns): 20078061
+[aiops-lab-dn1] 2026-11-07 00:16:28,318 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741959_1135, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:16:32,148 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741958_1134 replica FinalizedReplica, blk_1073741958_1134, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741958 for deletion
+[aiops-lab-dn1] 2026-11-07 00:16:32,148 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741958_1134 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741958
+[aiops-lab-dn1] 2026-11-07 00:16:42,223 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741960_1136 src: /127.0.0.1:58472 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:16:42,237 INFO DataNode.clienttrace: src: /127.0.0.1:58472, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_284323681_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741960_1136, duration(ns): 12353799
+[aiops-lab-dn1] 2026-11-07 00:16:42,237 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741960_1136, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:16:43,468 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741959_1135 replica FinalizedReplica, blk_1073741959_1135, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741959 for deletion
+[aiops-lab-dn1] 2026-11-07 00:16:43,469 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741959_1135 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741959
+[aiops-lab-dn1] 2026-11-07 00:16:53,689 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741961_1137 src: /127.0.0.1:51034 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:16:53,714 INFO DataNode.clienttrace: src: /127.0.0.1:51034, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_39894439_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741961_1137, duration(ns): 22883642
+[aiops-lab-dn1] 2026-11-07 00:16:53,714 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741961_1137, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:16:55,469 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741960_1136 replica FinalizedReplica, blk_1073741960_1136, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741960 for deletion
+[aiops-lab-dn1] 2026-11-07 00:16:55,470 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741960_1136 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741960
+[aiops-lab-dn1] 2026-11-07 00:17:04,598 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741962_1138 src: /127.0.0.1:44902 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:17:04,613 INFO DataNode.clienttrace: src: /127.0.0.1:44902, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-974118635_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741962_1138, duration(ns): 13145025
+[aiops-lab-dn1] 2026-11-07 00:17:04,613 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741962_1138, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:17:07,472 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741961_1137 replica FinalizedReplica, blk_1073741961_1137, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741961 for deletion
+[aiops-lab-dn1] 2026-11-07 00:17:07,472 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741961_1137 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741961
+[aiops-lab-dn1] 2026-11-07 00:17:18,601 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741963_1139 src: /127.0.0.1:58548 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:17:18,618 INFO DataNode.clienttrace: src: /127.0.0.1:58548, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1223525128_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741963_1139, duration(ns): 14795835
+[aiops-lab-dn1] 2026-11-07 00:17:18,618 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741963_1139, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:17:20,828 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741962_1138 replica FinalizedReplica, blk_1073741962_1138, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741962 for deletion
+[aiops-lab-dn1] 2026-11-07 00:17:20,828 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741962_1138 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741962
+[aiops-lab-dn1] 2026-11-07 00:17:29,716 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741964_1140 src: /127.0.0.1:54644 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:17:29,732 INFO DataNode.clienttrace: src: /127.0.0.1:54644, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1478994837_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741964_1140, duration(ns): 14141209
+[aiops-lab-dn1] 2026-11-07 00:17:29,732 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741964_1140, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:17:32,829 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741963_1139 replica FinalizedReplica, blk_1073741963_1139, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741963 for deletion
+[aiops-lab-dn1] 2026-11-07 00:17:32,830 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741963_1139 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741963
+[aiops-lab-dn1] 2026-11-07 00:17:40,565 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741965_1141 src: /127.0.0.1:44818 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:17:40,588 INFO DataNode.clienttrace: src: /127.0.0.1:44818, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-884970030_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741965_1141, duration(ns): 20314338
+[aiops-lab-dn1] 2026-11-07 00:17:40,588 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741965_1141, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:17:48,169 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741964_1140 replica FinalizedReplica, blk_1073741964_1140, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741964 for deletion
+[aiops-lab-dn1] 2026-11-07 00:17:48,169 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741964_1140 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741964
+[aiops-lab-dn1] 2026-11-07 00:17:55,054 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741966_1142 src: /127.0.0.1:43638 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:17:55,071 INFO DataNode.clienttrace: src: /127.0.0.1:43638, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-2047070043_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741966_1142, duration(ns): 15926777
+[aiops-lab-dn1] 2026-11-07 00:17:55,072 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741966_1142, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:17:56,170 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741965_1141 replica FinalizedReplica, blk_1073741965_1141, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741965 for deletion
+[aiops-lab-dn1] 2026-11-07 00:17:56,170 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741965_1141 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741965
+[aiops-lab-dn1] 2026-11-07 00:18:05,576 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741967_1143 src: /127.0.0.1:49130 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:18:05,590 INFO DataNode.clienttrace: src: /127.0.0.1:49130, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-2010956424_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741967_1143, duration(ns): 12086266
+[aiops-lab-dn1] 2026-11-07 00:18:05,590 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741967_1143, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:18:08,173 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741966_1142 replica FinalizedReplica, blk_1073741966_1142, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741966 for deletion
+[aiops-lab-dn1] 2026-11-07 00:18:08,173 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741966_1142 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741966
+[aiops-lab-dn1] 2026-11-07 00:18:11,143 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741968_1144 src: /127.0.0.1:60824 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:18:11,159 INFO DataNode.clienttrace: src: /127.0.0.1:60824, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1694557478_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741968_1144, duration(ns): 14472223
+[aiops-lab-dn1] 2026-11-07 00:18:11,159 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741968_1144, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:18:21,510 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741967_1143 replica FinalizedReplica, blk_1073741967_1143, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741967 for deletion
+[aiops-lab-dn1] 2026-11-07 00:18:21,511 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741967_1143 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741967
+[aiops-lab-dn1] 2026-11-07 00:18:29,852 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741969_1145 src: /127.0.0.1:36284 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:18:29,871 INFO DataNode.clienttrace: src: /127.0.0.1:36284, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1271913250_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741969_1145, duration(ns): 16702994
+[aiops-lab-dn1] 2026-11-07 00:18:29,872 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741969_1145, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:18:33,512 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741968_1144 replica FinalizedReplica, blk_1073741968_1144, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741968 for deletion
+[aiops-lab-dn1] 2026-11-07 00:18:33,512 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741968_1144 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741968
+[aiops-lab-dn1] 2026-11-07 00:18:40,540 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741970_1146 src: /127.0.0.1:53612 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:18:40,557 INFO DataNode.clienttrace: src: /127.0.0.1:53612, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1014690999_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741970_1146, duration(ns): 13687725
+[aiops-lab-dn1] 2026-11-07 00:18:40,558 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741970_1146, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:18:41,513 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741969_1145 replica FinalizedReplica, blk_1073741969_1145, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741969 for deletion
+[aiops-lab-dn1] 2026-11-07 00:18:41,514 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741969_1145 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741969
+[aiops-lab-dn1] 2026-11-07 00:18:54,461 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741971_1147 src: /127.0.0.1:53800 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:18:54,474 INFO DataNode.clienttrace: src: /127.0.0.1:53800, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-84202541_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741971_1147, duration(ns): 11957290
+[aiops-lab-dn1] 2026-11-07 00:18:54,475 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741971_1147, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:18:56,850 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741970_1146 replica FinalizedReplica, blk_1073741970_1146, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741970 for deletion
+[aiops-lab-dn1] 2026-11-07 00:18:56,851 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741970_1146 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741970
+[aiops-lab-dn1] 2026-11-07 00:19:05,856 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741972_1148 src: /127.0.0.1:51546 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:19:05,873 INFO DataNode.clienttrace: src: /127.0.0.1:51546, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-990539749_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741972_1148, duration(ns): 15068580
+[aiops-lab-dn1] 2026-11-07 00:19:05,874 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741972_1148, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:19:08,851 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741971_1147 replica FinalizedReplica, blk_1073741971_1147, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741971 for deletion
+[aiops-lab-dn1] 2026-11-07 00:19:08,852 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741971_1147 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741971
+[aiops-lab-dn1] 2026-11-07 00:19:16,674 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741973_1149 src: /127.0.0.1:58620 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:19:16,690 INFO DataNode.clienttrace: src: /127.0.0.1:58620, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-966024435_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741973_1149, duration(ns): 13886742
+[aiops-lab-dn1] 2026-11-07 00:19:16,691 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741973_1149, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:19:18,851 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741972_1148 replica FinalizedReplica, blk_1073741972_1148, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741972 for deletion
+[aiops-lab-dn1] 2026-11-07 00:19:18,851 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741972_1148 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741972
+[aiops-lab-dn1] 2026-11-07 00:19:30,737 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741974_1150 src: /127.0.0.1:44266 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:19:30,752 INFO DataNode.clienttrace: src: /127.0.0.1:44266, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_296794388_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741974_1150, duration(ns): 12715226
+[aiops-lab-dn1] 2026-11-07 00:19:30,752 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741974_1150, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:19:34,187 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741973_1149 replica FinalizedReplica, blk_1073741973_1149, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741973 for deletion
+[aiops-lab-dn1] 2026-11-07 00:19:34,188 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741973_1149 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741973
+[aiops-lab-dn1] 2026-11-07 00:19:41,049 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741975_1151 src: /127.0.0.1:60674 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:19:41,063 INFO DataNode.clienttrace: src: /127.0.0.1:60674, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-2100781532_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741975_1151, duration(ns): 11668617
+[aiops-lab-dn1] 2026-11-07 00:19:41,063 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741975_1151, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:19:42,188 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741974_1150 replica FinalizedReplica, blk_1073741974_1150, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741974 for deletion
+[aiops-lab-dn1] 2026-11-07 00:19:42,188 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741974_1150 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741974
+[aiops-lab-dn1] 2026-11-07 00:19:51,518 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741976_1152 src: /127.0.0.1:60696 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:19:51,532 INFO DataNode.clienttrace: src: /127.0.0.1:60696, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_277615383_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741976_1152, duration(ns): 11399525
+[aiops-lab-dn1] 2026-11-07 00:19:51,532 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741976_1152, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:19:54,190 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741975_1151 replica FinalizedReplica, blk_1073741975_1151, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741975 for deletion
+[aiops-lab-dn1] 2026-11-07 00:19:54,190 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741975_1151 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741975
+[aiops-lab-dn1] 2026-11-07 00:20:05,668 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741977_1153 src: /127.0.0.1:39104 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:20:05,688 INFO DataNode.clienttrace: src: /127.0.0.1:39104, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_469628527_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741977_1153, duration(ns): 17599083
+[aiops-lab-dn1] 2026-11-07 00:20:05,689 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741977_1153, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:20:07,530 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741976_1152 replica FinalizedReplica, blk_1073741976_1152, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741976 for deletion
+[aiops-lab-dn1] 2026-11-07 00:20:07,531 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741976_1152 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741976
+[aiops-lab-dn1] 2026-11-07 00:20:16,419 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741978_1154 src: /127.0.0.1:33890 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:20:16,437 INFO DataNode.clienttrace: src: /127.0.0.1:33890, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-898913341_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741978_1154, duration(ns): 15665486
+[aiops-lab-dn1] 2026-11-07 00:20:16,438 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741978_1154, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:20:19,531 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741977_1153 replica FinalizedReplica, blk_1073741977_1153, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741977 for deletion
+[aiops-lab-dn1] 2026-11-07 00:20:19,531 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741977_1153 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741977
+[aiops-lab-dn1] 2026-11-07 00:20:26,947 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741979_1155 src: /127.0.0.1:48382 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:20:26,963 INFO DataNode.clienttrace: src: /127.0.0.1:48382, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_559039751_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741979_1155, duration(ns): 14599212
+[aiops-lab-dn1] 2026-11-07 00:20:26,963 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741979_1155, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:20:27,531 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741978_1154 replica FinalizedReplica, blk_1073741978_1154, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741978 for deletion
+[aiops-lab-dn1] 2026-11-07 00:20:27,532 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741978_1154 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741978
+[aiops-lab-dn1] 2026-11-07 00:20:40,897 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741980_1156 src: /127.0.0.1:49668 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:20:40,913 INFO DataNode.clienttrace: src: /127.0.0.1:49668, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-2048532884_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741980_1156, duration(ns): 14685686
+[aiops-lab-dn1] 2026-11-07 00:20:40,913 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741980_1156, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:20:42,864 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741979_1155 replica FinalizedReplica, blk_1073741979_1155, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741979 for deletion
+[aiops-lab-dn1] 2026-11-07 00:20:42,865 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741979_1155 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741979
+[aiops-lab-dn1] 2026-11-07 00:20:51,221 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741981_1157 src: /127.0.0.1:48760 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:20:51,236 INFO DataNode.clienttrace: src: /127.0.0.1:48760, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1205629254_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741981_1157, duration(ns): 13147192
+[aiops-lab-dn1] 2026-11-07 00:20:51,236 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741981_1157, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:20:52,865 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741980_1156 replica FinalizedReplica, blk_1073741980_1156, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741980 for deletion
+[aiops-lab-dn1] 2026-11-07 00:20:52,866 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741980_1156 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741980
+[aiops-lab-dn1] 2026-11-07 00:21:01,750 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741982_1158 src: /127.0.0.1:42990 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:21:01,769 INFO DataNode.clienttrace: src: /127.0.0.1:42990, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1656217734_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741982_1158, duration(ns): 16483001
+[aiops-lab-dn1] 2026-11-07 00:21:01,769 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741982_1158, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:21:08,203 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741981_1157 replica FinalizedReplica, blk_1073741981_1157, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741981 for deletion
+[aiops-lab-dn1] 2026-11-07 00:21:08,203 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741981_1157 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741981
+[aiops-lab-dn1] 2026-11-07 00:21:15,577 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741983_1159 src: /127.0.0.1:60548 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:21:15,592 INFO DataNode.clienttrace: src: /127.0.0.1:60548, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1621588628_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741983_1159, duration(ns): 13383380
+[aiops-lab-dn1] 2026-11-07 00:21:15,592 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741983_1159, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:21:16,205 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741982_1158 replica FinalizedReplica, blk_1073741982_1158, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741982 for deletion
+[aiops-lab-dn1] 2026-11-07 00:21:16,205 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741982_1158 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741982
+[aiops-lab-dn1] 2026-11-07 00:21:25,968 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741984_1160 src: /127.0.0.1:44308 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:21:25,983 INFO DataNode.clienttrace: src: /127.0.0.1:44308, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_748958440_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741984_1160, duration(ns): 12993454
+[aiops-lab-dn1] 2026-11-07 00:21:25,983 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741984_1160, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:21:28,207 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741983_1159 replica FinalizedReplica, blk_1073741983_1159, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741983 for deletion
+[aiops-lab-dn1] 2026-11-07 00:21:28,207 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741983_1159 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741983
+[aiops-lab-dn1] 2026-11-07 00:21:40,000 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741985_1161 src: /127.0.0.1:39130 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:21:40,016 INFO DataNode.clienttrace: src: /127.0.0.1:39130, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_189874598_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741985_1161, duration(ns): 13649398
+[aiops-lab-dn1] 2026-11-07 00:21:40,016 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741985_1161, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:21:41,549 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741984_1160 replica FinalizedReplica, blk_1073741984_1160, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741984 for deletion
+[aiops-lab-dn1] 2026-11-07 00:21:41,549 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741984_1160 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741984
+[aiops-lab-dn1] 2026-11-07 00:21:50,619 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741986_1162 src: /127.0.0.1:41260 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:21:50,635 INFO DataNode.clienttrace: src: /127.0.0.1:41260, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1096848944_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741986_1162, duration(ns): 13970728
+[aiops-lab-dn1] 2026-11-07 00:21:50,635 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741986_1162, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:21:53,550 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741985_1161 replica FinalizedReplica, blk_1073741985_1161, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741985 for deletion
+[aiops-lab-dn1] 2026-11-07 00:21:53,551 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741985_1161 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741985
+[aiops-lab-dn1] 2026-11-07 00:22:01,420 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741987_1163 src: /127.0.0.1:53330 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:22:01,436 INFO DataNode.clienttrace: src: /127.0.0.1:53330, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_143412838_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741987_1163, duration(ns): 13901898
+[aiops-lab-dn1] 2026-11-07 00:22:01,436 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741987_1163, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:22:05,551 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741986_1162 replica FinalizedReplica, blk_1073741986_1162, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741986 for deletion
+[aiops-lab-dn1] 2026-11-07 00:22:05,551 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741986_1162 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741986
+[aiops-lab-dn1] 2026-11-07 00:22:15,235 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741988_1164 src: /127.0.0.1:40338 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:22:15,252 INFO DataNode.clienttrace: src: /127.0.0.1:40338, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_647475907_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741988_1164, duration(ns): 13959996
+[aiops-lab-dn1] 2026-11-07 00:22:15,252 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741988_1164, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:22:16,892 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741987_1163 replica FinalizedReplica, blk_1073741987_1163, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741987 for deletion
+[aiops-lab-dn1] 2026-11-07 00:22:16,893 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741987_1163 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741987
+[aiops-lab-dn1] 2026-11-07 00:22:26,184 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741989_1165 src: /127.0.0.1:47782 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:22:26,201 INFO DataNode.clienttrace: src: /127.0.0.1:47782, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-146243468_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741989_1165, duration(ns): 14685525
+[aiops-lab-dn1] 2026-11-07 00:22:26,201 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741989_1165, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:22:28,893 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741988_1164 replica FinalizedReplica, blk_1073741988_1164, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741988 for deletion
+[aiops-lab-dn1] 2026-11-07 00:22:28,893 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741988_1164 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741988
+[aiops-lab-dn1] 2026-11-07 00:22:36,746 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741990_1166 src: /127.0.0.1:42748 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:22:36,761 INFO DataNode.clienttrace: src: /127.0.0.1:42748, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1355613501_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741990_1166, duration(ns): 13295385
+[aiops-lab-dn1] 2026-11-07 00:22:36,761 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741990_1166, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:22:38,893 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741989_1165 replica FinalizedReplica, blk_1073741989_1165, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741989 for deletion
+[aiops-lab-dn1] 2026-11-07 00:22:38,893 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741989_1165 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741989
+[aiops-lab-dn1] 2026-11-07 00:22:50,627 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741991_1167 src: /127.0.0.1:58314 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:22:50,644 INFO DataNode.clienttrace: src: /127.0.0.1:58314, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1886945443_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741991_1167, duration(ns): 14243233
+[aiops-lab-dn1] 2026-11-07 00:22:50,644 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741991_1167, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:22:54,227 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741990_1166 replica FinalizedReplica, blk_1073741990_1166, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741990 for deletion
+[aiops-lab-dn1] 2026-11-07 00:22:54,228 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741990_1166 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741990
+[aiops-lab-dn1] 2026-11-07 00:23:01,288 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741992_1168 src: /127.0.0.1:51716 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:23:01,305 INFO DataNode.clienttrace: src: /127.0.0.1:51716, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1178190753_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741992_1168, duration(ns): 14693299
+[aiops-lab-dn1] 2026-11-07 00:23:01,305 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741992_1168, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:23:02,229 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741991_1167 replica FinalizedReplica, blk_1073741991_1167, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741991 for deletion
+[aiops-lab-dn1] 2026-11-07 00:23:02,229 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741991_1167 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741991
+[aiops-lab-dn1] 2026-11-07 00:23:11,558 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741993_1169 src: /127.0.0.1:44410 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:23:11,574 INFO DataNode.clienttrace: src: /127.0.0.1:44410, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-547390208_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741993_1169, duration(ns): 13931166
+[aiops-lab-dn1] 2026-11-07 00:23:11,574 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741993_1169, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:23:14,227 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741992_1168 replica FinalizedReplica, blk_1073741992_1168, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741992 for deletion
+[aiops-lab-dn1] 2026-11-07 00:23:14,227 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741992_1168 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741992
+[aiops-lab-dn1] 2026-11-07 00:23:25,525 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741994_1170 src: /127.0.0.1:38684 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:23:25,542 INFO DataNode.clienttrace: src: /127.0.0.1:38684, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-2003425526_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741994_1170, duration(ns): 14915578
+[aiops-lab-dn1] 2026-11-07 00:23:25,542 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741994_1170, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:23:27,564 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741993_1169 replica FinalizedReplica, blk_1073741993_1169, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741993 for deletion
+[aiops-lab-dn1] 2026-11-07 00:23:27,564 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741993_1169 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741993
+[aiops-lab-dn1] 2026-11-07 00:23:36,692 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741995_1171 src: /127.0.0.1:59844 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:23:36,705 INFO DataNode.clienttrace: src: /127.0.0.1:59844, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_123173150_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741995_1171, duration(ns): 11040653
+[aiops-lab-dn1] 2026-11-07 00:23:36,705 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741995_1171, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:23:39,565 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741994_1170 replica FinalizedReplica, blk_1073741994_1170, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741994 for deletion
+[aiops-lab-dn1] 2026-11-07 00:23:39,565 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741994_1170 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741994
+[aiops-lab-dn1] 2026-11-07 00:23:47,217 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741996_1172 src: /127.0.0.1:36378 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:23:47,233 INFO DataNode.clienttrace: src: /127.0.0.1:36378, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1629020182_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741996_1172, duration(ns): 14067611
+[aiops-lab-dn1] 2026-11-07 00:23:47,233 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741996_1172, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:23:54,905 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741995_1171 replica FinalizedReplica, blk_1073741995_1171, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741995 for deletion
+[aiops-lab-dn1] 2026-11-07 00:23:54,906 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741995_1171 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741995
+[aiops-lab-dn1] 2026-11-07 00:24:01,496 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741997_1173 src: /127.0.0.1:38280 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:24:01,513 INFO DataNode.clienttrace: src: /127.0.0.1:38280, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1418973094_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741997_1173, duration(ns): 15456604
+[aiops-lab-dn1] 2026-11-07 00:24:01,514 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741997_1173, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:24:02,905 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741996_1172 replica FinalizedReplica, blk_1073741996_1172, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741996 for deletion
+[aiops-lab-dn1] 2026-11-07 00:24:02,906 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741996_1172 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741996
+[aiops-lab-dn1] 2026-11-07 00:24:11,915 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741998_1174 src: /127.0.0.1:49980 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:24:11,928 INFO DataNode.clienttrace: src: /127.0.0.1:49980, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1465146650_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741998_1174, duration(ns): 11586674
+[aiops-lab-dn1] 2026-11-07 00:24:11,929 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741998_1174, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:24:14,905 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741997_1173 replica FinalizedReplica, blk_1073741997_1173, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741997 for deletion
+[aiops-lab-dn1] 2026-11-07 00:24:14,905 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741997_1173 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741997
+[aiops-lab-dn1] 2026-11-07 00:24:22,043 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073741999_1175 src: /127.0.0.1:37468 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:24:22,058 INFO DataNode.clienttrace: src: /127.0.0.1:37468, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1507080472_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073741999_1175, duration(ns): 13438526
+[aiops-lab-dn1] 2026-11-07 00:24:22,058 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073741999_1175, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:24:28,241 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741998_1174 replica FinalizedReplica, blk_1073741998_1174, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741998 for deletion
+[aiops-lab-dn1] 2026-11-07 00:24:28,241 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741998_1174 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741998
+[aiops-lab-dn1] 2026-11-07 00:24:34,708 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073742000_1176 src: /127.0.0.1:57914 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:24:34,722 INFO DataNode.clienttrace: src: /127.0.0.1:57914, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1985231842_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073742000_1176, duration(ns): 12077051
+[aiops-lab-dn1] 2026-11-07 00:24:34,722 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073742000_1176, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:24:36,243 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073741999_1175 replica FinalizedReplica, blk_1073741999_1175, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741999 for deletion
+[aiops-lab-dn1] 2026-11-07 00:24:36,243 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073741999_1175 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073741999
+[aiops-lab-dn1] 2026-11-07 00:24:44,147 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073742001_1177 src: /127.0.0.1:56532 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:24:44,162 INFO DataNode.clienttrace: src: /127.0.0.1:56532, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1630822184_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073742001_1177, duration(ns): 12553238
+[aiops-lab-dn1] 2026-11-07 00:24:44,162 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073742001_1177, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:24:46,242 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073742000_1176 replica FinalizedReplica, blk_1073742000_1176, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742000 for deletion
+[aiops-lab-dn1] 2026-11-07 00:24:46,242 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073742000_1176 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742000
+[aiops-lab-dn1] 2026-11-07 00:24:54,302 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073742002_1178 src: /127.0.0.1:33050 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:24:54,317 INFO DataNode.clienttrace: src: /127.0.0.1:33050, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1401018994_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073742002_1178, duration(ns): 12637931
+[aiops-lab-dn1] 2026-11-07 00:24:54,318 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073742002_1178, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:25:01,584 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073742001_1177 replica FinalizedReplica, blk_1073742001_1177, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742001 for deletion
+[aiops-lab-dn1] 2026-11-07 00:25:01,584 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073742001_1177 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742001
+[aiops-lab-dn1] 2026-11-07 00:25:08,995 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073742003_1179 src: /127.0.0.1:52960 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:25:09,008 INFO DataNode.clienttrace: src: /127.0.0.1:52960, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-961604804_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073742003_1179, duration(ns): 11821656
+[aiops-lab-dn1] 2026-11-07 00:25:09,009 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073742003_1179, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:25:09,590 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073742002_1178 replica FinalizedReplica, blk_1073742002_1178, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742002 for deletion
+[aiops-lab-dn1] 2026-11-07 00:25:09,590 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073742002_1178 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742002
+[aiops-lab-dn1] 2026-11-07 00:25:21,961 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073742004_1180 src: /127.0.0.1:54618 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:25:21,976 INFO DataNode.clienttrace: src: /127.0.0.1:54618, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1020504694_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073742004_1180, duration(ns): 12408817
+[aiops-lab-dn1] 2026-11-07 00:25:21,976 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073742004_1180, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:25:25,591 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073742003_1179 replica FinalizedReplica, blk_1073742003_1179, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742003 for deletion
+[aiops-lab-dn1] 2026-11-07 00:25:25,591 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073742003_1179 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742003
+[aiops-lab-dn1] 2026-11-07 00:25:35,978 INFO datanode.DataNode: Receiving BP-682513034-127.0.1.1-1793206783995:blk_1073742005_1181 src: /127.0.0.1:45784 dest: /127.0.0.1:9866
+[aiops-lab-dn1] 2026-11-07 00:25:35,993 INFO DataNode.clienttrace: src: /127.0.0.1:45784, dest: /127.0.0.1:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_2060110370_1, offset: 0, srvID: 8a39abbf-2d08-4be6-99ab-6fe7f4fd49a4, blockid: BP-682513034-127.0.1.1-1793206783995:blk_1073742005_1181, duration(ns): 13324172
+[aiops-lab-dn1] 2026-11-07 00:25:35,994 INFO datanode.DataNode: PacketResponder: BP-682513034-127.0.1.1-1793206783995:blk_1073742005_1181, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn1] 2026-11-07 00:25:36,931 INFO impl.FsDatasetAsyncDiskService: Scheduling blk_1073742004_1180 replica FinalizedReplica, blk_1073742004_1180, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = /mnt/labvol
+[aiops-lab-dn1]   getBlockURI()     = file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742004 for deletion
+[aiops-lab-dn1] 2026-11-07 00:25:36,931 INFO impl.FsDatasetAsyncDiskService: Deleted BP-682513034-127.0.1.1-1793206783995 blk_1073742004_1180 URI file:/mnt/labvol/current/BP-682513034-127.0.1.1-1793206783995/current/finalized/subdir0/subdir0/blk_1073742004

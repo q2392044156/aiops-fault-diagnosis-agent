@@ -1,21 +1,25 @@
 {
   "schema_version": 1,
   "release_id": "novelty_v1",
-  "created_at": "2026-11-06T15:30:15.004422+00:00",
+  "created_at": "2026-11-06T16:04:03.759702+00:00",
   "source_type": "docker_container",
   "detector_sha256": "831cb579da1c0bfdefa4e6ecd8c5ed55da84023d09184eb6bd3cd706feaf8d4c",
-  "normal_sha256": "fe6a1042fd7f05be91996e6206d2a9cbb5ae4ff12432a6d79f743ff92d898d36",
+  "normal_sha256": "d796b2c0fb4d37320aae7eef9efdb60e2b0c054a81329b69cbea5579b06302ff",
   "normal_files": [
     "10m_aiops-lab-dn1.log",
     "10m_aiops-lab-dn2.log",
     "10m_aiops-lab-dn3.log",
     "10m_aiops-lab-namenode.log",
+    "15m_aiops-lab-dn1.log",
+    "15m_aiops-lab-dn2.log",
+    "15m_aiops-lab-dn3.log",
+    "15m_aiops-lab-namenode.log",
     "5m_aiops-lab-dn1.log",
     "5m_aiops-lab-dn2.log",
     "5m_aiops-lab-dn3.log",
     "5m_aiops-lab-namenode.log"
   ],
-  "normal_windows": null,
+  "normal_windows": 85,
   "threshold": 0.05,
   "target_fpr": 0.05,
   "model": "template_novelty"

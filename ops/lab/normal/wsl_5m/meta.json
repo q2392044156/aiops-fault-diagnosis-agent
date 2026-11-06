@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source_type": "wsl",
+  "started_at": "2026-11-06T16:05:14.843765+00:00",
+  "duration_minutes": 5.0,
+  "rounds": 25,
+  "logs": [
+    "nn.log",
+    "dn.log"
+  ]
+}

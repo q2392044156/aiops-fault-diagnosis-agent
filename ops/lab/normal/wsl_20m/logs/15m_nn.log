@@ -1,0 +1,162 @@
+[aiops-lab-namenode] 2026-11-07 00:10:38,651 INFO hdfs.StateChange: BLOCK* allocate blk_1073741931_1107, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:10:38,771 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1520855557_1
+[aiops-lab-namenode] 2026-11-07 00:10:49,424 INFO hdfs.StateChange: BLOCK* allocate blk_1073741932_1108, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:10:49,568 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-987782233_1
+[aiops-lab-namenode] 2026-11-07 00:10:59,900 INFO hdfs.StateChange: BLOCK* allocate blk_1073741933_1109, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:10:59,997 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-445572706_1
+[aiops-lab-namenode] 2026-11-07 00:11:13,734 INFO hdfs.StateChange: BLOCK* allocate blk_1073741934_1110, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:11:13,840 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_266609982_1
+[aiops-lab-namenode] 2026-11-07 00:11:24,905 INFO namenode.FSEditLog: Number of transactions: 205 Total time for transactions(ms): 33 Number of transactions batched in Syncs: 557 Number of syncs: 176 SyncTimes(ms): 734 
+[aiops-lab-namenode] 2026-11-07 00:11:24,960 INFO hdfs.StateChange: BLOCK* allocate blk_1073741935_1111, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:11:25,061 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1527695935_1
+[aiops-lab-namenode] 2026-11-07 00:11:31,118 INFO hdfs.StateChange: BLOCK* allocate blk_1073741936_1112, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:11:39,600 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_538709413_1
+[aiops-lab-namenode] 2026-11-07 00:11:50,863 INFO hdfs.StateChange: BLOCK* allocate blk_1073741937_1113, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:11:51,020 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-131868308_1
+[aiops-lab-namenode] 2026-11-07 00:12:02,068 INFO hdfs.StateChange: BLOCK* allocate blk_1073741938_1114, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:12:02,169 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-554339706_1
+[aiops-lab-namenode] 2026-11-07 00:12:16,476 INFO hdfs.StateChange: BLOCK* allocate blk_1073741939_1115, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:12:16,569 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1580911461_1
+[aiops-lab-namenode] 2026-11-07 00:12:28,078 INFO hdfs.StateChange: BLOCK* allocate blk_1073741940_1116, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:12:28,237 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-706884671_1
+[aiops-lab-namenode] 2026-11-07 00:12:41,144 INFO namenode.FSEditLog: Number of transactions: 247 Total time for transactions(ms): 39 Number of transactions batched in Syncs: 563 Number of syncs: 212 SyncTimes(ms): 872 
+[aiops-lab-namenode] 2026-11-07 00:12:41,220 INFO hdfs.StateChange: BLOCK* allocate blk_1073741941_1117, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:12:41,382 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1196471687_1
+[aiops-lab-namenode] 2026-11-07 00:12:57,048 INFO hdfs.StateChange: BLOCK* allocate blk_1073741942_1118, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:12:57,167 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_821666613_1
+[aiops-lab-namenode] 2026-11-07 00:13:09,430 INFO hdfs.StateChange: BLOCK* allocate blk_1073741943_1119, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:13:09,559 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-715752038_1
+[aiops-lab-namenode] 2026-11-07 00:13:25,726 INFO hdfs.StateChange: BLOCK* allocate blk_1073741944_1120, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:13:25,891 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1502815791_1
+[aiops-lab-namenode] 2026-11-07 00:13:38,423 INFO hdfs.StateChange: BLOCK* allocate blk_1073741945_1121, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:13:38,620 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-691256192_1
+[aiops-lab-namenode] 2026-11-07 00:13:53,962 INFO namenode.FSEditLog: Number of transactions: 282 Total time for transactions(ms): 41 Number of transactions batched in Syncs: 568 Number of syncs: 242 SyncTimes(ms): 1001 
+[aiops-lab-namenode] 2026-11-07 00:13:54,027 INFO hdfs.StateChange: BLOCK* allocate blk_1073741946_1122, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:13:54,160 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1146602523_1
+[aiops-lab-namenode] 2026-11-07 00:14:05,500 INFO hdfs.StateChange: BLOCK* allocate blk_1073741947_1123, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:14:05,601 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_314588963_1
+[aiops-lab-namenode] 2026-11-07 00:14:16,524 INFO hdfs.StateChange: BLOCK* allocate blk_1073741948_1124, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:14:16,607 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1062923901_1
+[aiops-lab-namenode] 2026-11-07 00:14:30,727 INFO hdfs.StateChange: BLOCK* allocate blk_1073741949_1125, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:14:30,833 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_96435809_1
+[aiops-lab-namenode] 2026-11-07 00:14:41,432 INFO hdfs.StateChange: BLOCK* allocate blk_1073741950_1126, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:14:41,523 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-2063501811_1
+[aiops-lab-namenode] 2026-11-07 00:14:52,317 INFO hdfs.StateChange: BLOCK* allocate blk_1073741951_1127, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:14:52,409 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_399544587_1
+[aiops-lab-namenode] 2026-11-07 00:15:06,464 INFO namenode.FSEditLog: Number of transactions: 324 Total time for transactions(ms): 45 Number of transactions batched in Syncs: 574 Number of syncs: 278 SyncTimes(ms): 1149 
+[aiops-lab-namenode] 2026-11-07 00:15:06,520 INFO hdfs.StateChange: BLOCK* allocate blk_1073741952_1128, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:15:06,612 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-747766755_1
+[aiops-lab-namenode] 2026-11-07 00:15:17,525 INFO hdfs.StateChange: BLOCK* allocate blk_1073741953_1129, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:15:17,649 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_895591853_1
+[aiops-lab-namenode] 2026-11-07 00:15:28,871 INFO hdfs.StateChange: BLOCK* allocate blk_1073741954_1130, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:15:28,966 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_93009449_1
+[aiops-lab-namenode] 2026-11-07 00:15:42,546 INFO hdfs.StateChange: BLOCK* allocate blk_1073741955_1131, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:15:42,631 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_725695690_1
+[aiops-lab-namenode] 2026-11-07 00:15:52,962 INFO hdfs.StateChange: BLOCK* allocate blk_1073741956_1132, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:15:53,059 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_47663567_1
+[aiops-lab-namenode] 2026-11-07 00:16:06,860 INFO hdfs.StateChange: BLOCK* allocate blk_1073741957_1133, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:16:07,008 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1717300187_1
+[aiops-lab-namenode] 2026-11-07 00:16:17,183 INFO namenode.FSEditLog: Number of transactions: 366 Total time for transactions(ms): 49 Number of transactions batched in Syncs: 580 Number of syncs: 314 SyncTimes(ms): 1292 
+[aiops-lab-namenode] 2026-11-07 00:16:17,229 INFO hdfs.StateChange: BLOCK* allocate blk_1073741958_1134, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:16:17,313 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_453941745_1
+[aiops-lab-namenode] 2026-11-07 00:16:28,207 INFO hdfs.StateChange: BLOCK* allocate blk_1073741959_1135, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:16:28,322 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-491132463_1
+[aiops-lab-namenode] 2026-11-07 00:16:42,158 INFO hdfs.StateChange: BLOCK* allocate blk_1073741960_1136, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:16:42,239 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_284323681_1
+[aiops-lab-namenode] 2026-11-07 00:16:53,591 INFO hdfs.StateChange: BLOCK* allocate blk_1073741961_1137, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:16:53,719 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_39894439_1
+[aiops-lab-namenode] 2026-11-07 00:17:04,523 INFO hdfs.StateChange: BLOCK* allocate blk_1073741962_1138, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:17:04,616 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-974118635_1
+[aiops-lab-namenode] 2026-11-07 00:17:18,515 INFO hdfs.StateChange: BLOCK* allocate blk_1073741963_1139, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:17:18,622 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1223525128_1
+[aiops-lab-namenode] 2026-11-07 00:17:29,583 INFO namenode.FSEditLog: Number of transactions: 408 Total time for transactions(ms): 52 Number of transactions batched in Syncs: 586 Number of syncs: 350 SyncTimes(ms): 1422 
+[aiops-lab-namenode] 2026-11-07 00:17:29,639 INFO hdfs.StateChange: BLOCK* allocate blk_1073741964_1140, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:17:29,736 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1478994837_1
+[aiops-lab-namenode] 2026-11-07 00:17:40,463 INFO hdfs.StateChange: BLOCK* allocate blk_1073741965_1141, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:17:40,592 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-884970030_1
+[aiops-lab-namenode] 2026-11-07 00:17:54,969 INFO hdfs.StateChange: BLOCK* allocate blk_1073741966_1142, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:17:55,076 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-2047070043_1
+[aiops-lab-namenode] 2026-11-07 00:18:05,513 INFO hdfs.StateChange: BLOCK* allocate blk_1073741967_1143, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:18:05,594 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-2010956424_1
+[aiops-lab-namenode] 2026-11-07 00:18:11,074 INFO hdfs.StateChange: BLOCK* allocate blk_1073741968_1144, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:18:11,163 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1694557478_1
+[aiops-lab-namenode] 2026-11-07 00:18:29,775 INFO hdfs.StateChange: BLOCK* allocate blk_1073741969_1145, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:18:29,876 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1271913250_1
+[aiops-lab-namenode] 2026-11-07 00:18:40,412 INFO namenode.FSEditLog: Number of transactions: 450 Total time for transactions(ms): 54 Number of transactions batched in Syncs: 592 Number of syncs: 386 SyncTimes(ms): 1571 
+[aiops-lab-namenode] 2026-11-07 00:18:40,464 INFO hdfs.StateChange: BLOCK* allocate blk_1073741970_1146, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:18:40,560 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1014690999_1
+[aiops-lab-namenode] 2026-11-07 00:18:54,379 INFO hdfs.StateChange: BLOCK* allocate blk_1073741971_1147, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:18:54,479 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-84202541_1
+[aiops-lab-namenode] 2026-11-07 00:19:05,782 INFO hdfs.StateChange: BLOCK* allocate blk_1073741972_1148, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:19:05,877 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-990539749_1
+[aiops-lab-namenode] 2026-11-07 00:19:16,599 INFO hdfs.StateChange: BLOCK* allocate blk_1073741973_1149, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:19:16,694 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-966024435_1
+[aiops-lab-namenode] 2026-11-07 00:19:30,660 INFO hdfs.StateChange: BLOCK* allocate blk_1073741974_1150, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:19:30,755 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_296794388_1
+[aiops-lab-namenode] 2026-11-07 00:19:40,981 INFO hdfs.StateChange: BLOCK* allocate blk_1073741975_1151, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:19:41,067 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-2100781532_1
+[aiops-lab-namenode] 2026-11-07 00:19:51,397 INFO namenode.FSEditLog: Number of transactions: 492 Total time for transactions(ms): 57 Number of transactions batched in Syncs: 598 Number of syncs: 422 SyncTimes(ms): 1713 
+[aiops-lab-namenode] 2026-11-07 00:19:51,448 INFO hdfs.StateChange: BLOCK* allocate blk_1073741976_1152, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:19:51,537 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_277615383_1
+[aiops-lab-namenode] 2026-11-07 00:20:05,579 INFO hdfs.StateChange: BLOCK* allocate blk_1073741977_1153, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:20:05,693 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_469628527_1
+[aiops-lab-namenode] 2026-11-07 00:20:16,324 INFO hdfs.StateChange: BLOCK* allocate blk_1073741978_1154, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:20:16,440 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-898913341_1
+[aiops-lab-namenode] 2026-11-07 00:20:26,870 INFO hdfs.StateChange: BLOCK* allocate blk_1073741979_1155, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:20:26,967 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_559039751_1
+[aiops-lab-namenode] 2026-11-07 00:20:40,805 INFO hdfs.StateChange: BLOCK* allocate blk_1073741980_1156, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:20:40,918 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-2048532884_1
+[aiops-lab-namenode] 2026-11-07 00:20:51,155 INFO hdfs.StateChange: BLOCK* allocate blk_1073741981_1157, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:20:51,239 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1205629254_1
+[aiops-lab-namenode] 2026-11-07 00:21:01,545 INFO namenode.FSEditLog: Number of transactions: 534 Total time for transactions(ms): 58 Number of transactions batched in Syncs: 604 Number of syncs: 458 SyncTimes(ms): 1850 
+[aiops-lab-namenode] 2026-11-07 00:21:01,663 INFO hdfs.StateChange: BLOCK* allocate blk_1073741982_1158, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:21:01,773 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1656217734_1
+[aiops-lab-namenode] 2026-11-07 00:21:15,514 INFO hdfs.StateChange: BLOCK* allocate blk_1073741983_1159, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:21:15,596 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1621588628_1
+[aiops-lab-namenode] 2026-11-07 00:21:25,896 INFO hdfs.StateChange: BLOCK* allocate blk_1073741984_1160, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:21:25,986 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_748958440_1
+[aiops-lab-namenode] 2026-11-07 00:21:39,932 INFO hdfs.StateChange: BLOCK* allocate blk_1073741985_1161, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:21:40,020 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_189874598_1
+[aiops-lab-namenode] 2026-11-07 00:21:50,539 INFO hdfs.StateChange: BLOCK* allocate blk_1073741986_1162, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:21:50,638 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1096848944_1
+[aiops-lab-namenode] 2026-11-07 00:22:01,338 INFO hdfs.StateChange: BLOCK* allocate blk_1073741987_1163, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:22:01,440 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_143412838_1
+[aiops-lab-namenode] 2026-11-07 00:22:15,103 INFO namenode.FSEditLog: Number of transactions: 576 Total time for transactions(ms): 59 Number of transactions batched in Syncs: 610 Number of syncs: 494 SyncTimes(ms): 1994 
+[aiops-lab-namenode] 2026-11-07 00:22:15,156 INFO hdfs.StateChange: BLOCK* allocate blk_1073741988_1164, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:22:15,255 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_647475907_1
+[aiops-lab-namenode] 2026-11-07 00:22:26,095 INFO hdfs.StateChange: BLOCK* allocate blk_1073741989_1165, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:22:26,205 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-146243468_1
+[aiops-lab-namenode] 2026-11-07 00:22:36,671 INFO hdfs.StateChange: BLOCK* allocate blk_1073741990_1166, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:22:36,765 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1355613501_1
+[aiops-lab-namenode] 2026-11-07 00:22:50,554 INFO hdfs.StateChange: BLOCK* allocate blk_1073741991_1167, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:22:50,648 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1886945443_1
+[aiops-lab-namenode] 2026-11-07 00:23:01,203 INFO hdfs.StateChange: BLOCK* allocate blk_1073741992_1168, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:23:01,308 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1178190753_1
+[aiops-lab-namenode] 2026-11-07 00:23:11,461 INFO hdfs.StateChange: BLOCK* allocate blk_1073741993_1169, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:23:11,578 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-547390208_1
+[aiops-lab-namenode] 2026-11-07 00:23:25,394 INFO namenode.FSEditLog: Number of transactions: 618 Total time for transactions(ms): 62 Number of transactions batched in Syncs: 616 Number of syncs: 530 SyncTimes(ms): 2137 
+[aiops-lab-namenode] 2026-11-07 00:23:25,450 INFO hdfs.StateChange: BLOCK* allocate blk_1073741994_1170, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:23:25,546 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-2003425526_1
+[aiops-lab-namenode] 2026-11-07 00:23:36,635 INFO hdfs.StateChange: BLOCK* allocate blk_1073741995_1171, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:23:36,708 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_123173150_1
+[aiops-lab-namenode] 2026-11-07 00:23:47,143 INFO hdfs.StateChange: BLOCK* allocate blk_1073741996_1172, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:23:47,237 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1629020182_1
+[aiops-lab-namenode] 2026-11-07 00:24:01,429 INFO hdfs.StateChange: BLOCK* allocate blk_1073741997_1173, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:24:01,517 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1418973094_1
+[aiops-lab-namenode] 2026-11-07 00:24:11,847 INFO hdfs.StateChange: BLOCK* allocate blk_1073741998_1174, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:24:11,932 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1465146650_1
+[aiops-lab-namenode] 2026-11-07 00:24:21,992 INFO hdfs.StateChange: BLOCK* allocate blk_1073741999_1175, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:24:22,061 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1507080472_1
+[aiops-lab-namenode] 2026-11-07 00:24:34,609 INFO namenode.FSEditLog: Number of transactions: 660 Total time for transactions(ms): 63 Number of transactions batched in Syncs: 622 Number of syncs: 566 SyncTimes(ms): 2269 
+[aiops-lab-namenode] 2026-11-07 00:24:34,644 INFO hdfs.StateChange: BLOCK* allocate blk_1073742000_1176, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:24:34,725 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1985231842_1
+[aiops-lab-namenode] 2026-11-07 00:24:44,092 INFO hdfs.StateChange: BLOCK* allocate blk_1073742001_1177, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:24:44,165 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1630822184_1
+[aiops-lab-namenode] 2026-11-07 00:24:54,196 INFO hdfs.StateChange: BLOCK* allocate blk_1073742002_1178, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:24:54,321 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1401018994_1
+[aiops-lab-namenode] 2026-11-07 00:25:08,916 INFO hdfs.StateChange: BLOCK* allocate blk_1073742003_1179, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:25:09,012 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-961604804_1
+[aiops-lab-namenode] 2026-11-07 00:25:21,881 INFO hdfs.StateChange: BLOCK* allocate blk_1073742004_1180, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:25:21,979 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1020504694_1
+[aiops-lab-namenode] 2026-11-07 00:25:35,897 INFO hdfs.StateChange: BLOCK* allocate blk_1073742005_1181, replicas=127.0.0.1:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-07 00:25:35,998 INFO hdfs.StateChange: DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_2060110370_1

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_type": "docker_container",
+  "started_at": "2026-11-06T15:43:57.561784+00:00",
+  "duration_minutes": 15.0,
+  "rounds": 58,
+  "containers": [
+    "aiops-lab-namenode",
+    "aiops-lab-dn1",
+    "aiops-lab-dn2",
+    "aiops-lab-dn3"
+  ],
+  "lines": {
+    "aiops-lab-namenode": 825,
+    "aiops-lab-dn1": 0,
+    "aiops-lab-dn2": 597,
+    "aiops-lab-dn3": 598
+  }
+}
