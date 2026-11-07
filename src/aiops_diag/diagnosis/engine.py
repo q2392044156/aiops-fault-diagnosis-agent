@@ -115,48 +115,17 @@ def estimate_tokens(row):
     return max(1, len(row.get("redacted_message") or "") // 4)
 
 
-# 方法说明：select_log_rows 优先保留信号行、严重行与窗口尾部，并做 token/堆栈去重。
+# 方法说明：select_log_rows 兼容旧调用，委托结构化选择器。
 def select_log_rows(log_rows, limit, token_budget=None):
-    limit = int(limit)
-    if len(log_rows) <= limit and not token_budget:
-        return log_rows
-    signals = tuple(word for words in AgentTools.CODE_SIGNALS.values() for word in words)
-    signals += ("volume", "disk", "storage", "exception", "failed", "error")
-    signal_rows = [row for row in log_rows
-                   if any(word in (row.get("redacted_message") or "").lower()
-                          for word in signals)]
-    severe = [row for row in log_rows
-              if row.get("level") in ("ERROR", "WARN", "FATAL")]
-    seen, signatures, picked, tokens = set(), set(), [], 0
-    for row in signal_rows + severe + log_rows[-limit:]:
-        if row["log_id"] in seen:
-            continue
-        signature = _signature(row)
-        if signature in signatures:
-            continue
-        cost = estimate_tokens(row)
-        if token_budget and picked and tokens + cost > int(token_budget):
-            continue
-        seen.add(row["log_id"])
-        signatures.add(signature)
-        picked.append(row)
-        tokens += cost
-        if len(picked) >= limit:
-            break
-    return picked
+    from aiops_diag.diagnosis.evidence import EvidenceSelector
+    selected, _ = EvidenceSelector(limit, token_budget).select(log_rows)
+    return selected
 
 
-# 方法说明：evidence_sufficiency 判断证据包是否至少包含信号或严重级别。
+# 方法说明：evidence_sufficiency 兼容旧调用，返回结构化质量摘要。
 def evidence_sufficiency(selected):
-    signals = tuple(word for words in AgentTools.CODE_SIGNALS.values() for word in words)
-    has_signal = any(any(word in (row.get("redacted_message") or "").lower()
-                         for word in signals) for row in selected)
-    has_error = any(row.get("level") in ("ERROR", "FATAL") for row in selected)
-    return {"sufficient": bool(has_signal or has_error),
-            "has_signal": has_signal, "has_error": has_error,
-            "selected": len(selected),
-            "tokens_est": sum(estimate_tokens(row) for row in selected),
-            "missing": [] if has_signal or has_error else ["signal_or_error_evidence"]}
+    from aiops_diag.diagnosis.evidence import EvidenceSelector
+    return EvidenceSelector().quality(selected, selected)
 
 
 # 类说明：`AgentEngine` 封装本模块内聚的数据和行为。
@@ -540,8 +509,19 @@ class AgentEngine:
         log_rows = logs.get("data", {}).get("items", [])
         limit = int(self.cfg["tools"]["query_logs_limit"])
         token_budget = int(self.cfg["tools"].get("evidence_token_budget", 2000))
-        log_rows = select_log_rows(log_rows, limit, token_budget)
-        quality = evidence_sufficiency(log_rows)
+        from aiops_diag.diagnosis.evidence import EvidenceSelector
+        focus = None
+        if log_rows:
+            counts = {}
+            for row in log_rows:
+                name = row.get("component")
+                if name:
+                    counts[name] = counts.get(name, 0) + 1
+            if counts:
+                focus = max(counts, key=counts.get)
+        selector = EvidenceSelector(limit, token_budget, focus)
+        log_rows, quality = selector.select(log_rows)
+        state["evidence_quality"] = quality
         if not quality["sufficient"]:
             state["review_reasons"].append("insufficient_evidence")
         log_items = [log_evidence(row, self.service_manifest["release_id"]) for row in log_rows]

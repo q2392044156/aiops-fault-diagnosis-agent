@@ -134,9 +134,22 @@ class AgentEngine(LegacyAgentEngine):
         if not logs["ok"]:
             state["review_reasons"].append("tool_failure")
         log_rows = logs.get("data", {}).get("items", [])
-        log_rows = select_log_rows(
-            log_rows, min(50, int(self.cfg["tools"]["query_logs_limit"])),
-            int(self.cfg["tools"].get("evidence_token_budget", 2000)))
+        from aiops_diag.diagnosis.evidence import EvidenceSelector
+        focus = None
+        counts = {}
+        for row in log_rows:
+            name = row.get("component")
+            if name:
+                counts[name] = counts.get(name, 0) + 1
+        if counts:
+            focus = max(counts, key=counts.get)
+        log_rows, quality = EvidenceSelector(
+            min(50, int(self.cfg["tools"]["query_logs_limit"])),
+            int(self.cfg["tools"].get("evidence_token_budget", 2000)),
+            focus).select(log_rows)
+        state["evidence_quality"] = quality
+        if not quality["sufficient"]:
+            state["review_reasons"].append("insufficient_evidence")
         all_text = " ".join((row.get("redacted_message") or "")
                             for row in log_rows).lower()
         detected = detected_codes_from_text(all_text)

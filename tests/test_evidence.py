@@ -1,6 +1,7 @@
 """模块说明：验证证据级评测的关键证据规则。"""
 
 from aiops_diag.diagnosis.engine import evidence_sufficiency, select_log_rows
+from aiops_diag.diagnosis.evidence import EvidenceSelector
 from ops.lab.harness.evidence import gold_ids
 
 
@@ -22,6 +23,20 @@ def test_heartbeat_gold_matches_lost_datanode():
     incident = {"labels": {"root_cause_code": "DN_HEARTBEAT"}}
     rows = [_row("a", "Lost DataNode 10.0.0.1"), _row("b", "normal")]
     assert gold_ids(incident, rows) == ["a"]
+
+
+# 方法说明：验证关注组件优先和结构化质量。
+def test_selector_prefers_focus_component():
+    rows = [
+        {"log_id": "a", "level": "INFO", "component": "NameNode",
+         "redacted_message": "volume started"},
+        {"log_id": "b", "level": "ERROR", "component": "DataNode",
+         "redacted_message": "No space left on device"},
+    ]
+    selected, quality = EvidenceSelector(2, 2000, "DataNode").select(rows)
+    assert any(row["component"] == "DataNode" for row in selected)
+    assert quality["sufficient"] is True
+    assert "DataNode" in quality["components"]
 
 
 # 方法说明：验证 token 预算和堆栈去重。
