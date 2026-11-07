@@ -36,6 +36,7 @@ def main(argv=None):
     parser.add_argument("--output", default=str(ROOT / "resources/evaluation/lab/batch"))
     parser.add_argument("--real", action="store_true")
     parser.add_argument("--observe", type=int, default=15)
+    parser.add_argument("--require-signal", action="store_true")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -52,7 +53,8 @@ def main(argv=None):
         for _ in range(counts.get(fault, 0)):
             runs.append(run_case(fault, args.observe, dry_run=not args.real,
                                  import_db=args.database, case_root=args.cases,
-                                 ingest_db=args.database))
+                                 ingest_db=args.database,
+                                 require_signal=args.require_signal))
     evaluator = _evaluator()
     from aiops_diag.platform.db import Database
     result = evaluator.evaluate(Database(args.database), args.cases)

@@ -151,7 +151,7 @@ def _dry(fault, start):
 
 # 方法说明：run_case 执行一次实验并写出 incident 与映射文件。
 def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root=None,
-             ingest_db=None):
+             ingest_db=None, require_signal=False):
     spec = FAULTS[fault]
     started = datetime.now(timezone.utc)
     case_id = f"inc_lab_{fault.lower()}_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
@@ -195,10 +195,11 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         if remaining > 0:
             time.sleep(remaining)
         cutoff = window_end
-        containers = {spec["container"], "aiops-lab-namenode"}
-        if spec["mode"] == "stop":
-            containers = {spec["signal_container"]}
-        logs = _capture_logs(sorted(containers), t0.isoformat(), cutoff.isoformat())
+        containers = {"aiops-lab-namenode", "aiops-lab-dn1", "aiops-lab-dn2",
+                      "aiops-lab-dn3"}
+        since = (t0 - timedelta(seconds=60)).isoformat()
+        until = (cutoff + timedelta(seconds=60)).isoformat()
+        logs = _capture_logs(sorted(containers), since, until)
         metrics = _metrics(["aiops-lab-namenode", "aiops-lab-dn1", "aiops-lab-dn2",
                             "aiops-lab-dn3"])
         if writer is not None:
@@ -218,6 +219,8 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         human = recovered + timedelta(seconds=10)
         agent_detected = None
 
+    if require_signal and not dry_run and not found:
+        raise RuntimeError("injection signal was not observed; case is invalid")
     logs = redact(logs)
     logs_path = case_dir / "evidence" / "logs" / f"{case_id}.log"
     metrics_path = case_dir / "evidence" / "metrics" / f"{case_id}.csv"
@@ -283,11 +286,13 @@ def main(argv=None):
     parser.add_argument("--import-db")
     parser.add_argument("--ingest-db")
     parser.add_argument("--case-root")
+    parser.add_argument("--require-signal", action="store_true")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print(json.dumps(run_case(args.fault, args.observe, args.dry_run, args.import_db,
-                             args.case_root, args.ingest_db),
+                             args.case_root, args.ingest_db,
+                             require_signal=args.require_signal),
                      ensure_ascii=False, indent=2))
     return 0
 
