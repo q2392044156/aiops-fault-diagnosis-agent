@@ -1,0 +1,40 @@
+[aiops-lab-dn1] 2026-11-07 22:54:28,899 INFO datanode.DataNode: STARTUP_MSG: 
+[aiops-lab-dn1] /************************************************************
+[aiops-lab-dn1] STARTUP_MSG: Starting DataNode
+[aiops-lab-dn1] STARTUP_MSG:   host = WIN-20260727MVX/<:IP:>
+[aiops-lab-dn1] STARTUP_MSG:   args = []
+[aiops-lab-dn1] STARTUP_MSG:   version = 3.3.6
+[aiops-lab-dn1] STARTUP_MSG:   classpath = <:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>
+[aiops-lab-dn1] STARTUP_MSG:   build = https:/<:PATH:> -r 1be78238728da9266a4f88195058f08fd012bf9c; compiled by 'ubuntu' on 2023-06-18T08:22Z
+[aiops-lab-dn1] STARTUP_MSG:   java = <:IP:>
+[aiops-lab-dn1] ************************************************************/
+[aiops-lab-dn1] 2026-11-07 22:54:28,912 INFO datanode.DataNode: registered UNIX signal handlers for [TERM, HUP, INT]
+[aiops-lab-dn1] 2026-11-07 22:54:29,291 INFO checker.ThrottledAsyncChecker: Scheduling a check for [DISK]file:/mnt/labvol
+[aiops-lab-dn1] 2026-11-07 22:54:29,343 WARN checker.StorageLocationChecker: Exception checking StorageLocation [DISK]file:/mnt/labvol
+[aiops-lab-dn1] org.apache.hadoop.util.DiskChecker$DiskErrorException: Directory is not writable: /mnt/labvol
+[aiops-lab-dn1] 	at org.apache.hadoop.util.DiskChecker.checkAccessByFileMethods(DiskChecker.java:167)
+[aiops-lab-dn1] 	at org.apache.hadoop.util.DiskChecker.checkDirInternal(DiskChecker.java:142)
+[aiops-lab-dn1] 	at org.apache.hadoop.util.DiskChecker.checkDir(DiskChecker.java:116)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.StorageLocation.check(StorageLocation.java:239)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.StorageLocation.check(StorageLocation.java:52)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.checker.ThrottledAsyncChecker$1.call(ThrottledAsyncChecker.java:142)
+[aiops-lab-dn1] 	at org.apache.hadoop.thirdparty.com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask.runInterruptibly(TrustedListenableFutureTask.java:125)
+[aiops-lab-dn1] 	at org.apache.hadoop.thirdparty.com.google.common.util.concurrent.InterruptibleTask.run(InterruptibleTask.java:69)
+[aiops-lab-dn1] 	at org.apache.hadoop.thirdparty.com.google.common.util.concurrent.TrustedListenableFutureTask.run(TrustedListenableFutureTask.java:78)
+[aiops-lab-dn1] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+[aiops-lab-dn1] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+[aiops-lab-dn1] 	at java.base/java.lang.Thread.run(Thread.java:829)
+[aiops-lab-dn1] 2026-11-07 22:54:29,346 ERROR datanode.DataNode: Exception in secureMain
+[aiops-lab-dn1] org.apache.hadoop.util.DiskChecker$DiskErrorException: Too many failed volumes - current valid volumes: 0, volumes configured: 1, volumes failed: 1, volume failures tolerated: 0
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.checker.StorageLocationChecker.check(StorageLocationChecker.java:233)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.makeInstance(DataNode.java:3141)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.instantiateDataNode(DataNode.java:3054)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.createDataNode(DataNode.java:3098)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.secureMain(DataNode.java:3242)
+[aiops-lab-dn1] 	at org.apache.hadoop.hdfs.server.datanode.DataNode.main(DataNode.java:3266)
+[aiops-lab-dn1] 2026-11-07 22:54:29,347 INFO util.ExitUtil: Exiting with status 1: org.apache.hadoop.util.DiskChecker$DiskErrorException: Too many failed volumes - current valid volumes: 0, volumes configured: 1, volumes failed: 1, volume failures tolerated: 0
+[aiops-lab-dn1] 2026-11-07 22:54:29,352 INFO datanode.DataNode: SHUTDOWN_MSG: 
+[aiops-lab-dn1] /************************************************************
+[aiops-lab-dn1] SHUTDOWN_MSG: Shutting down DataNode at WIN-20260727MVX/<:IP:>
+[aiops-lab-dn1] ************************************************************/
+

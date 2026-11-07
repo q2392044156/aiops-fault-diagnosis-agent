@@ -28,207 +28,207 @@
       "case_any_coverage": 1.0,
       "evidence_sufficient_cases": 21,
       "evidence_sufficient_rate": 1.0,
-      "mean_tokens_est": 733.0
+      "mean_tokens_est": 733.8
     },
     "50": {
       "budget": "50",
       "cases": 21,
       "cases_all": 21,
       "gold_lines": 126,
-      "selected_lines": 798,
+      "selected_lines": 799,
       "selected_gold": 126,
       "evidence_recall_micro": 1.0,
-      "evidence_precision_micro": 0.1579,
+      "evidence_precision_micro": 0.1577,
       "case_full_coverage": 1.0,
       "case_any_coverage": 1.0,
       "evidence_sufficient_cases": 21,
       "evidence_sufficient_rate": 1.0,
-      "mean_tokens_est": 1604.0
+      "mean_tokens_est": 1605.5
     },
     "all": {
       "budget": "all",
       "cases": 21,
       "cases_all": 21,
       "gold_lines": 126,
-      "selected_lines": 798,
+      "selected_lines": 799,
       "selected_gold": 126,
       "evidence_recall_micro": 1.0,
-      "evidence_precision_micro": 0.1579,
+      "evidence_precision_micro": 0.1577,
       "case_full_coverage": 1.0,
       "case_any_coverage": 1.0,
       "evidence_sufficient_cases": 21,
       "evidence_sufficient_rate": 1.0,
-      "mean_tokens_est": 1604.0
+      "mean_tokens_est": 1605.5
     }
   },
   "labels": {
-    "inc_wsl_volume_20261107134916_f4ac": [
-      "inc_wsl_volume_20261107134916_f4ac:14",
-      "inc_wsl_volume_20261107134916_f4ac:15",
-      "inc_wsl_volume_20261107134916_f4ac:16",
-      "inc_wsl_volume_20261107134916_f4ac:17",
-      "inc_wsl_volume_20261107134916_f4ac:28",
-      "inc_wsl_volume_20261107134916_f4ac:35"
+    "inc_wsl_volume_20261107144254_82a8": [
+      "inc_wsl_volume_20261107144254_82a8:14",
+      "inc_wsl_volume_20261107144254_82a8:15",
+      "inc_wsl_volume_20261107144254_82a8:16",
+      "inc_wsl_volume_20261107144254_82a8:17",
+      "inc_wsl_volume_20261107144254_82a8:28",
+      "inc_wsl_volume_20261107144254_82a8:35"
     ],
-    "inc_wsl_volume_20261107134937_32b5": [
-      "inc_wsl_volume_20261107134937_32b5:14",
-      "inc_wsl_volume_20261107134937_32b5:15",
-      "inc_wsl_volume_20261107134937_32b5:16",
-      "inc_wsl_volume_20261107134937_32b5:17",
-      "inc_wsl_volume_20261107134937_32b5:28",
-      "inc_wsl_volume_20261107134937_32b5:35"
+    "inc_wsl_volume_20261107144510_14fa": [
+      "inc_wsl_volume_20261107144510_14fa:14",
+      "inc_wsl_volume_20261107144510_14fa:15",
+      "inc_wsl_volume_20261107144510_14fa:16",
+      "inc_wsl_volume_20261107144510_14fa:17",
+      "inc_wsl_volume_20261107144510_14fa:28",
+      "inc_wsl_volume_20261107144510_14fa:35"
     ],
-    "inc_wsl_volume_20261107135153_e726": [
-      "inc_wsl_volume_20261107135153_e726:14",
-      "inc_wsl_volume_20261107135153_e726:15",
-      "inc_wsl_volume_20261107135153_e726:16",
-      "inc_wsl_volume_20261107135153_e726:17",
-      "inc_wsl_volume_20261107135153_e726:28",
-      "inc_wsl_volume_20261107135153_e726:35"
+    "inc_wsl_volume_20261107144729_a418": [
+      "inc_wsl_volume_20261107144729_a418:14",
+      "inc_wsl_volume_20261107144729_a418:15",
+      "inc_wsl_volume_20261107144729_a418:16",
+      "inc_wsl_volume_20261107144729_a418:17",
+      "inc_wsl_volume_20261107144729_a418:28",
+      "inc_wsl_volume_20261107144729_a418:35"
     ],
-    "inc_wsl_volume_20261107135412_47ff": [
-      "inc_wsl_volume_20261107135412_47ff:14",
-      "inc_wsl_volume_20261107135412_47ff:15",
-      "inc_wsl_volume_20261107135412_47ff:16",
-      "inc_wsl_volume_20261107135412_47ff:17",
-      "inc_wsl_volume_20261107135412_47ff:28",
-      "inc_wsl_volume_20261107135412_47ff:35"
+    "inc_wsl_volume_20261107144944_d366": [
+      "inc_wsl_volume_20261107144944_d366:14",
+      "inc_wsl_volume_20261107144944_d366:15",
+      "inc_wsl_volume_20261107144944_d366:16",
+      "inc_wsl_volume_20261107144944_d366:17",
+      "inc_wsl_volume_20261107144944_d366:28",
+      "inc_wsl_volume_20261107144944_d366:35"
     ],
-    "inc_wsl_volume_20261107135625_ea0a": [
-      "inc_wsl_volume_20261107135625_ea0a:14",
-      "inc_wsl_volume_20261107135625_ea0a:15",
-      "inc_wsl_volume_20261107135625_ea0a:16",
-      "inc_wsl_volume_20261107135625_ea0a:17",
-      "inc_wsl_volume_20261107135625_ea0a:28",
-      "inc_wsl_volume_20261107135625_ea0a:35"
+    "inc_wsl_volume_20261107145201_7381": [
+      "inc_wsl_volume_20261107145201_7381:14",
+      "inc_wsl_volume_20261107145201_7381:15",
+      "inc_wsl_volume_20261107145201_7381:16",
+      "inc_wsl_volume_20261107145201_7381:17",
+      "inc_wsl_volume_20261107145201_7381:28",
+      "inc_wsl_volume_20261107145201_7381:35"
     ],
-    "inc_wsl_volume_20261107135636_7b14": [
-      "inc_wsl_volume_20261107135636_7b14:14",
-      "inc_wsl_volume_20261107135636_7b14:15",
-      "inc_wsl_volume_20261107135636_7b14:16",
-      "inc_wsl_volume_20261107135636_7b14:17",
-      "inc_wsl_volume_20261107135636_7b14:28",
-      "inc_wsl_volume_20261107135636_7b14:35"
+    "inc_wsl_volume_20261107145420_6460": [
+      "inc_wsl_volume_20261107145420_6460:14",
+      "inc_wsl_volume_20261107145420_6460:15",
+      "inc_wsl_volume_20261107145420_6460:16",
+      "inc_wsl_volume_20261107145420_6460:17",
+      "inc_wsl_volume_20261107145420_6460:28",
+      "inc_wsl_volume_20261107145420_6460:35"
     ],
-    "inc_wsl_volume_20261107135647_b44e": [
-      "inc_wsl_volume_20261107135647_b44e:14",
-      "inc_wsl_volume_20261107135647_b44e:15",
-      "inc_wsl_volume_20261107135647_b44e:16",
-      "inc_wsl_volume_20261107135647_b44e:17",
-      "inc_wsl_volume_20261107135647_b44e:28",
-      "inc_wsl_volume_20261107135647_b44e:35"
+    "inc_wsl_volume_20261107145638_40b5": [
+      "inc_wsl_volume_20261107145638_40b5:14",
+      "inc_wsl_volume_20261107145638_40b5:15",
+      "inc_wsl_volume_20261107145638_40b5:16",
+      "inc_wsl_volume_20261107145638_40b5:17",
+      "inc_wsl_volume_20261107145638_40b5:28",
+      "inc_wsl_volume_20261107145638_40b5:35"
     ],
-    "inc_wsl_volume_20261107135659_f838": [
-      "inc_wsl_volume_20261107135659_f838:14",
-      "inc_wsl_volume_20261107135659_f838:15",
-      "inc_wsl_volume_20261107135659_f838:16",
-      "inc_wsl_volume_20261107135659_f838:17",
-      "inc_wsl_volume_20261107135659_f838:28",
-      "inc_wsl_volume_20261107135659_f838:35"
+    "inc_wsl_volume_20261107145856_dac3": [
+      "inc_wsl_volume_20261107145856_dac3:14",
+      "inc_wsl_volume_20261107145856_dac3:15",
+      "inc_wsl_volume_20261107145856_dac3:16",
+      "inc_wsl_volume_20261107145856_dac3:17",
+      "inc_wsl_volume_20261107145856_dac3:28",
+      "inc_wsl_volume_20261107145856_dac3:35"
     ],
-    "inc_wsl_volume_20261107135710_2694": [
-      "inc_wsl_volume_20261107135710_2694:14",
-      "inc_wsl_volume_20261107135710_2694:15",
-      "inc_wsl_volume_20261107135710_2694:16",
-      "inc_wsl_volume_20261107135710_2694:17",
-      "inc_wsl_volume_20261107135710_2694:28",
-      "inc_wsl_volume_20261107135710_2694:35"
+    "inc_wsl_volume_20261107150113_55ab": [
+      "inc_wsl_volume_20261107150113_55ab:14",
+      "inc_wsl_volume_20261107150113_55ab:15",
+      "inc_wsl_volume_20261107150113_55ab:16",
+      "inc_wsl_volume_20261107150113_55ab:17",
+      "inc_wsl_volume_20261107150113_55ab:28",
+      "inc_wsl_volume_20261107150113_55ab:35"
     ],
-    "inc_wsl_volume_20261107135721_0b65": [
-      "inc_wsl_volume_20261107135721_0b65:14",
-      "inc_wsl_volume_20261107135721_0b65:15",
-      "inc_wsl_volume_20261107135721_0b65:16",
-      "inc_wsl_volume_20261107135721_0b65:17",
-      "inc_wsl_volume_20261107135721_0b65:28",
-      "inc_wsl_volume_20261107135721_0b65:35"
+    "inc_wsl_volume_20261107150332_17c5": [
+      "inc_wsl_volume_20261107150332_17c5:14",
+      "inc_wsl_volume_20261107150332_17c5:15",
+      "inc_wsl_volume_20261107150332_17c5:16",
+      "inc_wsl_volume_20261107150332_17c5:17",
+      "inc_wsl_volume_20261107150332_17c5:28",
+      "inc_wsl_volume_20261107150332_17c5:35"
     ],
-    "inc_wsl_volume_20261107135732_9b17": [
-      "inc_wsl_volume_20261107135732_9b17:14",
-      "inc_wsl_volume_20261107135732_9b17:15",
-      "inc_wsl_volume_20261107135732_9b17:16",
-      "inc_wsl_volume_20261107135732_9b17:17",
-      "inc_wsl_volume_20261107135732_9b17:28",
-      "inc_wsl_volume_20261107135732_9b17:35"
+    "inc_wsl_volume_20261107150546_84ad": [
+      "inc_wsl_volume_20261107150546_84ad:14",
+      "inc_wsl_volume_20261107150546_84ad:15",
+      "inc_wsl_volume_20261107150546_84ad:16",
+      "inc_wsl_volume_20261107150546_84ad:17",
+      "inc_wsl_volume_20261107150546_84ad:28",
+      "inc_wsl_volume_20261107150546_84ad:35"
     ],
-    "inc_wsl_volume_20261107135743_b8ea": [
-      "inc_wsl_volume_20261107135743_b8ea:14",
-      "inc_wsl_volume_20261107135743_b8ea:15",
-      "inc_wsl_volume_20261107135743_b8ea:16",
-      "inc_wsl_volume_20261107135743_b8ea:17",
-      "inc_wsl_volume_20261107135743_b8ea:28",
-      "inc_wsl_volume_20261107135743_b8ea:35"
+    "inc_wsl_volume_20261107150758_497e": [
+      "inc_wsl_volume_20261107150758_497e:14",
+      "inc_wsl_volume_20261107150758_497e:15",
+      "inc_wsl_volume_20261107150758_497e:16",
+      "inc_wsl_volume_20261107150758_497e:17",
+      "inc_wsl_volume_20261107150758_497e:28",
+      "inc_wsl_volume_20261107150758_497e:35"
     ],
-    "inc_wsl_volume_20261107135753_4429": [
-      "inc_wsl_volume_20261107135753_4429:14",
-      "inc_wsl_volume_20261107135753_4429:15",
-      "inc_wsl_volume_20261107135753_4429:16",
-      "inc_wsl_volume_20261107135753_4429:17",
-      "inc_wsl_volume_20261107135753_4429:28",
-      "inc_wsl_volume_20261107135753_4429:35"
+    "inc_wsl_volume_20261107151013_76fe": [
+      "inc_wsl_volume_20261107151013_76fe:14",
+      "inc_wsl_volume_20261107151013_76fe:15",
+      "inc_wsl_volume_20261107151013_76fe:16",
+      "inc_wsl_volume_20261107151013_76fe:17",
+      "inc_wsl_volume_20261107151013_76fe:28",
+      "inc_wsl_volume_20261107151013_76fe:35"
     ],
-    "inc_wsl_volume_20261107135804_88a1": [
-      "inc_wsl_volume_20261107135804_88a1:14",
-      "inc_wsl_volume_20261107135804_88a1:15",
-      "inc_wsl_volume_20261107135804_88a1:16",
-      "inc_wsl_volume_20261107135804_88a1:17",
-      "inc_wsl_volume_20261107135804_88a1:28",
-      "inc_wsl_volume_20261107135804_88a1:35"
+    "inc_wsl_volume_20261107151227_fd42": [
+      "inc_wsl_volume_20261107151227_fd42:14",
+      "inc_wsl_volume_20261107151227_fd42:15",
+      "inc_wsl_volume_20261107151227_fd42:16",
+      "inc_wsl_volume_20261107151227_fd42:17",
+      "inc_wsl_volume_20261107151227_fd42:28",
+      "inc_wsl_volume_20261107151227_fd42:35"
     ],
-    "inc_wsl_volume_20261107135816_f833": [
-      "inc_wsl_volume_20261107135816_f833:14",
-      "inc_wsl_volume_20261107135816_f833:15",
-      "inc_wsl_volume_20261107135816_f833:16",
-      "inc_wsl_volume_20261107135816_f833:17",
-      "inc_wsl_volume_20261107135816_f833:28",
-      "inc_wsl_volume_20261107135816_f833:35"
+    "inc_wsl_volume_20261107151442_1106": [
+      "inc_wsl_volume_20261107151442_1106:14",
+      "inc_wsl_volume_20261107151442_1106:15",
+      "inc_wsl_volume_20261107151442_1106:16",
+      "inc_wsl_volume_20261107151442_1106:17",
+      "inc_wsl_volume_20261107151442_1106:28",
+      "inc_wsl_volume_20261107151442_1106:35"
     ],
-    "inc_wsl_volume_20261107135826_20b5": [
-      "inc_wsl_volume_20261107135826_20b5:14",
-      "inc_wsl_volume_20261107135826_20b5:15",
-      "inc_wsl_volume_20261107135826_20b5:16",
-      "inc_wsl_volume_20261107135826_20b5:17",
-      "inc_wsl_volume_20261107135826_20b5:28",
-      "inc_wsl_volume_20261107135826_20b5:35"
+    "inc_wsl_volume_20261107151657_dbc0": [
+      "inc_wsl_volume_20261107151657_dbc0:14",
+      "inc_wsl_volume_20261107151657_dbc0:15",
+      "inc_wsl_volume_20261107151657_dbc0:16",
+      "inc_wsl_volume_20261107151657_dbc0:17",
+      "inc_wsl_volume_20261107151657_dbc0:28",
+      "inc_wsl_volume_20261107151657_dbc0:35"
     ],
-    "inc_wsl_volume_20261107135837_4a8c": [
-      "inc_wsl_volume_20261107135837_4a8c:14",
-      "inc_wsl_volume_20261107135837_4a8c:15",
-      "inc_wsl_volume_20261107135837_4a8c:16",
-      "inc_wsl_volume_20261107135837_4a8c:17",
-      "inc_wsl_volume_20261107135837_4a8c:28",
-      "inc_wsl_volume_20261107135837_4a8c:35"
+    "inc_wsl_volume_20261107151916_5f42": [
+      "inc_wsl_volume_20261107151916_5f42:14",
+      "inc_wsl_volume_20261107151916_5f42:15",
+      "inc_wsl_volume_20261107151916_5f42:16",
+      "inc_wsl_volume_20261107151916_5f42:17",
+      "inc_wsl_volume_20261107151916_5f42:28",
+      "inc_wsl_volume_20261107151916_5f42:35"
     ],
-    "inc_wsl_volume_20261107135848_e002": [
-      "inc_wsl_volume_20261107135848_e002:14",
-      "inc_wsl_volume_20261107135848_e002:15",
-      "inc_wsl_volume_20261107135848_e002:16",
-      "inc_wsl_volume_20261107135848_e002:17",
-      "inc_wsl_volume_20261107135848_e002:28",
-      "inc_wsl_volume_20261107135848_e002:35"
+    "inc_wsl_volume_20261107152135_cc0b": [
+      "inc_wsl_volume_20261107152135_cc0b:14",
+      "inc_wsl_volume_20261107152135_cc0b:15",
+      "inc_wsl_volume_20261107152135_cc0b:16",
+      "inc_wsl_volume_20261107152135_cc0b:17",
+      "inc_wsl_volume_20261107152135_cc0b:28",
+      "inc_wsl_volume_20261107152135_cc0b:35"
     ],
-    "inc_wsl_volume_20261107135859_6bea": [
-      "inc_wsl_volume_20261107135859_6bea:14",
-      "inc_wsl_volume_20261107135859_6bea:15",
-      "inc_wsl_volume_20261107135859_6bea:16",
-      "inc_wsl_volume_20261107135859_6bea:17",
-      "inc_wsl_volume_20261107135859_6bea:28",
-      "inc_wsl_volume_20261107135859_6bea:35"
+    "inc_wsl_volume_20261107152356_5b73": [
+      "inc_wsl_volume_20261107152356_5b73:14",
+      "inc_wsl_volume_20261107152356_5b73:15",
+      "inc_wsl_volume_20261107152356_5b73:16",
+      "inc_wsl_volume_20261107152356_5b73:17",
+      "inc_wsl_volume_20261107152356_5b73:28",
+      "inc_wsl_volume_20261107152356_5b73:35"
     ],
-    "inc_wsl_volume_20261107135910_6499": [
-      "inc_wsl_volume_20261107135910_6499:14",
-      "inc_wsl_volume_20261107135910_6499:15",
-      "inc_wsl_volume_20261107135910_6499:16",
-      "inc_wsl_volume_20261107135910_6499:17",
-      "inc_wsl_volume_20261107135910_6499:28",
-      "inc_wsl_volume_20261107135910_6499:35"
+    "inc_wsl_volume_20261107152641_56f5": [
+      "inc_wsl_volume_20261107152641_56f5:14",
+      "inc_wsl_volume_20261107152641_56f5:15",
+      "inc_wsl_volume_20261107152641_56f5:16",
+      "inc_wsl_volume_20261107152641_56f5:17",
+      "inc_wsl_volume_20261107152641_56f5:28",
+      "inc_wsl_volume_20261107152641_56f5:35"
     ],
-    "inc_wsl_volume_20261107135921_6d5b": [
-      "inc_wsl_volume_20261107135921_6d5b:14",
-      "inc_wsl_volume_20261107135921_6d5b:15",
-      "inc_wsl_volume_20261107135921_6d5b:16",
-      "inc_wsl_volume_20261107135921_6d5b:17",
-      "inc_wsl_volume_20261107135921_6d5b:28",
-      "inc_wsl_volume_20261107135921_6d5b:35"
+    "inc_wsl_volume_20261107152923_c386": [
+      "inc_wsl_volume_20261107152923_c386:14",
+      "inc_wsl_volume_20261107152923_c386:15",
+      "inc_wsl_volume_20261107152923_c386:16",
+      "inc_wsl_volume_20261107152923_c386:17",
+      "inc_wsl_volume_20261107152923_c386:28",
+      "inc_wsl_volume_20261107152923_c386:35"
     ]
   }
 }

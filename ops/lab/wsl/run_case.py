@@ -44,7 +44,7 @@ def _wait_live(timeout=90):
 
 
 # 方法说明：run 执行一次只读卷故障实验并产出 incident。
-def run(database):
+def run(database, require_signal=False):
     started = datetime.now(timezone.utc)
     case_id = f"inc_wsl_volume_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
     case_dir = ROOT / "ops" / "lab" / "wsl_cases" / case_id
@@ -70,7 +70,7 @@ def run(database):
             options = _wsl("findmnt -no OPTIONS /mnt/labvol", check=False)
         if "ro" not in options:
             return False
-        _wsl("rm -f /opt/lab/dn_ro.log; nohup hdfs datanode > /opt/lab/dn_ro.log "
+        _wsl(": > /opt/lab/dn_ro.log; nohup hdfs datanode > /opt/lab/dn_ro.log "
              "2>&1 & sleep 3")
         time.sleep(2)
         count = _wsl("grep -c 'Too many failed volumes' /opt/lab/dn_ro.log || true",
@@ -114,6 +114,8 @@ def run(database):
          "mount -o rw \"$DEV\" /mnt/labvol", check=False)
     _wsl("hdfs --daemon start datanode", check=False)
     live = _wait_live(120)
+    if require_signal and not found:
+        raise RuntimeError("WSL volume injection signal was not observed")
     recovered = datetime.now(timezone.utc)
     human = recovered + timedelta(seconds=5)
 
@@ -332,6 +334,7 @@ def main(argv=None):
     parser.add_argument("--database", default=str(ROOT / "runtime/lab/wsl.sqlite3"))
     parser.add_argument("--fault", default="DN_VOLUME",
                         choices=("DN_VOLUME", "DN_HEARTBEAT", "NN_SAFE_MODE"))
+    parser.add_argument("--require-signal", action="store_true")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -340,7 +343,7 @@ def main(argv=None):
     elif args.fault == "NN_SAFE_MODE":
         print(run_safemode(args.database))
     else:
-        print(run(args.database))
+        print(run(args.database, require_signal=args.require_signal))
     return 0
 
 

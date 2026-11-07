@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "incident_id": "inc_wsl_volume_20261107144254_82a8",
+  "cluster_alias": "cluster_wsl",
+  "product_version": "3.3.6",
+  "fault_family": "dn_volume",
+  "authorization": {
+    "authorization_id": "auth_lab_001",
+    "approved_at": "2026-11-07T13:45:07.415161Z",
+    "retention_until": "2026-12-07T14:45:07.415161Z",
+    "deletion_contact": "lab@example.invalid"
+  },
+  "timestamps": {
+    "fault_start": "2026-11-07T14:42:54.665010Z",
+    "first_observable_signal": "2026-11-07T14:43:01.606287Z",
+    "agent_detected": null,
+    "human_confirmed": "2026-11-07T14:45:12.411562Z",
+    "recovered": "2026-11-07T14:45:07.411562Z",
+    "timezone_source": "Asia/Shanghai (lab-ntp)"
+  },
+  "diagnosis_snapshot": {
+    "cutoff_time": "2026-11-07T14:43:06.606287Z",
+    "log_refs": [
+      {
+        "ref_id": "log_inc_wsl_volume_20261107144254_82a8",
+        "content_sha256": "e0308e56b3a2f324f06c88f375e682d72ee981bd99a8e2ca692c4ccace5fee78",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-11-07T14:43:06.606287Z"
+      }
+    ],
+    "metric_refs": [
+      {
+        "ref_id": "metrics_inc_wsl_volume_20261107144254_82a8",
+        "content_sha256": "a8252f6356c0ccf69006b2c319ca6728cd03a6a0415b07d099af16894d199353",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-11-07T14:43:06.606287Z"
+      }
+    ],
+    "ticket_refs": [
+      {
+        "ref_id": "ticket_inc_wsl_volume_20261107144254_82a8",
+        "content_sha256": "3114575a0cfefd8cea055b87dce900f3f54501fa00e9a328ca80de963ffd6c7d",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-11-07T14:43:06.606287Z"
+      }
+    ]
+  },
+  "labels": {
+    "root_cause_code": "DN_VOLUME",
+    "confidence": "confirmed",
+    "review_status": "reviewed",
+    "evidence_refs": [
+      "log_inc_wsl_volume_20261107144254_82a8",
+      "metrics_inc_wsl_volume_20261107144254_82a8"
+    ],
+    "creator_id": "lab-harness",
+    "reviewer_id": "lab-reviewer",
+    "adjudicator_id": null
+  }
+}

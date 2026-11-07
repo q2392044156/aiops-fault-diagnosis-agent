@@ -32,6 +32,9 @@ def main(argv=None):
     parser.add_argument("--template-dir", required=True)
     parser.add_argument("--gate-output", required=True)
     parser.add_argument("--detector-release", default="novelty_v1")
+    parser.add_argument("--agent-backend", choices=("native", "langgraph"),
+                        default="native")
+    parser.add_argument("--ids", default=None)
     parser.add_argument("--window-seconds", type=int, default=60)
     parser.add_argument("--window-step", type=int, default=10)
     parser.add_argument("--max-rows", type=int, default=500)
@@ -50,14 +53,17 @@ def main(argv=None):
     retriever = FrozenCodeRetriever(
         FrozenRetriever(load_knowledge("resources/configs/retrieval.yaml")))
     matcher = SourceTemplateMatcher(args.template_dir)
+    allowed = set(json.loads(Path(args.ids).read_text(encoding="utf-8"))) if args.ids else None
     cases = [path for path in sorted(Path(args.cases).glob("*"))
-             if (path / "incident.json").is_file()]
+             if (path / "incident.json").is_file()
+             and (allowed is None or path.name in allowed)]
     gates = []
     started = time.time()
     for index, case in enumerate(cases, 1):
         target = work / case.name
         shutil.copytree(case, target)
-        mapping = ingest(str(target), args.database, agent_backend="native",
+        mapping = ingest(str(target), args.database,
+                         agent_backend=args.agent_backend,
                          retriever_kind="frozen", retriever=retriever,
                          template_dir=args.template_dir, matcher=matcher,
                          source_type=args.source_type, event_source="model",
