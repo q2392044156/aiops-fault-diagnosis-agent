@@ -1,0 +1,21 @@
+{
+  "dataset": "merged_v2",
+  "sources": {
+    "docker_valid": 60,
+    "wsl_original": 68,
+    "wsl_recaptured": 21
+  },
+  "events": 449,
+  "event_top1": 428,
+  "event_top1_rate": 0.9532,
+  "cases": 149,
+  "case_top1": 148,
+  "case_top1_rate": 0.9933,
+  "citations": {
+    "gold": 667,
+    "cited_gold": 568,
+    "cited": 5656,
+    "coverage_micro": 0.8516,
+    "precision_micro": 0.1004
+  }
+}
