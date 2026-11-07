@@ -5,9 +5,9 @@ import platform
 import sys
 from pathlib import Path
 
-from aiops_diag.diagnosis.release import verify as verify_agent
-from aiops_diag.diagnosis.workflow import validate_isolation
-from aiops_diag.data.common import digest, key, save, verified_manifest
+from online.diagnosis.release import verify as verify_agent
+from online.diagnosis.workflow import validate_isolation
+from aiops_diag.common import digest, key, save, verified_manifest
 from aiops_diag.platform.release import verify as verify_service
 
 

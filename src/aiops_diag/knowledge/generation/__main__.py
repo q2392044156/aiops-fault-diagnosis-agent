@@ -1,40 +1,7 @@
-"""模块说明：实现 `python -m` 命令行入口和参数分发。"""
+"""兼容模块：实际实现为 online.knowledge.generation.__main__。"""
 
-import argparse
-import json
+import importlib
+import sys
 
-from .config import load
-from .engine import RagEngine
-from .release import verify
-from .workflow import benchmark, fetch_reranker, finalize, publish, tune, validate
-
-
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 `argv`。
-def main(argv=None):
-    parser = argparse.ArgumentParser(description="W8 evidence-grounded knowledge report generation")
-    sub = parser.add_subparsers(dest="command", required=True)
-    for name in ("validate", "reranker", "tune", "finalize", "publish", "verify", "benchmark"):
-        item = sub.add_parser(name)
-        item.add_argument("--config", required=True)
-    generate = sub.add_parser("generate")
-    generate.add_argument("--config", required=True)
-    generate.add_argument("--query", required=True)
-    generate.add_argument("--mode", choices=("auto", "template"), default="auto")
-    args = parser.parse_args(argv)
-    cfg = load(args.config)
-    commands = {"validate": validate, "reranker": fetch_reranker, "tune": tune,
-                "finalize": finalize, "publish": publish, "verify": verify,
-                "benchmark": benchmark}
-    if args.command == "generate":
-        engine = RagEngine(cfg)
-        try:
-            result = engine.generate(args.query, mode=args.mode).model_dump()
-        finally:
-            engine.close()
-    else:
-        result = commands[args.command](cfg)
-    print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
-
-
-if __name__ == "__main__":
-    main()
+# 变量说明：将兼容模块替换为实际实现模块。
+sys.modules[__name__] = importlib.import_module("online.knowledge.generation.__main__")

@@ -11,7 +11,7 @@ import httpx
 import psutil
 import pyarrow.parquet as pq
 
-from aiops_diag.data.common import save
+from aiops_diag.common import save
 
 from .pipeline import _raw_rows
 from .release import FrozenRelease

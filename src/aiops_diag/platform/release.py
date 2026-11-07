@@ -11,8 +11,8 @@ import numpy as np
 from drain3.file_persistence import FilePersistence
 from drain3.template_miner import TemplateMiner
 
-from aiops_diag.data.common import digest, key, save, verified_manifest
-from aiops_diag.detection.templates import content, miner_config
+from aiops_diag.common import digest, key, save, verified_manifest
+from offline.detection.templates import content, miner_config
 
 
 # 变量说明：`MODEL_RELEASE` 保存本模块或数据模型使用的稳定值。
@@ -96,11 +96,11 @@ def publish(cfg):
         parser = cfg.get("model", {}).get("parser", {"depth": 4, "max_children": 100})
         rag_release = None
         if cfg.get("rag"):
-            from aiops_diag.knowledge.generation.release import verify as verify_rag
+            from online.knowledge.generation.release import verify as verify_rag
             rag_release = verify_rag(cfg["rag"])
         agent_release = None
         if cfg.get("agent"):
-            from aiops_diag.diagnosis.release import verify as verify_agent
+            from online.diagnosis.release import verify as verify_agent
             agent_release = verify_agent(cfg["agent"])
         value = {
             "schema_version": 4,
@@ -175,18 +175,18 @@ def verify(cfg, verify_rag=True):
     if release.get("processing_hash") != cfg["processing_hash"]:
         raise ValueError("Processing configuration changed after publication")
     if verify_rag and release.get("schema_version") == 3 and cfg.get("rag"):
-        from aiops_diag.knowledge.generation.release import verify as verify_rag
+        from online.knowledge.generation.release import verify as verify_rag
         rag_release = verify_rag(cfg["rag"])
         expected_rag = release.get("rag_release") or {}
         if expected_rag.get("release_hash") != key(rag_release):
             raise ValueError("Published RAG release changed")
     if verify_rag and release.get("schema_version") == 4 and cfg.get("rag"):
-        from aiops_diag.knowledge.generation.release import verify as verify_rag
+        from online.knowledge.generation.release import verify as verify_rag
         rag_release = verify_rag(cfg["rag"])
         if (release.get("rag_release") or {}).get("release_hash") != key(rag_release):
             raise ValueError("Published RAG release changed")
     if verify_rag and release.get("schema_version") == 4 and cfg.get("agent"):
-        from aiops_diag.diagnosis.release import verify as verify_agent
+        from online.diagnosis.release import verify as verify_agent
         agent_release = verify_agent(cfg["agent"])
         if (release.get("agent_release") or {}).get("release_hash") != key(agent_release):
             raise ValueError("Published agent release changed")

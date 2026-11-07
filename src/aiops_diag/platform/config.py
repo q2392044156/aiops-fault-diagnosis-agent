@@ -6,11 +6,11 @@ from pathlib import Path
 
 import yaml
 
-from aiops_diag.data.common import config_root, key, logical_config
-from aiops_diag.detection.config import load as load_model_config
-from aiops_diag.knowledge.config import load as load_retrieval_config
-from aiops_diag.knowledge.generation.config import load as load_rag_config
-from aiops_diag.diagnosis.config import load as load_agent_config
+from aiops_diag.common import config_root, key, logical_config
+from offline.detection.config import load as load_model_config
+from online.knowledge.config import load as load_retrieval_config
+from online.knowledge.generation.config import load as load_rag_config
+from online.diagnosis.config import load as load_agent_config
 
 
 # 方法说明：`load` 完成当前步骤的业务处理；参数为 `path`。

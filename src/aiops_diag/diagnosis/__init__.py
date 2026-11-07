@@ -1,6 +1,7 @@
-"""模块说明：定义当前包的公共入口、版本或导出符号。"""
+"""兼容入口：7 节点诊断。"""
 
-from .engine import AgentEngine
+from online.diagnosis.engine import AgentEngine
+from online.diagnosis.evidence import EvidenceSelector
 
-# 变量说明：`__all__` 保存本模块或数据模型使用的稳定值。
-__all__ = ["AgentEngine"]
+# 变量说明：__all__ 导出兼容入口的公共符号。
+__all__ = ["AgentEngine", "EvidenceSelector"]

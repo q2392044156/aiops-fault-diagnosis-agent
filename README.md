@@ -330,7 +330,7 @@ aiops-fault-diagnosis-agent/
 │  │  ├─ diagnosis/  # 7 节点诊断、结构化证据选择
 │  │  ├─ knowledge/  # 104 卡 RAG
 │  │  └─ reporting/  # 严格 JSON 报告 Schema
-│  └─ aiops_diag/    # 共享实现（兼容旧导入）
+│  └─ aiops_diag/    # 共享基础设施 + 旧导入兼容 shim
 │     ├─ data/       # 接入、脱敏、审计与标准化
 │     ├─ detection/  # LR/LSTM 检测
 │     ├─ knowledge/  # BM25/BGE/RRF 检索与报告生成

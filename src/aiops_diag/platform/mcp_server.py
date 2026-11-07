@@ -6,8 +6,8 @@ import argparse
 import json
 import sys
 
-from aiops_diag.diagnosis.tool_specs import TOOL_SPECS, validate_arguments
-from aiops_diag.diagnosis.tools import AgentTools, result
+from online.diagnosis.tool_specs import TOOL_SPECS, validate_arguments
+from online.diagnosis.tools import AgentTools, result
 from aiops_diag.platform.db import Database
 
 # 变量说明：PROTOCOL 是服务器声明的 MCP 协议版本。

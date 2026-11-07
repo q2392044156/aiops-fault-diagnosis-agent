@@ -1,0 +1,120 @@
+"""模块说明：实现 `python -m` 命令行入口和参数分发。"""
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+import pyarrow.compute as pc
+import pyarrow.parquet as pq
+
+from aiops_diag.common import verified_manifest
+from .config import load
+from .evaluation import evaluate
+from .lstm_config import load_lstm
+from .lstm_workflow import (evaluate_lstm, inspect_lstm, predict_lstm,
+                            train_lstm, tune_lstm)
+from .models import predictions, train
+from .protocol import freeze
+from .sequences import prepare_sequences
+from .templates import build_templates
+
+
+# 方法说明：`inspect` 完成当前步骤的业务处理；参数为 `cfg`、`run_id`、`session_id`。
+def inspect(cfg, run_id, session_id):
+    base = Path(cfg["experiment_dir"])
+    run_dir = (base / run_id).resolve()
+    if run_dir.parent != base.resolve():
+        raise ValueError("Invalid run ID")
+    training = verified_manifest(run_dir, "training.json")
+    if training["run_id"] != run_id:
+        raise ValueError("Run ID does not match registered manifest")
+    table = pq.read_table(run_dir / "predictions.parquet")
+    selected = table.filter(pc.equal(table["block_id"], session_id)).to_pylist()
+    if not selected:
+        raise ValueError("Validation session not found in this run")
+    row = selected[0]
+    vocab = json.loads((Path(cfg["artifact_dir"]) / "template_vocab.json").read_text(encoding="utf-8"))
+    row["templates"] = [{"template_id": value, "template": vocab.get(str(value))}
+                        for value in row["template_ids"]]
+    row["raw_log_refs"] = {"first": row["first_log_id"], "last": row["last_log_id"]}
+    return row
+
+
+# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
+def main():
+    parser = argparse.ArgumentParser(description="AIOps W2/W3 modeling workflows")
+    parser.add_argument("command", choices=["freeze", "templates", "train", "predict",
+                                            "evaluate", "run", "inspect",
+                                            "lstm-prepare", "lstm-tune", "lstm-train",
+                                            "lstm-predict", "lstm-evaluate", "lstm-run",
+                                            "lstm-inspect"])
+    parser.add_argument("--config", default="resources/configs/model_lr.yaml")
+    parser.add_argument("--split", default="validation")
+    parser.add_argument("--run-id")
+    parser.add_argument("--session-id")
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--device", choices=["auto", "cuda", "cpu"], default="auto")
+    args = parser.parse_args()
+    try:
+        if args.command.startswith("lstm-"):
+            cfg = load_lstm(args.config)
+            if args.command == "lstm-prepare":
+                result = prepare_sequences(cfg)
+            elif args.command == "lstm-tune":
+                result = tune_lstm(cfg, args.device)
+            elif args.command == "lstm-train":
+                result = train_lstm(cfg, args.device)
+            elif args.command == "lstm-predict":
+                result = predict_lstm(cfg, args.split, args.device)
+            elif args.command == "lstm-evaluate":
+                result = evaluate_lstm(cfg, args.split, args.device)
+            elif args.command == "lstm-run":
+                prepared = prepare_sequences(cfg)
+                tuned = tune_lstm(cfg, args.device)
+                trained = train_lstm(cfg, args.device)
+                evaluated = evaluate_lstm(cfg, "validation", args.device)
+                result = {"prepare": prepared, "tune": tuned,
+                          "train": trained, "evaluate": evaluated}
+            else:
+                if not args.run_id or not args.session_id:
+                    parser.error("lstm-inspect requires --run-id and --session-id")
+                result = inspect_lstm(cfg, args.run_id, args.seed, args.session_id)
+            print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
+            return 0
+
+        cfg = load(args.config)
+        if args.command == "freeze":
+            result = freeze(cfg)
+        elif args.command == "templates":
+            freeze(cfg)
+            result = build_templates(cfg)
+        elif args.command == "train":
+            freeze(cfg); build_templates(cfg)
+            result = train(cfg)
+        elif args.command == "predict":
+            freeze(cfg); build_templates(cfg)
+            result = predictions(cfg, args.split)
+        elif args.command == "evaluate":
+            freeze(cfg); build_templates(cfg)
+            result = evaluate(cfg, args.split)
+        elif args.command == "run":
+            freeze_result = freeze(cfg)
+            template_result = build_templates(cfg)
+            training_result = train(cfg)
+            evaluation_result = evaluate(cfg, "validation")
+            result = {"freeze": freeze_result, "templates": template_result,
+                      "training": training_result, "evaluation": evaluation_result}
+        else:
+            if not args.run_id or not args.session_id:
+                parser.error("inspect requires --run-id and --session-id")
+            result = inspect(cfg, args.run_id, args.session_id)
+        print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
+        return 0
+    except Exception as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

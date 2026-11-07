@@ -14,7 +14,7 @@ aiops-fault-diagnosis-agent/
 │  │  ├─ diagnosis/      # 7 节点诊断与结构化证据选择
 │  │  ├─ knowledge/      # 104 卡知识检索
 │  │  └─ reporting/      # 严格 JSON 报告 Schema
-│  └─ aiops_diag/        # 共享实现与兼容旧导入
+│  └─ aiops_diag/        # 共享基础设施 + 旧导入兼容 shim
 │     ├─ data/           # 接入、脱敏、incident 协议与实验记录
 │     ├─ detection/      # 异常检测和模型选择
 │     ├─ knowledge/      # 知识检索和证据约束报告生成

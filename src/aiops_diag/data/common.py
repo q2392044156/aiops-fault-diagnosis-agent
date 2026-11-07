@@ -1,74 +1,7 @@
-"""
-通用工具函数
-包括哈希计算、 JSON 序列化、配置文件解析等
+"""兼容模块：实际实现为 aiops_diag.common。"""
 
-"""
-import hashlib
-import json
-from pathlib import Path
+import importlib
+import sys
 
-import yaml
-
-# 计算文件的哈希值, 默认使用 SHA-256 算法
-def digest(path, algorithm="sha256"):
-    h = hashlib.new(algorithm)
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
-
-# 将 Python 对象保存为 JSON 文件, 并确保目录存在
-def canonical(value):
-    return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
-
-# 计算 Python 对象的哈希值, 默认使用 SHA-256 算法
-def key(value):
-    return hashlib.sha256(canonical(value).encode()).hexdigest()
-
-# 根据配置文件的新旧目录位置确定仓库根目录，兼容发布制品中的复制配置。
-def config_root(path):
-    path = Path(path).resolve()
-    if path.parent.name == "configs" and path.parent.parent.name == "resources":
-        return path.parents[2]
-    return path.parent.parent
-
-# 将重构后的资源路径还原为稳定逻辑路径，使目录搬迁不会改变业务配置身份。
-def logical_config(value):
-    if isinstance(value, dict):
-        return {name: logical_config(item) for name, item in value.items()}
-    if isinstance(value, list):
-        return [logical_config(item) for item in value]
-    if isinstance(value, str):
-        for current, logical in (
-                ("resources/configs/", "configs/"),
-                ("resources/evaluation/", "evaluation/"),
-                ("resources/knowledge/", "knowledge/")):
-            if value.startswith(current):
-                return logical + value[len(current):]
-    return value
-
-# 将 Python 对象保存为 JSON 文件, 并确保目录存在
-def save(path, value):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
-    tmp.replace(path)
-
-# 读取配置文件, 并将相对路径转换为绝对路径
-def config(path):
-    path = Path(path).resolve()
-    c = yaml.safe_load(path.read_text(encoding="utf-8"))
-    root = config_root(path)
-    for name in ("raw_dir", "output_dir"):
-        c[name] = str((root / c[name]).resolve())
-    return c
-
-# 验证清单文件的完整性, 确保所有工件的哈希值与预期一致
-def verified_manifest(directory, name):
-    directory = Path(directory)
-    m = json.loads((directory / name).read_text(encoding="utf-8"))
-    for filename, expected in m["artifacts"].items():
-        if digest(directory / filename) != expected:
-            raise ValueError(f"Artifact changed: {filename}")
-    return m
+# 变量说明：将兼容模块替换为实际实现模块。
+sys.modules[__name__] = importlib.import_module("aiops_diag.common")

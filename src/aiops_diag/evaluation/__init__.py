@@ -1,2 +1,3 @@
-# 模块说明：定义当前包的公共入口、版本或导出符号。
-"""Development-only comparison utilities."""
+"""兼容入口：offline.evaluation.__init__。"""
+
+from offline.evaluation.__init__ import *  # noqa: F401,F403

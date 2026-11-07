@@ -12,9 +12,9 @@ from pathlib import Path
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from aiops_diag.data.common import digest, key, save
-from aiops_diag.data.parser import parse
-from aiops_diag.detection.templates import IP, content
+from aiops_diag.common import digest, key, save
+from offline.ingestion.parser import parse
+from offline.detection.templates import IP, content
 
 
 # 变量说明：`LOG_SCHEMA` 保存本模块或数据模型使用的稳定值。

@@ -9,4 +9,6 @@
 | `knowledge` | 104 卡知识库、BM25 + BGE + RRF 检索 |
 | `reporting` | 严格 JSON 报告 Schema 与引用校验 |
 
+实现已迁入本目录；`src/aiops_diag/diagnosis`、`knowledge` 只保留兼容 shim，供旧导入使用。
+
 在线流程按 event 执行，输出诊断报告和证据引用。

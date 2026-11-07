@@ -10,4 +10,4 @@
 | `detection` | 按来源 Drain3 模板、severity-first 门禁、event |
 | `evaluation` | 检测 FPR/Recall、事件/证据/引用评测 |
 
-入口代码仍复用 `src/aiops_diag` 和 `ops`，这里提供稳定的离线流程边界和公共导出。
+实现已迁入本目录；`src/aiops_diag/data`、`detection`、`evaluation` 只保留兼容 shim，供旧导入使用。

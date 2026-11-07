@@ -1,8 +1,7 @@
-"""模块说明：v1.2 只读工具（Trace 能力已随 TraceBench 移除）。"""
+"""兼容模块：实际实现为 online.diagnosis.framework.tools_v12。"""
 
-from aiops_diag.diagnosis.query_v11.tools import CandidateAgentTools
+import importlib
+import sys
 
-
-# 类说明：V12AgentTools 保留 v1.2 扩展点，当前不额外暴露 Trace 工具。
-class V12AgentTools(CandidateAgentTools):
-    pass
+# 变量说明：将兼容模块替换为实际实现模块。
+sys.modules[__name__] = importlib.import_module("online.diagnosis.framework.tools_v12")

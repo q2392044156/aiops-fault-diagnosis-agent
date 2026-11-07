@@ -1,2 +1,3 @@
-# 模块说明：定义当前包的公共入口、版本或导出符号。
-"""Label-independent data preparation and separate auditing."""
+"""兼容入口：offline.ingestion.__init__。"""
+
+from offline.ingestion.__init__ import *  # noqa: F401,F403

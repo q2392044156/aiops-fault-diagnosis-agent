@@ -8,14 +8,14 @@ import threading
 import uuid
 from pathlib import Path
 
-from aiops_diag.data.common import digest, key
-from aiops_diag.knowledge.release import FrozenRetriever
-from aiops_diag.knowledge.generation.engine import RagEngine
-from aiops_diag.knowledge.generation.client import DeepSeekClient
-from aiops_diag.diagnosis.auth import ReviewerRegistry
-from aiops_diag.diagnosis.budget import DatabaseBudgetLedger
-from aiops_diag.diagnosis.engine import AgentEngine, AgentYield
-from aiops_diag.diagnosis.release import verify as verify_agent
+from aiops_diag.common import digest, key
+from online.knowledge.release import FrozenRetriever
+from online.knowledge.generation.engine import RagEngine
+from online.knowledge.generation.client import DeepSeekClient
+from online.diagnosis.auth import ReviewerRegistry
+from online.diagnosis.budget import DatabaseBudgetLedger
+from online.diagnosis.engine import AgentEngine, AgentYield
+from online.diagnosis.release import verify as verify_agent
 
 from .db import Database, LeaseLost
 from .pipeline import database_payload, process
@@ -57,12 +57,12 @@ class ServiceRuntime:
             if role in ("api", "worker") and cfg.get("retrieval"):
                 self.retriever = FrozenRetriever(cfg["retrieval"])
             if cfg.get("agent_backend") in ("v11_candidate", "framework_candidate"):
-                from aiops_diag.diagnosis.query_v11.release import verify as verify_v11
-                from aiops_diag.knowledge.gate_v11 import CandidateRetriever
+                from online.diagnosis.query_v11.release import verify as verify_v11
+                from online.knowledge.gate_v11 import CandidateRetriever
 
                 candidate = cfg["v11_candidate"]
                 if cfg.get("agent_backend") == "framework_candidate":
-                    from aiops_diag.diagnosis.framework.release import verify as verify_framework
+                    from online.diagnosis.framework.release import verify as verify_framework
 
                     framework = cfg["framework_candidate"]
                     self.agent_release = verify_framework(
@@ -70,7 +70,7 @@ class ServiceRuntime:
                         framework["release_dir"])
                     base_release = self.agent_release
                     if cfg.get("v12", {}).get("enabled"):
-                        from aiops_diag.diagnosis.framework.release_v12 import verify as verify_v12
+                        from online.diagnosis.framework.release_v12 import verify as verify_v12
 
                         self.agent_release = verify_v12(
                             cfg, cfg["v12"]["release_dir"])
@@ -86,7 +86,7 @@ class ServiceRuntime:
                     self.retriever, base_release["gate_threshold"])
                 if cfg.get("agent_backend") == "framework_candidate":
                     if cfg.get("retrieval_backend") == "langchain":
-                        from aiops_diag.diagnosis.framework.retriever import LangChainRetrieverAdapter
+                        from online.diagnosis.framework.retriever import LangChainRetrieverAdapter
 
                         self.retriever = LangChainRetrieverAdapter(backend=self.retriever)
                 else:
@@ -109,8 +109,8 @@ class ServiceRuntime:
                     agent_class = AgentEngine
                     agent_cfg = cfg["agent"]
                     if cfg.get("agent_backend") in ("v11_candidate", "framework_candidate"):
-                        from aiops_diag.diagnosis.query_v11.engine import AgentEngine as CandidateAgentEngine
-                        from aiops_diag.diagnosis.query_v11.query_builder import load_config as load_query
+                        from online.diagnosis.query_v11.engine import AgentEngine as CandidateAgentEngine
+                        from online.diagnosis.query_v11.query_builder import load_config as load_query
 
                         agent_class = CandidateAgentEngine
                         agent_cfg = {**agent_cfg,
@@ -122,7 +122,7 @@ class ServiceRuntime:
                             agent_cfg["v12"] = cfg["v12"]
                     if (cfg.get("agent_backend") == "framework_candidate"
                             and cfg.get("execution_backend") == "langgraph"):
-                        from aiops_diag.diagnosis.framework.graph import LangGraphAgentEngine
+                        from online.diagnosis.framework.graph import LangGraphAgentEngine
 
                         agent_class = LangGraphAgentEngine
                     self.agent = agent_class(agent_cfg, self.db, self.retriever,

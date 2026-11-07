@@ -16,10 +16,10 @@ import pyarrow.parquet as pq
 from fastapi import FastAPI, File, Header, Query, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, Response
-from aiops_diag.data.common import key
-from aiops_diag.knowledge.generation.schemas import RagReport
-from aiops_diag.diagnosis.auth import ReviewerAuthError
-from aiops_diag.diagnosis.schemas import IncidentReport
+from aiops_diag.common import key
+from online.knowledge.generation.schemas import RagReport
+from online.diagnosis.auth import ReviewerAuthError
+from online.diagnosis.schemas import IncidentReport
 
 from .db import (ApprovalConflict, ApprovalExpired, IdempotencyConflict,
                  QueueFull)

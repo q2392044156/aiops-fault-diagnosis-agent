@@ -5,8 +5,8 @@ from pathlib import Path
 
 import yaml
 
-from aiops_diag.diagnosis.config import load as load_agent
-from aiops_diag.data.common import config_root, key, logical_config
+from online.diagnosis.config import load as load_agent
+from aiops_diag.common import config_root, key, logical_config
 from aiops_diag.platform.config import load as load_service
 
 
