@@ -1,0 +1,81 @@
+{
+  "budgets": {
+    "10": {
+      "budget": "10",
+      "cases": 7,
+      "gold_lines": 13,
+      "selected_lines": 70,
+      "selected_gold": 13,
+      "evidence_recall_micro": 1.0,
+      "evidence_precision_micro": 0.1857,
+      "case_full_coverage": 1.0,
+      "case_any_coverage": 1.0,
+      "mean_tokens_est": 300.0
+    },
+    "30": {
+      "budget": "30",
+      "cases": 7,
+      "gold_lines": 13,
+      "selected_lines": 210,
+      "selected_gold": 13,
+      "evidence_recall_micro": 1.0,
+      "evidence_precision_micro": 0.0619,
+      "case_full_coverage": 1.0,
+      "case_any_coverage": 1.0,
+      "mean_tokens_est": 877.0
+    },
+    "50": {
+      "budget": "50",
+      "cases": 7,
+      "gold_lines": 13,
+      "selected_lines": 350,
+      "selected_gold": 13,
+      "evidence_recall_micro": 1.0,
+      "evidence_precision_micro": 0.0371,
+      "case_full_coverage": 1.0,
+      "case_any_coverage": 1.0,
+      "mean_tokens_est": 1389.7
+    },
+    "all": {
+      "budget": "all",
+      "cases": 7,
+      "gold_lines": 13,
+      "selected_lines": 870,
+      "selected_gold": 13,
+      "evidence_recall_micro": 1.0,
+      "evidence_precision_micro": 0.0149,
+      "case_full_coverage": 1.0,
+      "case_any_coverage": 1.0,
+      "mean_tokens_est": 3474.9
+    }
+  },
+  "labels": {
+    "inc_lab_dn_volume_20261028125328_573e": [
+      "inc_lab_dn_volume_20261028125328_573e:57",
+      "inc_lab_dn_volume_20261028125328_573e:91"
+    ],
+    "inc_lab_dn_volume_20261028125425_ef0b": [
+      "inc_lab_dn_volume_20261028125425_ef0b:57",
+      "inc_lab_dn_volume_20261028125425_ef0b:91"
+    ],
+    "inc_lab_dn_volume_20261028125522_31d2": [
+      "inc_lab_dn_volume_20261028125522_31d2:57",
+      "inc_lab_dn_volume_20261028125522_31d2:91"
+    ],
+    "inc_lab_dn_volume_20261028125619_c5a7": [
+      "inc_lab_dn_volume_20261028125619_c5a7:57",
+      "inc_lab_dn_volume_20261028125619_c5a7:91"
+    ],
+    "inc_lab_dn_volume_20261028125749_fff9": [
+      "inc_lab_dn_volume_20261028125749_fff9:57",
+      "inc_lab_dn_volume_20261028125749_fff9:91"
+    ],
+    "inc_lab_dn_volume_20261028125850_d215": [
+      "inc_lab_dn_volume_20261028125850_d215:57",
+      "inc_lab_dn_volume_20261028125850_d215:91"
+    ],
+    "inc_lab_dn_volume_20261028140024_718d": [
+      "inc_lab_dn_volume_20261028140024_718d:4"
+    ]
+  }
+}
