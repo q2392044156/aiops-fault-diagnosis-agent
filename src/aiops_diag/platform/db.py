@@ -255,7 +255,7 @@ class Database:
         allowed = {"product_version", "source_type", "dataset", "split",
                    "snapshot_hash", "cluster_alias", "detector_release_id",
                    "detector_score", "detector_threshold", "gate_decision",
-                   "gate_reason"}
+                   "gate_reason", "window_seconds", "window_count"}
         unknown = set(values) - allowed
         if unknown:
             raise ValueError("Unsupported event metadata")

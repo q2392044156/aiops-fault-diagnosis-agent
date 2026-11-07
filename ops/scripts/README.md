@@ -19,6 +19,7 @@
 | `evaluate_incidents.py` | 用 incident 标签与报告计算 Top-1/Top-3/MRR/MTTD。 | `evaluate`、`markdown` |
 | `evaluate_gate.py` | 用正常/故障窗口评测门禁的 FPR 与 Recall。 | `_metrics`、`main` |
 | `evaluate_detector.py` | 训练模板新颖度检测器并评测正常/故障窗口。 | `_windows`、`_metrics`、`main` |
+| `evaluate_windows.py` | 用统一时间/组件窗口训练并评测门禁。 | `_fault_start`、`_score`、`main` |
 | `freeze_detector.py` | 冻结检测器并生成可校验的 release 清单。 | `_sha`、`main` |
 | `run_redteam.py` | 运行红队用例并输出拦截率与误杀率。 | `main` |
 | `mcp_smoke.py` | 以子进程方式冒烟验证 MCP 服务器。 | `_rpc`、`main` |

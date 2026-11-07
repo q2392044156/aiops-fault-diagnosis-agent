@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "release_id": "novelty_wsl_windows_v3",
+  "created_at": "2026-11-07T08:43:45.460884+00:00",
+  "source_type": "wsl",
+  "detector_sha256": "96882aeac90130f8ca5482e6b1b33d3d3bbf6e484f1a047e7050d3ea1a7afd3b",
+  "normal_sha256": "a4676ef4e2780a2fc8832caef957dfec020369195e0728ddd53eb7a045d6f3c9",
+  "normal_files": [
+    "15m_dn.log",
+    "15m_nn.log",
+    "5m_dn.log",
+    "5m_nn.log"
+  ],
+  "normal_windows": 46,
+  "threshold": 0.1,
+  "target_fpr": 0.05,
+  "model": "severity_first_novelty"
+}

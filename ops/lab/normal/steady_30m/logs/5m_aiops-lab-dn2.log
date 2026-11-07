@@ -1,200 +1,200 @@
-2026-11-06 15:08:45 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741825_1001 src: /172.19.0.3:34730 dest: /172.19.0.4:9866
-2026-11-06 15:08:45 INFO  clienttrace:1550 - src: /172.19.0.3:34730, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1370242607_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741825_1001, duration(ns): 39247088
-2026-11-06 15:08:45 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741825_1001, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:09:04 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741826_1002 src: /172.19.0.3:38028 dest: /172.19.0.4:9866
-2026-11-06 15:09:04 INFO  clienttrace:1550 - src: /172.19.0.3:38028, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_2121732768_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741826_1002, duration(ns): 16300398
-2026-11-06 15:09:04 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741826_1002, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:09:09 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741825_1001 replica FinalizedReplica, blk_1073741825_1001, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741825 for deletion
-2026-11-06 15:09:09 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741825_1001 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741825
-2026-11-06 15:09:09 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
-2026-11-06 15:09:20 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741827_1003 src: /172.19.0.3:50826 dest: /172.19.0.4:9866
-2026-11-06 15:09:20 INFO  clienttrace:1550 - src: /172.19.0.3:50826, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-340575178_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741827_1003, duration(ns): 20243759
-2026-11-06 15:09:20 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741827_1003, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:09:28 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741826_1002 replica FinalizedReplica, blk_1073741826_1002, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741826 for deletion
-2026-11-06 15:09:28 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741826_1002 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741826
-2026-11-06 15:09:39 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741828_1004 src: /172.19.0.3:50374 dest: /172.19.0.4:9866
-2026-11-06 15:09:39 INFO  clienttrace:1550 - src: /172.19.0.3:50374, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1370262494_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741828_1004, duration(ns): 19810366
-2026-11-06 15:09:39 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741828_1004, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:09:42 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741827_1003 replica FinalizedReplica, blk_1073741827_1003, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741827 for deletion
-2026-11-06 15:09:42 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741827_1003 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741827
-2026-11-06 15:09:43 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
-2026-11-06 15:09:52 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741829_1005 src: /172.19.0.2:50280 dest: /172.19.0.4:9866
-2026-11-06 15:09:52 INFO  clienttrace:1550 - src: /172.19.0.2:50280, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-838034647_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741829_1005, duration(ns): 14839609
-2026-11-06 15:09:52 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741829_1005, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:09:54 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741828_1004 replica FinalizedReplica, blk_1073741828_1004, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741828 for deletion
-2026-11-06 15:09:54 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741828_1004 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741828
-2026-11-06 15:10:11 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741830_1006 src: /172.19.0.2:48800 dest: /172.19.0.4:9866
-2026-11-06 15:10:11 INFO  clienttrace:1550 - src: /172.19.0.2:48800, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_394568727_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741830_1006, duration(ns): 14177476
-2026-11-06 15:10:11 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741830_1006, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:10:13 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741829_1005 replica FinalizedReplica, blk_1073741829_1005, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741829 for deletion
-2026-11-06 15:10:13 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741829_1005 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741829
-2026-11-06 15:10:15 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
-2026-11-06 15:10:24 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741831_1007 src: /172.19.0.3:39534 dest: /172.19.0.4:9866
-2026-11-06 15:10:24 INFO  clienttrace:1550 - src: /172.19.0.3:39534, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1306314706_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741831_1007, duration(ns): 18123695
-2026-11-06 15:10:24 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741831_1007, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:10:35 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741830_1006 replica FinalizedReplica, blk_1073741830_1006, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741830 for deletion
-2026-11-06 15:10:35 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741830_1006 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741830
-2026-11-06 15:10:40 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741832_1008 src: /172.19.0.3:50756 dest: /172.19.0.4:9866
-2026-11-06 15:10:40 INFO  clienttrace:1550 - src: /172.19.0.3:50756, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1006277434_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741832_1008, duration(ns): 17261149
-2026-11-06 15:10:40 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741832_1008, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:10:43 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741831_1007 replica FinalizedReplica, blk_1073741831_1007, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741831 for deletion
-2026-11-06 15:10:43 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741831_1007 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741831
-2026-11-06 15:10:54 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741833_1009 src: /172.19.0.2:52344 dest: /172.19.0.4:9866
-2026-11-06 15:10:54 INFO  clienttrace:1550 - src: /172.19.0.2:52344, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_537025358_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741833_1009, duration(ns): 14598956
-2026-11-06 15:10:54 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741833_1009, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:10:59 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741832_1008 replica FinalizedReplica, blk_1073741832_1008, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741832 for deletion
-2026-11-06 15:10:59 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741832_1008 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741832
-2026-11-06 15:11:11 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741834_1010 src: /172.19.0.2:48860 dest: /172.19.0.4:9866
-2026-11-06 15:11:11 INFO  clienttrace:1550 - src: /172.19.0.2:48860, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1890452425_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741834_1010, duration(ns): 13904788
-2026-11-06 15:11:11 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741834_1010, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:11:16 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741833_1009 replica FinalizedReplica, blk_1073741833_1009, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741833 for deletion
-2026-11-06 15:11:16 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741833_1009 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741833
-2026-11-06 15:11:24 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741835_1011 src: /172.19.0.3:40258 dest: /172.19.0.4:9866
-2026-11-06 15:11:24 INFO  clienttrace:1550 - src: /172.19.0.3:40258, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1977561444_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741835_1011, duration(ns): 17736908
-2026-11-06 15:11:24 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741835_1011, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:11:28 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741834_1010 replica FinalizedReplica, blk_1073741834_1010, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741834 for deletion
-2026-11-06 15:11:28 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741834_1010 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741834
-2026-11-06 15:11:30 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
-2026-11-06 15:11:44 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741836_1012 src: /172.19.0.2:54174 dest: /172.19.0.4:9866
-2026-11-06 15:11:44 INFO  clienttrace:1550 - src: /172.19.0.2:54174, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1340005104_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741836_1012, duration(ns): 18381096
-2026-11-06 15:11:44 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741836_1012, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:11:47 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741835_1011 replica FinalizedReplica, blk_1073741835_1011, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741835 for deletion
-2026-11-06 15:11:47 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741835_1011 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741835
-2026-11-06 15:11:59 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741837_1013 src: /172.19.0.3:59352 dest: /172.19.0.4:9866
-2026-11-06 15:11:59 INFO  clienttrace:1550 - src: /172.19.0.3:59352, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-741585979_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741837_1013, duration(ns): 19567762
-2026-11-06 15:11:59 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741837_1013, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:12:05 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741836_1012 replica FinalizedReplica, blk_1073741836_1012, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741836 for deletion
-2026-11-06 15:12:05 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741836_1012 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741836
-2026-11-06 15:12:17 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741838_1014 src: /172.19.0.2:55506 dest: /172.19.0.4:9866
-2026-11-06 15:12:17 INFO  clienttrace:1550 - src: /172.19.0.2:55506, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-426330081_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741838_1014, duration(ns): 12767396
-2026-11-06 15:12:17 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741838_1014, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:12:23 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741837_1013 replica FinalizedReplica, blk_1073741837_1013, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741837 for deletion
-2026-11-06 15:12:23 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741837_1013 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741837
-2026-11-06 15:12:29 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741839_1015 src: /172.19.0.3:38808 dest: /172.19.0.4:9866
-2026-11-06 15:12:29 INFO  clienttrace:1550 - src: /172.19.0.3:38808, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_72034057_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741839_1015, duration(ns): 16623242
-2026-11-06 15:12:29 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741839_1015, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:12:33 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741838_1014 replica FinalizedReplica, blk_1073741838_1014, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741838 for deletion
-2026-11-06 15:12:33 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741838_1014 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741838
-2026-11-06 15:12:41 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741840_1016 src: /172.19.0.2:54822 dest: /172.19.0.4:9866
-2026-11-06 15:12:41 INFO  clienttrace:1550 - src: /172.19.0.2:54822, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1859469017_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741840_1016, duration(ns): 13736994
-2026-11-06 15:12:41 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741840_1016, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:12:48 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741839_1015 replica FinalizedReplica, blk_1073741839_1015, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741839 for deletion
-2026-11-06 15:12:48 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741839_1015 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741839
-2026-11-06 15:12:49 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
-2026-11-06 15:12:58 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741841_1017 src: /172.19.0.2:36610 dest: /172.19.0.4:9866
-2026-11-06 15:12:58 INFO  clienttrace:1550 - src: /172.19.0.2:36610, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1318258713_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741841_1017, duration(ns): 16837537
-2026-11-06 15:12:58 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741841_1017, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:13:02 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741840_1016 replica FinalizedReplica, blk_1073741840_1016, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741840 for deletion
-2026-11-06 15:13:02 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741840_1016 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741840
-2026-11-06 15:13:11 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741842_1018 src: /172.19.0.3:40528 dest: /172.19.0.4:9866
-2026-11-06 15:13:11 INFO  clienttrace:1550 - src: /172.19.0.3:40528, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-499758584_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741842_1018, duration(ns): 17530390
-2026-11-06 15:13:11 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741842_1018, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
-2026-11-06 15:13:21 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741841_1017 replica FinalizedReplica, blk_1073741841_1017, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741841 for deletion
-2026-11-06 15:13:21 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741841_1017 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741841
-2026-11-06 15:13:28 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741843_1019 src: /172.19.0.2:36214 dest: /172.19.0.4:9866
-2026-11-06 15:13:28 INFO  clienttrace:1550 - src: /172.19.0.2:36214, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1430521244_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741843_1019, duration(ns): 15240183
-2026-11-06 15:13:28 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741843_1019, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:13:31 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
-2026-11-06 15:13:33 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741842_1018 replica FinalizedReplica, blk_1073741842_1018, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741842 for deletion
-2026-11-06 15:13:33 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741842_1018 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741842
-2026-11-06 15:13:40 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741844_1020 src: /172.19.0.2:37238 dest: /172.19.0.4:9866
-2026-11-06 15:13:40 INFO  clienttrace:1550 - src: /172.19.0.2:37238, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1664141484_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741844_1020, duration(ns): 14380495
-2026-11-06 15:13:40 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741844_1020, type=LAST_IN_PIPELINE terminating
-2026-11-06 15:13:44 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
-2026-11-06 15:13:45 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741843_1019 replica FinalizedReplica, blk_1073741843_1019, FINALIZED
-  getNumBytes()     = 18
-  getBytesOnDisk()  = 18
-  getVisibleLength()= 18
-  getVolume()       = /tmp/hadoop-root/dfs/data
-  getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741843 for deletion
-2026-11-06 15:13:45 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741843_1019 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741843
+[aiops-lab-dn2] 2026-11-06 15:08:45 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741825_1001 src: /172.19.0.3:34730 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:08:45 INFO  clienttrace:1550 - src: /172.19.0.3:34730, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1370242607_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741825_1001, duration(ns): 39247088
+[aiops-lab-dn2] 2026-11-06 15:08:45 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741825_1001, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:09:04 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741826_1002 src: /172.19.0.3:38028 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:09:04 INFO  clienttrace:1550 - src: /172.19.0.3:38028, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_2121732768_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741826_1002, duration(ns): 16300398
+[aiops-lab-dn2] 2026-11-06 15:09:04 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741826_1002, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:09:09 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741825_1001 replica FinalizedReplica, blk_1073741825_1001, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741825 for deletion
+[aiops-lab-dn2] 2026-11-06 15:09:09 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741825_1001 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741825
+[aiops-lab-dn2] 2026-11-06 15:09:09 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
+[aiops-lab-dn2] 2026-11-06 15:09:20 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741827_1003 src: /172.19.0.3:50826 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:09:20 INFO  clienttrace:1550 - src: /172.19.0.3:50826, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-340575178_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741827_1003, duration(ns): 20243759
+[aiops-lab-dn2] 2026-11-06 15:09:20 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741827_1003, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:09:28 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741826_1002 replica FinalizedReplica, blk_1073741826_1002, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741826 for deletion
+[aiops-lab-dn2] 2026-11-06 15:09:28 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741826_1002 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741826
+[aiops-lab-dn2] 2026-11-06 15:09:39 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741828_1004 src: /172.19.0.3:50374 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:09:39 INFO  clienttrace:1550 - src: /172.19.0.3:50374, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1370262494_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741828_1004, duration(ns): 19810366
+[aiops-lab-dn2] 2026-11-06 15:09:39 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741828_1004, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:09:42 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741827_1003 replica FinalizedReplica, blk_1073741827_1003, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741827 for deletion
+[aiops-lab-dn2] 2026-11-06 15:09:42 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741827_1003 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741827
+[aiops-lab-dn2] 2026-11-06 15:09:43 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
+[aiops-lab-dn2] 2026-11-06 15:09:52 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741829_1005 src: /172.19.0.2:50280 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:09:52 INFO  clienttrace:1550 - src: /172.19.0.2:50280, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-838034647_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741829_1005, duration(ns): 14839609
+[aiops-lab-dn2] 2026-11-06 15:09:52 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741829_1005, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:09:54 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741828_1004 replica FinalizedReplica, blk_1073741828_1004, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741828 for deletion
+[aiops-lab-dn2] 2026-11-06 15:09:54 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741828_1004 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741828
+[aiops-lab-dn2] 2026-11-06 15:10:11 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741830_1006 src: /172.19.0.2:48800 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:10:11 INFO  clienttrace:1550 - src: /172.19.0.2:48800, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_394568727_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741830_1006, duration(ns): 14177476
+[aiops-lab-dn2] 2026-11-06 15:10:11 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741830_1006, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:10:13 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741829_1005 replica FinalizedReplica, blk_1073741829_1005, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741829 for deletion
+[aiops-lab-dn2] 2026-11-06 15:10:13 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741829_1005 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741829
+[aiops-lab-dn2] 2026-11-06 15:10:15 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
+[aiops-lab-dn2] 2026-11-06 15:10:24 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741831_1007 src: /172.19.0.3:39534 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:10:24 INFO  clienttrace:1550 - src: /172.19.0.3:39534, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1306314706_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741831_1007, duration(ns): 18123695
+[aiops-lab-dn2] 2026-11-06 15:10:24 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741831_1007, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:10:35 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741830_1006 replica FinalizedReplica, blk_1073741830_1006, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741830 for deletion
+[aiops-lab-dn2] 2026-11-06 15:10:35 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741830_1006 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741830
+[aiops-lab-dn2] 2026-11-06 15:10:40 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741832_1008 src: /172.19.0.3:50756 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:10:40 INFO  clienttrace:1550 - src: /172.19.0.3:50756, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1006277434_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741832_1008, duration(ns): 17261149
+[aiops-lab-dn2] 2026-11-06 15:10:40 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741832_1008, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:10:43 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741831_1007 replica FinalizedReplica, blk_1073741831_1007, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741831 for deletion
+[aiops-lab-dn2] 2026-11-06 15:10:43 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741831_1007 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741831
+[aiops-lab-dn2] 2026-11-06 15:10:54 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741833_1009 src: /172.19.0.2:52344 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:10:54 INFO  clienttrace:1550 - src: /172.19.0.2:52344, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_537025358_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741833_1009, duration(ns): 14598956
+[aiops-lab-dn2] 2026-11-06 15:10:54 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741833_1009, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:10:59 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741832_1008 replica FinalizedReplica, blk_1073741832_1008, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741832 for deletion
+[aiops-lab-dn2] 2026-11-06 15:10:59 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741832_1008 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741832
+[aiops-lab-dn2] 2026-11-06 15:11:11 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741834_1010 src: /172.19.0.2:48860 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:11:11 INFO  clienttrace:1550 - src: /172.19.0.2:48860, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1890452425_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741834_1010, duration(ns): 13904788
+[aiops-lab-dn2] 2026-11-06 15:11:11 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741834_1010, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:11:16 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741833_1009 replica FinalizedReplica, blk_1073741833_1009, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741833 for deletion
+[aiops-lab-dn2] 2026-11-06 15:11:16 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741833_1009 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741833
+[aiops-lab-dn2] 2026-11-06 15:11:24 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741835_1011 src: /172.19.0.3:40258 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:11:24 INFO  clienttrace:1550 - src: /172.19.0.3:40258, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1977561444_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741835_1011, duration(ns): 17736908
+[aiops-lab-dn2] 2026-11-06 15:11:24 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741835_1011, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:11:28 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741834_1010 replica FinalizedReplica, blk_1073741834_1010, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741834 for deletion
+[aiops-lab-dn2] 2026-11-06 15:11:28 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741834_1010 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741834
+[aiops-lab-dn2] 2026-11-06 15:11:30 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
+[aiops-lab-dn2] 2026-11-06 15:11:44 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741836_1012 src: /172.19.0.2:54174 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:11:44 INFO  clienttrace:1550 - src: /172.19.0.2:54174, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1340005104_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741836_1012, duration(ns): 18381096
+[aiops-lab-dn2] 2026-11-06 15:11:44 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741836_1012, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:11:47 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741835_1011 replica FinalizedReplica, blk_1073741835_1011, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741835 for deletion
+[aiops-lab-dn2] 2026-11-06 15:11:47 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741835_1011 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741835
+[aiops-lab-dn2] 2026-11-06 15:11:59 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741837_1013 src: /172.19.0.3:59352 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:11:59 INFO  clienttrace:1550 - src: /172.19.0.3:59352, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-741585979_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741837_1013, duration(ns): 19567762
+[aiops-lab-dn2] 2026-11-06 15:11:59 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741837_1013, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:12:05 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741836_1012 replica FinalizedReplica, blk_1073741836_1012, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741836 for deletion
+[aiops-lab-dn2] 2026-11-06 15:12:05 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741836_1012 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741836
+[aiops-lab-dn2] 2026-11-06 15:12:17 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741838_1014 src: /172.19.0.2:55506 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:12:17 INFO  clienttrace:1550 - src: /172.19.0.2:55506, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-426330081_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741838_1014, duration(ns): 12767396
+[aiops-lab-dn2] 2026-11-06 15:12:17 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741838_1014, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:12:23 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741837_1013 replica FinalizedReplica, blk_1073741837_1013, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741837 for deletion
+[aiops-lab-dn2] 2026-11-06 15:12:23 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741837_1013 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741837
+[aiops-lab-dn2] 2026-11-06 15:12:29 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741839_1015 src: /172.19.0.3:38808 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:12:29 INFO  clienttrace:1550 - src: /172.19.0.3:38808, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_72034057_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741839_1015, duration(ns): 16623242
+[aiops-lab-dn2] 2026-11-06 15:12:29 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741839_1015, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:12:33 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741838_1014 replica FinalizedReplica, blk_1073741838_1014, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741838 for deletion
+[aiops-lab-dn2] 2026-11-06 15:12:33 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741838_1014 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741838
+[aiops-lab-dn2] 2026-11-06 15:12:41 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741840_1016 src: /172.19.0.2:54822 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:12:41 INFO  clienttrace:1550 - src: /172.19.0.2:54822, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1859469017_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741840_1016, duration(ns): 13736994
+[aiops-lab-dn2] 2026-11-06 15:12:41 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741840_1016, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:12:48 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741839_1015 replica FinalizedReplica, blk_1073741839_1015, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741839 for deletion
+[aiops-lab-dn2] 2026-11-06 15:12:48 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741839_1015 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741839
+[aiops-lab-dn2] 2026-11-06 15:12:49 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
+[aiops-lab-dn2] 2026-11-06 15:12:58 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741841_1017 src: /172.19.0.2:36610 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:12:58 INFO  clienttrace:1550 - src: /172.19.0.2:36610, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1318258713_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741841_1017, duration(ns): 16837537
+[aiops-lab-dn2] 2026-11-06 15:12:58 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741841_1017, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:13:02 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741840_1016 replica FinalizedReplica, blk_1073741840_1016, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741840 for deletion
+[aiops-lab-dn2] 2026-11-06 15:13:02 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741840_1016 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741840
+[aiops-lab-dn2] 2026-11-06 15:13:11 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741842_1018 src: /172.19.0.3:40528 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:13:11 INFO  clienttrace:1550 - src: /172.19.0.3:40528, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-499758584_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741842_1018, duration(ns): 17530390
+[aiops-lab-dn2] 2026-11-06 15:13:11 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741842_1018, type=HAS_DOWNSTREAM_IN_PIPELINE, downstreams=1:[172.19.0.2:9866] terminating
+[aiops-lab-dn2] 2026-11-06 15:13:21 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741841_1017 replica FinalizedReplica, blk_1073741841_1017, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741841 for deletion
+[aiops-lab-dn2] 2026-11-06 15:13:21 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741841_1017 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741841
+[aiops-lab-dn2] 2026-11-06 15:13:28 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741843_1019 src: /172.19.0.2:36214 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:13:28 INFO  clienttrace:1550 - src: /172.19.0.2:36214, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_-1430521244_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741843_1019, duration(ns): 15240183
+[aiops-lab-dn2] 2026-11-06 15:13:28 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741843_1019, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:13:31 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
+[aiops-lab-dn2] 2026-11-06 15:13:33 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741842_1018 replica FinalizedReplica, blk_1073741842_1018, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741842 for deletion
+[aiops-lab-dn2] 2026-11-06 15:13:33 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741842_1018 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741842
+[aiops-lab-dn2] 2026-11-06 15:13:40 INFO  DataNode:750 - Receiving BP-466928225-172.19.0.4-1793205428863:blk_1073741844_1020 src: /172.19.0.2:37238 dest: /172.19.0.4:9866
+[aiops-lab-dn2] 2026-11-06 15:13:40 INFO  clienttrace:1550 - src: /172.19.0.2:37238, dest: /172.19.0.4:9866, bytes: 18, op: HDFS_WRITE, cliID: DFSClient_NONMAPREDUCE_1664141484_1, offset: 0, srvID: 6faafd61-4bb9-466d-a697-d572030217c7, blockid: BP-466928225-172.19.0.4-1793205428863:blk_1073741844_1020, duration(ns): 14380495
+[aiops-lab-dn2] 2026-11-06 15:13:40 INFO  DataNode:1523 - PacketResponder: BP-466928225-172.19.0.4-1793205428863:blk_1073741844_1020, type=LAST_IN_PIPELINE terminating
+[aiops-lab-dn2] 2026-11-06 15:13:44 WARN  DFSUtil:1908 - Unexpected value for data transfer bytes=22 duration=0
+[aiops-lab-dn2] 2026-11-06 15:13:45 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741843_1019 replica FinalizedReplica, blk_1073741843_1019, FINALIZED
+[aiops-lab-dn2]   getNumBytes()     = 18
+[aiops-lab-dn2]   getBytesOnDisk()  = 18
+[aiops-lab-dn2]   getVisibleLength()= 18
+[aiops-lab-dn2]   getVolume()       = /tmp/hadoop-root/dfs/data
+[aiops-lab-dn2]   getBlockURI()     = file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741843 for deletion
+[aiops-lab-dn2] 2026-11-06 15:13:45 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-172.19.0.4-1793205428863 blk_1073741843_1019 URI file:/tmp/hadoop-root/dfs/data/current/BP-466928225-172.19.0.4-1793205428863/current/finalized/subdir0/subdir0/blk_1073741843

@@ -1,286 +1,286 @@
-2026-11-06 15:08:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:08:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=mkdirs	src=/aiops-normal	dst=null	perm=root:supergroup:rwxr-xr-x	proto=rpc
-2026-11-06 15:08:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:08:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:08:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:08:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:08:44 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:08:44 INFO  StateChange:802 - BLOCK* allocate blk_1073741825_1001, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:08:45 INFO  FSNamesystem:3201 - BLOCK* blk_1073741825_1001 is COMMITTED but not COMPLETE(numNodes= 0 <  minimum = 1) in file /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:08:45 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1370242607_1
-2026-11-06 15:08:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:08:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:08:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:08:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:08:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:08:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:04 INFO  FSEditLog:794 - Number of transactions: 9 Total time for transactions(ms): 30 Number of transactions batched in Syncs: 4 Number of syncs: 8 SyncTimes(ms): 44 
-2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:09:04 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:09:04 INFO  StateChange:802 - BLOCK* allocate blk_1073741826_1002, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:09:04 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_2121732768_1
-2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:09:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:16 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:09:19 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:09:19 INFO  StateChange:802 - BLOCK* allocate blk_1073741827_1003, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:09:20 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-340575178_1
-2026-11-06 15:09:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:09:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:36 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:09:39 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:09:39 INFO  StateChange:802 - BLOCK* allocate blk_1073741828_1004, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:09:39 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1370262494_1
-2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:09:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:43 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:43 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:09:52 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:09:52 INFO  StateChange:802 - BLOCK* allocate blk_1073741829_1005, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:09:52 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-838034647_1
-2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:09:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:09:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:01 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:01 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:10:10 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:10:10 INFO  StateChange:802 - BLOCK* allocate blk_1073741830_1006, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:10:11 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_394568727_1
-2026-11-06 15:10:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:10:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:22 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:24 INFO  FSEditLog:794 - Number of transactions: 44 Total time for transactions(ms): 32 Number of transactions batched in Syncs: 9 Number of syncs: 38 SyncTimes(ms): 156 
-2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:10:24 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:10:24 INFO  StateChange:802 - BLOCK* allocate blk_1073741831_1007, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:10:24 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1306314706_1
-2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:10:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:38 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:10:40 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:10:40 INFO  StateChange:802 - BLOCK* allocate blk_1073741832_1008, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:10:40 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1006277434_1
-2026-11-06 15:10:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:10:42 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:42 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:10:54 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:10:54 INFO  StateChange:802 - BLOCK* allocate blk_1073741833_1009, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:10:54 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_537025358_1
-2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:10:56 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:56 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:10:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:11:11 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:11:11 INFO  StateChange:802 - BLOCK* allocate blk_1073741834_1010, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:11:11 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1890452425_1
-2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:11:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:22 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:11:24 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:11:24 INFO  StateChange:802 - BLOCK* allocate blk_1073741835_1011, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:11:24 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1977561444_1
-2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:11:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:43 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:11:44 INFO  FSEditLog:794 - Number of transactions: 79 Total time for transactions(ms): 36 Number of transactions batched in Syncs: 14 Number of syncs: 68 SyncTimes(ms): 298 
-2026-11-06 15:11:44 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:11:44 INFO  StateChange:802 - BLOCK* allocate blk_1073741836_1012, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:11:44 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1340005104_1
-2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:11:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:56 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:11:59 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:11:59 INFO  StateChange:802 - BLOCK* allocate blk_1073741837_1013, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:11:59 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-741585979_1
-2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:12:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:16 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:16 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:12:17 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:12:17 INFO  StateChange:802 - BLOCK* allocate blk_1073741838_1014, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:12:17 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-426330081_1
-2026-11-06 15:12:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:12:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:12:29 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:12:29 INFO  StateChange:802 - BLOCK* allocate blk_1073741839_1015, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:12:29 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_72034057_1
-2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:12:31 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:31 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:32 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:32 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:12:41 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:12:41 INFO  StateChange:802 - BLOCK* allocate blk_1073741840_1016, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:12:41 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1859469017_1
-2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:12:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:57 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:12:58 INFO  FSEditLog:794 - Number of transactions: 114 Total time for transactions(ms): 39 Number of transactions batched in Syncs: 19 Number of syncs: 98 SyncTimes(ms): 415 
-2026-11-06 15:12:58 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:12:58 INFO  StateChange:802 - BLOCK* allocate blk_1073741841_1017, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:12:58 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1318258713_1
-2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:13:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:13:11 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:13:11 INFO  StateChange:802 - BLOCK* allocate blk_1073741842_1018, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:13:11 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-499758584_1
-2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:13:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:13:28 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:13:28 INFO  StateChange:802 - BLOCK* allocate blk_1073741843_1019, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:13:28 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1430521244_1
-2026-11-06 15:13:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:13:30 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:30 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:31 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:31 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:38 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:13:40 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
-2026-11-06 15:13:40 INFO  StateChange:802 - BLOCK* allocate blk_1073741844_1020, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
-2026-11-06 15:13:40 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1664141484_1
-2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
-2026-11-06 15:13:42 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:42 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
-2026-11-06 15:13:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=mkdirs	src=/aiops-normal	dst=null	perm=root:supergroup:rwxr-xr-x	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:44 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:08:44 INFO  StateChange:802 - BLOCK* allocate blk_1073741825_1001, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:08:45 INFO  FSNamesystem:3201 - BLOCK* blk_1073741825_1001 is COMMITTED but not COMPLETE(numNodes= 0 <  minimum = 1) in file /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:08:45 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1370242607_1
+[aiops-lab-namenode] 2026-11-06 15:08:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:08:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  FSEditLog:794 - Number of transactions: 9 Total time for transactions(ms): 30 Number of transactions batched in Syncs: 4 Number of syncs: 8 SyncTimes(ms): 44 
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  StateChange:802 - BLOCK* allocate blk_1073741826_1002, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_2121732768_1
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:06 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:16 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:19 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:09:19 INFO  StateChange:802 - BLOCK* allocate blk_1073741827_1003, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:09:20 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-340575178_1
+[aiops-lab-namenode] 2026-11-06 15:09:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:36 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:39 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:09:39 INFO  StateChange:802 - BLOCK* allocate blk_1073741828_1004, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:09:39 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1370262494_1
+[aiops-lab-namenode] 2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:43 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:43 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:50 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:52 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:09:52 INFO  StateChange:802 - BLOCK* allocate blk_1073741829_1005, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:09:52 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-838034647_1
+[aiops-lab-namenode] 2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:09:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:01 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:01 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:10 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:10:10 INFO  StateChange:802 - BLOCK* allocate blk_1073741830_1006, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:10:11 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_394568727_1
+[aiops-lab-namenode] 2026-11-06 15:10:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:22 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  FSEditLog:794 - Number of transactions: 44 Total time for transactions(ms): 32 Number of transactions batched in Syncs: 9 Number of syncs: 38 SyncTimes(ms): 156 
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  StateChange:802 - BLOCK* allocate blk_1073741831_1007, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1306314706_1
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:38 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:40 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:10:40 INFO  StateChange:802 - BLOCK* allocate blk_1073741832_1008, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:10:40 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1006277434_1
+[aiops-lab-namenode] 2026-11-06 15:10:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:42 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:42 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:45 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:52 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:54 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:10:54 INFO  StateChange:802 - BLOCK* allocate blk_1073741833_1009, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:10:54 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_537025358_1
+[aiops-lab-namenode] 2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:54 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:56 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:56 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:10:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:08 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:10 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:11 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:11:11 INFO  StateChange:802 - BLOCK* allocate blk_1073741834_1010, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:11:11 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1890452425_1
+[aiops-lab-namenode] 2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:22 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:24 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:11:24 INFO  StateChange:802 - BLOCK* allocate blk_1073741835_1011, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:11:24 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1977561444_1
+[aiops-lab-namenode] 2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:24 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:43 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:44 INFO  FSEditLog:794 - Number of transactions: 79 Total time for transactions(ms): 36 Number of transactions batched in Syncs: 14 Number of syncs: 68 SyncTimes(ms): 298 
+[aiops-lab-namenode] 2026-11-06 15:11:44 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:11:44 INFO  StateChange:802 - BLOCK* allocate blk_1073741836_1012, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:11:44 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1340005104_1
+[aiops-lab-namenode] 2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:46 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:48 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:56 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:59 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:11:59 INFO  StateChange:802 - BLOCK* allocate blk_1073741837_1013, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:11:59 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-741585979_1
+[aiops-lab-namenode] 2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:11:59 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:04 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:14 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:16 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:16 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:17 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:12:17 INFO  StateChange:802 - BLOCK* allocate blk_1073741838_1014, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:12:17 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-426330081_1
+[aiops-lab-namenode] 2026-11-06 15:12:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:17 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:19 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:20 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:29 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:12:29 INFO  StateChange:802 - BLOCK* allocate blk_1073741839_1015, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:12:29 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_72034057_1
+[aiops-lab-namenode] 2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:29 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:31 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:31 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:32 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:32 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:39 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:41 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:12:41 INFO  StateChange:802 - BLOCK* allocate blk_1073741840_1016, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:12:41 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1859469017_1
+[aiops-lab-namenode] 2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:41 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:47 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:49 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:55 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:57 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:58 INFO  FSEditLog:794 - Number of transactions: 114 Total time for transactions(ms): 39 Number of transactions batched in Syncs: 19 Number of syncs: 98 SyncTimes(ms): 415 
+[aiops-lab-namenode] 2026-11-06 15:12:58 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:12:58 INFO  StateChange:802 - BLOCK* allocate blk_1073741841_1017, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:12:58 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1318258713_1
+[aiops-lab-namenode] 2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:12:58 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:00 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:02 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:09 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  StateChange:802 - BLOCK* allocate blk_1073741842_1018, replicas=172.19.0.4:9866, 172.19.0.2:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-499758584_1
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:13 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:15 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:11 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:26 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:27 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:28 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:13:28 INFO  StateChange:802 - BLOCK* allocate blk_1073741843_1019, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:13:28 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_-1430521244_1
+[aiops-lab-namenode] 2026-11-06 15:13:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:28 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:30 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:30 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:31 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:31 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:38 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=create	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:40 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}
+[aiops-lab-namenode] 2026-11-06 15:13:40 INFO  StateChange:802 - BLOCK* allocate blk_1073741844_1020, replicas=172.19.0.2:9866, 172.19.0.4:9866 for /aiops-normal/normal.txt._COPYING_
+[aiops-lab-namenode] 2026-11-06 15:13:40 INFO  StateChange:3154 - DIR* completeFile: /aiops-normal/normal.txt._COPYING_ is closed by DFSClient_NONMAPREDUCE_1664141484_1
+[aiops-lab-namenode] 2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt._COPYING_	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=delete	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:40 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=rename	src=/aiops-normal/normal.txt._COPYING_	dst=/aiops-normal/normal.txt	perm=root:supergroup:rw-r--r--	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:42 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:42 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=listStatus	src=/aiops-normal	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=getfileinfo	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-06 15:13:44 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/172.19.0.3	cmd=open	src=/aiops-normal/normal.txt	dst=null	perm=null	proto=rpc

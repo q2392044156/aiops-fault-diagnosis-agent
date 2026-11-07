@@ -1,5 +1,6 @@
-"""模块说明：验证独立的正常窗口加载。"""
+"""模块说明：验证统一时间/组件窗口。"""
 
+from aiops_diag.data.windows import make_windows
 from ops.lab.harness.windows import load_normal_windows
 
 
@@ -12,3 +13,29 @@ def test_normal_windows_split_by_lines(tmp_path):
     windows = load_normal_windows(tmp_path, "docker_container", window_lines=50)
     assert len(windows) == 3
     assert [len(window) for window in windows] == [50, 50, 20]
+
+
+# 方法说明：验证统一窗口按组件和时间桶切分。
+def test_make_windows_uses_time_and_component():
+    rows = [
+        {"timestamp_utc": "2026-10-28T12:00:00+00:00", "component": "DataNode",
+         "level": "INFO", "message": "a"},
+        {"timestamp_utc": "2026-10-28T12:00:30+00:00", "component": "DataNode",
+         "level": "INFO", "message": "b"},
+        {"timestamp_utc": "2026-10-28T12:01:10+00:00", "component": "DataNode",
+         "level": "INFO", "message": "c"},
+        {"timestamp_utc": "2026-10-28T12:00:00+00:00", "component": "NameNode",
+         "level": "INFO", "message": "d"},
+    ]
+    windows = make_windows(rows, "docker_container", duration_seconds=60, max_rows=500)
+    assert len(windows) == 3
+    assert {(window["component"], window["line_count"]) for window in windows} == {
+        ("DataNode", 2), ("DataNode", 1), ("NameNode", 1)}
+
+
+# 方法说明：验证超长窗口按最大行数切分。
+def test_make_windows_caps_rows():
+    rows = [{"timestamp_utc": "2026-10-28T12:00:00+00:00", "component": "DataNode",
+             "level": "INFO", "message": str(index)} for index in range(5)]
+    windows = make_windows(rows, "docker_container", duration_seconds=60, max_rows=2)
+    assert [window["line_count"] for window in windows] == [2, 2, 1]

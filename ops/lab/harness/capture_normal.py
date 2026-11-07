@@ -46,7 +46,7 @@ def main(argv=None):
     lines = {}
     for name in CONTAINERS:
         result = _run(["docker", "logs", "--since", since, name], 60)
-        text = result.stdout + result.stderr
+        text = "".join(f"[{name}] {line}\n" for line in (result.stdout + result.stderr).splitlines())
         (output / "logs" / f"{name}.log").write_text(text, encoding="utf-8")
         lines[name] = len(text.splitlines())
     meta = {"schema_version": 1, "source_type": "docker_container",

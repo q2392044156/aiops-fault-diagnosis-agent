@@ -30,7 +30,7 @@ def wilson(hits, total, z=1.96):
 # 类说明：TemplateNoveltyDetector 以严重度优先、模板新颖度兜底做门禁。
 class TemplateNoveltyDetector:
     # 方法说明：__init__ 设置目标误报率与良性错误白名单。
-    def __init__(self, target_fpr=0.05, min_threshold=0.05, benign_errors=None):
+    def __init__(self, target_fpr=0.05, min_threshold=0.10, benign_errors=None):
         self.target_fpr = float(target_fpr)
         self.min_threshold = float(min_threshold)
         self.benign_errors = set(benign_errors or ())
@@ -103,7 +103,7 @@ class TemplateNoveltyDetector:
     def load(cls, path):
         payload = json.loads(Path(path).read_text(encoding="utf-8"))
         detector = cls(payload.get("target_fpr", 0.05),
-                       payload.get("min_threshold", 0.05),
+                       payload.get("min_threshold", 0.10),
                        payload.get("benign_errors", []))
         detector.templates = set(payload.get("templates", []))
         detector.threshold = float(payload.get("threshold", 0.0))

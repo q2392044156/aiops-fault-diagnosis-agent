@@ -1,0 +1,34 @@
+{
+  "source_type": "docker_container",
+  "window_seconds": 60,
+  "max_rows": 500,
+  "model": "severity_first_novelty",
+  "normal_windows": 105,
+  "train_normal": 73,
+  "test_normal": 32,
+  "fault_windows": 197,
+  "detected_fault_windows": 184,
+  "window_recall": 0.934,
+  "normal": {
+    "false_positive": 0,
+    "fpr": 0.0,
+    "fpr_ci": [
+      0.0,
+      0.1072
+    ]
+  },
+  "cases": 81,
+  "detected_cases": 80,
+  "case_recall": 0.9877,
+  "end_to_end": {
+    "cases": 81,
+    "hits": 76,
+    "top1": 0.9383,
+    "top1_ci": [
+      0.8635,
+      0.9733
+    ]
+  },
+  "threshold": 0.1,
+  "saved": "artifacts/detectors/docker_windows_v3.json"
+}

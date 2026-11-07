@@ -32,6 +32,8 @@ def main(argv=None):
     parser.add_argument("--template-dir", required=True)
     parser.add_argument("--gate-output", required=True)
     parser.add_argument("--detector-release", default="novelty_v1")
+    parser.add_argument("--window-seconds", type=int, default=60)
+    parser.add_argument("--max-rows", type=int, default=500)
     args = parser.parse_args(argv)
     work = Path(args.work)
     shutil.rmtree(work, ignore_errors=True)
@@ -58,7 +60,9 @@ def main(argv=None):
                          template_dir=args.template_dir, matcher=matcher,
                          source_type=args.source_type, event_source="model",
                          detector_path=args.detector,
-                         detector_release=args.detector_release)
+                         detector_release=args.detector_release,
+                         window_seconds=args.window_seconds,
+                         max_rows=args.max_rows)
         gates.append(mapping)
         if index % 20 == 0:
             print(f"{index}/{len(cases)} elapsed={time.time()-started:.0f}s", flush=True)

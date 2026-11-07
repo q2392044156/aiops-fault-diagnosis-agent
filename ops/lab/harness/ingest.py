@@ -21,6 +21,7 @@ import yaml
 
 from aiops_diag.data.adapters import parse_lines
 from aiops_diag.data.common import digest, key
+from aiops_diag.data.windows import make_windows
 from aiops_diag.platform.events import build_event, gate_session
 from aiops_diag.diagnosis.engine import AgentEngine, AgentYield
 from aiops_diag.platform.db import Database
@@ -175,7 +176,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                focus_component=None, agent_backend="native", retriever_kind="cards",
                retriever=None, source_type="docker_container", matcher=None,
                event_source="import", gate_threshold=0.6, detector_path=None,
-               detector_release="novelty_v1"):
+               detector_release="novelty_v1", window_seconds=60, max_rows=500):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
@@ -201,6 +202,29 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
     task = database.claim("lab-worker", 60)
     directory = work / "batches" / batch_id
     directory.mkdir(parents=True, exist_ok=True)
+
+    # 统一窗口：正常检测和故障检测使用同一时间/组件窗口。
+    window_ids = []
+    if event_source == "model" and detector_path:
+        from aiops_diag.detection.source_detector import TemplateNoveltyDetector
+        detector = TemplateNoveltyDetector.load(detector_path)
+        windows = make_windows(rows, source_type, window_seconds, max_rows)
+        judged = [(window, detector.decide(window["rows"])) for window in windows]
+        passing = [(window, result) for window, result in judged
+                   if result["decision"] == "PASS"]
+        if passing:
+            rows = [row for window, _ in passing for row in window["rows"]]
+            window_ids = [window["window_id"] for window, _ in passing]
+            decision = max((result for _, result in passing),
+                           key=lambda item: (item["reason"] == "error_present",
+                                             item["score"]))
+        else:
+            decision = {"decision": "REJECT", "score": 0.0,
+                        "threshold": detector.threshold,
+                        "reason": "no_window_pass"}
+    elif event_source == "model":
+        decision = gate_session(rows, gate_threshold)
+
     artifacts = {}
     for name in ("logs.parquet", "quarantine.parquet", "links.parquet", "sessions.parquet",
                  "predictions.parquet", "events.parquet", "event_sessions.parquet"):
@@ -212,28 +236,23 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
         artifacts[name] = {"relative_path": name, "sha256": digest(path)}
 
     detected = datetime.now(timezone.utc).isoformat()
-    if event_source == "model":
-        if detector_path:
-            from aiops_diag.detection.source_detector import TemplateNoveltyDetector
-            decision = TemplateNoveltyDetector.load(detector_path).decide(rows)
-        else:
-            decision = gate_session(rows, gate_threshold)
-    else:
+    if event_source != "model":
         decision = {"decision": "PASS", "score": 1.0, "reason": "import"}
     passed = decision["decision"] == "PASS"
     event_id = ("evt_" + key([case_id, tag])[:24]) if passed else None
     counts = {"total_lines": total, "parsed_lines": len(rows),
               "quarantined_lines": total - len(rows), "session_count": 1,
               "anomaly_count": int(passed), "event_count": int(passed)}
+    threshold = float(decision.get("threshold", gate_threshold))
     events = [build_event(event_id, batch_id, session_id, rows, decision["score"],
-                          gate_threshold, focus_component or "lab", start, end,
+                          threshold, focus_component or "lab", start, end,
                           detected)] if passed else []
     members = [{"event_id": event_id, "session_id": session_id}] if passed else []
     database.complete(task_id, directory, counts,
                       [{"session_id": session_id, "start_time": start, "end_time": end,
                         "line_count": len(rows), "unknown_count": 0,
                         "anomaly_score": decision["score"],
-                        "threshold": gate_threshold, "prediction": int(passed),
+                        "threshold": threshold, "prediction": int(passed),
                         "first_log_id": rows[0]["log_id"], "last_log_id": rows[-1]["log_id"],
                         "host_alias": focus_component or "lab"}],
                       events, members, artifacts, task["lease_token"])
@@ -248,6 +267,8 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
         "detector_threshold": str(decision.get("threshold", gate_threshold)),
         "gate_decision": "PASS",
         "gate_reason": decision["reason"],
+        "window_seconds": str(window_seconds),
+        "window_count": str(len(window_ids)),
     })
 
     cfg = {"agent_version": "lab_agent", "v12": {"enabled": False},
@@ -323,7 +344,8 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
 def ingest(case_dir, database_path, mode="template", agent_backend="native",
            retriever_kind="cards", retriever=None, template_dir=None, matcher=None,
            source_type=None, event_source="import", gate_threshold=0.6,
-           detector_path=None, detector_release="novelty_v1"):
+           detector_path=None, detector_release="novelty_v1",
+           window_seconds=60, max_rows=500):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
@@ -342,7 +364,8 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
                          source_type=source_type, matcher=matcher,
                          event_source=event_source, gate_threshold=gate_threshold,
                          detector_path=detector_path,
-                         detector_release=detector_release)
+                         detector_release=detector_release,
+                         window_seconds=window_seconds, max_rows=max_rows)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
@@ -362,6 +385,8 @@ def main(argv=None):
     parser.add_argument("--gate-threshold", type=float, default=0.6)
     parser.add_argument("--detector")
     parser.add_argument("--detector-release", default="novelty_v1")
+    parser.add_argument("--window-seconds", type=int, default=60)
+    parser.add_argument("--max-rows", type=int, default=500)
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -373,7 +398,9 @@ def main(argv=None):
                             event_source=args.event_source,
                             gate_threshold=args.gate_threshold,
                             detector_path=args.detector,
-                            detector_release=args.detector_release),
+                            detector_release=args.detector_release,
+                            window_seconds=args.window_seconds,
+                            max_rows=args.max_rows),
                      ensure_ascii=False, indent=2))
     return 0
 
