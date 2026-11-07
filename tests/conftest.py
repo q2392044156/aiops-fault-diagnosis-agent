@@ -1,5 +1,6 @@
 """模块说明：为依赖本地发布制品的测试提供统一的跳过策略。"""
 
+import sys
 from pathlib import Path
 
 import pytest
@@ -7,6 +8,10 @@ import pytest
 
 # 变量说明：ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[1]
+# 变量说明：SRC 是 src 布局，加入 sys.path 以支持 offline/online 包。
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
 # 变量说明：LEGACY_RELEASE 是 v1.0 发布制品的注册表，缺失说明本地尚未构建发布制品。
 LEGACY_RELEASE = ROOT / "artifacts" / "releases" / "v1.0_service" / "registry.json"
 

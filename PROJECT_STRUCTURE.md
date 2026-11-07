@@ -4,23 +4,24 @@
 
 ```text
 aiops-fault-diagnosis-agent/
-├─ offline/              # 离线数据流程一级入口
-│  ├─ capture/           # 故障注入、正常采集、证据落盘
-│  ├─ ingestion/         # adapter、canonical、滑动窗口
-│  ├─ detection/         # 来源模板、severity-first 门禁
-│  └─ evaluation/        # 检测/事件/证据/引用评测
-├─ online/               # 在线诊断流程一级入口
-│  ├─ diagnosis/         # 7 节点诊断与结构化证据选择
-│  ├─ knowledge/         # 104 卡知识检索
-│  └─ reporting/         # 严格 JSON 报告 Schema
-├─ src/aiops_diag/       # 共享实现与兼容旧导入
-│  ├─ data/              # 接入、脱敏、incident 协议与实验记录
-│  ├─ detection/         # 异常检测和模型选择
-│  ├─ knowledge/         # 知识检索和证据约束报告生成
-│  ├─ diagnosis/         # Agent、工具、路由、上下文与编排
-│  ├─ evaluation/        # 轨迹、路由、红队与框架对照评测
-│  ├─ platform/          # FastAPI、worker、SQLite、Streamlit、MCP
-│  └─ release/           # 发布清单与哈希校验
+├─ src/
+│  ├─ offline/           # 离线数据流程一级入口
+│  │  ├─ capture/        # 故障注入、正常采集、证据落盘
+│  │  ├─ ingestion/      # adapter、canonical、滑动窗口
+│  │  ├─ detection/      # 来源模板、severity-first 门禁
+│  │  └─ evaluation/     # 检测/事件/证据/引用评测
+│  ├─ online/            # 在线诊断流程一级入口
+│  │  ├─ diagnosis/      # 7 节点诊断与结构化证据选择
+│  │  ├─ knowledge/      # 104 卡知识检索
+│  │  └─ reporting/      # 严格 JSON 报告 Schema
+│  └─ aiops_diag/        # 共享实现与兼容旧导入
+│     ├─ data/           # 接入、脱敏、incident 协议与实验记录
+│     ├─ detection/      # 异常检测和模型选择
+│     ├─ knowledge/      # 知识检索和证据约束报告生成
+│     ├─ diagnosis/      # Agent、工具、路由、上下文与编排
+│     ├─ evaluation/     # 轨迹、路由、红队与框架对照评测
+│     ├─ platform/       # FastAPI、worker、SQLite、Streamlit、MCP
+│     └─ release/        # 发布清单与哈希校验
 ├─ resources/            # 配置、知识卡与评测结果
 ├─ ops/                  # 脚本、红队用例、WSL/Docker 实验台
 ├─ demo/                 # 离线端到端演示
