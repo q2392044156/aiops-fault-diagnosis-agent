@@ -27,10 +27,13 @@ def test_make_windows_uses_time_and_component():
         {"timestamp_utc": "2026-10-28T12:00:00+00:00", "component": "NameNode",
          "level": "INFO", "message": "d"},
     ]
-    windows = make_windows(rows, "docker_container", duration_seconds=60, max_rows=500)
-    assert len(windows) == 3
-    assert {(window["component"], window["line_count"]) for window in windows} == {
-        ("DataNode", 2), ("DataNode", 1), ("NameNode", 1)}
+    windows = make_windows(rows, "docker_container", duration_seconds=60,
+                           step_seconds=10, max_rows=500)
+    assert len(windows) == 9
+    assert {window["component"] for window in windows} == {"DataNode", "NameNode"}
+    assert any(window["line_count"] == 2 for window in windows)
+    assert sum(1 for window in windows
+               if any(row["message"] == "b" for row in window["rows"])) > 1
 
 
 # 方法说明：验证超长窗口按最大行数切分。

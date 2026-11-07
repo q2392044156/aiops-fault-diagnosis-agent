@@ -1,0 +1,35 @@
+{
+  "source_type": "wsl",
+  "window_seconds": 60,
+  "window_step": 10,
+  "max_rows": 500,
+  "model": "severity_first_novelty",
+  "normal_windows": 244,
+  "train_normal": 170,
+  "test_normal": 74,
+  "fault_windows": 212,
+  "detected_fault_windows": 212,
+  "window_recall": 1.0,
+  "normal": {
+    "false_positive": 0,
+    "fpr": 0.0,
+    "fpr_ci": [
+      0.0,
+      0.0494
+    ]
+  },
+  "cases": 68,
+  "detected_cases": 68,
+  "case_recall": 1.0,
+  "end_to_end": {
+    "cases": 68,
+    "hits": 67,
+    "top1": 0.9853,
+    "top1_ci": [
+      0.9213,
+      0.9974
+    ]
+  },
+  "threshold": 0.1,
+  "saved": "artifacts/detectors/wsl_sliding_v4.json"
+}

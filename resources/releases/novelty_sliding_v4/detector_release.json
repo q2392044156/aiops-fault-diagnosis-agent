@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "release_id": "novelty_sliding_v4",
+  "created_at": "2026-11-07T09:30:28.609257+00:00",
+  "source_type": "docker_container",
+  "detector_sha256": "76b6ba46cb25c3f7f6119adbf9d8713e1fc1bcbb7364f60823195a5648f88923",
+  "normal_sha256": "95c90e1bc6ccefaa675babec70495397b4e03d463cf88f335426ce07bad9f917",
+  "normal_files": [
+    "10m_aiops-lab-dn1.log",
+    "10m_aiops-lab-dn2.log",
+    "10m_aiops-lab-dn3.log",
+    "10m_aiops-lab-namenode.log",
+    "15m_aiops-lab-dn1.log",
+    "15m_aiops-lab-dn2.log",
+    "15m_aiops-lab-dn3.log",
+    "15m_aiops-lab-namenode.log",
+    "5m_aiops-lab-dn1.log",
+    "5m_aiops-lab-dn2.log",
+    "5m_aiops-lab-dn3.log",
+    "5m_aiops-lab-namenode.log"
+  ],
+  "normal_windows": 553,
+  "threshold": 0.1,
+  "target_fpr": 0.05,
+  "model": "severity_first_novelty"
+}

@@ -33,6 +33,7 @@ def main(argv=None):
     parser.add_argument("--gate-output", required=True)
     parser.add_argument("--detector-release", default="novelty_v1")
     parser.add_argument("--window-seconds", type=int, default=60)
+    parser.add_argument("--window-step", type=int, default=10)
     parser.add_argument("--max-rows", type=int, default=500)
     args = parser.parse_args(argv)
     work = Path(args.work)
@@ -62,6 +63,7 @@ def main(argv=None):
                          detector_path=args.detector,
                          detector_release=args.detector_release,
                          window_seconds=args.window_seconds,
+                         window_step=args.window_step,
                          max_rows=args.max_rows)
         gates.append(mapping)
         if index % 20 == 0:

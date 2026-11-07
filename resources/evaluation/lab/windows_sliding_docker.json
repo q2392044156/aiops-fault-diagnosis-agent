@@ -1,0 +1,35 @@
+{
+  "source_type": "docker_container",
+  "window_seconds": 60,
+  "window_step": 10,
+  "max_rows": 500,
+  "model": "severity_first_novelty",
+  "normal_windows": 553,
+  "train_normal": 387,
+  "test_normal": 166,
+  "fault_windows": 294,
+  "detected_fault_windows": 275,
+  "window_recall": 0.9354,
+  "normal": {
+    "false_positive": 0,
+    "fpr": 0.0,
+    "fpr_ci": [
+      0.0,
+      0.0226
+    ]
+  },
+  "cases": 81,
+  "detected_cases": 80,
+  "case_recall": 0.9877,
+  "end_to_end": {
+    "cases": 81,
+    "hits": 76,
+    "top1": 0.9383,
+    "top1_ci": [
+      0.8635,
+      0.9733
+    ]
+  },
+  "threshold": 0.1,
+  "saved": "artifacts/detectors/docker_sliding_v4.json"
+}

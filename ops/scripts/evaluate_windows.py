@@ -34,12 +34,15 @@ def main(argv=None):
     parser.add_argument("--output", required=True)
     parser.add_argument("--diagnosis", default=None)
     parser.add_argument("--window-seconds", type=int, default=60)
+    parser.add_argument("--window-step", type=int, default=10)
     parser.add_argument("--max-rows", type=int, default=500)
     parser.add_argument("--target-fpr", type=float, default=0.05)
     parser.add_argument("--save", default=None)
     args = parser.parse_args(argv)
     normal = load_normal_windows(args.normal_dir, args.source_type,
-                                 args.window_seconds, args.max_rows)
+                                 duration_seconds=args.window_seconds,
+                                 step_seconds=args.window_step,
+                                 max_rows=args.max_rows)
     split = int(len(normal) * 0.7)
     train_normal, test_normal = normal[:split], normal[split:]
     detector = TemplateNoveltyDetector(args.target_fpr).fit(
@@ -53,8 +56,10 @@ def main(argv=None):
              if (case / "incident.json").is_file()]
     fault_windows = detected_windows = detected_cases = e2e_hits = 0
     for case in cases:
-        windows = load_case_windows(case, args.source_type, args.window_seconds,
-                                    args.max_rows)
+        windows = load_case_windows(case, args.source_type,
+                                    duration_seconds=args.window_seconds,
+                                    step_seconds=args.window_step,
+                                    max_rows=args.max_rows)
         start = _fault_start(case)
         fault = [window for window in windows if window["end"] > start]
         if not fault:
@@ -68,7 +73,8 @@ def main(argv=None):
             e2e_hits += 1
     result = {
         "source_type": args.source_type, "window_seconds": args.window_seconds,
-        "max_rows": args.max_rows, "model": "severity_first_novelty",
+        "window_step": args.window_step, "max_rows": args.max_rows,
+        "model": "severity_first_novelty",
         "normal_windows": len(normal), "train_normal": len(train_normal),
         "test_normal": len(test_normal), "fault_windows": fault_windows,
         "detected_fault_windows": detected_windows,

@@ -176,7 +176,8 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                focus_component=None, agent_backend="native", retriever_kind="cards",
                retriever=None, source_type="docker_container", matcher=None,
                event_source="import", gate_threshold=0.6, detector_path=None,
-               detector_release="novelty_v1", window_seconds=60, max_rows=500):
+               detector_release="novelty_v1", window_seconds=60, window_step=10,
+               max_rows=500):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
@@ -208,7 +209,8 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
     if event_source == "model" and detector_path:
         from aiops_diag.detection.source_detector import TemplateNoveltyDetector
         detector = TemplateNoveltyDetector.load(detector_path)
-        windows = make_windows(rows, source_type, window_seconds, max_rows)
+        windows = make_windows(rows, source_type, duration_seconds=window_seconds,
+                               step_seconds=window_step, max_rows=max_rows)
         judged = [(window, detector.decide(window["rows"])) for window in windows]
         passing = [(window, result) for window, result in judged
                    if result["decision"] == "PASS"]
@@ -268,6 +270,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
         "gate_decision": "PASS",
         "gate_reason": decision["reason"],
         "window_seconds": str(window_seconds),
+        "window_step": str(window_step),
         "window_count": str(len(window_ids)),
     })
 
@@ -345,7 +348,7 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
            retriever_kind="cards", retriever=None, template_dir=None, matcher=None,
            source_type=None, event_source="import", gate_threshold=0.6,
            detector_path=None, detector_release="novelty_v1",
-           window_seconds=60, max_rows=500):
+           window_seconds=60, window_step=10, max_rows=500):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
@@ -365,7 +368,8 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
                          event_source=event_source, gate_threshold=gate_threshold,
                          detector_path=detector_path,
                          detector_release=detector_release,
-                         window_seconds=window_seconds, max_rows=max_rows)
+                         window_seconds=window_seconds, window_step=window_step,
+                         max_rows=max_rows)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
@@ -386,6 +390,7 @@ def main(argv=None):
     parser.add_argument("--detector")
     parser.add_argument("--detector-release", default="novelty_v1")
     parser.add_argument("--window-seconds", type=int, default=60)
+    parser.add_argument("--window-step", type=int, default=10)
     parser.add_argument("--max-rows", type=int, default=500)
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
@@ -400,6 +405,7 @@ def main(argv=None):
                             detector_path=args.detector,
                             detector_release=args.detector_release,
                             window_seconds=args.window_seconds,
+                            window_step=args.window_step,
                             max_rows=args.max_rows),
                      ensure_ascii=False, indent=2))
     return 0
