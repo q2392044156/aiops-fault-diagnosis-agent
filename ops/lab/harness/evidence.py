@@ -27,12 +27,12 @@ def gold_ids(incident, rows):
     patterns = GOLD_PATTERNS.get(code, ())
     matched = []
     for row in rows:
-        message = (row.get("message") or "").lower()
+        message = (row.get("message") or row.get("redacted_message") or "").lower()
         if any(re.search(pattern, message) for pattern in patterns):
             matched.append(row["log_id"])
     if not matched:
         for row in rows:
-            message = (row.get("message") or "").lower()
+            message = (row.get("message") or row.get("redacted_message") or "").lower()
             level = (row.get("level") or "").upper()
             if (level in ("ERROR", "FATAL")
                     or any(term in message for term in ("volume", "disk", "storage"))):

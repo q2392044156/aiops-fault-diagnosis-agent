@@ -22,6 +22,8 @@
 | `evaluate_windows.py` | 用统一时间/组件窗口训练并评测门禁。 | `_fault_start`、`_score`、`main` |
 | `evaluate_events.py` | 按窗口事件评测事件级/案例级 Top-1。 | `_rank`、`main` |
 | `evaluate_evidence.py` | 评测证据选择的召回、精度与预算消融。 | `main` |
+| `evaluate_citations.py` | 评测报告引用对关键证据的覆盖率。 | `_line`、`main` |
+| `evidence_gap.py` | 审计证据不足案例并生成补采集清单。 | `main` |
 | `freeze_detector.py` | 冻结检测器并生成可校验的 release 清单。 | `_sha`、`main` |
 | `run_redteam.py` | 运行红队用例并输出拦截率与误杀率。 | `main` |
 | `mcp_smoke.py` | 以子进程方式冒烟验证 MCP 服务器。 | `_rpc`、`main` |

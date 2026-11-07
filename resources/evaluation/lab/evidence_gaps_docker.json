@@ -1,0 +1,215 @@
+{
+  "cases": 21,
+  "gaps": [
+    {
+      "incident_id": "inc_lab_dn_volume_20261028125300_bd4c",
+      "lines": 27,
+      "selected": 23,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028125358_e146",
+      "lines": 27,
+      "selected": 23,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028125455_eaa0",
+      "lines": 40,
+      "selected": 29,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028125552_301e",
+      "lines": 40,
+      "selected": 29,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028125650_20f0",
+      "lines": 21,
+      "selected": 21,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028125720_5124",
+      "lines": 40,
+      "selected": 31,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028125822_3755",
+      "lines": 27,
+      "selected": 23,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028125921_4f0d",
+      "lines": 40,
+      "selected": 29,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028135443_560d",
+      "lines": 48,
+      "selected": 30,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028135526_cf09",
+      "lines": 40,
+      "selected": 29,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028135610_05a2",
+      "lines": 64,
+      "selected": 19,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028135658_3859",
+      "lines": 57,
+      "selected": 25,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028135746_9d53",
+      "lines": 75,
+      "selected": 16,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028135839_855b",
+      "lines": 85,
+      "selected": 23,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028135930_4f44",
+      "lines": 103,
+      "selected": 18,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028140129_6b4d",
+      "lines": 75,
+      "selected": 23,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028140231_33cf",
+      "lines": 140,
+      "selected": 29,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028140333_367b",
+      "lines": 119,
+      "selected": 17,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028140439_7b95",
+      "lines": 115,
+      "selected": 18,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028140542_b576",
+      "lines": 126,
+      "selected": 19,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    },
+    {
+      "incident_id": "inc_lab_dn_volume_20261028140652_ce8d",
+      "lines": 80,
+      "selected": 10,
+      "root_cause_code": "DN_VOLUME",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    }
+  ]
+}

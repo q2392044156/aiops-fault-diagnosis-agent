@@ -121,6 +121,7 @@ def select_log_rows(log_rows, limit, token_budget=None):
     if len(log_rows) <= limit and not token_budget:
         return log_rows
     signals = tuple(word for words in AgentTools.CODE_SIGNALS.values() for word in words)
+    signals += ("volume", "disk", "storage", "exception", "failed", "error")
     signal_rows = [row for row in log_rows
                    if any(word in (row.get("redacted_message") or "").lower()
                           for word in signals)]

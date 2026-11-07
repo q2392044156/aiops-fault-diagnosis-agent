@@ -1,0 +1,15 @@
+{
+  "cases": 1,
+  "gaps": [
+    {
+      "incident_id": "inc_wsl_heartbeat_20261028182517_df45",
+      "lines": 87,
+      "selected": 50,
+      "root_cause_code": "DN_HEARTBEAT",
+      "missing": [
+        "signal_or_error_evidence"
+      ],
+      "recommendation": "补采 fault_start-60s 到 cutoff+60s 的 NN/DN 日志"
+    }
+  ]
+}

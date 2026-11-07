@@ -1,0 +1,577 @@
+{
+  "cases": 81,
+  "gold_lines": 552,
+  "cited_lines": 2596,
+  "cited_gold": 367,
+  "coverage_micro": 0.6649,
+  "precision_micro": 0.1414,
+  "per_case": {
+    "inc_lab_dn_heartbeat_20261028125949_fc87": {
+      "gold": 3,
+      "cited": 10,
+      "cited_gold": 1,
+      "coverage": 0.3333,
+      "precision": 0.1
+    },
+    "inc_lab_dn_heartbeat_20261028130056_9d02": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028130206_6ff5": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028130314_5882": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028130424_cfa5": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028130531_3661": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028130640_07d7": {
+      "gold": 3,
+      "cited": 25,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.12
+    },
+    "inc_lab_dn_heartbeat_20261028130748_766f": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028130858_4348": {
+      "gold": 3,
+      "cited": 25,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.12
+    },
+    "inc_lab_dn_heartbeat_20261028131009_7eac": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028131118_2c97": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028131228_dec0": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028131346_8850": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028131504_4831": {
+      "gold": 3,
+      "cited": 22,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.1364
+    },
+    "inc_lab_dn_heartbeat_20261028140806_f963": {
+      "gold": 1,
+      "cited": 72,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0139
+    },
+    "inc_lab_dn_heartbeat_20261028140942_67de": {
+      "gold": 1,
+      "cited": 76,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0132
+    },
+    "inc_lab_dn_heartbeat_20261028141114_7bfb": {
+      "gold": 1,
+      "cited": 70,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0143
+    },
+    "inc_lab_dn_heartbeat_20261028141253_f4a4": {
+      "gold": 1,
+      "cited": 63,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0159
+    },
+    "inc_lab_dn_heartbeat_20261028141430_c705": {
+      "gold": 1,
+      "cited": 80,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0125
+    },
+    "inc_lab_dn_heartbeat_20261028141610_cf5f": {
+      "gold": 1,
+      "cited": 46,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0217
+    },
+    "inc_lab_dn_heartbeat_20261028141745_c5de": {
+      "gold": 1,
+      "cited": 64,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0156
+    },
+    "inc_lab_dn_heartbeat_20261028141924_e77c": {
+      "gold": 1,
+      "cited": 62,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0161
+    },
+    "inc_lab_dn_heartbeat_20261028142107_ca7e": {
+      "gold": 1,
+      "cited": 79,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0127
+    },
+    "inc_lab_dn_heartbeat_20261028142247_7c84": {
+      "gold": 1,
+      "cited": 54,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0185
+    },
+    "inc_lab_dn_heartbeat_20261028142406_5600": {
+      "gold": 1,
+      "cited": 82,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0122
+    },
+    "inc_lab_dn_heartbeat_20261028142546_a65f": {
+      "gold": 1,
+      "cited": 60,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0167
+    },
+    "inc_lab_dn_heartbeat_20261028142717_be88": {
+      "gold": 1,
+      "cited": 54,
+      "cited_gold": 1,
+      "coverage": 1.0,
+      "precision": 0.0185
+    },
+    "inc_lab_dn_volume_20261028125300_bd4c": {
+      "gold": 7,
+      "cited": 3,
+      "cited_gold": 0,
+      "coverage": 0.0,
+      "precision": 0.0
+    },
+    "inc_lab_dn_volume_20261028125328_573e": {
+      "gold": 3,
+      "cited": 75,
+      "cited_gold": 2,
+      "coverage": 0.6667,
+      "precision": 0.0267
+    },
+    "inc_lab_dn_volume_20261028125358_e146": {
+      "gold": 7,
+      "cited": 23,
+      "cited_gold": 7,
+      "coverage": 1.0,
+      "precision": 0.3043
+    },
+    "inc_lab_dn_volume_20261028125425_ef0b": {
+      "gold": 3,
+      "cited": 74,
+      "cited_gold": 2,
+      "coverage": 0.6667,
+      "precision": 0.027
+    },
+    "inc_lab_dn_volume_20261028125455_eaa0": {
+      "gold": 10,
+      "cited": 29,
+      "cited_gold": 10,
+      "coverage": 1.0,
+      "precision": 0.3448
+    },
+    "inc_lab_dn_volume_20261028125522_31d2": {
+      "gold": 3,
+      "cited": 73,
+      "cited_gold": 2,
+      "coverage": 0.6667,
+      "precision": 0.0274
+    },
+    "inc_lab_dn_volume_20261028125552_301e": {
+      "gold": 10,
+      "cited": 29,
+      "cited_gold": 10,
+      "coverage": 1.0,
+      "precision": 0.3448
+    },
+    "inc_lab_dn_volume_20261028125619_c5a7": {
+      "gold": 3,
+      "cited": 73,
+      "cited_gold": 2,
+      "coverage": 0.6667,
+      "precision": 0.0274
+    },
+    "inc_lab_dn_volume_20261028125650_20f0": {
+      "gold": 8,
+      "cited": 21,
+      "cited_gold": 8,
+      "coverage": 1.0,
+      "precision": 0.381
+    },
+    "inc_lab_dn_volume_20261028125720_5124": {
+      "gold": 11,
+      "cited": 33,
+      "cited_gold": 11,
+      "coverage": 1.0,
+      "precision": 0.3333
+    },
+    "inc_lab_dn_volume_20261028125749_fff9": {
+      "gold": 3,
+      "cited": 73,
+      "cited_gold": 2,
+      "coverage": 0.6667,
+      "precision": 0.0274
+    },
+    "inc_lab_dn_volume_20261028125822_3755": {
+      "gold": 7,
+      "cited": 23,
+      "cited_gold": 7,
+      "coverage": 1.0,
+      "precision": 0.3043
+    },
+    "inc_lab_dn_volume_20261028125850_d215": {
+      "gold": 3,
+      "cited": 73,
+      "cited_gold": 2,
+      "coverage": 0.6667,
+      "precision": 0.0274
+    },
+    "inc_lab_dn_volume_20261028125921_4f0d": {
+      "gold": 10,
+      "cited": 29,
+      "cited_gold": 10,
+      "coverage": 1.0,
+      "precision": 0.3448
+    },
+    "inc_lab_dn_volume_20261028135443_560d": {
+      "gold": 10,
+      "cited": 30,
+      "cited_gold": 8,
+      "coverage": 0.8,
+      "precision": 0.2667
+    },
+    "inc_lab_dn_volume_20261028135526_cf09": {
+      "gold": 9,
+      "cited": 29,
+      "cited_gold": 8,
+      "coverage": 0.8889,
+      "precision": 0.2759
+    },
+    "inc_lab_dn_volume_20261028135610_05a2": {
+      "gold": 10,
+      "cited": 29,
+      "cited_gold": 7,
+      "coverage": 0.7,
+      "precision": 0.2414
+    },
+    "inc_lab_dn_volume_20261028135658_3859": {
+      "gold": 11,
+      "cited": 30,
+      "cited_gold": 8,
+      "coverage": 0.7273,
+      "precision": 0.2667
+    },
+    "inc_lab_dn_volume_20261028135746_9d53": {
+      "gold": 16,
+      "cited": 33,
+      "cited_gold": 10,
+      "coverage": 0.625,
+      "precision": 0.303
+    },
+    "inc_lab_dn_volume_20261028135839_855b": {
+      "gold": 23,
+      "cited": 40,
+      "cited_gold": 13,
+      "coverage": 0.5652,
+      "precision": 0.325
+    },
+    "inc_lab_dn_volume_20261028135930_4f44": {
+      "gold": 17,
+      "cited": 30,
+      "cited_gold": 8,
+      "coverage": 0.4706,
+      "precision": 0.2667
+    },
+    "inc_lab_dn_volume_20261028140024_718d": {
+      "gold": 2,
+      "cited": 50,
+      "cited_gold": 2,
+      "coverage": 1.0,
+      "precision": 0.04
+    },
+    "inc_lab_dn_volume_20261028140129_6b4d": {
+      "gold": 20,
+      "cited": 35,
+      "cited_gold": 12,
+      "coverage": 0.6,
+      "precision": 0.3429
+    },
+    "inc_lab_dn_volume_20261028140231_33cf": {
+      "gold": 47,
+      "cited": 53,
+      "cited_gold": 19,
+      "coverage": 0.4043,
+      "precision": 0.3585
+    },
+    "inc_lab_dn_volume_20261028140333_367b": {
+      "gold": 16,
+      "cited": 28,
+      "cited_gold": 6,
+      "coverage": 0.375,
+      "precision": 0.2143
+    },
+    "inc_lab_dn_volume_20261028140439_7b95": {
+      "gold": 17,
+      "cited": 34,
+      "cited_gold": 8,
+      "coverage": 0.4706,
+      "precision": 0.2353
+    },
+    "inc_lab_dn_volume_20261028140542_b576": {
+      "gold": 34,
+      "cited": 31,
+      "cited_gold": 10,
+      "coverage": 0.2941,
+      "precision": 0.3226
+    },
+    "inc_lab_dn_volume_20261028140652_ce8d": {
+      "gold": 8,
+      "cited": 0,
+      "cited_gold": 0,
+      "coverage": 0.0,
+      "precision": null
+    },
+    "inc_lab_nn_safe_mode_20261028131611_878a": {
+      "gold": 3,
+      "cited": 4,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.75
+    },
+    "inc_lab_nn_safe_mode_20261028131647_1523": {
+      "gold": 4,
+      "cited": 6,
+      "cited_gold": 4,
+      "coverage": 1.0,
+      "precision": 0.6667
+    },
+    "inc_lab_nn_safe_mode_20261028131722_c20d": {
+      "gold": 4,
+      "cited": 7,
+      "cited_gold": 4,
+      "coverage": 1.0,
+      "precision": 0.5714
+    },
+    "inc_lab_nn_safe_mode_20261028131801_654c": {
+      "gold": 3,
+      "cited": 3,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    "inc_lab_nn_safe_mode_20261028131835_2006": {
+      "gold": 3,
+      "cited": 4,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.75
+    },
+    "inc_lab_nn_safe_mode_20261028131912_0d4f": {
+      "gold": 3,
+      "cited": 3,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    "inc_lab_nn_safe_mode_20261028131950_649a": {
+      "gold": 3,
+      "cited": 4,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.75
+    },
+    "inc_lab_nn_safe_mode_20261028132025_4545": {
+      "gold": 3,
+      "cited": 3,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    "inc_lab_nn_safe_mode_20261028132101_2b61": {
+      "gold": 4,
+      "cited": 7,
+      "cited_gold": 4,
+      "coverage": 1.0,
+      "precision": 0.5714
+    },
+    "inc_lab_nn_safe_mode_20261028132137_413b": {
+      "gold": 3,
+      "cited": 5,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.6
+    },
+    "inc_lab_nn_safe_mode_20261028132213_615b": {
+      "gold": 3,
+      "cited": 4,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.75
+    },
+    "inc_lab_nn_safe_mode_20261028132249_d70c": {
+      "gold": 3,
+      "cited": 3,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    "inc_lab_nn_safe_mode_20261028132326_6d85": {
+      "gold": 3,
+      "cited": 4,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 0.75
+    },
+    "inc_lab_nn_safe_mode_20261028142845_4f85": {
+      "gold": 11,
+      "cited": 31,
+      "cited_gold": 7,
+      "coverage": 0.6364,
+      "precision": 0.2258
+    },
+    "inc_lab_nn_safe_mode_20261028142937_e6d1": {
+      "gold": 11,
+      "cited": 28,
+      "cited_gold": 5,
+      "coverage": 0.4545,
+      "precision": 0.1786
+    },
+    "inc_lab_nn_safe_mode_20261028143031_5d36": {
+      "gold": 14,
+      "cited": 30,
+      "cited_gold": 9,
+      "coverage": 0.6429,
+      "precision": 0.3
+    },
+    "inc_lab_nn_safe_mode_20261028143121_40c4": {
+      "gold": 5,
+      "cited": 30,
+      "cited_gold": 5,
+      "coverage": 1.0,
+      "precision": 0.1667
+    },
+    "inc_lab_nn_safe_mode_20261028143216_5226": {
+      "gold": 13,
+      "cited": 30,
+      "cited_gold": 7,
+      "coverage": 0.5385,
+      "precision": 0.2333
+    },
+    "inc_lab_nn_safe_mode_20261028143313_e31c": {
+      "gold": 17,
+      "cited": 22,
+      "cited_gold": 7,
+      "coverage": 0.4118,
+      "precision": 0.3182
+    },
+    "inc_lab_nn_safe_mode_20261028143400_1fd7": {
+      "gold": 5,
+      "cited": 20,
+      "cited_gold": 5,
+      "coverage": 1.0,
+      "precision": 0.25
+    },
+    "inc_lab_nn_safe_mode_20261028143445_cdeb": {
+      "gold": 15,
+      "cited": 23,
+      "cited_gold": 5,
+      "coverage": 0.3333,
+      "precision": 0.2174
+    },
+    "inc_lab_nn_safe_mode_20261028143530_770b": {
+      "gold": 7,
+      "cited": 16,
+      "cited_gold": 6,
+      "coverage": 0.8571,
+      "precision": 0.375
+    },
+    "inc_lab_nn_safe_mode_20261028143614_d30d": {
+      "gold": 9,
+      "cited": 17,
+      "cited_gold": 6,
+      "coverage": 0.6667,
+      "precision": 0.3529
+    },
+    "inc_lab_nn_safe_mode_20261028143657_c488": {
+      "gold": 8,
+      "cited": 28,
+      "cited_gold": 6,
+      "coverage": 0.75,
+      "precision": 0.2143
+    },
+    "inc_lab_nn_safe_mode_20261028143737_3f07": {
+      "gold": 9,
+      "cited": 14,
+      "cited_gold": 7,
+      "coverage": 0.7778,
+      "precision": 0.5
+    },
+    "inc_lab_nn_safe_mode_20261028143816_2798": {
+      "gold": 3,
+      "cited": 3,
+      "cited_gold": 3,
+      "coverage": 1.0,
+      "precision": 1.0
+    }
+  }
+}
