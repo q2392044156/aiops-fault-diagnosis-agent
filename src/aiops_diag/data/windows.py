@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from aiops_diag.data.adapters import parse_lines
@@ -73,6 +73,15 @@ def load_case_windows(case_dir, source_type=None, duration_seconds=60,
         source_type = "wsl" if "wsl_cases" in str(case_dir) else "docker_container"
     rows = parse_lines(source_type, logs[0].read_text(encoding="utf-8", errors="replace").splitlines(),
                        case_dir.name, incident["timestamps"]["fault_start"])
+    start = datetime.fromisoformat(
+        incident["timestamps"]["fault_start"].replace("Z", "+00:00"))
+    cutoff = incident.get("diagnosis_snapshot", {}).get("cutoff_time")
+    end = (datetime.fromisoformat(cutoff.replace("Z", "+00:00"))
+           if cutoff else start + timedelta(minutes=5))
+    lower = (start - timedelta(seconds=60)).timestamp()
+    upper = (end + timedelta(seconds=60)).timestamp()
+    rows = [row for row in rows
+            if _stamp(row) and lower <= _stamp(row).timestamp() <= upper]
     return make_windows(rows, source_type, duration_seconds, step_seconds, max_rows)
 
 

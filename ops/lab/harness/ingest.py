@@ -8,7 +8,7 @@ import re
 import sys
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # 变量说明：ROOT 指向仓库根目录。
@@ -177,7 +177,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                retriever=None, source_type="docker_container", matcher=None,
                event_source="import", gate_threshold=0.6, detector_path=None,
                detector_release="novelty_v1", window_seconds=60, window_step=10,
-               max_rows=500):
+               max_rows=500, cutoff=None):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
@@ -206,23 +206,32 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
 
     # 统一窗口：正常检测和故障检测使用同一时间/组件窗口。
     window_ids = []
+    passing = []
     if event_source == "model" and detector_path:
         from aiops_diag.detection.source_detector import TemplateNoveltyDetector
         detector = TemplateNoveltyDetector.load(detector_path)
-        windows = make_windows(rows, source_type, duration_seconds=window_seconds,
+        lower = (datetime.fromisoformat(start.replace("Z", "+00:00"))
+                 - timedelta(seconds=60)).timestamp()
+        end_value = (datetime.fromisoformat(cutoff.replace("Z", "+00:00"))
+                     if cutoff else datetime.fromisoformat(start.replace("Z", "+00:00"))
+                     + timedelta(minutes=5))
+        upper = (end_value + timedelta(seconds=60)).timestamp()
+        window_rows = []
+        for row in rows:
+            try:
+                stamp = datetime.fromisoformat(
+                    (row.get("timestamp") or "").replace("Z", "+00:00")).timestamp()
+            except ValueError:
+                continue
+            if lower <= stamp <= upper:
+                window_rows.append(row)
+        windows = make_windows(window_rows, source_type,
+                               duration_seconds=window_seconds,
                                step_seconds=window_step, max_rows=max_rows)
         judged = [(window, detector.decide(window["rows"])) for window in windows]
         passing = [(window, result) for window, result in judged
                    if result["decision"] == "PASS"]
         if passing:
-            selected, seen = [], set()
-            for window, _ in passing:
-                for row in window["rows"]:
-                    if row["log_id"] in seen:
-                        continue
-                    seen.add(row["log_id"])
-                    selected.append(row)
-            rows = selected
             window_ids = [window["window_id"] for window, _ in passing]
             decision = max((result for _, result in passing),
                            key=lambda item: (item["reason"] == "error_present",
@@ -248,15 +257,35 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
     if event_source != "model":
         decision = {"decision": "PASS", "score": 1.0, "reason": "import"}
     passed = decision["decision"] == "PASS"
-    event_id = ("evt_" + key([case_id, tag])[:24]) if passed else None
+    threshold = float(decision.get("threshold", gate_threshold))
+    event_specs = []
+    if passed:
+        if passing:
+            for window, result in passing:
+                event_specs.append({
+                    "event_id": "evt_" + key([case_id, tag, window["window_id"]])[:24],
+                    "start": window["start"],
+                    "end": datetime.fromtimestamp(window["end"], timezone.utc).isoformat(),
+                    "score": result["score"], "reason": result["reason"],
+                    "window_id": window["window_id"], "rows": window["rows"],
+                    "window_count": 1,
+                })
+        else:
+            event_specs.append({
+                "event_id": "evt_" + key([case_id, tag, "import"])[:24],
+                "start": start, "end": end, "score": decision["score"],
+                "reason": decision["reason"], "window_id": None, "rows": rows,
+                "window_count": 1,
+            })
+    events = [build_event(spec["event_id"], batch_id, session_id, spec["rows"],
+                          spec["score"], threshold, focus_component or "lab",
+                          spec["start"], spec["end"], detected)
+              for spec in event_specs]
+    members = [{"event_id": spec["event_id"], "session_id": session_id}
+               for spec in event_specs]
     counts = {"total_lines": total, "parsed_lines": len(rows),
               "quarantined_lines": total - len(rows), "session_count": 1,
-              "anomaly_count": int(passed), "event_count": int(passed)}
-    threshold = float(decision.get("threshold", gate_threshold))
-    events = [build_event(event_id, batch_id, session_id, rows, decision["score"],
-                          threshold, focus_component or "lab", start, end,
-                          detected)] if passed else []
-    members = [{"event_id": event_id, "session_id": session_id}] if passed else []
+              "anomaly_count": len(event_specs), "event_count": len(event_specs)}
     database.complete(task_id, directory, counts,
                       [{"session_id": session_id, "start_time": start, "end_time": end,
                         "line_count": len(rows), "unknown_count": 0,
@@ -269,17 +298,17 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
         return {"incident_id": case_id, "batch_id": batch_id, "event_id": None,
                 "diagnosis_id": None, "report_id": None, "agent_detected": None,
                 "mode": "lab-ingest", "gate_decision": "REJECT",
-                "gate_score": decision["score"], "gate_reason": decision["reason"]}
-    database.set_event_metadata(event_id, {
-        "detector_release_id": detector_release if detector_path else "lab_gate_v1",
-        "detector_score": str(decision["score"]),
-        "detector_threshold": str(decision.get("threshold", gate_threshold)),
-        "gate_decision": "PASS",
-        "gate_reason": decision["reason"],
-        "window_seconds": str(window_seconds),
-        "window_step": str(window_step),
-        "window_count": str(len(window_ids)),
-    })
+                "gate_score": decision["score"], "gate_reason": decision["reason"],
+                "events": []}
+    for spec in event_specs:
+        database.set_event_metadata(spec["event_id"], {
+            "detector_release_id": detector_release if detector_path else "lab_gate_v1",
+            "detector_score": str(spec["score"]),
+            "detector_threshold": str(decision.get("threshold", gate_threshold)),
+            "gate_decision": "PASS", "gate_reason": spec["reason"],
+            "window_seconds": str(window_seconds), "window_step": str(window_step),
+            "window_count": str(spec["window_count"]),
+        })
 
     cfg = {"agent_version": "lab_agent", "v12": {"enabled": False},
            "workflow": {"max_tool_calls": 8, "max_llm_calls": 3, "max_tokens": 12000,
@@ -321,33 +350,40 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
     else:
         engine = AgentEngine(cfg, database, retriever, detector, release,
                              client=OfflineClient())
-    fingerprint = key([event_id, mode, "agr_lab"])
-    diagnosis_id = "dia_" + fingerprint[:24]
-    budget = {"max_tool_calls": 8, "max_llm_calls": 3, "max_tokens": 12000,
-              "max_active_ms": 120000, "tool_calls": 0, "llm_calls": 0, "tokens": 0,
-              "active_ms": 0, "estimated_cost_cny": 0.0}
-    database.create_agent_run(diagnosis_id, event_id, mode, "agr_lab", fingerprint,
-                              budget, None, 16)
-    for _ in range(16):
-        run = database.claim_agent("lab-worker", 30)
-        if run is None:
+    event_results = []
+    for spec in event_specs:
+        current_event = spec["event_id"]
+        fingerprint = key([current_event, mode, "agr_lab"])
+        diagnosis_id = "dia_" + fingerprint[:24]
+        budget = {"max_tool_calls": 8, "max_llm_calls": 3, "max_tokens": 12000,
+                  "max_active_ms": 120000, "tool_calls": 0, "llm_calls": 0, "tokens": 0,
+                  "active_ms": 0, "estimated_cost_cny": 0.0}
+        database.create_agent_run(diagnosis_id, current_event, mode, "agr_lab",
+                                  fingerprint, budget, None, 16)
+        for _ in range(16):
+            run = database.claim_agent("lab-worker", 30)
+            if run is None:
+                break
+            try:
+                engine.run(run)
+            except AgentYield as yielded:
+                database.yield_agent(run["diagnosis_id"], run["lease_token"],
+                                     str(yielded))
+                continue
             break
-        try:
-            engine.run(run)
-        except AgentYield as yielded:
-            database.yield_agent(run["diagnosis_id"], run["lease_token"], str(yielded))
-            continue
-        break
+        report = database.one(
+            "SELECT report_id FROM incident_reports WHERE diagnosis_id=?", (diagnosis_id,))
+        event_results.append({
+            "incident_id": case_id, "batch_id": batch_id, "event_id": current_event,
+            "diagnosis_id": diagnosis_id,
+            "report_id": report["report_id"] if report else None,
+            "agent_detected": detected, "mode": "lab-ingest",
+            "gate_decision": "PASS", "gate_score": spec["score"],
+            "gate_reason": spec["reason"],
+        })
     engine.close()
-    row = database.one("SELECT report_id FROM agent_runs WHERE diagnosis_id=?", (diagnosis_id,))
-    report = database.one("SELECT report_id FROM incident_reports WHERE diagnosis_id=?",
-                          (diagnosis_id,))
-    mapping = {"incident_id": case_id, "batch_id": batch_id, "event_id": event_id,
-               "diagnosis_id": diagnosis_id, "report_id": report["report_id"] if report else None,
-               "agent_detected": detected, "mode": "lab-ingest",
-               "gate_decision": "PASS", "gate_score": decision["score"],
-               "gate_reason": decision["reason"]}
-    return mapping
+    first = event_results[0]
+    return {**first, "events": event_results}
 
 
 # 方法说明：ingest 读取已生成的案例并调用 ingest_log，回填 map.json。
@@ -355,7 +391,7 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
            retriever_kind="cards", retriever=None, template_dir=None, matcher=None,
            source_type=None, event_source="import", gate_threshold=0.6,
            detector_path=None, detector_release="novelty_v1",
-           window_seconds=60, window_step=10, max_rows=500):
+           window_seconds=60, window_step=10, max_rows=500, cutoff=None):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
@@ -366,6 +402,8 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
     if matcher is None and template_dir:
         from aiops_diag.detection.source_templates import SourceTemplateMatcher
         matcher = SourceTemplateMatcher(template_dir)
+    if cutoff is None:
+        cutoff = incident.get("diagnosis_snapshot", {}).get("cutoff_time")
     mapping = ingest_log(incident["incident_id"], logs_path, database_path,
                          incident["timestamps"]["fault_start"],
                          incident["timestamps"]["first_observable_signal"], mode,
@@ -376,7 +414,7 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
                          detector_path=detector_path,
                          detector_release=detector_release,
                          window_seconds=window_seconds, window_step=window_step,
-                         max_rows=max_rows)
+                         max_rows=max_rows, cutoff=cutoff)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping

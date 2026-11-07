@@ -42,7 +42,8 @@ def main(argv=None):
     Path(args.database).unlink(missing_ok=True)
     shutil.copyfile(args.source_db, args.database)
     database = sqlite3.connect(args.database)
-    for table in ("incident_reports", "agent_runs", "agent_evidence", "agent_tool_calls"):
+    for table in ("incident_reports", "agent_runs", "agent_evidence", "agent_tool_calls",
+                  "event_metadata", "event_sessions", "events", "sessions"):
         database.execute(f"DELETE FROM {table}")
     database.commit()
     database.close()

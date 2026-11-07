@@ -50,12 +50,16 @@ class AgentTools:
     # 方法说明：`query_logs` 完成当前步骤的业务处理；参数为 `event_id`、`limit`。
     def query_logs(self, event_id, limit=200):
         started = time.perf_counter()
-        event = self.db.one("SELECT batch_id FROM events WHERE event_id=?", (event_id,))
+        event = self.db.one("SELECT batch_id,start_time,end_time FROM events WHERE event_id=?",
+                            (event_id,))
         if not event:
             return result(error={"code": "EVENT_NOT_FOUND", "message": "Event was not found",
                                  "retryable": False}, started=started)
         members = {row["session_id"] for row in self.db.all(
             "SELECT session_id FROM event_sessions WHERE event_id=?", (event_id,))}
+        windowed = self.db.one(
+            "SELECT value FROM event_metadata WHERE event_id=? AND name='window_seconds'",
+            (event_id,))
         batch = self.db.one("SELECT status,artifact_dir FROM batches WHERE batch_id=?",
                             (event["batch_id"],))
         if not batch or batch["status"] != "SUCCEEDED" or not batch["artifact_dir"]:
@@ -65,12 +69,19 @@ class AgentTools:
         rows, total = [], 0
         for batch_rows in pq.ParquetFile(path).iter_batches(batch_size=10000):
             for row in batch_rows.to_pylist():
-                if members.intersection(row.get("session_ids") or []):
-                    total += 1
-                    if len(rows) < int(limit):
-                        rows.append({name: row.get(name) for name in (
-                            "log_id", "timestamp", "level", "component", "redacted_message",
-                            "template_id", "session_ids")})
+                if not members.intersection(row.get("session_ids") or []):
+                    continue
+                stamp = row.get("timestamp")
+                if windowed:
+                    if event["start_time"] and stamp and stamp < event["start_time"]:
+                        continue
+                    if event["end_time"] and stamp and stamp >= event["end_time"]:
+                        continue
+                total += 1
+                if len(rows) < int(limit):
+                    rows.append({name: row.get(name) for name in (
+                        "log_id", "timestamp", "level", "component", "redacted_message",
+                        "template_id", "session_ids")})
         return result({"items": rows, "total": total},
                       provenance={"batch_id": event["batch_id"], "event_id": event_id},
                       started=started, truncated=total > len(rows))
