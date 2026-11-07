@@ -44,6 +44,20 @@ P2 加入 **组件关注、信号/严重度/模板稀有度/时间评分、结�
 
 P2/P3 选择器输出结构化质量：components、levels、template_diversity、time_range、tokens_est、sufficient；focus_component 优先保留故障组件，模板稀有度和时间近因作为加分项。
 
+### Phase 0 证据补采
+
+Docker DN_VOLUME 的 21 例注入没有产生 No space left / failed volume 信号，属于 invalid injection，已从证据评测中隔离；用 WSL 卷故障重放 21 例替代。
+
+| 项 | 结果 |
+| --- | --- |
+| 隔离 Docker 例 | 21 |
+| 重放 WSL 卷故障 | 21 |
+| 证据充分 | 21/21 |
+| 50 行证据召回 | 1.000 |
+| 病例 Top-1 | 21/21 |
+
+替换清单：resources/evaluation/lab/recaptured_manifest.json。这 21 例目前是新的 WSL 批次，尚未合并进原 149 例主表，避免改变已有冻结切分。
+
 ### 引用覆盖率
 
 | 指标 | Docker | WSL |

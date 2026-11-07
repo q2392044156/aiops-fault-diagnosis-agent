@@ -1,0 +1,548 @@
+[
+  {
+    "incident_id": "inc_wsl_volume_20261107134916_f4ac",
+    "batch_id": "bat_271017caad6fb207c3ae3c3d",
+    "event_id": "evt_e4953735b6baa93a2406eb02",
+    "diagnosis_id": "dia_8470d504e94a35e875b3adc4",
+    "report_id": "irpt_02eb0ec1e992e586e4110a87",
+    "agent_detected": "2026-11-07T14:00:56.193197+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107134916_f4ac",
+        "batch_id": "bat_271017caad6fb207c3ae3c3d",
+        "event_id": "evt_e4953735b6baa93a2406eb02",
+        "diagnosis_id": "dia_8470d504e94a35e875b3adc4",
+        "report_id": "irpt_02eb0ec1e992e586e4110a87",
+        "agent_detected": "2026-11-07T14:00:56.193197+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107134937_32b5",
+    "batch_id": "bat_67ff92ea7f881397a6a5d41e",
+    "event_id": "evt_ffcabbb944119e22cdeacec0",
+    "diagnosis_id": "dia_36eca4485c488ad34b711366",
+    "report_id": "irpt_c95493ed6c03e01f157576d6",
+    "agent_detected": "2026-11-07T14:00:57.766070+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107134937_32b5",
+        "batch_id": "bat_67ff92ea7f881397a6a5d41e",
+        "event_id": "evt_ffcabbb944119e22cdeacec0",
+        "diagnosis_id": "dia_36eca4485c488ad34b711366",
+        "report_id": "irpt_c95493ed6c03e01f157576d6",
+        "agent_detected": "2026-11-07T14:00:57.766070+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135153_e726",
+    "batch_id": "bat_8b276415bd57982cef2b5da2",
+    "event_id": "evt_66de396164765abd698cecd0",
+    "diagnosis_id": "dia_12f1acf5e950339323281422",
+    "report_id": "irpt_e8db9d7fe3aaf4a9087169af",
+    "agent_detected": "2026-11-07T14:00:58.803222+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135153_e726",
+        "batch_id": "bat_8b276415bd57982cef2b5da2",
+        "event_id": "evt_66de396164765abd698cecd0",
+        "diagnosis_id": "dia_12f1acf5e950339323281422",
+        "report_id": "irpt_e8db9d7fe3aaf4a9087169af",
+        "agent_detected": "2026-11-07T14:00:58.803222+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135412_47ff",
+    "batch_id": "bat_ef2ca2100b9eceaeb247f1c0",
+    "event_id": "evt_123befd31ab85ff46c8035a2",
+    "diagnosis_id": "dia_e8401e47186c1c6a1ca74610",
+    "report_id": "irpt_d45696656df06ba7209833a2",
+    "agent_detected": "2026-11-07T14:00:59.871739+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135412_47ff",
+        "batch_id": "bat_ef2ca2100b9eceaeb247f1c0",
+        "event_id": "evt_123befd31ab85ff46c8035a2",
+        "diagnosis_id": "dia_e8401e47186c1c6a1ca74610",
+        "report_id": "irpt_d45696656df06ba7209833a2",
+        "agent_detected": "2026-11-07T14:00:59.871739+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135625_ea0a",
+    "batch_id": "bat_0e4d4fd60b084ed44b6d413d",
+    "event_id": "evt_5d76046d01a6708460621b11",
+    "diagnosis_id": "dia_23e79d3ad83ab903f044ae79",
+    "report_id": "irpt_61dd33d7d297a524252ef41e",
+    "agent_detected": "2026-11-07T14:01:00.894130+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135625_ea0a",
+        "batch_id": "bat_0e4d4fd60b084ed44b6d413d",
+        "event_id": "evt_5d76046d01a6708460621b11",
+        "diagnosis_id": "dia_23e79d3ad83ab903f044ae79",
+        "report_id": "irpt_61dd33d7d297a524252ef41e",
+        "agent_detected": "2026-11-07T14:01:00.894130+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135636_7b14",
+    "batch_id": "bat_2a150c0cac3c8a83a1d1737e",
+    "event_id": "evt_d9957fa1c29b704e963f4b84",
+    "diagnosis_id": "dia_5bb83490b9beb5c0b98cf0b9",
+    "report_id": "irpt_6d3d78f377029e42746dbdfc",
+    "agent_detected": "2026-11-07T14:01:01.939597+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135636_7b14",
+        "batch_id": "bat_2a150c0cac3c8a83a1d1737e",
+        "event_id": "evt_d9957fa1c29b704e963f4b84",
+        "diagnosis_id": "dia_5bb83490b9beb5c0b98cf0b9",
+        "report_id": "irpt_6d3d78f377029e42746dbdfc",
+        "agent_detected": "2026-11-07T14:01:01.939597+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135647_b44e",
+    "batch_id": "bat_308bfe02815c36ae82fb4d1d",
+    "event_id": "evt_98db7678c1207a759165bd28",
+    "diagnosis_id": "dia_f894c7e726c72363d6c0d1b7",
+    "report_id": "irpt_a68cb28835bc5203cae815df",
+    "agent_detected": "2026-11-07T14:01:02.987016+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135647_b44e",
+        "batch_id": "bat_308bfe02815c36ae82fb4d1d",
+        "event_id": "evt_98db7678c1207a759165bd28",
+        "diagnosis_id": "dia_f894c7e726c72363d6c0d1b7",
+        "report_id": "irpt_a68cb28835bc5203cae815df",
+        "agent_detected": "2026-11-07T14:01:02.987016+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135659_f838",
+    "batch_id": "bat_96030ec4f4232dbebac9edfc",
+    "event_id": "evt_0e286e48eaaaebaebb46bf39",
+    "diagnosis_id": "dia_7022253a828c10c50cac5306",
+    "report_id": "irpt_21c00183c5f05185bcf70b13",
+    "agent_detected": "2026-11-07T14:01:04.049320+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135659_f838",
+        "batch_id": "bat_96030ec4f4232dbebac9edfc",
+        "event_id": "evt_0e286e48eaaaebaebb46bf39",
+        "diagnosis_id": "dia_7022253a828c10c50cac5306",
+        "report_id": "irpt_21c00183c5f05185bcf70b13",
+        "agent_detected": "2026-11-07T14:01:04.049320+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135710_2694",
+    "batch_id": "bat_b058d14359881728001cc50f",
+    "event_id": "evt_1b11b5169f8a760e03aef167",
+    "diagnosis_id": "dia_790638e052c21b4553644959",
+    "report_id": "irpt_18a93b4a10ebcd2d366d469b",
+    "agent_detected": "2026-11-07T14:01:05.090697+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135710_2694",
+        "batch_id": "bat_b058d14359881728001cc50f",
+        "event_id": "evt_1b11b5169f8a760e03aef167",
+        "diagnosis_id": "dia_790638e052c21b4553644959",
+        "report_id": "irpt_18a93b4a10ebcd2d366d469b",
+        "agent_detected": "2026-11-07T14:01:05.090697+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135721_0b65",
+    "batch_id": "bat_558f0e84ba7205aff910e1f2",
+    "event_id": "evt_5c9d906c1003e663ad98775b",
+    "diagnosis_id": "dia_3297fd7c32b847b4d86950fd",
+    "report_id": "irpt_080ce782ef3eb40e6b4cc4a3",
+    "agent_detected": "2026-11-07T14:01:06.138085+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135721_0b65",
+        "batch_id": "bat_558f0e84ba7205aff910e1f2",
+        "event_id": "evt_5c9d906c1003e663ad98775b",
+        "diagnosis_id": "dia_3297fd7c32b847b4d86950fd",
+        "report_id": "irpt_080ce782ef3eb40e6b4cc4a3",
+        "agent_detected": "2026-11-07T14:01:06.138085+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135732_9b17",
+    "batch_id": "bat_8cd0f5c7cf96302bc662ea95",
+    "event_id": "evt_46f81316e8992edc5b9dbbd3",
+    "diagnosis_id": "dia_39376cfeea5445b6e182ca01",
+    "report_id": "irpt_ebb8edf0708bf8100977a024",
+    "agent_detected": "2026-11-07T14:01:07.191678+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135732_9b17",
+        "batch_id": "bat_8cd0f5c7cf96302bc662ea95",
+        "event_id": "evt_46f81316e8992edc5b9dbbd3",
+        "diagnosis_id": "dia_39376cfeea5445b6e182ca01",
+        "report_id": "irpt_ebb8edf0708bf8100977a024",
+        "agent_detected": "2026-11-07T14:01:07.191678+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135743_b8ea",
+    "batch_id": "bat_97de7ebf84e4c8fc8dccc074",
+    "event_id": "evt_a085a19dce231b91cb05af90",
+    "diagnosis_id": "dia_9f194201b05cec70e1abbb05",
+    "report_id": "irpt_808e0ee0c4af2d091665f9cc",
+    "agent_detected": "2026-11-07T14:01:08.226615+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135743_b8ea",
+        "batch_id": "bat_97de7ebf84e4c8fc8dccc074",
+        "event_id": "evt_a085a19dce231b91cb05af90",
+        "diagnosis_id": "dia_9f194201b05cec70e1abbb05",
+        "report_id": "irpt_808e0ee0c4af2d091665f9cc",
+        "agent_detected": "2026-11-07T14:01:08.226615+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135753_4429",
+    "batch_id": "bat_72a3c896918361463169f985",
+    "event_id": "evt_b1cb8ae7528f687b86c8915f",
+    "diagnosis_id": "dia_3b724404b945cae9a7f6fa0b",
+    "report_id": "irpt_be57896ddaf7943a4c657cb7",
+    "agent_detected": "2026-11-07T14:01:09.268279+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135753_4429",
+        "batch_id": "bat_72a3c896918361463169f985",
+        "event_id": "evt_b1cb8ae7528f687b86c8915f",
+        "diagnosis_id": "dia_3b724404b945cae9a7f6fa0b",
+        "report_id": "irpt_be57896ddaf7943a4c657cb7",
+        "agent_detected": "2026-11-07T14:01:09.268279+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135804_88a1",
+    "batch_id": "bat_403b2c0acd19d34f22027579",
+    "event_id": "evt_936f8de3175a78467704b4b7",
+    "diagnosis_id": "dia_eade7e54e0cfac9fce335ed6",
+    "report_id": "irpt_4a052f58a2200c33f2c9b08c",
+    "agent_detected": "2026-11-07T14:01:10.294412+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135804_88a1",
+        "batch_id": "bat_403b2c0acd19d34f22027579",
+        "event_id": "evt_936f8de3175a78467704b4b7",
+        "diagnosis_id": "dia_eade7e54e0cfac9fce335ed6",
+        "report_id": "irpt_4a052f58a2200c33f2c9b08c",
+        "agent_detected": "2026-11-07T14:01:10.294412+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135816_f833",
+    "batch_id": "bat_1e270e4cef7a1af88780d2bf",
+    "event_id": "evt_f090ec577bc5d220ce814663",
+    "diagnosis_id": "dia_2bd49573a0ff64b21107747e",
+    "report_id": "irpt_2ef7890d642e04687ad8a857",
+    "agent_detected": "2026-11-07T14:01:11.332495+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135816_f833",
+        "batch_id": "bat_1e270e4cef7a1af88780d2bf",
+        "event_id": "evt_f090ec577bc5d220ce814663",
+        "diagnosis_id": "dia_2bd49573a0ff64b21107747e",
+        "report_id": "irpt_2ef7890d642e04687ad8a857",
+        "agent_detected": "2026-11-07T14:01:11.332495+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135826_20b5",
+    "batch_id": "bat_4af05eff222bc2dfbbff8a87",
+    "event_id": "evt_0e076d8beee92b0ac7c39ba8",
+    "diagnosis_id": "dia_5a9056653182823e95584d3c",
+    "report_id": "irpt_5e10f62ec54b102c222bbfbb",
+    "agent_detected": "2026-11-07T14:01:12.363667+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135826_20b5",
+        "batch_id": "bat_4af05eff222bc2dfbbff8a87",
+        "event_id": "evt_0e076d8beee92b0ac7c39ba8",
+        "diagnosis_id": "dia_5a9056653182823e95584d3c",
+        "report_id": "irpt_5e10f62ec54b102c222bbfbb",
+        "agent_detected": "2026-11-07T14:01:12.363667+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135837_4a8c",
+    "batch_id": "bat_e2c52880b5bf5a17b9daccfe",
+    "event_id": "evt_e316a86ac3c2cbe8d1ab54d8",
+    "diagnosis_id": "dia_7e805383420af0319aad1fa4",
+    "report_id": "irpt_3e8d1c2e0c6dc8066f2dc3c8",
+    "agent_detected": "2026-11-07T14:01:13.404821+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135837_4a8c",
+        "batch_id": "bat_e2c52880b5bf5a17b9daccfe",
+        "event_id": "evt_e316a86ac3c2cbe8d1ab54d8",
+        "diagnosis_id": "dia_7e805383420af0319aad1fa4",
+        "report_id": "irpt_3e8d1c2e0c6dc8066f2dc3c8",
+        "agent_detected": "2026-11-07T14:01:13.404821+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135848_e002",
+    "batch_id": "bat_e1ebd7e497ebe0ea7fd84be2",
+    "event_id": "evt_0309aa399e8acbbbafa47790",
+    "diagnosis_id": "dia_fa345582f062a6154168cb1d",
+    "report_id": "irpt_66cb0e54b494e3135871e5c3",
+    "agent_detected": "2026-11-07T14:01:14.453090+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135848_e002",
+        "batch_id": "bat_e1ebd7e497ebe0ea7fd84be2",
+        "event_id": "evt_0309aa399e8acbbbafa47790",
+        "diagnosis_id": "dia_fa345582f062a6154168cb1d",
+        "report_id": "irpt_66cb0e54b494e3135871e5c3",
+        "agent_detected": "2026-11-07T14:01:14.453090+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135859_6bea",
+    "batch_id": "bat_b7ba5e9ef76e60008f4d196d",
+    "event_id": "evt_8f5ab650657ea3128b853d60",
+    "diagnosis_id": "dia_0dd8d697322e6ed1398066b5",
+    "report_id": "irpt_0b72200318fc63883f1550af",
+    "agent_detected": "2026-11-07T14:01:15.482939+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135859_6bea",
+        "batch_id": "bat_b7ba5e9ef76e60008f4d196d",
+        "event_id": "evt_8f5ab650657ea3128b853d60",
+        "diagnosis_id": "dia_0dd8d697322e6ed1398066b5",
+        "report_id": "irpt_0b72200318fc63883f1550af",
+        "agent_detected": "2026-11-07T14:01:15.482939+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135910_6499",
+    "batch_id": "bat_60d82b3908ed30e7649ea013",
+    "event_id": "evt_8876e923b896fba808996687",
+    "diagnosis_id": "dia_4a1a3abfd5342672962fe0e3",
+    "report_id": "irpt_ee63f49c4c8a5bffac0e43c6",
+    "agent_detected": "2026-11-07T14:01:16.519022+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135910_6499",
+        "batch_id": "bat_60d82b3908ed30e7649ea013",
+        "event_id": "evt_8876e923b896fba808996687",
+        "diagnosis_id": "dia_4a1a3abfd5342672962fe0e3",
+        "report_id": "irpt_ee63f49c4c8a5bffac0e43c6",
+        "agent_detected": "2026-11-07T14:01:16.519022+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  },
+  {
+    "incident_id": "inc_wsl_volume_20261107135921_6d5b",
+    "batch_id": "bat_0d05b3452a3ba3c1e0f71584",
+    "event_id": "evt_60e1637864768415c256518a",
+    "diagnosis_id": "dia_f5a3507a2fe64733b786d8b7",
+    "report_id": "irpt_716a23bea4de5785eb2f74f3",
+    "agent_detected": "2026-11-07T14:01:17.549238+00:00",
+    "mode": "lab-ingest",
+    "gate_decision": "PASS",
+    "gate_score": 1.0,
+    "gate_reason": "novel_info",
+    "events": [
+      {
+        "incident_id": "inc_wsl_volume_20261107135921_6d5b",
+        "batch_id": "bat_0d05b3452a3ba3c1e0f71584",
+        "event_id": "evt_60e1637864768415c256518a",
+        "diagnosis_id": "dia_f5a3507a2fe64733b786d8b7",
+        "report_id": "irpt_716a23bea4de5785eb2f74f3",
+        "agent_detected": "2026-11-07T14:01:17.549238+00:00",
+        "mode": "lab-ingest",
+        "gate_decision": "PASS",
+        "gate_score": 1.0,
+        "gate_reason": "novel_info"
+      }
+    ]
+  }
+]

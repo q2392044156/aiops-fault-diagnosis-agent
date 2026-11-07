@@ -1,0 +1,30 @@
+{
+  "incident_id": "inc_wsl_volume_20261107135412_47ff",
+  "batch_id": "bat_26e8d425c5fe2f1a38a5fd09",
+  "event_id": "evt_a583790a19358da32abff5b5",
+  "diagnosis_id": "dia_ecb8870667ccce7ba2c26a08",
+  "report_id": "irpt_ffd23c271192246b0ef030cc",
+  "agent_detected": "2026-11-07T13:56:24.062670+00:00",
+  "mode": "wsl",
+  "gate_decision": "PASS",
+  "gate_score": 1.0,
+  "gate_reason": "import",
+  "events": [
+    {
+      "incident_id": "inc_wsl_volume_20261107135412_47ff",
+      "batch_id": "bat_26e8d425c5fe2f1a38a5fd09",
+      "event_id": "evt_a583790a19358da32abff5b5",
+      "diagnosis_id": "dia_ecb8870667ccce7ba2c26a08",
+      "report_id": "irpt_ffd23c271192246b0ef030cc",
+      "agent_detected": "2026-11-07T13:56:24.062670+00:00",
+      "mode": "lab-ingest",
+      "gate_decision": "PASS",
+      "gate_score": 1.0,
+      "gate_reason": "import"
+    }
+  ],
+  "fault": "DN_VOLUME",
+  "live_recovered": false,
+  "injection_ok": false,
+  "imported": "ACTIVE"
+}

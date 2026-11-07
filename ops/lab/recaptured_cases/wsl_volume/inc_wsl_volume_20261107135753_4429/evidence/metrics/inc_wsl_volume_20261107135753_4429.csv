@@ -1,0 +1,2 @@
+timestamp,host_alias,component,metric,value
+2026-11-07T13:58:01.083311+00:00,aiops-lab-dn1,DataNode,disk_avail_bytes,888619364352
