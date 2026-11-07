@@ -29,6 +29,15 @@ MODULE_DIRS = (
     ROOT / "ops" / "scripts",
     ROOT / "ops" / "deployment",
     ROOT / "tests",
+    ROOT / "offline",
+    ROOT / "offline" / "capture",
+    ROOT / "offline" / "ingestion",
+    ROOT / "offline" / "detection",
+    ROOT / "offline" / "evaluation",
+    ROOT / "online",
+    ROOT / "online" / "diagnosis",
+    ROOT / "online" / "knowledge",
+    ROOT / "online" / "reporting",
 )
 # 变量说明：`LEGACY_DIRS` 列出重构后不应重新出现的旧目录。
 LEGACY_DIRS = (

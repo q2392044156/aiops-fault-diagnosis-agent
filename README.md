@@ -320,7 +320,16 @@ python ops/scripts/mcp_smoke.py
 
 ```text
 aiops-fault-diagnosis-agent/
-├─ src/aiops_diag/
+├─ offline/          # 离线数据流程一级入口
+│  ├─ capture/       # 故障注入、正常采集、证据落盘
+│  ├─ ingestion/     # 多格式 adapter、规范化、滑动窗口
+│  ├─ detection/     # 按来源模板、severity-first 门禁
+│  └─ evaluation/    # FPR/Recall、事件、证据、引用评测
+├─ online/           # 在线诊断流程一级入口
+│  ├─ diagnosis/     # 7 节点诊断、结构化证据选择
+│  ├─ knowledge/     # 104 卡 RAG
+│  └─ reporting/     # 严格 JSON 报告 Schema
+├─ src/aiops_diag/   # 共享实现（兼容旧导入）
 │  ├─ data/          # 接入、脱敏、审计与标准化
 │  ├─ detection/     # LR/LSTM 检测
 │  ├─ knowledge/     # BM25/BGE/RRF 检索与报告生成

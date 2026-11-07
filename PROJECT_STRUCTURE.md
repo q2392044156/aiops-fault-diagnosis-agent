@@ -4,7 +4,16 @@
 
 ```text
 aiops-fault-diagnosis-agent/
-├─ src/aiops_diag/       # 可复用的 Python 业务源码
+├─ offline/              # 离线数据流程一级入口
+│  ├─ capture/           # 故障注入、正常采集、证据落盘
+│  ├─ ingestion/         # adapter、canonical、滑动窗口
+│  ├─ detection/         # 来源模板、severity-first 门禁
+│  └─ evaluation/        # 检测/事件/证据/引用评测
+├─ online/               # 在线诊断流程一级入口
+│  ├─ diagnosis/         # 7 节点诊断与结构化证据选择
+│  ├─ knowledge/         # 104 卡知识检索
+│  └─ reporting/         # 严格 JSON 报告 Schema
+├─ src/aiops_diag/       # 共享实现与兼容旧导入
 │  ├─ data/              # 接入、脱敏、incident 协议与实验记录
 │  ├─ detection/         # 异常检测和模型选择
 │  ├─ knowledge/         # 知识检索和证据约束报告生成
@@ -24,12 +33,15 @@ aiops-fault-diagnosis-agent/
 ## 依赖方向
 
 ```text
-data → detection ─┐
-                  ├→ diagnosis → platform
-knowledge ────────┘       │
-                          ├→ evaluation
-                          └→ release
+offline.capture → offline.ingestion → offline.detection → offline.evaluation
+                                                │
+                                                ▼
+online.diagnosis ← online.knowledge ← online.reporting
+
+共享实现：src/aiops_diag（data / detection / diagnosis / knowledge / platform）
 ```
+
+`offline` 和 `online` 是稳定流程入口，复用 `src/aiops_diag`，避免破坏已有 API 和脚本导入。
 
 下层模块只提供数据结构或稳定接口，上层模块负责组合。`platform` 是运行时组合根；`ops` 只调用公开入口；`tests` 可以依赖所有模块。禁止业务模块反向导入 `platform`、`ops` 或 `tests`。
 

@@ -15,6 +15,7 @@
 | 文件 | 主要功能 | 主要类或函数 |
 | --- | --- | --- |
 | `conftest.py` | 为依赖本地发布制品的用例提供统一的跳过策略。 | `requires_artifacts` |
+| `test_architecture.py` | 验证离线/在线一级目录和二级入口可导入。 | `test_offline_online_architecture_is_importable` |
 | `test_adapters.py` | 验证 HDFS_v1 / Docker / WSL 适配器与 canonical schema。 | `test_hdfs_v1_adapter_maps_fields`、`test_real_lab_logs_parse_rate` |
 | `test_source_templates.py` | 验证按来源构建与加载 Drain3 模板。 | `test_build_and_match_source_templates` |
 | `test_events.py` | 验证门禁打分与事件构建。 | `test_gate_passes_error_rows`、`test_build_event_keeps_gate_provenance` |
