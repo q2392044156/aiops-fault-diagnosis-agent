@@ -31,6 +31,7 @@ def main(argv=None):
     parser.add_argument("--detector", required=True)
     parser.add_argument("--template-dir", required=True)
     parser.add_argument("--gate-output", required=True)
+    parser.add_argument("--detector-release", default="novelty_v1")
     args = parser.parse_args(argv)
     work = Path(args.work)
     shutil.rmtree(work, ignore_errors=True)
@@ -56,7 +57,8 @@ def main(argv=None):
                          retriever_kind="frozen", retriever=retriever,
                          template_dir=args.template_dir, matcher=matcher,
                          source_type=args.source_type, event_source="model",
-                         detector_path=args.detector)
+                         detector_path=args.detector,
+                         detector_release=args.detector_release)
         gates.append(mapping)
         if index % 20 == 0:
             print(f"{index}/{len(cases)} elapsed={time.time()-started:.0f}s", flush=True)

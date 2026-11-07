@@ -27,18 +27,23 @@ def wilson(hits, total, z=1.96):
     return [round(max(0.0, center - margin), 4), round(min(1.0, center + margin), 4)]
 
 
-# 类说明：TemplateNoveltyDetector 用正常窗口的模板集合判断新颖度。
+# 类说明：TemplateNoveltyDetector 以严重度优先、模板新颖度兜底做门禁。
 class TemplateNoveltyDetector:
-    # 方法说明：__init__ 设置目标误报率。
-    def __init__(self, target_fpr=0.05, min_threshold=0.05):
+    # 方法说明：__init__ 设置目标误报率与良性错误白名单。
+    def __init__(self, target_fpr=0.05, min_threshold=0.05, benign_errors=None):
         self.target_fpr = float(target_fpr)
         self.min_threshold = float(min_threshold)
+        self.benign_errors = set(benign_errors or ())
         self.templates = set()
         self.threshold = 0.0
+        self.warn_max = 0
 
-    # 方法说明：fit 在正常窗口上学习模板集合并校准阈值。
+    # 方法说明：fit 在正常窗口上学习模板、WARN 基线与阈值。
     def fit(self, normal_windows):
         self.templates = {_text(row) for rows in normal_windows for row in rows}
+        self.warn_max = max((sum(1 for row in rows
+                                 if (row.get("level") or "").upper() == "WARN")
+                             for rows in normal_windows), default=0)
         scores = [self.score(rows) for rows in normal_windows if rows]
         if scores:
             scores.sort()
@@ -54,18 +59,39 @@ class TemplateNoveltyDetector:
         unseen = sum(1 for row in rows if _text(row) not in self.templates)
         return round(unseen / len(rows), 4)
 
-    # 方法说明：decide 返回是否异常。
+    # 方法说明：decide 先看 ERROR/FATAL，再用 WARN 与新颖度兜底。
     def decide(self, rows):
+        errors = [row for row in rows
+                  if (row.get("level") or "").upper() in ("ERROR", "FATAL")
+                  and _text(row) not in self.benign_errors]
+        if errors:
+            return {"decision": "PASS", "score": 1.0, "threshold": self.threshold,
+                    "reason": "error_present"}
+        warns = [row for row in rows
+                 if (row.get("level") or "").upper() == "WARN"]
+        if warns:
+            novel = [row for row in warns if _text(row) not in self.templates]
+            if novel:
+                score = round(len(novel) / max(1, len(rows)), 4)
+                return {"decision": "PASS", "score": score, "threshold": self.threshold,
+                        "reason": "novel_warn"}
+            if len(warns) > self.warn_max:
+                score = round(len(warns) / max(1, len(rows)), 4)
+                return {"decision": "PASS", "score": score, "threshold": self.threshold,
+                        "reason": "warn_frequency"}
+            return {"decision": "REJECT", "score": self.score(rows),
+                    "threshold": self.threshold, "reason": "known_warn"}
         score = self.score(rows)
         return {"decision": "PASS" if score > self.threshold else "REJECT",
                 "score": score, "threshold": self.threshold,
-                "reason": "novel_template_ratio"}
+                "reason": "novel_info" if score > self.threshold else "no_severe_signal"}
 
     # 方法说明：save 把冻结模板与阈值写入 JSON。
     def save(self, path):
-        payload = {"schema_version": 1, "model": "template_novelty",
+        payload = {"schema_version": 2, "model": "severity_first_novelty",
                    "target_fpr": self.target_fpr, "threshold": self.threshold,
-                   "min_threshold": self.min_threshold,
+                   "min_threshold": self.min_threshold, "warn_max": self.warn_max,
+                   "benign_errors": sorted(self.benign_errors),
                    "templates": sorted(self.templates)}
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         Path(path).write_text(json.dumps(payload, ensure_ascii=False) + "\n",
@@ -77,7 +103,9 @@ class TemplateNoveltyDetector:
     def load(cls, path):
         payload = json.loads(Path(path).read_text(encoding="utf-8"))
         detector = cls(payload.get("target_fpr", 0.05),
-                       payload.get("min_threshold", 0.05))
+                       payload.get("min_threshold", 0.05),
+                       payload.get("benign_errors", []))
         detector.templates = set(payload.get("templates", []))
         detector.threshold = float(payload.get("threshold", 0.0))
+        detector.warn_max = int(payload.get("warn_max", 0))
         return detector

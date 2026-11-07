@@ -25,7 +25,7 @@ Docker 81 例失败归因：**命中 76、证据缺失 5、召回缺失 0、排�
 
 ### A→B 联合指标
 
-检测门禁使用冻结的 novelty_v1（正常窗口 85 个，测试 26 个）：
+检测门禁使用冻结的 severity-first novelty_v2（正常窗口 85 个，测试 26 个）。规则是：**ERROR/FATAL 直接 PASS（已审核的良性错误白名单除外）；WARN 仅当新模板或频次超正常基线时 PASS；INFO 用新颖度兜底。**
 
 | 指标 | Docker | WSL |
 | --- | --- | --- |
@@ -161,7 +161,7 @@ SQLite 是任务、预算、工具缓存、报告、审批与审计的业务真�
 | 组件 | 指标 |
 | --- | --- |
 | 异常检测（TF-IDF + LR） | F1 0.883181、AP 0.789731、FPR 0.006374 |
-| 门禁检测（novelty_v1） | Docker FPR 0/26、WSL FPR 0/8；正常窗口 85 + 26 个 |
+| 门禁检测（severity-first novelty_v2） | Docker FPR 0/26、WSL FPR 0/8；正常窗口 85 + 26 个 |
 | 知识检索（Hybrid Top-3） | Recall 0.975、MRR 0.9375、nDCG 0.7827 |
 
 完整分层与四条不变量见 [ARCHITECTURE.md](documentation/ARCHITECTURE.md)。

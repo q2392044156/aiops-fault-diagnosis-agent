@@ -174,7 +174,8 @@ def _parse(text, session_id, fallback=None, source_type="docker_container", matc
 def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                focus_component=None, agent_backend="native", retriever_kind="cards",
                retriever=None, source_type="docker_container", matcher=None,
-               event_source="import", gate_threshold=0.6, detector_path=None):
+               event_source="import", gate_threshold=0.6, detector_path=None,
+               detector_release="novelty_v1"):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
@@ -242,7 +243,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                 "mode": "lab-ingest", "gate_decision": "REJECT",
                 "gate_score": decision["score"], "gate_reason": decision["reason"]}
     database.set_event_metadata(event_id, {
-        "detector_release_id": "novelty_v1" if detector_path else "lab_gate_v1",
+        "detector_release_id": detector_release if detector_path else "lab_gate_v1",
         "detector_score": str(decision["score"]),
         "detector_threshold": str(decision.get("threshold", gate_threshold)),
         "gate_decision": "PASS",
@@ -322,7 +323,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
 def ingest(case_dir, database_path, mode="template", agent_backend="native",
            retriever_kind="cards", retriever=None, template_dir=None, matcher=None,
            source_type=None, event_source="import", gate_threshold=0.6,
-           detector_path=None):
+           detector_path=None, detector_release="novelty_v1"):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
@@ -340,7 +341,8 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
                          retriever_kind=retriever_kind, retriever=retriever,
                          source_type=source_type, matcher=matcher,
                          event_source=event_source, gate_threshold=gate_threshold,
-                         detector_path=detector_path)
+                         detector_path=detector_path,
+                         detector_release=detector_release)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
@@ -359,6 +361,7 @@ def main(argv=None):
     parser.add_argument("--event-source", choices=("model", "import"), default="import")
     parser.add_argument("--gate-threshold", type=float, default=0.6)
     parser.add_argument("--detector")
+    parser.add_argument("--detector-release", default="novelty_v1")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -369,7 +372,8 @@ def main(argv=None):
                             source_type=args.source_type,
                             event_source=args.event_source,
                             gate_threshold=args.gate_threshold,
-                            detector_path=args.detector),
+                            detector_path=args.detector,
+                            detector_release=args.detector_release),
                      ensure_ascii=False, indent=2))
     return 0
 

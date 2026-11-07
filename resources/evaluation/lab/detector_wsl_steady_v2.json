@@ -1,0 +1,35 @@
+{
+  "source_type": "wsl",
+  "model": "template_novelty",
+  "normal_source": "captured",
+  "normal_windows": 26,
+  "train_normal": 18,
+  "test_normal": 8,
+  "test": {
+    "threshold": 0.05,
+    "normal": 8,
+    "false_positive": 0,
+    "fpr": 0.0,
+    "fault": 68,
+    "detected": 68,
+    "recall": 1.0,
+    "fpr_ci": [
+      0.0,
+      0.3244
+    ],
+    "recall_ci": [
+      0.9465,
+      1.0
+    ]
+  },
+  "end_to_end": {
+    "cases": 68,
+    "hits": 67,
+    "top1": 0.9853,
+    "top1_ci": [
+      0.9213,
+      0.9974
+    ]
+  },
+  "saved": "artifacts/detectors/wsl_steady_v2.json"
+}
