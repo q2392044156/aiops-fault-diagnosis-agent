@@ -215,7 +215,14 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
         passing = [(window, result) for window, result in judged
                    if result["decision"] == "PASS"]
         if passing:
-            rows = [row for window, _ in passing for row in window["rows"]]
+            selected, seen = [], set()
+            for window, _ in passing:
+                for row in window["rows"]:
+                    if row["log_id"] in seen:
+                        continue
+                    seen.add(row["log_id"])
+                    selected.append(row)
+            rows = selected
             window_ids = [window["window_id"] for window, _ in passing]
             decision = max((result for _, result in passing),
                            key=lambda item: (item["reason"] == "error_present",
