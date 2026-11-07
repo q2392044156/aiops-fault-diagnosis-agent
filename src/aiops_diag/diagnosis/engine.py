@@ -95,10 +95,30 @@ def weak_code_hint(text):
     return None
 
 
-# 方法说明：select_log_rows 优先保留信号行、严重行与窗口尾部，再用尾部补齐。
-def select_log_rows(log_rows, limit):
+# 方法说明：_stack 判断堆栈续行。
+def _stack(message):
+    text = (message or "").lstrip()
+    return text.startswith("at ") or text.startswith("... ") and "more" in text
+
+
+# 方法说明：_signature 生成用于证据去重的稳定签名。
+def _signature(row):
+    message = (row.get("redacted_message") or "").lower()
+    if _stack(message):
+        return "stack"
+    normalized = re.sub(r"\d+", "<n>", message)
+    return f'{row.get("level") or ""}|{row.get("component") or ""}|{normalized}'
+
+
+# 方法说明：estimate_tokens 以字符数估算日志 token。
+def estimate_tokens(row):
+    return max(1, len(row.get("redacted_message") or "") // 4)
+
+
+# 方法说明：select_log_rows 优先保留信号行、严重行与窗口尾部，并做 token/堆栈去重。
+def select_log_rows(log_rows, limit, token_budget=None):
     limit = int(limit)
-    if len(log_rows) <= limit:
+    if len(log_rows) <= limit and not token_budget:
         return log_rows
     signals = tuple(word for words in AgentTools.CODE_SIGNALS.values() for word in words)
     signal_rows = [row for row in log_rows
@@ -106,12 +126,36 @@ def select_log_rows(log_rows, limit):
                           for word in signals)]
     severe = [row for row in log_rows
               if row.get("level") in ("ERROR", "WARN", "FATAL")]
-    seen, picked = set(), []
+    seen, signatures, picked, tokens = set(), set(), [], 0
     for row in signal_rows + severe + log_rows[-limit:]:
-        if row["log_id"] not in seen:
-            picked.append(row)
-            seen.add(row["log_id"])
-    return picked[:limit]
+        if row["log_id"] in seen:
+            continue
+        signature = _signature(row)
+        if signature in signatures:
+            continue
+        cost = estimate_tokens(row)
+        if token_budget and picked and tokens + cost > int(token_budget):
+            continue
+        seen.add(row["log_id"])
+        signatures.add(signature)
+        picked.append(row)
+        tokens += cost
+        if len(picked) >= limit:
+            break
+    return picked
+
+
+# 方法说明：evidence_sufficiency 判断证据包是否至少包含信号或严重级别。
+def evidence_sufficiency(selected):
+    signals = tuple(word for words in AgentTools.CODE_SIGNALS.values() for word in words)
+    has_signal = any(any(word in (row.get("redacted_message") or "").lower()
+                         for word in signals) for row in selected)
+    has_error = any(row.get("level") in ("ERROR", "FATAL") for row in selected)
+    return {"sufficient": bool(has_signal or has_error),
+            "has_signal": has_signal, "has_error": has_error,
+            "selected": len(selected),
+            "tokens_est": sum(estimate_tokens(row) for row in selected),
+            "missing": [] if has_signal or has_error else ["signal_or_error_evidence"]}
 
 
 # 类说明：`AgentEngine` 封装本模块内聚的数据和行为。
@@ -494,7 +538,11 @@ class AgentEngine:
             state["review_reasons"].append("tool_failure")
         log_rows = logs.get("data", {}).get("items", [])
         limit = int(self.cfg["tools"]["query_logs_limit"])
-        log_rows = select_log_rows(log_rows, limit)
+        token_budget = int(self.cfg["tools"].get("evidence_token_budget", 2000))
+        log_rows = select_log_rows(log_rows, limit, token_budget)
+        quality = evidence_sufficiency(log_rows)
+        if not quality["sufficient"]:
+            state["review_reasons"].append("insufficient_evidence")
         log_items = [log_evidence(row, self.service_manifest["release_id"]) for row in log_rows]
         components = sorted({row.get("component") for row in log_rows if row.get("component")})
         weights = {}

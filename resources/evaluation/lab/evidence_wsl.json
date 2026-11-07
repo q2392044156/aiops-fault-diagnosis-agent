@@ -3,42 +3,52 @@
     "10": {
       "budget": "10",
       "cases": 38,
+      "cases_all": 68,
       "gold_lines": 38,
       "selected_lines": 380,
-      "selected_gold": 29,
-      "evidence_recall_micro": 0.7632,
-      "evidence_precision_micro": 0.0763,
-      "case_full_coverage": 0.7632,
-      "case_any_coverage": 0.7632,
-      "mean_tokens_est": 430.3
+      "selected_gold": 38,
+      "evidence_recall_micro": 1.0,
+      "evidence_precision_micro": 0.1,
+      "case_full_coverage": 1.0,
+      "case_any_coverage": 1.0,
+      "evidence_sufficient_cases": 67,
+      "evidence_sufficient_rate": 0.9853,
+      "mean_tokens_est": 425.9
     },
     "30": {
       "budget": "30",
       "cases": 38,
+      "cases_all": 68,
       "gold_lines": 38,
-      "selected_lines": 1140,
+      "selected_lines": 759,
       "selected_gold": 38,
       "evidence_recall_micro": 1.0,
-      "evidence_precision_micro": 0.0333,
+      "evidence_precision_micro": 0.0501,
       "case_full_coverage": 1.0,
       "case_any_coverage": 1.0,
-      "mean_tokens_est": 1203.1
+      "evidence_sufficient_cases": 67,
+      "evidence_sufficient_rate": 0.9853,
+      "mean_tokens_est": 746.5
     },
     "50": {
       "budget": "50",
       "cases": 38,
+      "cases_all": 68,
       "gold_lines": 38,
-      "selected_lines": 1890,
+      "selected_lines": 1062,
       "selected_gold": 38,
       "evidence_recall_micro": 1.0,
-      "evidence_precision_micro": 0.0201,
+      "evidence_precision_micro": 0.0358,
       "case_full_coverage": 1.0,
       "case_any_coverage": 1.0,
-      "mean_tokens_est": 2110.1
+      "evidence_sufficient_cases": 67,
+      "evidence_sufficient_rate": 0.9853,
+      "mean_tokens_est": 1095.4
     },
     "all": {
       "budget": "all",
       "cases": 38,
+      "cases_all": 68,
       "gold_lines": 38,
       "selected_lines": 8883,
       "selected_gold": 38,
@@ -46,6 +56,8 @@
       "evidence_precision_micro": 0.0043,
       "case_full_coverage": 1.0,
       "case_any_coverage": 1.0,
+      "evidence_sufficient_cases": 67,
+      "evidence_sufficient_rate": 0.9853,
       "mean_tokens_est": 9176.5
     }
   },

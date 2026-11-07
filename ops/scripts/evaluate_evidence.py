@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, "src")
 sys.path.insert(0, "ops/lab/harness")
 from aiops_diag.data.adapters import parse_lines
-from aiops_diag.diagnosis.engine import select_log_rows
+from aiops_diag.diagnosis.engine import evidence_sufficiency, select_log_rows
 from evidence import gold_ids
 
 
@@ -34,6 +34,7 @@ def main(argv=None):
     parser.add_argument("--source-type", choices=("docker_container", "wsl"), required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--budgets", default="10,30,50,all")
+    parser.add_argument("--token-budget", type=int, default=2000)
     args = parser.parse_args(argv)
     budgets = []
     for item in args.budgets.split(","):
@@ -43,16 +44,21 @@ def main(argv=None):
     for budget in budgets:
         key = "all" if budget is None else str(budget)
         total_gold = selected_gold = selected_total = cases_with_gold = 0
-        case_full = case_any = tokens = 0
+        case_full = case_any = tokens = sufficient = 0
+        cases_all = 0
         for case in sorted(Path(args.cases).glob("*")):
             if not (case / "incident.json").is_file():
                 continue
             incident, rows = _rows(case, args.source_type)
+            cases_all += 1
+            selected = select_log_rows(
+                rows, len(rows) if budget is None else budget,
+                None if budget is None else args.token_budget)
+            sufficient += int(evidence_sufficiency(selected)["sufficient"])
             gold = gold_ids(incident, rows)
             if not gold:
                 continue
             label_map[incident["incident_id"]] = gold
-            selected = select_log_rows(rows, len(rows) if budget is None else budget)
             selected_ids = {row["log_id"] for row in selected}
             gold_set = set(gold)
             total_gold += len(gold_set)
@@ -63,7 +69,7 @@ def main(argv=None):
             case_any += int(bool(gold_set & selected_ids))
             tokens += sum(len(row.get("redacted_message") or "") for row in selected) // 4
         results[key] = {
-            "budget": key, "cases": cases_with_gold,
+            "budget": key, "cases": cases_with_gold, "cases_all": cases_all,
             "gold_lines": total_gold, "selected_lines": selected_total,
             "selected_gold": selected_gold,
             "evidence_recall_micro": round(selected_gold / total_gold, 4) if total_gold else None,
@@ -73,6 +79,9 @@ def main(argv=None):
             if cases_with_gold else None,
             "case_any_coverage": round(case_any / cases_with_gold, 4)
             if cases_with_gold else None,
+            "evidence_sufficient_cases": sufficient,
+            "evidence_sufficient_rate": round(sufficient / cases_all, 4)
+            if cases_all else None,
             "mean_tokens_est": round(tokens / cases_with_gold, 1) if cases_with_gold else None,
         }
     payload = {"budgets": results, "labels": label_map}

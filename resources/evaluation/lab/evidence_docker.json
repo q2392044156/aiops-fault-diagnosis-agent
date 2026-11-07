@@ -3,6 +3,7 @@
     "10": {
       "budget": "10",
       "cases": 7,
+      "cases_all": 81,
       "gold_lines": 13,
       "selected_lines": 70,
       "selected_gold": 13,
@@ -10,35 +11,44 @@
       "evidence_precision_micro": 0.1857,
       "case_full_coverage": 1.0,
       "case_any_coverage": 1.0,
-      "mean_tokens_est": 300.0
+      "evidence_sufficient_cases": 60,
+      "evidence_sufficient_rate": 0.7407,
+      "mean_tokens_est": 299.7
     },
     "30": {
       "budget": "30",
       "cases": 7,
+      "cases_all": 81,
       "gold_lines": 13,
-      "selected_lines": 210,
+      "selected_lines": 139,
       "selected_gold": 13,
       "evidence_recall_micro": 1.0,
-      "evidence_precision_micro": 0.0619,
+      "evidence_precision_micro": 0.0935,
       "case_full_coverage": 1.0,
       "case_any_coverage": 1.0,
-      "mean_tokens_est": 877.0
+      "evidence_sufficient_cases": 60,
+      "evidence_sufficient_rate": 0.7407,
+      "mean_tokens_est": 506.0
     },
     "50": {
       "budget": "50",
       "cases": 7,
+      "cases_all": 81,
       "gold_lines": 13,
-      "selected_lines": 350,
+      "selected_lines": 209,
       "selected_gold": 13,
       "evidence_recall_micro": 1.0,
-      "evidence_precision_micro": 0.0371,
+      "evidence_precision_micro": 0.0622,
       "case_full_coverage": 1.0,
       "case_any_coverage": 1.0,
-      "mean_tokens_est": 1389.7
+      "evidence_sufficient_cases": 60,
+      "evidence_sufficient_rate": 0.7407,
+      "mean_tokens_est": 766.4
     },
     "all": {
       "budget": "all",
       "cases": 7,
+      "cases_all": 81,
       "gold_lines": 13,
       "selected_lines": 870,
       "selected_gold": 13,
@@ -46,6 +56,8 @@
       "evidence_precision_micro": 0.0149,
       "case_full_coverage": 1.0,
       "case_any_coverage": 1.0,
+      "evidence_sufficient_cases": 60,
+      "evidence_sufficient_rate": 0.7407,
       "mean_tokens_est": 3474.9
     }
   },

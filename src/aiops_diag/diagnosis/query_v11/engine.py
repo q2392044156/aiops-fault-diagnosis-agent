@@ -135,7 +135,8 @@ class AgentEngine(LegacyAgentEngine):
             state["review_reasons"].append("tool_failure")
         log_rows = logs.get("data", {}).get("items", [])
         log_rows = select_log_rows(
-            log_rows, min(50, int(self.cfg["tools"]["query_logs_limit"])))
+            log_rows, min(50, int(self.cfg["tools"]["query_logs_limit"])),
+            int(self.cfg["tools"].get("evidence_token_budget", 2000)))
         all_text = " ".join((row.get("redacted_message") or "")
                             for row in log_rows).lower()
         detected = detected_codes_from_text(all_text)
