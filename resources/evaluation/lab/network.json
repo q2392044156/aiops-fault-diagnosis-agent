@@ -1,0 +1,39 @@
+{
+  "summary": {
+    "incidents": 1,
+    "eligible": 1,
+    "diagnosed": 1,
+    "top1": 1.0,
+    "top3": 1.0,
+    "top5": 1.0,
+    "mrr": 1.0,
+    "mttd_seconds": "N/A",
+    "top1_ci95": [
+      0.2065,
+      1.0
+    ],
+    "excluded": 0,
+    "exclusion_reasons": {},
+    "test": {
+      "n": 0,
+      "top1": "N/A",
+      "top1_ci95": null
+    }
+  },
+  "rows": [
+    {
+      "incident_id": "inc_lab_network_partition_20261111081534_c3a9",
+      "expected": "cross-component",
+      "rank": 1,
+      "matched_by": "code",
+      "split": "train",
+      "top1": true,
+      "top3": true,
+      "top5": true,
+      "mrr": 1.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    }
+  ],
+  "excluded": []
+}

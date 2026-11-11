@@ -18,6 +18,10 @@ GOLD_PATTERNS = {
     "NN_SAFE_MODE": (
         r"safe mode", r"safemode", r" safemodeexception",
     ),
+    "NETWORK_CONNECTIVITY": (
+        r"connection timed out", r"no route to host", r"network is unreachable",
+        r"connection reset", r"retrying connect", r"connection refused",
+    ),
 }
 
 

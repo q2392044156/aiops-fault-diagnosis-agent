@@ -58,6 +58,14 @@ def test_evidence_sufficiency_flags_missing_signal():
     assert evidence_sufficiency(rows)["sufficient"] is False
 
 
+# 方法说明：验证网络连接超时行被标为关键证据。
+def test_network_gold_matches_retrying_connect():
+    incident = {"labels": {"root_cause_code": "NETWORK_CONNECTIVITY"}}
+    rows = [_row("a", "Retrying connect to server: namenode:9000", "INFO"),
+            _row("b", "Scheduled metric snapshot")]
+    assert gold_ids(incident, rows) == ["a"]
+
+
 # 方法说明：验证无强信号时卷相关行作为兜底证据。
 def test_volume_fallback_uses_volume_terms():
     incident = {"labels": {"root_cause_code": "DN_VOLUME"}}

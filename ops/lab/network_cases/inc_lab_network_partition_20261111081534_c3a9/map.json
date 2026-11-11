@@ -1,0 +1,10 @@
+{
+  "incident_id": "inc_lab_network_partition_20261111081534_c3a9",
+  "fault": "NETWORK_PARTITION",
+  "batch_id": null,
+  "event_id": null,
+  "diagnosis_id": null,
+  "report_id": null,
+  "cutoff_time": "2026-11-11T08:16:05.990358+00:00",
+  "mode": "cluster"
+}

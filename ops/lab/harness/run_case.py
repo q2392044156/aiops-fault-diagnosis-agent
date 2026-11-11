@@ -30,7 +30,7 @@ WRITE_LOOP = ("for i in $(seq 1 120); do "
               ">/dev/null 2>&1; "
               "sleep 1; done")
 
-# 变量说明：FAULTS 定义三个 MVP 故障族的注入与恢复方式。
+# 变量说明：FAULTS 定义 MVP 与网络分区故障族的注入与恢复方式。
 FAULTS = {
     "DN_VOLUME": {
         "component": "DataNode", "container": "aiops-lab-dn1", "mode": "exec",
@@ -56,6 +56,16 @@ FAULTS = {
                 "WARN dfs.FSNamesystem: Safe mode is ON. The reported blocks needs "
                 "additional blocks to reach the threshold"],
     },
+    "NETWORK_PARTITION": {
+        "component": "DataNode", "container": "aiops-lab-dn3", "mode": "network",
+        "root_cause_code": "NETWORK_CONNECTIVITY",
+        "signal": r"Connection timed out|No route to host|Network is unreachable|"
+                  r"Connection reset|Retrying connect",
+        "signal_container": "aiops-lab-dn3",
+        "inject": None, "recover": None,
+        "dry": ["WARN dfs.DataNode: Connection timed out to namenode",
+                "INFO dfs.DataNode: Retrying connect to server: namenode/172.18.0.2:9000"],
+    },
 }
 
 
@@ -69,6 +79,14 @@ def _docker(*args, check=True):
 
 
 # 方法说明：_wait_ready 等待 NameNode 报告 3 个活跃 DataNode。
+def _network_name():
+    names = _docker("network", "ls", "--format", "{{.Name}}").splitlines()
+    for name in names:
+        if "aiops-lab" in name and name.endswith("_hdfs"):
+            return name
+    raise RuntimeError("lab hdfs network not found")
+
+
 def _wait_ready(timeout):
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -176,7 +194,13 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
             writer = subprocess.Popen(
                 ["docker", "exec", "aiops-lab-namenode", "bash", "-lc", WRITE_LOOP],
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        if spec["mode"] == "kill":
+        network = None
+        if spec["mode"] == "network":
+            network = _network_name()
+            _docker("network", "disconnect", network, spec["container"], check=False)
+            # 重新启动 DataNode，迫使它在断网状态下重新连接 NameNode。
+            _docker("restart", spec["container"], check=False)
+        elif spec["mode"] == "kill":
             _docker("kill", spec["container"])
         elif spec["mode"] == "stop":
             _docker("stop", spec["container"])
@@ -205,7 +229,10 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         if writer is not None:
             writer.terminate()
             writer.wait(timeout=10)
-        if spec["mode"] in ("kill", "stop"):
+        if spec["mode"] == "network":
+            _docker("network", "connect", network, spec["container"], check=False)
+            _docker("start", spec["container"], check=False)
+        elif spec["mode"] in ("kill", "stop"):
             _docker("start", spec["container"])
         else:
             if spec["recover"]:
@@ -240,8 +267,10 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         agent_detected = datetime.fromisoformat(ingest_mapping["agent_detected"])
 
     record = build_incident(
-        incident_id=case_id, cluster_alias="cluster_lab_a1", fault_code=fault,
-        fault_family=fault.lower(),
+        incident_id=case_id, cluster_alias="cluster_lab_a1",
+        fault_code=spec.get("root_cause_code", fault),
+        fault_family=("network_partition" if fault == "NETWORK_PARTITION"
+                      else fault.lower()),
         timestamps={"fault_start": t0, "first_observable_signal": signal_at,
                     "agent_detected": agent_detected, "human_confirmed": human,
                     "recovered": recovered},

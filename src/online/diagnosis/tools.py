@@ -155,6 +155,9 @@ class AgentTools:
     # 变量说明：CODE_SIGNALS 是根因码对应的日志特征词，用于同组件内互斥排序。
     CODE_SIGNALS = {"DN_VOLUME": ("no space left", "volume failed", "failed volume",
                                   "disk full"),
+                    "NETWORK_CONNECTIVITY": ("connection timed out", "no route to host",
+                                             "network is unreachable", "connection reset",
+                                             "retrying connect"),
                     "NN_AVAILABILITY": ("connection refused", "failed to connect",
                                         "retrying connect"),
                     "DN_HEARTBEAT": ("lost heartbeat", "lost datanode",
@@ -163,6 +166,8 @@ class AgentTools:
 
     # 变量说明：WEAK_TERMS 是无强信号时的弱先验词，只用于候选内重排。
     WEAK_TERMS = {"DN_VOLUME": ("volume", "disk", "space", "磁盘", "卷"),
+                  "NETWORK_CONNECTIVITY": ("network", "connection", "timeout",
+                                           "unreachable", "retrying"),
                   "DN_HEARTBEAT": ("heartbeat", "dead", "lost", "心跳", "失联"),
                   "NN_SAFE_MODE": ("safe mode", "safemode", "安全模式")}
 

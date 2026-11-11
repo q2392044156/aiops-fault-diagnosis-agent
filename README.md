@@ -246,6 +246,40 @@ Docker 原始 81 例中有 21 例卷故障注入没有产生信号，属于 inva
 | WSL 补采 | 21 | 38 | 38/38 = 100% | 21/21 |
 | **合计** | **149** | **466** | **445/466 = 95.5%** | **148/149 = 99.33%** |
 
+### 6.2.1 故障族与网络分区
+
+当前 v2 覆盖 3 个故障族：
+
+| 根因码 | 故障 | v2 样本 |
+| --- | --- | --- |
+| `DN_VOLUME` | 卷满/卷失败 | 66 |
+| `DN_HEARTBEAT` | DataNode 心跳丢失 | 37 |
+| `NN_SAFE_MODE` | NameNode 安全模式 | 46 |
+
+新增 **网络分区** 实验族，根因码使用受控枚举 `NETWORK_CONNECTIVITY`：
+
+- 注入：断开 DataNode 的 Docker 网络，并重启 DataNode，迫使它重新连接 NameNode；
+- 恢复：重新连接网络，启动 DataNode，等待 3 个 DataNode 恢复；
+- 关键证据：`Retrying connect`、`Connection timed out`、`No route to host`；
+- 有效性：必须观测到 `Retrying connect` 等信号，否则样本判 invalid。
+
+首例完整链路：
+
+```text
+1 个案例 / 19 个事件
+门禁 PASS
+事件 Top-1 = 1.0
+候选根因 = NETWORK_CONNECTIVITY
+```
+
+这说明“注入 → 采集 → adapter → 门禁 → event → 证据 → RAG → 7 节点 → 报告”已经打通；当前样本量仍是 1，后续按计划补到 20–30 例，暂不计入 v2 149 例主表。
+
+运行：
+
+```powershell
+python ops/lab/harness/run_case.py --fault NETWORK_PARTITION --observe 30 --case-root ops/lab/network_cases --require-signal
+```
+
 ### 6.3 检测结果
 
 | 指标 | Docker | WSL |

@@ -63,7 +63,7 @@ def utcnow():
 
 # 变量说明：CODE_ORDER 是同一优先级下的稳定排序。
 CODE_ORDER = {"DN_VOLUME": 0, "NN_SAFE_MODE": 1, "DN_HEARTBEAT": 2,
-              "NN_AVAILABILITY": 3}
+              "NETWORK_CONNECTIVITY": 3, "NN_AVAILABILITY": 4}
 
 
 # 方法说明：detected_codes_from_text 按信号出现次数与上游优先级返回根因码。
@@ -90,8 +90,13 @@ def weak_code_hint(text):
     volume = sum(text.count(word) for word in ("volume", "disk", "space", "磁盘", "卷"))
     heartbeat = sum(text.count(word) for word in ("heartbeat", "lost datanode",
                                                   "dead datanode", "心跳", "失联"))
+    network = sum(text.count(word) for word in ("connection timed out", "no route to host",
+                                                "network is unreachable", "connection reset",
+                                                "retrying connect"))
     if volume >= 5 and volume >= 2 * max(1, heartbeat):
         return "DN_VOLUME"
+    if network >= 2:
+        return "NETWORK_CONNECTIVITY"
     return None
 
 

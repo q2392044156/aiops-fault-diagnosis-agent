@@ -6,7 +6,8 @@ import re
 from collections import Counter
 
 # 变量说明：WEAK_TERMS 是弱信号，用于覆盖卷/磁盘等启动期证据。
-WEAK_TERMS = ("volume", "disk", "storage", "exception", "failed", "error")
+WEAK_TERMS = ("volume", "disk", "storage", "exception", "failed", "error",
+              "network", "connection", "timeout", "unreachable", "retrying")
 # 变量说明：LEVEL_SCORE 是严重度权重。
 LEVEL_SCORE = {"FATAL": 4.0, "ERROR": 3.0, "WARN": 1.8, "INFO": 0.4}
 
