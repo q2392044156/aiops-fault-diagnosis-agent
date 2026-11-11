@@ -162,14 +162,17 @@ class AgentTools:
                                         "retrying connect"),
                     "DN_HEARTBEAT": ("lost heartbeat", "lost datanode",
                                      "dead datanode", "removedead"),
-                    "NN_SAFE_MODE": ("safe mode",)}
+                    "NN_SAFE_MODE": ("safe mode",),
+                    "DISK_IO": ("read-only file system", "input/output error",
+                                "too many failed volumes", "diskchecker")}
 
     # 变量说明：WEAK_TERMS 是无强信号时的弱先验词，只用于候选内重排。
     WEAK_TERMS = {"DN_VOLUME": ("volume", "disk", "space", "磁盘", "卷"),
                   "NETWORK_CONNECTIVITY": ("network", "connection", "timeout",
                                            "unreachable", "retrying"),
                   "DN_HEARTBEAT": ("heartbeat", "dead", "lost", "心跳", "失联"),
-                  "NN_SAFE_MODE": ("safe mode", "safemode", "安全模式")}
+                  "NN_SAFE_MODE": ("safe mode", "safemode", "安全模式"),
+                  "DISK_IO": ("read-only", "input/output", "io error", "disk")}
 
     # 方法说明：`rank_root_causes` 完成当前步骤的业务处理；参数为 `log_evidence`、`doc_evidence`、`components`。
     @staticmethod
@@ -188,6 +191,23 @@ class AgentTools:
                                            item[0]))
         doc_evidence = [document for _, document in ordered]
         hypotheses = []
+        # 知识库尚未覆盖某根因码时，不能让日志信号被其他码卡淹没。
+        priority = ("DISK_IO", "NETWORK_CONNECTIVITY", "NN_SAFE_MODE",
+                    "DN_VOLUME", "DN_HEARTBEAT")
+        code_hint = next((code for code in priority if code in matched), None)
+        if code_hint and not any(document.get("root_cause_code") == code_hint
+                                 for document in doc_evidence[:5]):
+            support = [row["evidence_id"] for row in log_evidence[:12]]
+            hypotheses.append({
+                "hypothesis_id": "hyp_1",
+                "description": "日志证据指向：" + code_hint,
+                "component": components[0] if components else None,
+                "root_cause_code": code_hint,
+                "support_ids": support, "counter_ids": [],
+                "missing_checks": ["需要结合知识库或现场信息确认"],
+                "support_score": min(1.0, 0.45 + 0.05 * len(support)),
+                "confidence_level": "medium" if len(support) >= 2 else "low",
+            })
         for index, document in enumerate(doc_evidence[:5], 1):
             component = document.get("component") or (components[0] if components else None)
             support = [document["evidence_id"]]
@@ -196,7 +216,7 @@ class AgentTools:
             score = min(1.0, 0.35 + 0.1 * min(4, len(support)))
             confidence = "medium" if len(support) >= 2 else "low"
             hypotheses.append({
-                "hypothesis_id": f"hyp_{index}",
+                "hypothesis_id": f"hyp_{len(hypotheses) + 1}",
                 "description": "待验证候选：" + document.get("title", "知识条目所述异常"),
                 "component": component, "root_cause_code": document.get("root_cause_code"),
                 "support_ids": support[:12], "counter_ids": [],

@@ -22,6 +22,7 @@
 | `test_source_detector.py` | 验证模板新颖度检测器。 | `test_novelty_detector_separates_templates` |
 | `test_windows.py` | 验证独立正常窗口的切分。 | `test_normal_windows_split_by_lines` |
 | `test_evidence.py` | 验证证据级关键行规则。 | `test_volume_gold_matches_no_space` |
+| `test_network_confusion.py` | 验证网络分区与心跳丢失的判别规则。 | `test_network_partition_wins_when_datanode_is_retrying` |
 | `test_agent.py` | 验证 agent 相关功能、边界和回归行为。 | `V11EvalLedger`、`V11EvalClient`、`test_v11_online_report_evaluation_runs_three_release_bound_rounds`、`test_v11_online_report_evaluation_requires_configured_client`、`candidate_calibration`、`seed_event`、`budget`、`test_adev_is_fixed_and_deterministic` 等 |
 | `test_candidate_pool_v11.py` | 验证 candidate pool v11 相关功能、边界和回归行为。 | `_reviewed_rows`、`_write_rows`、`test_public_candidate_pool_is_blinded_complete_and_nonduplicate`、`test_public_candidate_packet_builder_refuses_overwrite`、`test_public_candidate_pool_rejects_label_leak`、`test_public_candidate_pool_accepts_complete_external_review_structure`、`test_reviewed_candidate_pool_freezes_to_release_ready_protocol`、`test_review_disagreement_cannot_be_frozen` |
 | `test_redteam.py` | 验证红队用例全部拦截且不误杀正常样本。 | `test_redteam_blocks_all_attacks_without_false_positives` |

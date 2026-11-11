@@ -44,9 +44,10 @@ def _wait_live(timeout=90):
 
 
 # 方法说明：run 执行一次只读卷故障实验并产出 incident。
-def run(database, require_signal=False):
+def run(database, require_signal=False, disk_io=False):
     started = datetime.now(timezone.utc)
-    case_id = f"inc_wsl_volume_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
+    prefix = "inc_wsl_disk_io" if disk_io else "inc_wsl_volume"
+    case_id = f"{prefix}_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
     case_dir = ROOT / "ops" / "lab" / "wsl_cases" / case_id
     case_dir.mkdir(parents=True, exist_ok=True)
 
@@ -129,8 +130,9 @@ def run(database, require_signal=False):
     ticket_path.write_text("# 值班记录\n\nDataNode 卷异常，按只读流程排查。\n", encoding="utf-8")
 
     record = build_incident(
-        incident_id=case_id, cluster_alias="cluster_wsl", fault_code="DN_VOLUME",
-        fault_family="dn_volume",
+        incident_id=case_id, cluster_alias="cluster_wsl",
+        fault_code="DISK_IO" if disk_io else "DN_VOLUME",
+        fault_family="disk_io" if disk_io else "dn_volume",
         timestamps={"fault_start": t0, "first_observable_signal": signal_at,
                     "agent_detected": None, "human_confirmed": human,
                     "recovered": recovered},
@@ -154,7 +156,8 @@ def run(database, require_signal=False):
 
     mapping = ingest_log(case_id, logs_path, database_path, t0.isoformat(),
                          signal_at.isoformat(), "template", focus_component="DataNode")
-    mapping.update({"fault": "DN_VOLUME", "mode": "wsl", "live_recovered": live,
+    mapping.update({"fault": "DISK_IO" if disk_io else "DN_VOLUME", "mode": "wsl",
+                    "live_recovered": live,
                     "injection_ok": injection_ok, "imported": imported["status"]})
     (case_dir / "map.json").write_text(
         __import__("json").dumps(mapping, ensure_ascii=False, indent=2) + "\n",
@@ -333,7 +336,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="WSL single-node volume experiment")
     parser.add_argument("--database", default=str(ROOT / "runtime/lab/wsl.sqlite3"))
     parser.add_argument("--fault", default="DN_VOLUME",
-                        choices=("DN_VOLUME", "DN_HEARTBEAT", "NN_SAFE_MODE"))
+                        choices=("DN_VOLUME", "DN_HEARTBEAT", "NN_SAFE_MODE", "DISK_IO"))
     parser.add_argument("--require-signal", action="store_true")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
@@ -343,7 +346,8 @@ def main(argv=None):
     elif args.fault == "NN_SAFE_MODE":
         print(run_safemode(args.database))
     else:
-        print(run(args.database, require_signal=args.require_signal))
+        print(run(args.database, require_signal=args.require_signal,
+                  disk_io=args.fault == "DISK_IO"))
     return 0
 
 

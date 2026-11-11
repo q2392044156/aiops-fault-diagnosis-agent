@@ -1,0 +1,33 @@
+{
+  "dataset": "network_partition",
+  "split": "frozen_hash",
+  "test": [
+    "inc_lab_network_partition_20261111083833_efc5",
+    "inc_lab_network_partition_20261111083656_7265",
+    "inc_lab_network_partition_20261111084148_10df",
+    "inc_lab_network_partition_20261111084059_5c6f",
+    "inc_lab_network_partition_20261111084502_f232",
+    "inc_lab_network_partition_20261111084414_cd29"
+  ],
+  "train": [
+    "inc_lab_network_partition_20261111083203_a6fd",
+    "inc_lab_network_partition_20261111083115_814f",
+    "inc_lab_network_partition_20261111084325_271a",
+    "inc_lab_network_partition_20261111084237_7373",
+    "inc_lab_network_partition_20261111083519_73b0",
+    "inc_lab_network_partition_20261111083745_0716",
+    "inc_lab_network_partition_20261111083252_6486",
+    "inc_lab_network_partition_20261111084639_33ab",
+    "inc_lab_network_partition_20261111083922_eb6f",
+    "inc_lab_network_partition_20261111081534_c3a9",
+    "inc_lab_network_partition_20261111083430_b5ad",
+    "inc_lab_network_partition_20261111084551_9687",
+    "inc_lab_network_partition_20261111083341_9161",
+    "inc_lab_network_partition_20261111084010_b3b7",
+    "inc_lab_network_partition_20261111083608_0520"
+  ],
+  "test_count": 6,
+  "train_count": 15,
+  "test_ratio": 0.3,
+  "split_hash": "c71dbd24cf7e0fdf70f4b6659ddfdbef6a28ac4b3091db2a4b6a5369c1027067"
+}

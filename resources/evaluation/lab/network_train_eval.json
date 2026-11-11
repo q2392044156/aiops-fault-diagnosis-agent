@@ -1,0 +1,11 @@
+{
+  "events": 280,
+  "event_top1": 280,
+  "event_top1_rate": 1.0,
+  "event_top3": 280,
+  "event_top3_rate": 1.0,
+  "event_mrr": 1.0,
+  "incidents": 15,
+  "incident_any_top1": 15,
+  "incident_any_top1_rate": 1.0
+}

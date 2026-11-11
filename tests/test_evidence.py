@@ -58,6 +58,14 @@ def test_evidence_sufficiency_flags_missing_signal():
     assert evidence_sufficiency(rows)["sufficient"] is False
 
 
+# 方法说明：验证磁盘可写性错误被标为关键证据。
+def test_disk_io_gold_matches_diskchecker():
+    incident = {"labels": {"root_cause_code": "DISK_IO"}}
+    rows = [_row("a", "DiskChecker$DiskErrorException: Directory is not writable", "ERROR"),
+            _row("b", "Scheduled metric snapshot")]
+    assert gold_ids(incident, rows) == ["a"]
+
+
 # 方法说明：验证网络连接超时行被标为关键证据。
 def test_network_gold_matches_retrying_connect():
     incident = {"labels": {"root_cause_code": "NETWORK_CONNECTIVITY"}}

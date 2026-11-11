@@ -23,8 +23,12 @@ def main(argv=None):
     parser.add_argument("--database", required=True)
     parser.add_argument("--cases", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--ids", default=None)
     args = parser.parse_args(argv)
     gates = json.loads(Path(args.gates).read_text(encoding="utf-8"))
+    if args.ids:
+        allowed = set(json.loads(Path(args.ids).read_text(encoding="utf-8")))
+        gates = [gate for gate in gates if gate["incident_id"] in allowed]
     db = sqlite3.connect(args.database)
     expected = {}
     for case in Path(args.cases).glob("*"):

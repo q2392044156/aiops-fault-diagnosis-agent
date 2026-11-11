@@ -62,8 +62,9 @@ def utcnow():
 
 
 # 变量说明：CODE_ORDER 是同一优先级下的稳定排序。
-CODE_ORDER = {"DN_VOLUME": 0, "NN_SAFE_MODE": 1, "DN_HEARTBEAT": 2,
-              "NETWORK_CONNECTIVITY": 3, "NN_AVAILABILITY": 4}
+CODE_ORDER = {"DN_VOLUME": 0, "DISK_IO": 1, "NN_SAFE_MODE": 2,
+              "DN_HEARTBEAT": 3, "NETWORK_CONNECTIVITY": 4,
+              "NN_AVAILABILITY": 5}
 
 
 # 方法说明：detected_codes_from_text 按信号出现次数与上游优先级返回根因码。
@@ -82,6 +83,19 @@ def detected_codes_from_text(text):
     if "NN_SAFE_MODE" in codes and ("safe mode" in text or "safemode" in text):
         codes.remove("NN_SAFE_MODE")
         codes.insert(0, "NN_SAFE_MODE")
+    # 只读/IO 错误也会触发卷失败；没有“空间不足”时优先判 DISK_IO。
+    if "DISK_IO" in codes and "DN_VOLUME" in codes:
+        if not any(word in text for word in ("no space left", "disk full")):
+            codes.remove("DISK_IO")
+            codes.insert(0, "DISK_IO")
+    # 网络分区会把 DataNode 从 NameNode 视角变成“失联”，
+    # 但只要 DataNode 仍在重试连接，根因应优先判网络，而不是进程死亡。
+    network_signal = any(word in text for word in (
+        "retrying connect", "connection timed out", "no route to host",
+        "network is unreachable", "connection reset"))
+    if network_signal and "NETWORK_CONNECTIVITY" in codes:
+        codes.remove("NETWORK_CONNECTIVITY")
+        codes.insert(0, "NETWORK_CONNECTIVITY")
     return codes
 
 

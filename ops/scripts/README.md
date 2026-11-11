@@ -26,6 +26,8 @@
 | `evidence_gap.py` | 审计证据不足案例并生成补采集清单。 | `main` |
 | `merge_evaluations.py` | 合并有效 Docker 子集与 WSL 原始/补采批次。 | `main` |
 | `freeze_v2_split.py` | 冻结 v2 的批次/分层 train-test 切分。 | `_cases`、`main` |
+| `freeze_network_split.py` | 冻结网络分区的独立 train-test 切分。 | `main` |
+| `evaluate_confusion.py` | 生成网络分区与心跳丢失的混淆矩阵。 | `_predict`、`_features`、`main` |
 | `freeze_detector.py` | 冻结检测器并生成可校验的 release 清单。 | `_sha`、`main` |
 | `run_redteam.py` | 运行红队用例并输出拦截率与误杀率。 | `main` |
 | `mcp_smoke.py` | 以子进程方式冒烟验证 MCP 服务器。 | `_rpc`、`main` |

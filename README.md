@@ -276,6 +276,24 @@ Docker 原始 81 例中有 21 例卷故障注入没有产生信号，属于 inva
 
 说明：网络日志会反复输出 `Retrying connect`，证据选择按签名去重后只保留一条，因此行级召回率只有 0.3046；但每个案例至少有一条关键证据，案例级覆盖为 100%。这 21 例暂不计入 v2 149 例主表。
 
+网络分区独立切分：
+
+| 集合 | 案例 | 事件 | 事件 Top-1 | 案例 Top-1 |
+| --- | --- | --- | --- | --- |
+| test | 6 | 122 | 120/122 = 98.4% | 6/6 |
+| train | 15 | 280 | 280/280 = 100% | 15/15 |
+
+切分文件：`resources/evaluation/lab/network_split.json`。
+
+网络分区 vs 心跳丢失：
+
+| 真实 \ 预测 | NETWORK_CONNECTIVITY | DN_HEARTBEAT |
+| --- | --- | --- |
+| NETWORK_CONNECTIVITY | **21** | 0 |
+| DN_HEARTBEAT | 0 | **27** |
+
+判别规则：网络分区日志里同时可能出现 `Lost DataNode`，但只要存在 `Retrying connect` 等网络重试信号，优先判网络；只有进程退出/失联、没有网络重试时，才判心跳丢失。
+
 运行：
 
 ```powershell
@@ -289,6 +307,16 @@ python ops/lab/harness/run_case.py --fault NETWORK_PARTITION --observe 30 --case
   python ops/lab/harness/run_case.py --fault NETWORK_PARTITION --observe 30 --case-root ops/lab/network_cases --import-db runtime/lab/network_partition.sqlite3 --require-signal
 }
 ```
+
+### 6.2.2 磁盘 IO 错误
+
+新增 `DISK_IO` 故障族的第一个 WSL 验证样本：
+
+- 注入：DataNode 数据卷只读挂载，重启 DataNode；
+- 关键证据：`DiskChecker`、`Directory is not writable`、`Too many failed volumes`；
+- 首例诊断：`DISK_IO`，状态 `DEGRADED_TEMPLATE`（离线无 LLM）。
+
+当前只完成 1 例验证，尚未批量补采，也未并入 v2 主表；`resources/knowledge/cards/disk-io-errors.json` 已补充知识卡，但冻结 RAG release 需要后续重建才可检索到该卡。
 
 ### 6.3 检测结果
 

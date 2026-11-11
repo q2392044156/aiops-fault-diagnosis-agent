@@ -73,6 +73,7 @@ class Hypothesis(StrictModel):
 
 # 变量说明：ROOT_CAUSE_CODES 是受控根因码枚举，与 real_incident_protocol 保持一致。
 ROOT_CAUSE_CODES = ("NN_AVAILABILITY", "NN_SAFE_MODE", "DN_HEARTBEAT", "DN_VOLUME",
+                    "DISK_IO",
                     "BLOCK_REPLICATION", "BLOCK_REPORT", "JOURNAL_QUORUM",
                     "HA_STANDBY_LAG", "CLIENT_WRITE_PIPELINE", "NETWORK_CONNECTIVITY",
                     "UNKNOWN")

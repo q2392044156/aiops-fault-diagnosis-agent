@@ -1,0 +1,39 @@
+{
+  "summary": {
+    "incidents": 1,
+    "eligible": 1,
+    "diagnosed": 1,
+    "top1": 0.0,
+    "top3": 0.0,
+    "top5": 0.0,
+    "mrr": 0.0,
+    "mttd_seconds": "N/A",
+    "top1_ci95": [
+      0.0,
+      0.7935
+    ],
+    "excluded": 0,
+    "exclusion_reasons": {},
+    "test": {
+      "n": 0,
+      "top1": "N/A",
+      "top1_ci95": null
+    }
+  },
+  "rows": [
+    {
+      "incident_id": "inc_wsl_disk_io_20261111093904_27fb",
+      "expected": null,
+      "rank": null,
+      "matched_by": null,
+      "split": "train",
+      "top1": false,
+      "top3": false,
+      "top5": false,
+      "mrr": 0.0,
+      "mttd_seconds": null,
+      "diagnosed": true
+    }
+  ],
+  "excluded": []
+}

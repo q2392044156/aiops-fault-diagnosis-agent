@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "doc_id": "disk-io-errors",
+  "root_cause_codes": [
+    "DISK_IO"
+  ],
+  "title": "HDFS DataNode 磁盘 IO 错误排查卡",
+  "category": "hdfs",
+  "content_origin": "original",
+  "component": [
+    "DataNode",
+    "NameNode"
+  ],
+  "product": "Apache Hadoop HDFS",
+  "version_scope": [
+    "3.3.5",
+    "3.3.6"
+  ],
+  "symptoms": [
+    "读写失败",
+    "Read-only file system",
+    "Input/output error"
+  ],
+  "evidence_required": [
+    "DataNode 磁盘错误日志",
+    "挂载选项",
+    "dmesg 或磁盘健康",
+    "故障时间窗"
+  ],
+  "risk_level": "medium",
+  "source_ids": [
+    "apache-hdfs-3.3.5"
+  ],
+  "maintained_at": "2026-11-11",
+  "author": "project",
+  "review_status": "self_reviewed",
+  "sections": [
+    {
+      "id": "overview",
+      "heading": "现象与边界",
+      "text": "DataNode 对本地卷读写失败，常见 Read-only file system、Input/output error、Too many failed volumes。该卡只帮助收集证据，不把磁盘异常直接称为唯一根因。"
+    },
+    {
+      "id": "evidence",
+      "heading": "所需证据",
+      "text": "收集 DataNode 日志中的卷路径、挂载选项、错误码、失败时间窗和同节点其他卷状态，并保留脱敏后的原始日志。"
+    },
+    {
+      "id": "steps",
+      "heading": "只读排查步骤",
+      "text": "1. 确认故障卷和挂载模式；2. 检查 DataNode 日志中的 IO 错误；3. 对比同节点其他卷；4. 检查系统 dmesg/磁盘健康；5. 记录影响范围，不自动修复。"
+    },
+    {
+      "id": "risk",
+      "heading": "风险与停止条件",
+      "text": "不要自动重新挂载、格式化或删除数据；涉及磁盘更换、权限和挂载变更必须走人工审批。"
+    }
+  ],
+  "license": "Apache-2.0"
+}

@@ -22,6 +22,10 @@ GOLD_PATTERNS = {
         r"connection timed out", r"no route to host", r"network is unreachable",
         r"connection reset", r"retrying connect", r"connection refused",
     ),
+    "DISK_IO": (
+        r"read-only file system", r"input/output error", r"too many failed volumes",
+        r"failed to add storage directory", r"diskchecker",
+    ),
 }
 
 
