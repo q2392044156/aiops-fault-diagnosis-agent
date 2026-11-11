@@ -263,21 +263,31 @@ Docker 原始 81 例中有 21 例卷故障注入没有产生信号，属于 inva
 - 关键证据：`Retrying connect`、`Connection timed out`、`No route to host`；
 - 有效性：必须观测到 `Retrying connect` 等信号，否则样本判 invalid。
 
-首例完整链路：
+21 例完整链路：
 
-```text
-1 个案例 / 19 个事件
-门禁 PASS
-事件 Top-1 = 1.0
-候选根因 = NETWORK_CONNECTIVITY
-```
+| 指标 | 结果 |
+| --- | --- |
+| 网络分区案例 | 21 |
+| PASS 事件 | 402 |
+| 事件 Top-1 | 400/402 = 99.5% |
+| 案例 Top-1 | 21/21 = 100% |
+| 证据充分 | 21/21 |
+| 引用覆盖 gold | 70.6% |
 
-这说明“注入 → 采集 → adapter → 门禁 → event → 证据 → RAG → 7 节点 → 报告”已经打通；当前样本量仍是 1，后续按计划补到 20–30 例，暂不计入 v2 149 例主表。
+说明：网络日志会反复输出 `Retrying connect`，证据选择按签名去重后只保留一条，因此行级召回率只有 0.3046；但每个案例至少有一条关键证据，案例级覆盖为 100%。这 21 例暂不计入 v2 149 例主表。
 
 运行：
 
 ```powershell
 python ops/lab/harness/run_case.py --fault NETWORK_PARTITION --observe 30 --case-root ops/lab/network_cases --require-signal
+```
+
+批量补采 20 例：
+
+```powershell
+1..20 | ForEach-Object {
+  python ops/lab/harness/run_case.py --fault NETWORK_PARTITION --observe 30 --case-root ops/lab/network_cases --import-db runtime/lab/network_partition.sqlite3 --require-signal
+}
 ```
 
 ### 6.3 检测结果

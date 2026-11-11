@@ -1,0 +1,35 @@
+{
+  "incident_id": "inc_lab_network_partition_20261111084059_5c6f",
+  "fault": "NETWORK_PARTITION",
+  "batch_id": null,
+  "event_id": null,
+  "diagnosis_id": null,
+  "report_id": null,
+  "cutoff_time": "2026-11-11T08:41:31.310433+00:00",
+  "mode": "cluster",
+  "import": {
+    "schema_version": 1,
+    "incident_id": "inc_lab_network_partition_20261111084059_5c6f",
+    "record_hash": "64801fcf9bd793bc5b4401d82f8ddb306b9a716849be83dd911113a49e4bee71",
+    "authorization_active": true,
+    "post_cutoff_evidence": 0,
+    "metric_eligibility": {
+      "schema_version": 1,
+      "incident_id": "inc_lab_network_partition_20261111084059_5c6f",
+      "root_cause_metrics": {
+        "eligible": true,
+        "value": "AVAILABLE",
+        "reason_codes": []
+      },
+      "mttd": {
+        "eligible": false,
+        "value_seconds": "N/A",
+        "reason_codes": [
+          "agent_detected_missing"
+        ]
+      }
+    },
+    "deduplicated": false,
+    "status": "ACTIVE"
+  }
+}

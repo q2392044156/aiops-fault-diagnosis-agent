@@ -1,0 +1,122 @@
+[aiops-lab-dn1]   getBlockURI()     = file:<:PATH:><:IP:>-1793205428863/current/finalized/subdir0/subdir0/<:BLOCK:> for deletion
+[aiops-lab-dn1] 2026-11-11 08:14:21 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-<:IP:>-1793205428863 blk_1073741944_1120 URI file:<:PATH:><:IP:>-1793205428863/current/finalized/subdir0/subdir0/<:BLOCK:>
+[aiops-lab-dn1] 2026-11-11 08:15:05 INFO  DataNode:750 - Receiving BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 src: /<:IP:> dest: /<:IP:>
+[aiops-lab-dn1] 2026-11-11 08:15:05 INFO  DataNode:934 - Received BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 src: /<:IP:> dest: /<:IP:> of size 18
+[aiops-lab-dn1] 2026-11-11 08:15:26 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741944_1120 replica FinalizedReplica, blk_1073741944_1120, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = <:PATH:>
+[aiops-lab-dn1]   getBlockURI()     = file:<:PATH:><:IP:>-1793205428863/current/finalized/subdir0/subdir0/<:BLOCK:> for deletion
+[aiops-lab-dn1] 2026-11-11 08:15:26 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-<:IP:>-1793205428863 blk_1073741944_1120 URI file:<:PATH:><:IP:>-1793205428863/current/finalized/subdir0/subdir0/<:BLOCK:>
+[aiops-lab-dn1] 2026-11-11 08:16:05 INFO  DataNode:750 - Receiving BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 src: /<:IP:> dest: /<:IP:>
+[aiops-lab-dn1] 2026-11-11 08:16:05 INFO  DataNode:934 - Received BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 src: /<:IP:> dest: /<:IP:> of size 18
+[aiops-lab-dn1] 2026-11-11 08:16:26 INFO  FsDatasetAsyncDiskService:244 - Scheduling blk_1073741944_1120 replica FinalizedReplica, blk_1073741944_1120, FINALIZED
+[aiops-lab-dn1]   getNumBytes()     = 18
+[aiops-lab-dn1]   getBytesOnDisk()  = 18
+[aiops-lab-dn1]   getVisibleLength()= 18
+[aiops-lab-dn1]   getVolume()       = <:PATH:>
+[aiops-lab-dn1]   getBlockURI()     = file:<:PATH:><:IP:>-1793205428863/current/finalized/subdir0/subdir0/<:BLOCK:> for deletion
+[aiops-lab-dn1] 2026-11-11 08:16:26 INFO  FsDatasetAsyncDiskService:353 - Deleted BP-466928225-<:IP:>-1793205428863 blk_1073741944_1120 URI file:<:PATH:><:IP:>-1793205428863/current/finalized/subdir0/subdir0/<:BLOCK:>
+[aiops-lab-dn2] 2026-11-11 08:12:28 INFO  VolumeScanner:402 - VolumeScanner(<:PATH:>, DS-6097625e-9011-49ed-8a3e-13b2da6b1d77): no suitable block pools found to scan.  Waiting 635085942 ms.
+[aiops-lab-dn2] 2026-11-11 08:12:28 WARN  DirectoryScanner:301 - dfs.datanode.directoryscan.throttle.limit.ms.per.sec set to value above 1000 ms/sec. Assuming default value of -1
+[aiops-lab-dn2] 2026-11-11 08:12:28 INFO  DirectoryScanner:330 - Periodic Directory Tree Verification scan starting in 19040002ms with interval of 21600000ms and throttle limit of -1ms/s
+[aiops-lab-dn2] 2026-11-11 08:12:28 INFO  DataNode:825 - Block pool BP-466928225-<:IP:>-1793205428863 (Datanode Uuid 6faafd61-4bb9-466d-a697-d572030217c7) service to namenode/<:IP:> beginning handshake with NN
+[aiops-lab-dn2] 2026-11-11 08:12:28 INFO  DataNode:853 - Block pool BP-466928225-<:IP:>-1793205428863 (Datanode Uuid 6faafd61-4bb9-466d-a697-d572030217c7) service to namenode/<:IP:> successfully registered with NN
+[aiops-lab-dn2] 2026-11-11 08:12:28 INFO  DataNode:674 - For namenode namenode/<:IP:> using BLOCKREPORT_INTERVAL of 21600000msecs CACHEREPORT_INTERVAL of 10000msecs Initial delay: 0msecs; heartBeatInterval=2000
+[aiops-lab-dn2] 2026-11-11 08:12:28 INFO  DataNode:1154 - Starting IBR Task Handler.
+[aiops-lab-dn2] 2026-11-11 08:12:28 INFO  DataNode:736 - After receiving heartbeat response, updating state of namenode namenode:9000 to active
+[aiops-lab-dn2] 2026-11-11 08:12:28 INFO  DataNode:456 - Successfully sent block report <:HEX:> with lease ID <:HEX:> to namenode: namenode/<:IP:>,  containing 1 storage report(s), of which we sent 1. The reports had 7 total blocks and used 1 RPC(s). This took 4 msecs to generate and 43 msecs for RPC and NN processing. Got back one command: FinalizeCommand/5.
+[aiops-lab-dn2] 2026-11-11 08:12:28 INFO  DataNode:768 - Got finalize command for block pool BP-466928225-<:IP:>-1793205428863
+[aiops-lab-dn2] 2026-11-11 08:13:03 INFO  DataNode:2682 - DatanodeRegistration(<:IP:>, datanodeUuid=6faafd61-4bb9-466d-a697-d572030217c7, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-628267a0-1629-4da5-b1ad-47eaff1f3875;nsid=66690671;c=1793205428863) Starting thread to transfer BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 to <:IP:>
+[aiops-lab-dn2] 2026-11-11 08:13:03 INFO  DataNode:2903 - DataTransfer, at datanode2:9866: Transmitted BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 (numBytes=18) to /<:IP:>
+[aiops-lab-dn2] 2026-11-11 08:14:19 INFO  DataNode:2682 - DatanodeRegistration(<:IP:>, datanodeUuid=6faafd61-4bb9-466d-a697-d572030217c7, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-628267a0-1629-4da5-b1ad-47eaff1f3875;nsid=66690671;c=1793205428863) Starting thread to transfer BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 to <:IP:>
+[aiops-lab-dn2] 2026-11-11 08:14:19 INFO  DataNode:2903 - DataTransfer, at datanode2:9866: Transmitted BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 (numBytes=18) to /<:IP:>
+[aiops-lab-dn2] 2026-11-11 08:15:05 INFO  DataNode:2682 - DatanodeRegistration(<:IP:>, datanodeUuid=6faafd61-4bb9-466d-a697-d572030217c7, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-628267a0-1629-4da5-b1ad-47eaff1f3875;nsid=66690671;c=1793205428863) Starting thread to transfer BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 to <:IP:>
+[aiops-lab-dn2] 2026-11-11 08:15:05 INFO  DataNode:2903 - DataTransfer, at datanode2:9866: Transmitted BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 (numBytes=18) to /<:IP:>
+[aiops-lab-dn2] 2026-11-11 08:16:05 INFO  DataNode:2682 - DatanodeRegistration(<:IP:>, datanodeUuid=6faafd61-4bb9-466d-a697-d572030217c7, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-628267a0-1629-4da5-b1ad-47eaff1f3875;nsid=66690671;c=1793205428863) Starting thread to transfer BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 to <:IP:>
+[aiops-lab-dn2] 2026-11-11 08:16:05 INFO  DataNode:2903 - DataTransfer, at datanode2:9866: Transmitted BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 (numBytes=18) to /<:IP:>
+[aiops-lab-dn2] 2026-11-11 08:31:48 INFO  DataNode:2682 - DatanodeRegistration(<:IP:>, datanodeUuid=6faafd61-4bb9-466d-a697-d572030217c7, infoPort=9864, infoSecurePort=0, ipcPort=9867, storageInfo=lv=-57;cid=CID-628267a0-1629-4da5-b1ad-47eaff1f3875;nsid=66690671;c=1793205428863) Starting thread to transfer BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 to <:IP:>
+[aiops-lab-dn2] 2026-11-11 08:31:48 INFO  DataNode:2903 - DataTransfer, at datanode2:9866: Transmitted BP-466928225-<:IP:>-1793205428863:blk_1073741944_1120 (numBytes=18) to /<:IP:>
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  DataNode:51 - STARTUP_MSG: 
+[aiops-lab-dn3] /************************************************************
+[aiops-lab-dn3] STARTUP_MSG: Starting DataNode
+[aiops-lab-dn3] STARTUP_MSG:   host = datanode3/<:IP:>
+[aiops-lab-dn3] STARTUP_MSG:   args = []
+[aiops-lab-dn3] STARTUP_MSG:   version = 3.3.6
+[aiops-lab-dn3] STARTUP_MSG:   classpath = <:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:><:IP:>.jar:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>:<:PATH:>
+[aiops-lab-dn3] STARTUP_MSG:   build = https:/<:PATH:> -r 1be78238728da9266a4f88195058f08fd012bf9c; compiled by 'ubuntu' on 2023-06-18T08:22Z
+[aiops-lab-dn3] STARTUP_MSG:   java = 1.8.0_212
+[aiops-lab-dn3] ************************************************************/
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  DataNode:51 - registered UNIX signal handlers for [TERM, HUP, INT]
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  ThrottledAsyncChecker:137 - Scheduling a check for [DISK]file:<:PATH:>
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  MetricsConfig:120 - Loaded properties from hadoop-metrics2.properties
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  MetricsSystemImpl:378 - Scheduled Metric snapshot period at 10 second(s).
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  MetricsSystemImpl:191 - DataNode metrics system started
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  Util:395 - dfs.datanode.fileio.profiling.sampling.percentage set to 0. Disabling file IO profiling
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  BlockScanner:201 - Initialized block scanner with targetBytesPerSec 1048576
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  DataNode:563 - Configured hostname is datanode3
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  Util:395 - dfs.datanode.fileio.profiling.sampling.percentage set to 0. Disabling file IO profiling
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  DataNode:1714 - Starting DataNode with maxLockedMemory = 0
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  DataNode:1477 - Opened streaming server at /<:IP:>
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  DataNode:93 - Balancing bandwidth is 104857600 bytes/s
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  DataNode:94 - Number threads for balancing is 100
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  log:170 - Logging initialized @817ms to org.eclipse.jetty.util.log.Slf4jLog
+[aiops-lab-dn3] 2026-11-11 08:31:24 WARN  AuthenticationFilter:240 - Unable to initialize FileSignerSecretProvider, falling back to use random secrets. Reason: Could not read signature secret file: /root/hadoop-http-auth-signature-secret
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  HttpRequestLog:82 - Http request log for http.requests.datanode is not defined
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  HttpServer2:1124 - Added global filter 'safety' (class=org.apache.hadoop.http.HttpServer2$QuotingInputFilter)
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  HttpServer2:1097 - Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context datanode
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  HttpServer2:1107 - Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context static
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  HttpServer2:1107 - Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context logs
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  HttpServer2:1357 - Jetty bound to port 39875
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  Server:375 - jetty-9.4.51.v20230217; built: 2023-02-17T08:19:37.309Z; git: b45c405e4544384de066f814ed42ae3dceacdd49; jvm 1.8.0_212-b04
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  session:334 - DefaultSessionIdManager workerName=node0
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  session:339 - No SessionScavenger set, using defaults
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  session:132 - node0 Scavenging every 600000ms
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  ContextHandler:921 - Started o.e.j.s.ServletContextHandler@61eaec38{logs,/logs,file:///tmp/logs/,AVAILABLE}
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  ContextHandler:921 - Started o.e.j.s.ServletContextHandler@616ac46a{static,/static,file://<:PATH:>/,AVAILABLE}
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  ContextHandler:921 - Started o.e.j.w.WebAppContext@29ca3d04{datanode,/,file://<:PATH:>/,AVAILABLE}{file:<:PATH:>}
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  AbstractConnector:333 - Started ServerConnector@7b8b43c7{HTTP/1.1, (http/1.1)}{localhost:39875}
+[aiops-lab-dn3] 2026-11-11 08:31:24 INFO  Server:415 - Started @1014ms
+[aiops-lab-dn3] 2026-11-11 08:31:24 WARN  DatanodeHttpServer:75 - Got null for restCsrfPreventionFilter - will not do any filtering.
+[aiops-lab-dn3] 2026-11-11 08:31:24 WARN  MacAddressUtil:133 - Failed to find a usable hardware address from the network interfaces; using random bytes: 78:80:a3:a6:7d:45:4c:0d
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  DatanodeHttpServer:318 - Listening HTTP traffic on /<:IP:>
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  JvmPauseMonitor:188 - Starting JVM pause monitor
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  DataNode:1742 - dnUserName = root
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  DataNode:1743 - supergroup = supergroup
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  CallQueueManager:90 - Using callQueue: class java.util.concurrent.LinkedBlockingQueue, queueCapacity: 1000, scheduler: class org.apache.hadoop.ipc.DefaultRpcScheduler, ipcBackoff: false.
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  Server:1287 - Listener at <:IP:>
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  Server:1323 - Starting Socket Reader #1 for port 9867
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  DataNode:1363 - Opened IPC server at /<:IP:>
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  DataNode:149 - Refresh request received for nameservices: null
+[aiops-lab-dn3] 2026-11-11 08:31:25 WARN  DFSUtilClient:443 - Namenode for null remains unresolved for ID null. Check your hdfs-site.xml file to ensure namenodes are configured properly.
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  DataNode:210 - Starting BPOfferServices for nameservices: <default>
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  DataNode:884 - Block pool <registering> (Datanode Uuid unassigned) service to namenode:9000 starting to offer service
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  Server:1562 - IPC Server Responder: starting
+[aiops-lab-dn3] 2026-11-11 08:31:25 INFO  Server:1402 - IPC Server listener on 9867: starting
+[aiops-lab-dn3] 2026-11-11 08:31:26 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 0 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:27 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 1 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:28 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 2 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:29 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 3 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:30 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 4 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:31 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 5 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:32 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 6 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:33 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 7 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:34 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 8 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:35 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 9 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:35 WARN  DataNode:267 - Problem connecting to server: namenode:9000
+[aiops-lab-dn3] 2026-11-11 08:31:41 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 0 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:45 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 1 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:46 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 2 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:47 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 3 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-dn3] 2026-11-11 08:31:48 INFO  Client:950 - Retrying connect to server: namenode:9000. Already tried 4 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+[aiops-lab-namenode] 2026-11-11 08:31:18 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=safemode_get	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-11 08:31:18 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-11 08:31:18 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-11 08:31:18 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-11 08:31:18 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-11 08:31:18 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=datanodeReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-11 08:31:18 INFO  audit:8574 - allowed=true	ugi=root (auth:SIMPLE)	ip=/<:IP:>	cmd=slowDataNodesReport	src=null	dst=null	perm=null	proto=rpc
+[aiops-lab-namenode] 2026-11-11 08:31:47 INFO  StateChange:880 - BLOCK* removeDeadDatanode: lost heartbeat from <:IP:>, removeBlocksFromBlockMap true
+[aiops-lab-namenode] 2026-11-11 08:31:47 INFO  NetworkTopology:229 - Removing a node: /default-rack/<:IP:>
+[aiops-lab-namenode] 2026-11-11 08:31:48 INFO  BlockPlacementPolicy:912 - Not enough replicas was chosen. Reason: {NO_REQUIRED_STORAGE_TYPE=1}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "incident_id": "inc_lab_network_partition_20261111083203_a6fd",
+  "cluster_alias": "cluster_lab_a1",
+  "product_version": "3.3.6",
+  "fault_family": "network_partition",
+  "authorization": {
+    "authorization_id": "auth_lab_001",
+    "approved_at": "2026-11-11T07:32:51.883050Z",
+    "retention_until": "2026-12-11T08:32:51.883050Z",
+    "deletion_contact": "lab@example.invalid"
+  },
+  "timestamps": {
+    "fault_start": "2026-11-11T08:32:05.581547Z",
+    "first_observable_signal": "2026-11-11T08:32:15.300637Z",
+    "agent_detected": null,
+    "human_confirmed": "2026-11-11T08:33:01.877936Z",
+    "recovered": "2026-11-11T08:32:51.877936Z",
+    "timezone_source": "Asia/Shanghai (lab-ntp)"
+  },
+  "diagnosis_snapshot": {
+    "cutoff_time": "2026-11-11T08:32:35.581547Z",
+    "log_refs": [
+      {
+        "ref_id": "log_inc_lab_network_partition_20261111083203_a6fd",
+        "content_sha256": "ef5854c83f8b0f226134ea68dfe439bdf16aa86b6c8c9f283ef91d3f15b3f631",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-11-11T08:32:35.581547Z"
+      }
+    ],
+    "metric_refs": [
+      {
+        "ref_id": "metrics_inc_lab_network_partition_20261111083203_a6fd",
+        "content_sha256": "1d26a2bbbab89f0a84ddcdb64fa70e54632823795fea92e2aca61ebf4bfc69ac",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-11-11T08:32:35.581547Z"
+      }
+    ],
+    "ticket_refs": [
+      {
+        "ref_id": "ticket_inc_lab_network_partition_20261111083203_a6fd",
+        "content_sha256": "1476607b784d89bafdf7ede7857f7e8d2d225dee16e666f4fa915f7e7fe4fbd9",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-11-11T08:32:35.581547Z"
+      }
+    ]
+  },
+  "labels": {
+    "root_cause_code": "NETWORK_CONNECTIVITY",
+    "confidence": "confirmed",
+    "review_status": "reviewed",
+    "evidence_refs": [
+      "log_inc_lab_network_partition_20261111083203_a6fd",
+      "metrics_inc_lab_network_partition_20261111083203_a6fd"
+    ],
+    "creator_id": "lab-harness",
+    "reviewer_id": "lab-reviewer",
+    "adjudicator_id": null
+  }
+}
