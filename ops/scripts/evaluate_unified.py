@@ -11,17 +11,16 @@ from pathlib import Path
 
 # 变量说明：BATCH 映射批次到 gates、数据库和案例目录。
 BATCH = {
-    "docker": ("resources/evaluation/lab/p2_events_docker_valid_gates.json",
-               "runtime/lab/p2_events_docker.sqlite3", "ops/lab/real_batch_cases"),
-    "wsl": ("resources/evaluation/lab/p1_events_wsl_gates.json",
-            "runtime/lab/p1_events_wsl.sqlite3", "ops/lab/wsl_cases"),
-    "recaptured": ("resources/evaluation/lab/recaptured_final_gates.json",
-                   "runtime/lab/recaptured_final_run.sqlite3",
-                   "ops/lab/recaptured_cases/wsl_volume"),
-    "network": ("resources/evaluation/lab/network_21_gates.json",
-                "runtime/lab/network_21_run.sqlite3", "ops/lab/network_cases"),
-    "disk_io": ("resources/evaluation/lab/disk_io_full_gates.json",
-                "runtime/lab/disk_io_full4.sqlite3", "ops/lab/disk_io_cases"),
+    "docker": ("resources/evaluation/unified/docker_gates.json",
+               "runtime/unified/docker_run.sqlite3", "runtime/unified/docker_cases"),
+    "wsl": ("resources/evaluation/unified/wsl_gates.json",
+            "runtime/unified/wsl_run.sqlite3", "runtime/unified/wsl_cases"),
+    "recaptured": ("resources/evaluation/unified/wsl_gates.json",
+                   "runtime/unified/wsl_run.sqlite3", "runtime/unified/wsl_cases"),
+    "network": ("resources/evaluation/unified/docker_gates.json",
+                "runtime/unified/docker_run.sqlite3", "runtime/unified/docker_cases"),
+    "disk_io": ("resources/evaluation/unified/wsl_gates.json",
+                "runtime/unified/wsl_run.sqlite3", "runtime/unified/wsl_cases"),
 }
 
 
@@ -48,12 +47,18 @@ def _load_batches(root):
 
 
 # 方法说明：_evaluate 计算案例/事件指标与混淆矩阵。
-def _evaluate(rows, cache):
+def _evaluate(rows, cache, merge_storage=False):
+    # 方法说明：norm 在合并模式下把卷/磁盘统一为存储故障。
+    def norm(code):
+        if merge_storage and code in ("DN_VOLUME", "DISK_IO"):
+            return "STORAGE_FAILURE"
+        return code
+
     per_family = {}
     confusion = {}
     details = []
     for row in rows:
-        family = row["family"]
+        family = "storage" if merge_storage and row["family"] in ("volume", "disk_io") else row["family"]
         gate_rows, conn, _ = cache[row["batch"]]
         gate = next((item for item in gate_rows if item["incident_id"] == row["case_id"]), None)
         event_ranks = []
@@ -73,7 +78,7 @@ def _evaluate(rows, cache):
                 event_ranks.append(rank)
         valid = [p for p in preds if p]
         pred = Counter(valid).most_common(1)[0][0] if valid else None
-        hit = pred == row["root_cause_code"]
+        hit = norm(pred) == norm(row["root_cause_code"])
         per_family.setdefault(family, {"cases": 0, "case_hits": 0,
                                        "events": 0, "event_hits": 0})
         status = per_family[family]
@@ -81,7 +86,7 @@ def _evaluate(rows, cache):
         status["case_hits"] += int(hit)
         status["events"] += len(event_ranks)
         status["event_hits"] += sum(1 for rank in event_ranks if rank == 1)
-        confusion.setdefault(row["root_cause_code"], Counter())[pred] += 1
+        confusion.setdefault(norm(row["root_cause_code"]), Counter())[norm(pred)] += 1
         details.append({"case_id": row["case_id"], "family": family, "source": row["source"],
                         "true": row["root_cause_code"], "pred": pred, "hit": hit,
                         "event_count": len(event_ranks),
@@ -117,14 +122,17 @@ def main(argv=None):
     parser.add_argument("--split", required=True)
     parser.add_argument("--root", default=".")
     parser.add_argument("--output", required=True)
+    parser.add_argument("--merge-storage", action="store_true")
     args = parser.parse_args(argv)
     root = Path(args.root)
     manifest = json.loads(Path(args.manifest).read_text(encoding="utf-8"))
     split = json.loads(Path(args.split).read_text(encoding="utf-8"))
     rows = {row["case_id"]: row for row in manifest["cases"]}
     cache = _load_batches(root)
-    test = _evaluate([rows[case] for case in split["test"]], cache)
-    train = _evaluate([rows[case] for case in split["train"]], cache)
+    test = _evaluate([rows[case] for case in split["test"]], cache,
+                     merge_storage=args.merge_storage)
+    train = _evaluate([rows[case] for case in split["train"]], cache,
+                      merge_storage=args.merge_storage)
     payload = {"dataset": "unified_5_fault", "split_hash": split["split_hash"],
                "test": test, "train": train}
     payload["test"].pop("details", None)
