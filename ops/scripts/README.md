@@ -28,6 +28,9 @@
 | `freeze_v2_split.py` | 冻结 v2 的批次/分层 train-test 切分。 | `_cases`、`main` |
 | `freeze_network_split.py` | 冻结网络分区/磁盘 IO 的独立 train-test 切分。 | `main` |
 | `freeze_cross_batch.py` | 冻结网络分区+磁盘 IO 的跨批次测试集。 | `main` |
+| `build_unified_manifest.py` | 构建 5 类故障统一 manifest。 | `_rows`、`main` |
+| `freeze_unified_split.py` | 按故障族+来源冻结统一切分。 | `_pick`、`main` |
+| `evaluate_unified.py` | 统一 5 类指标与混淆矩阵。 | `_wilson`、`_evaluate`、`main` |
 | `evaluate_confusion.py` | 生成网络分区与心跳丢失的混淆矩阵。 | `_predict`、`_features`、`main` |
 | `evaluate_disk_confusion.py` | 生成磁盘 IO 与卷故障的混淆矩阵。 | `_predict`、`_rows`、`main` |
 | `freeze_detector.py` | 冻结检测器并生成可校验的 release 清单。 | `_sha`、`main` |
