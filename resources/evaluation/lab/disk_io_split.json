@@ -1,0 +1,32 @@
+{
+  "dataset": "network_partition",
+  "split": "frozen_hash",
+  "test": [
+    "inc_wsl_disk_io_20261111103232_1f3e",
+    "inc_wsl_disk_io_20261111095616_aab5",
+    "inc_wsl_disk_io_20261111093904_27fb",
+    "inc_wsl_disk_io_20261111101931_24ba",
+    "inc_wsl_disk_io_20261111102211_75b5",
+    "inc_wsl_disk_io_20261111100914_8546"
+  ],
+  "train": [
+    "inc_wsl_disk_io_20261111103506_82cc",
+    "inc_wsl_disk_io_20261111095849_29a7",
+    "inc_wsl_disk_io_20261111100635_796c",
+    "inc_wsl_disk_io_20261111102718_4f7c",
+    "inc_wsl_disk_io_20261111100129_962b",
+    "inc_wsl_disk_io_20261111101148_ae38",
+    "inc_wsl_disk_io_20261111095343_a9dd",
+    "inc_wsl_disk_io_20261111101421_630e",
+    "inc_wsl_disk_io_20261111103746_a26f",
+    "inc_wsl_disk_io_20261111095055_1759",
+    "inc_wsl_disk_io_20261111100402_d90d",
+    "inc_wsl_disk_io_20261111102445_075d",
+    "inc_wsl_disk_io_20261111102958_8c73",
+    "inc_wsl_disk_io_20261111101658_da90"
+  ],
+  "test_count": 6,
+  "train_count": 14,
+  "test_ratio": 0.3,
+  "split_hash": "fcea7c3429ec202a1db7f98681b16720176b7a526404047d1c81e813469e8302"
+}

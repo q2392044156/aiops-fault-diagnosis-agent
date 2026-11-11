@@ -35,7 +35,7 @@ HDFS 故障排查通常面临三个问题：
 | 链路 | 目标 | 输入 | 输出 |
 | --- | --- | --- | --- |
 | 离线数据流程 | 产生可靠 event | 故障注入、正常流量、日志、指标、incident | 窗口、门禁结果、event、评测结果 |
-| 在线诊断流程 | 把 event 诊断成报告 | event、证据日志、104 卡知识库 | 候选根因、证据引用、严格 JSON 报告 |
+| 在线诊断流程 | 把 event 诊断成报告 | event、证据日志、105 卡知识库 | 候选根因、证据引用、严格 JSON 报告 |
 
 核心设计：
 
@@ -43,7 +43,7 @@ HDFS 故障排查通常面临三个问题：
 - 滑动窗口统一：**60 秒 / 10 秒步长 / 每组件 / 最多 500 行**；
 - 一个 PASS 窗口创建一个 event，而不是一个案例只建一个 event；
 - 证据选择不是固定截断，而是按信号、严重度、模板稀有度、组件和时间评分，再做签名去重和 token 预算；
-- RAG 使用 104 张 HDFS 运维卡，BM25 + BGE + RRF 混合召回；
+- RAG 使用 105 张 HDFS 运维卡，BM25 + BGE + RRF 混合召回；
 - 诊断是固定 7 节点状态机，不是自由 Agent 循环；
 - 报告必须通过 Pydantic Schema、根因码和引用白名单校验。
 
@@ -85,7 +85,7 @@ src/
 │  └─ evaluation/              # 检测/证据评测、红队、轨迹评测
 ├─ online/                     # 在线诊断流程
 │  ├─ diagnosis/               # 7 节点引擎、evidence、tools、query_v11
-│  ├─ knowledge/               # 104 卡 RAG、BM25/BGE/RRF、release
+│  ├─ knowledge/               # 105 卡 RAG、BM25/BGE/RRF、release
 │  └─ reporting/               # 报告 Schema 入口
 └─ aiops_diag/
    ├─ common.py                # 哈希、配置、序列化等共享工具
@@ -104,7 +104,7 @@ src/
 | `src/offline/detection` | 按来源 Drain3 模板、severity-first 门禁、事件构建 |
 | `src/offline/evaluation` | 离线评测、红队、轨迹与框架对照 |
 | `src/online/diagnosis` | 7 节点诊断、结构化证据选择、工具调用 |
-| `src/online/knowledge` | 104 卡知识库、混合检索、知识 release |
+| `src/online/knowledge` | 105 卡知识库、混合检索、知识 release |
 | `src/online/reporting` | 报告 Schema 入口 |
 | `src/aiops_diag/platform` | API、worker、SQLite、审批、审计、MCP |
 | `ops/lab` | Docker/WSL 实验台、案例采集、批量重放 |
@@ -176,7 +176,7 @@ REPORT_VALIDATED
 | VALIDATED | 校验事件、诊断任务、预算和状态 |
 | DETECTED | 读取异常分数、窗口、组件等元信息 |
 | EVIDENCE_COLLECTED | 查询窗口日志，做结构化证据选择 |
-| RETRIEVED | 拼查询，执行 104 卡 RAG，合并日志/文档证据 |
+| RETRIEVED | 拼查询，执行 105 卡 RAG，合并日志/文档证据 |
 | HYPOTHESES_RANKED | 按信号、先验和证据排序候选根因 |
 | REPORT_VALIDATED | Schema、引用、根因码、动作安全校验，保存报告 |
 
@@ -315,10 +315,20 @@ python ops/lab/harness/run_case.py --fault NETWORK_PARTITION --observe 30 --case
 - 注入：DataNode 数据卷只读挂载，重启 DataNode；
 - 关键证据：`DiskChecker`、`Directory is not writable`、`Too many failed volumes`；
 - 20 例均有有效注入信号；
-- 19 例已有初始诊断报告，候选根因均为 `DISK_IO`；
-- 证据充分 20/20，50 行证据召回 1.0。
+- 完整门禁重放：40 个 PASS 事件，事件 Top-1 40/40 = 100%；
+- 案例 Top-1 20/20 = 100%；
+- 证据充分 20/20，50 行证据召回 1.0；
+- 引用覆盖 gold 120/120 = 100%；
+- 磁盘 IO vs 卷故障混淆矩阵：磁盘 20/20、卷 38/38，误判 0。
 
-当前这 20 例作为独立磁盘 IO 批次，尚未并入 v2 主表；`resources/knowledge/cards/disk-io-errors.json` 已补充知识卡，但冻结 RAG release 还没有重建，因此诊断主要依赖日志信号和 log-code fallback。
+冻结切分：
+
+| 集合 | 案例 | 事件 | 事件 Top-1 | 案例 Top-1 |
+| --- | --- | --- | --- | --- |
+| test | 6 | 12 | 12/12 = 100% | 6/6 |
+| train | 14 | 28 | 28/28 = 100% | 14/14 |
+
+知识库已重建：105 张卡、155 个固定 chunk，`disk-io-errors` 卡已进入冻结 release。当前这 20 例作为独立磁盘 IO 批次，尚未并入 v2 主表。
 
 ### 6.3 检测结果
 
@@ -507,7 +517,7 @@ DEEPSEEK_API_KEY=...
 | `resources/configs/rag.yaml` | BM25/BGE 权重、Top-K、RRF 参数 |
 | `resources/configs/service_v12_rc1.yaml` | API/worker/UI 服务配置 |
 | `resources/configs/release.yaml` | 发布和冻结配置 |
-| `resources/knowledge/` | 104 卡知识库和 chunk 元数据 |
+| `resources/knowledge/` | 105 卡知识库和 chunk 元数据 |
 | `resources/evaluation/` | 冻结评测协议与结果 |
 | `artifacts/` | 检测器、模板、RAG release（本地生成，不提交） |
 | `.env` | 本地密钥（已忽略） |
@@ -657,7 +667,7 @@ python ops/scripts/freeze_v2_split.py   --output resources/evaluation/lab/v2_spl
    149 例是实验室注入数据，不是生产工单；不能把 99.33% 当成线上准确率。
 
 2. **故障族仍然有限**  
-   只覆盖卷、心跳、安全模式；没有网络分区、磁盘 IO、HA、block 损坏和多故障叠加。
+   v2 主表覆盖卷、心跳、安全模式；另有独立的网络分区 21 例、磁盘 IO 20 例批次。还没有 HA、block 损坏和多故障叠加。
 
 3. **Docker 21 例被隔离**  
    不是模型失败，是注入无效；v2 用 WSL 补采替代。

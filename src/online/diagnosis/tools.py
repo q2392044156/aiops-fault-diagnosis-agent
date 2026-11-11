@@ -191,10 +191,13 @@ class AgentTools:
                                            item[0]))
         doc_evidence = [document for _, document in ordered]
         hypotheses = []
-        # 知识库尚未覆盖某根因码时，不能让日志信号被其他码卡淹没。
+        # 知识卡和日志码同时存在时，让命中的根因码卡排在前面。
         priority = ("DISK_IO", "NETWORK_CONNECTIVITY", "NN_SAFE_MODE",
                     "DN_VOLUME", "DN_HEARTBEAT")
         code_hint = next((code for code in priority if code in matched), None)
+        if code_hint:
+            doc_evidence = sorted(
+                doc_evidence, key=lambda doc: 0 if doc.get("root_cause_code") == code_hint else 1)
         if code_hint and not any(document.get("root_cause_code") == code_hint
                                  for document in doc_evidence[:5]):
             support = [row["evidence_id"] for row in log_evidence[:12]]
@@ -208,7 +211,7 @@ class AgentTools:
                 "support_score": min(1.0, 0.45 + 0.05 * len(support)),
                 "confidence_level": "medium" if len(support) >= 2 else "low",
             })
-        for index, document in enumerate(doc_evidence[:5], 1):
+        for index, document in enumerate(doc_evidence[:max(0, 5 - len(hypotheses))], 1):
             component = document.get("component") or (components[0] if components else None)
             support = [document["evidence_id"]]
             support.extend(row["evidence_id"] for row in log_evidence

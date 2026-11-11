@@ -1,0 +1,307 @@
+{
+  "rows": [
+    {
+      "case": "inc_wsl_disk_io_20261111093904_27fb",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111095055_1759",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111095343_a9dd",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111095616_aab5",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111095849_29a7",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111100129_962b",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111100402_d90d",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111100635_796c",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111100914_8546",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111101148_ae38",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111101421_630e",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111101658_da90",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111101931_24ba",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111102211_75b5",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111102445_075d",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111102718_4f7c",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111102958_8c73",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111103232_1f3e",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111103506_82cc",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_disk_io_20261111103746_a26f",
+      "true": "DISK_IO",
+      "pred": "DISK_IO"
+    },
+    {
+      "case": "inc_wsl_volume_20261028172557_b263",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028172753_163c",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028172759_14c3",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028172805_892b",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028172811_4591",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028173822_bd33",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028174029_8c94",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028174238_5e1a",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028174449_1410",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028174657_049f",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028174902_59c4",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028175108_84ce",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028175316_2cfd",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028175523_8b19",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028175730_06f7",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028175939_1bd5",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028180147_050f",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028180355_74ec",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261028180603_05fc",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023705_8181",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023717_2944",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023728_878b",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023739_2e24",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023750_4b46",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023802_3461",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023813_a665",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023825_e77b",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023838_3aa2",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023850_3b7c",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029023901_1529",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029024033_c77b",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029043753_e751",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029043808_21ee",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029043823_00df",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029043838_c2a8",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029043853_8867",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029043909_6208",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    },
+    {
+      "case": "inc_wsl_volume_20261029051043_1752",
+      "true": "DN_VOLUME",
+      "pred": "DN_VOLUME"
+    }
+  ],
+  "matrix": {
+    "DISK_IO": {
+      "DISK_IO": 20,
+      "DN_VOLUME": 0,
+      "null": 0
+    },
+    "DN_VOLUME": {
+      "DISK_IO": 0,
+      "DN_VOLUME": 38,
+      "null": 0
+    }
+  },
+  "misclassified": []
+}
