@@ -1,0 +1,30 @@
+{
+  "incident_id": "inc_wsl_disk_io_20261111101148_ae38",
+  "batch_id": "bat_9bbfe65bfdad87ae645b488a",
+  "event_id": "evt_28cf90e87ce85132e712aa54",
+  "diagnosis_id": "dia_742b8db271c6d23689547628",
+  "report_id": "irpt_2767b3ac2a9a79ea6234392f",
+  "agent_detected": "2026-11-11T10:14:01.858214+00:00",
+  "mode": "wsl",
+  "gate_decision": "PASS",
+  "gate_score": 1.0,
+  "gate_reason": "import",
+  "events": [
+    {
+      "incident_id": "inc_wsl_disk_io_20261111101148_ae38",
+      "batch_id": "bat_9bbfe65bfdad87ae645b488a",
+      "event_id": "evt_28cf90e87ce85132e712aa54",
+      "diagnosis_id": "dia_742b8db271c6d23689547628",
+      "report_id": "irpt_2767b3ac2a9a79ea6234392f",
+      "agent_detected": "2026-11-11T10:14:01.858214+00:00",
+      "mode": "lab-ingest",
+      "gate_decision": "PASS",
+      "gate_score": 1.0,
+      "gate_reason": "import"
+    }
+  ],
+  "fault": "DISK_IO",
+  "live_recovered": false,
+  "injection_ok": true,
+  "imported": "ACTIVE"
+}

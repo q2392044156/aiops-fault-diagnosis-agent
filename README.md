@@ -310,13 +310,15 @@ python ops/lab/harness/run_case.py --fault NETWORK_PARTITION --observe 30 --case
 
 ### 6.2.2 磁盘 IO 错误
 
-新增 `DISK_IO` 故障族的第一个 WSL 验证样本：
+新增 `DISK_IO` 故障族的 20 例 WSL 验证样本：
 
 - 注入：DataNode 数据卷只读挂载，重启 DataNode；
 - 关键证据：`DiskChecker`、`Directory is not writable`、`Too many failed volumes`；
-- 首例诊断：`DISK_IO`，状态 `DEGRADED_TEMPLATE`（离线无 LLM）。
+- 20 例均有有效注入信号；
+- 19 例已有初始诊断报告，候选根因均为 `DISK_IO`；
+- 证据充分 20/20，50 行证据召回 1.0。
 
-当前只完成 1 例验证，尚未批量补采，也未并入 v2 主表；`resources/knowledge/cards/disk-io-errors.json` 已补充知识卡，但冻结 RAG release 需要后续重建才可检索到该卡。
+当前这 20 例作为独立磁盘 IO 批次，尚未并入 v2 主表；`resources/knowledge/cards/disk-io-errors.json` 已补充知识卡，但冻结 RAG release 还没有重建，因此诊断主要依赖日志信号和 log-code fallback。
 
 ### 6.3 检测结果
 

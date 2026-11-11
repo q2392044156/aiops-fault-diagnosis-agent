@@ -1,0 +1,15 @@
+{
+  "dataset": "disk_io",
+  "cases": 20,
+  "reports": 19,
+  "case_top1": 19,
+  "case_top1_rate": 1.0,
+  "evidence_sufficient": 20,
+  "evidence_sufficient_rate": 1.0,
+  "evidence_recall_50": 1.0,
+  "notes": [
+    "one case has no map/report yet",
+    "not merged into v2",
+    "RAG release not rebuilt"
+  ]
+}
