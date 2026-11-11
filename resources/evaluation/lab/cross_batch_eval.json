@@ -1,0 +1,31 @@
+{
+  "dataset": "cross_batch_network_disk",
+  "network": {
+    "events": 285,
+    "event_top1": 283,
+    "event_top1_rate": 0.993,
+    "event_top3": 283,
+    "event_top3_rate": 0.993,
+    "event_mrr": 0.993,
+    "incidents": 15,
+    "incident_any_top1": 15,
+    "incident_any_top1_rate": 1.0
+  },
+  "disk": {
+    "events": 30,
+    "event_top1": 30,
+    "event_top1_rate": 1.0,
+    "event_top3": 30,
+    "event_top3_rate": 1.0,
+    "event_mrr": 1.0,
+    "incidents": 15,
+    "incident_any_top1": 15,
+    "incident_any_top1_rate": 1.0
+  },
+  "events": 315,
+  "event_top1": 313,
+  "cases": 30,
+  "case_top1": 30,
+  "event_top1_rate": 0.9937,
+  "case_top1_rate": 1.0
+}

@@ -14,6 +14,7 @@ def main(argv=None):
     parser.add_argument("--cases", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--test-ratio", type=float, default=0.3)
+    parser.add_argument("--test-count", type=int, default=None)
     args = parser.parse_args(argv)
     cases = []
     for path in sorted(Path(args.cases).glob("*")):
@@ -24,7 +25,9 @@ def main(argv=None):
                       "root_cause_code": incident["labels"]["root_cause_code"]})
     ranked = sorted(cases, key=lambda row: hashlib.sha256(
         row["incident_id"].encode("utf-8")).hexdigest())
-    test_count = max(1, round(len(ranked) * args.test_ratio))
+    test_count = (args.test_count if args.test_count is not None
+                  else max(1, round(len(ranked) * args.test_ratio)))
+    test_count = min(max(1, test_count), len(ranked) - 1)
     test = ranked[:test_count]
     train = ranked[test_count:]
     payload = {"dataset": "network_partition", "split": "frozen_hash",

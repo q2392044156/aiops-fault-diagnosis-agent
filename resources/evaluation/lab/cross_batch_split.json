@@ -1,0 +1,40 @@
+{
+  "dataset": "cross_batch_network_disk",
+  "split": "frozen_batch",
+  "network_test": [
+    "inc_lab_network_partition_20261111083833_efc5",
+    "inc_lab_network_partition_20261111083656_7265",
+    "inc_lab_network_partition_20261111084148_10df",
+    "inc_lab_network_partition_20261111084059_5c6f",
+    "inc_lab_network_partition_20261111084502_f232",
+    "inc_lab_network_partition_20261111084414_cd29",
+    "inc_lab_network_partition_20261111083203_a6fd",
+    "inc_lab_network_partition_20261111083115_814f",
+    "inc_lab_network_partition_20261111084325_271a",
+    "inc_lab_network_partition_20261111084237_7373",
+    "inc_lab_network_partition_20261111083519_73b0",
+    "inc_lab_network_partition_20261111083745_0716",
+    "inc_lab_network_partition_20261111083252_6486",
+    "inc_lab_network_partition_20261111084639_33ab",
+    "inc_lab_network_partition_20261111083922_eb6f"
+  ],
+  "disk_test": [
+    "inc_wsl_disk_io_20261111103232_1f3e",
+    "inc_wsl_disk_io_20261111095616_aab5",
+    "inc_wsl_disk_io_20261111093904_27fb",
+    "inc_wsl_disk_io_20261111101931_24ba",
+    "inc_wsl_disk_io_20261111102211_75b5",
+    "inc_wsl_disk_io_20261111100914_8546",
+    "inc_wsl_disk_io_20261111103506_82cc",
+    "inc_wsl_disk_io_20261111095849_29a7",
+    "inc_wsl_disk_io_20261111100635_796c",
+    "inc_wsl_disk_io_20261111102718_4f7c",
+    "inc_wsl_disk_io_20261111100129_962b",
+    "inc_wsl_disk_io_20261111101148_ae38",
+    "inc_wsl_disk_io_20261111095343_a9dd",
+    "inc_wsl_disk_io_20261111101421_630e",
+    "inc_wsl_disk_io_20261111103746_a26f"
+  ],
+  "test_count": 30,
+  "split_hash": "8323e629f573af1ee8966337355b994e9eda024073f6d71e44ebdfe8af89e773"
+}
