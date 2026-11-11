@@ -66,3 +66,11 @@ def test_query_builder_uses_component_default_without_signal():
     plan = builder().build(rows)[0]
     assert plan["reason"] == "component_default"
     assert plan["matched_signals"] == []
+
+
+# 方法说明：验证只剩续行时可以用根因码构造安全 fallback 计划。
+def test_query_builder_fallback_uses_code_hint():
+    plan = builder().fallback(None, "DN_VOLUME")
+    assert plan["component"] == "DataNode"
+    assert plan["reason"] == "code_hint_fallback"
+    assert "DN_VOLUME" in plan["query"]

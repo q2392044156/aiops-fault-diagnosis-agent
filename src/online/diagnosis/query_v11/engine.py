@@ -187,6 +187,9 @@ class AgentEngine(LegacyAgentEngine):
         self._save(run, state, budget, "EVIDENCE_COLLECTED")
 
         plans = self.query_builder.build(query_rows, event.get("product_version"))
+        if not plans:
+            component = components[0] if components else event.get("host_alias")
+            plans = [self.query_builder.fallback(component, code_hint)]
         if framework_items:
             plans = plans[:2]
         state["retrieval_plans"] = plans

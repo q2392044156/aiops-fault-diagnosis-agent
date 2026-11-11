@@ -66,6 +66,22 @@ class RetrievalQueryBuilder:
         return [name for name, item in self.signals.items()
                 if any(str(pattern).casefold() in text for pattern in item["patterns"])]
 
+    # 方法说明：fallback 在窗口只剩续行时用根因码构造安全检索计划。
+    def fallback(self, component: str | None, code: str | None) -> dict:
+        component = component if component in self.trusted else "DataNode"
+        terms = [code] if code else [self.cfg["component_defaults"][component]]
+        query = " ".join(["HDFS", component, *terms, "只读排查证据"])
+        return {
+            "builder_version": self.cfg["builder_version"],
+            "component": component,
+            "product_version": None,
+            "matched_signals": [code] if code else [],
+            "query": query,
+            "reason": "code_hint_fallback" if code else "component_fallback",
+            "plan_hash": key([self.cfg["builder_version"], component, None,
+                              [code] if code else [], query]),
+        }
+
     # 方法说明：`build` 完成当前步骤的业务处理；参数为 `log_rows`、`product_version`。
     def build(self, log_rows: list[dict], product_version: str | None = None) -> list[dict]:
         if product_version is not None and not VERSION.fullmatch(product_version):
