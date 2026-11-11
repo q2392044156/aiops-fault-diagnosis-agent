@@ -11,16 +11,14 @@ from pathlib import Path
 
 # 变量说明：BATCH 映射批次到 gates、数据库和案例目录。
 BATCH = {
-    "docker": ("resources/evaluation/unified/docker_gates.json",
-               "runtime/unified/docker_run.sqlite3", "runtime/unified/docker_cases"),
-    "wsl": ("resources/evaluation/unified/wsl_gates.json",
-            "runtime/unified/wsl_run.sqlite3", "runtime/unified/wsl_cases"),
-    "recaptured": ("resources/evaluation/unified/wsl_gates.json",
-                   "runtime/unified/wsl_run.sqlite3", "runtime/unified/wsl_cases"),
-    "network": ("resources/evaluation/unified/docker_gates.json",
-                "runtime/unified/docker_run.sqlite3", "runtime/unified/docker_cases"),
-    "disk_io": ("resources/evaluation/unified/wsl_gates.json",
-                "runtime/unified/wsl_run.sqlite3", "runtime/unified/wsl_cases"),
+    "docker": ("resources/evaluation/unified4/docker_gates.json",
+               "runtime/unified4/docker_run.sqlite3", "runtime/unified4/docker_cases"),
+    "wsl": ("resources/evaluation/unified4/wsl_gates.json",
+            "runtime/unified4/wsl_run2.sqlite3", "runtime/unified4/wsl_cases"),
+    "recaptured": ("resources/evaluation/unified4/wsl_gates.json",
+                   "runtime/unified4/wsl_run2.sqlite3", "runtime/unified4/wsl_cases"),
+    "network": ("resources/evaluation/unified4/docker_gates.json",
+                "runtime/unified4/docker_run.sqlite3", "runtime/unified4/docker_cases"),
 }
 
 

@@ -1,0 +1,137 @@
+{
+  "dataset": "unified_5_fault",
+  "split_hash": "bbbefa0623305d5983d1ef8c42b2b6a311e0deb4e9649c2af6dcc3ee9dce83c2",
+  "test": {
+    "cases": 60,
+    "case_top1": 60,
+    "case_top1_rate": 1.0,
+    "case_ci95": [
+      0.9398,
+      1.0
+    ],
+    "events": 429,
+    "event_top1": 423,
+    "event_top1_rate": 0.986,
+    "event_ci95": [
+      0.9698,
+      0.9936
+    ],
+    "macro_case": 1.0,
+    "macro_event": 0.9783,
+    "per_family": {
+      "heartbeat": {
+        "cases": 15,
+        "case_hits": 15,
+        "events": 69,
+        "event_hits": 63,
+        "case_rate": 1.0,
+        "event_rate": 0.913
+      },
+      "volume": {
+        "cases": 15,
+        "case_hits": 15,
+        "events": 43,
+        "event_hits": 43,
+        "case_rate": 1.0,
+        "event_rate": 1.0
+      },
+      "network": {
+        "cases": 15,
+        "case_hits": 15,
+        "events": 285,
+        "event_hits": 285,
+        "case_rate": 1.0,
+        "event_rate": 1.0
+      },
+      "safe_mode": {
+        "cases": 15,
+        "case_hits": 15,
+        "events": 32,
+        "event_hits": 32,
+        "case_rate": 1.0,
+        "event_rate": 1.0
+      }
+    },
+    "confusion": {
+      "DN_HEARTBEAT": {
+        "DN_HEARTBEAT": 15
+      },
+      "DN_VOLUME": {
+        "DN_VOLUME": 15
+      },
+      "NETWORK_CONNECTIVITY": {
+        "NETWORK_CONNECTIVITY": 15
+      },
+      "NN_SAFE_MODE": {
+        "NN_SAFE_MODE": 15
+      }
+    }
+  },
+  "train": {
+    "cases": 72,
+    "case_top1": 71,
+    "case_top1_rate": 0.9861,
+    "case_ci95": [
+      0.9254,
+      0.9975
+    ],
+    "events": 303,
+    "event_top1": 294,
+    "event_top1_rate": 0.9703,
+    "event_ci95": [
+      0.9445,
+      0.9843
+    ],
+    "macro_case": 0.9886,
+    "macro_event": 0.9722,
+    "per_family": {
+      "heartbeat": {
+        "cases": 22,
+        "case_hits": 21,
+        "events": 81,
+        "event_hits": 72,
+        "case_rate": 0.9545,
+        "event_rate": 0.8889
+      },
+      "volume": {
+        "cases": 13,
+        "case_hits": 13,
+        "events": 32,
+        "event_hits": 32,
+        "case_rate": 1.0,
+        "event_rate": 1.0
+      },
+      "network": {
+        "cases": 6,
+        "case_hits": 6,
+        "events": 117,
+        "event_hits": 117,
+        "case_rate": 1.0,
+        "event_rate": 1.0
+      },
+      "safe_mode": {
+        "cases": 31,
+        "case_hits": 31,
+        "events": 73,
+        "event_hits": 73,
+        "case_rate": 1.0,
+        "event_rate": 1.0
+      }
+    },
+    "confusion": {
+      "DN_HEARTBEAT": {
+        "DN_HEARTBEAT": 21,
+        "null": 1
+      },
+      "DN_VOLUME": {
+        "DN_VOLUME": 13
+      },
+      "NETWORK_CONNECTIVITY": {
+        "NETWORK_CONNECTIVITY": 6
+      },
+      "NN_SAFE_MODE": {
+        "NN_SAFE_MODE": 31
+      }
+    }
+  }
+}
