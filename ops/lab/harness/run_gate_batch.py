@@ -38,6 +38,10 @@ def main(argv=None):
     parser.add_argument("--window-seconds", type=int, default=60)
     parser.add_argument("--window-step", type=int, default=10)
     parser.add_argument("--max-rows", type=int, default=500)
+    parser.add_argument("--no-event-merge", dest="event_merge", action="store_false",
+                        help="关闭相邻 PASS 窗口合并，用于对照旧口径")
+    parser.add_argument("--max-event-span", type=int, default=300,
+                        help="单个合并事件覆盖的最大秒数")
     parser.add_argument("--skip-incident-eval", action="store_true",
                         help="跳过基于源库 incident_registry 的摘要，派生挑战集使用")
     args = parser.parse_args(argv)
@@ -73,7 +77,9 @@ def main(argv=None):
                          detector_release=args.detector_release,
                          window_seconds=args.window_seconds,
                          window_step=args.window_step,
-                         max_rows=args.max_rows)
+                         max_rows=args.max_rows,
+                         event_merge=args.event_merge,
+                         max_event_span=args.max_event_span)
         gates.append(mapping)
         if index % 20 == 0:
             print(f"{index}/{len(cases)} elapsed={time.time()-started:.0f}s", flush=True)

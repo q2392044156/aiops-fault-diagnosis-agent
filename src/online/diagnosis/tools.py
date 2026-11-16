@@ -10,6 +10,8 @@ from aiops_diag.common import key
 from online.knowledge.engine import tokenize
 from aiops_diag.platform.metrics_store import MetricsStore
 
+from .signals import STRONG_THRESHOLD, analyze_rows
+
 
 # 方法说明：`result` 完成当前步骤的业务处理；参数为 `data`、`error`、`provenance`、`started`、`truncated`。
 def result(data=None, error=None, provenance=None, started=None, truncated=False):
@@ -152,7 +154,7 @@ class AgentTools:
         return result(found, provenance={"kb_release_id":
                       self.retriever.manifest["kb_release_id"]}, started=started)
 
-    # 变量说明：CODE_SIGNALS 是根因码对应的日志特征词，用于同组件内互斥排序。
+    # 变量说明：CODE_SIGNALS 是兼容旧接口的关键词视图，实际排序使用 signals 本体。
     CODE_SIGNALS = {"DN_VOLUME": ("no space left", "volume failed", "failed volume",
                                   "disk full"),
                     "NETWORK_CONNECTIVITY": ("connection timed out", "no route to host",
@@ -177,27 +179,35 @@ class AgentTools:
         started = time.perf_counter()
         messages = " ".join((row.get("excerpt_redacted") or "")
                             for row in log_evidence).lower()
-        matched = {code for code, signals in AgentTools.CODE_SIGNALS.items()
-                   if any(signal in messages for signal in signals)}
+        analysis = analyze_rows(log_evidence)
+        ranked = analysis["codes"]
+        matched = {item["code"] for item in ranked
+                   if item["score"] >= STRONG_THRESHOLD}
         weak = {code: sum(messages.count(word) for word in words)
                 for code, words in AgentTools.WEAK_TERMS.items()}
+        code_rank = {item["code"]: index for index, item in enumerate(ranked)}
+        # 知识卡先按信号码、再按弱词和原始顺序排序，不再用固定根因优先级覆盖证据。
         ordered = sorted(enumerate(doc_evidence),
                          key=lambda item: (0 if item[1].get("root_cause_code") in matched
                                            else 1,
+                                           code_rank.get(item[1].get("root_cause_code"), 9),
                                            -weak.get(item[1].get("root_cause_code"), 0),
                                            item[0]))
         doc_evidence = [document for _, document in ordered]
         hypotheses = []
-        # 知识卡和日志码同时存在时，让命中的根因码卡排在前面。
-        priority = ("NETWORK_CONNECTIVITY", "NN_SAFE_MODE",
-                    "DN_VOLUME", "DN_HEARTBEAT")
-        code_hint = next((code for code in priority if code in matched), None)
+        top = next((item for item in ranked
+                    if item["score"] >= STRONG_THRESHOLD), None)
+        code_hint = top["code"] if top else None
         if code_hint:
             doc_evidence = sorted(
                 doc_evidence, key=lambda doc: 0 if doc.get("root_cause_code") == code_hint else 1)
         if code_hint and not any(document.get("root_cause_code") == code_hint
                                  for document in doc_evidence[:5]):
-            support = [row["evidence_id"] for row in log_evidence[:12]]
+            top_ids = set(top.get("log_ids") or [])
+            support = [row["evidence_id"] for row in log_evidence
+                       if row.get("source_ref") in top_ids][:12]
+            if not support:
+                support = [row["evidence_id"] for row in log_evidence[:12]]
             hypotheses.append({
                 "hypothesis_id": "hyp_1",
                 "description": "日志证据指向：" + code_hint,
@@ -231,7 +241,11 @@ class AgentTools:
                 "counter_ids": [], "missing_checks": ["补充适用手册和相关时间窗口证据"],
                 "support_score": 0.0, "confidence_level": "unknown",
             })
-        return result({"hypotheses": hypotheses}, started=started)
+        return result({"hypotheses": hypotheses,
+                       "signal_scores": [{"root_cause_code": item["code"],
+                                          "score": item["score"],
+                                          "role": item["role"]} for item in ranked]},
+                      started=started)
 
 
 # 方法说明：`log_evidence` 完成当前步骤的业务处理；参数为 `row`、`version`。

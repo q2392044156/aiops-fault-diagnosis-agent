@@ -42,15 +42,15 @@
       0.9398,
       1.0
     ],
-    "case_all_events": 55,
-    "case_all_events_rate": 0.9167,
+    "case_all_events": 60,
+    "case_all_events_rate": 1.0,
     "case_all_events_ci95": [
-      0.85,
-      0.9667
+      1.0,
+      1.0
     ],
     "case_all_events_ci95_wilson": [
-      0.8193,
-      0.9639
+      0.9398,
+      1.0
     ],
     "case_any_event": 60,
     "case_any_event_rate": 1.0,
@@ -62,110 +62,49 @@
       0.9398,
       1.0
     ],
-    "events": 429,
-    "event_top1": 423,
-    "event_top1_rate": 0.986,
+    "events": 143,
+    "event_top1": 143,
+    "event_top1_rate": 1.0,
     "event_ci95": [
-      0.9698,
-      0.9936
+      0.9738,
+      1
     ],
     "event_ci95_wilson": [
-      0.9698,
-      0.9936
+      0.9738,
+      1
     ],
     "event_ci95_cluster": [
-      0.975,
-      0.9953
+      1.0,
+      1.0
     ],
     "macro_case": 1.0,
-    "macro_event": 0.9783,
+    "macro_event": 1.0,
     "macro_event_ci95": [
-      0.9655,
-      0.9918
+      1.0,
+      1.0
     ],
     "report_modes": {
-      "DEGRADED_TEMPLATE": 429
+      "DEGRADED_TEMPLATE": 143
     },
     "missing_reports": 0,
-    "error_events": [
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028141924_e77c",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_0165b8aa74ae7f7bc81d51df",
-        "report_id": "irpt_132d3d6f24a7591043cb9807",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028141924_e77c",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_906cae28f5ef9775ce35d0b9",
-        "report_id": "irpt_c3e7e2a7442efad7bded636a",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028142107_ca7e",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_90e863c3ffb5490aa8cc8402",
-        "report_id": "irpt_51ca1c447d13610568e4eabf",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028142406_5600",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_46182cb1c1881d9a5e2c3299",
-        "report_id": "irpt_785c28486648c60dffb00819",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028142546_a65f",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_7353a943ceeb47a1371e8253",
-        "report_id": "irpt_85b7ba25a447703d9654dafc",
-        "pred": null,
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028142717_be88",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_3bda1ad59d505cd05d7f7135",
-        "report_id": "irpt_835ba2f0ce4d840feb35abac",
-        "pred": null,
-        "rank": null
-      }
-    ],
+    "error_events": [],
     "per_family": {
       "heartbeat": {
         "cases": 15,
         "case_hits": 15,
         "case_first_hits": 15,
-        "case_all_hits": 10,
+        "case_all_hits": 15,
         "case_any_hits": 15,
-        "events": 69,
-        "event_hits": 63,
+        "events": 37,
+        "event_hits": 37,
         "report_modes": {
-          "DEGRADED_TEMPLATE": 69
+          "DEGRADED_TEMPLATE": 37
         },
         "case_rate": 1.0,
         "case_first_rate": 1.0,
-        "case_all_rate": 0.6667,
+        "case_all_rate": 1.0,
         "case_any_rate": 1.0,
-        "event_rate": 0.913
+        "event_rate": 1.0
       },
       "volume": {
         "cases": 15,
@@ -173,10 +112,10 @@
         "case_first_hits": 15,
         "case_all_hits": 15,
         "case_any_hits": 15,
-        "events": 43,
-        "event_hits": 43,
+        "events": 31,
+        "event_hits": 31,
         "report_modes": {
-          "DEGRADED_TEMPLATE": 43
+          "DEGRADED_TEMPLATE": 31
         },
         "case_rate": 1.0,
         "case_first_rate": 1.0,
@@ -190,10 +129,10 @@
         "case_first_hits": 15,
         "case_all_hits": 15,
         "case_any_hits": 15,
-        "events": 285,
-        "event_hits": 285,
+        "events": 45,
+        "event_hits": 45,
         "report_modes": {
-          "DEGRADED_TEMPLATE": 285
+          "DEGRADED_TEMPLATE": 45
         },
         "case_rate": 1.0,
         "case_first_rate": 1.0,
@@ -207,10 +146,10 @@
         "case_first_hits": 15,
         "case_all_hits": 15,
         "case_any_hits": 15,
-        "events": 32,
-        "event_hits": 32,
+        "events": 30,
+        "event_hits": 30,
         "report_modes": {
-          "DEGRADED_TEMPLATE": 32
+          "DEGRADED_TEMPLATE": 30
         },
         "case_rate": 1.0,
         "case_first_rate": 1.0,
@@ -260,15 +199,15 @@
       0.9254,
       0.9975
     ],
-    "case_all_events": 65,
-    "case_all_events_rate": 0.9028,
+    "case_all_events": 71,
+    "case_all_events_rate": 0.9861,
     "case_all_events_ci95": [
-      0.8469,
-      0.9583
+      0.9583,
+      1.0
     ],
     "case_all_events_ci95_wilson": [
-      0.8126,
-      0.9521
+      0.9254,
+      0.9975
     ],
     "case_any_event": 71,
     "case_any_event_rate": 0.9861,
@@ -280,119 +219,39 @@
       0.9254,
       0.9975
     ],
-    "events": 303,
-    "event_top1": 294,
-    "event_top1_rate": 0.9703,
+    "events": 156,
+    "event_top1": 155,
+    "event_top1_rate": 0.9936,
     "event_ci95": [
-      0.9445,
-      0.9843
+      0.9646,
+      0.9989
     ],
     "event_ci95_wilson": [
-      0.9445,
-      0.9843
+      0.9646,
+      0.9989
     ],
     "event_ci95_cluster": [
-      0.9518,
-      0.9867
+      0.9799,
+      1.0
     ],
     "macro_case": 0.9886,
-    "macro_event": 0.9722,
+    "macro_event": 0.9949,
     "macro_event_ci95": [
-      0.9602,
-      0.9863
+      0.9826,
+      1.0
     ],
     "report_modes": {
-      "DEGRADED_TEMPLATE": 303
+      "DEGRADED_TEMPLATE": 156
     },
     "missing_reports": 0,
     "error_events": [
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028140942_67de",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_ba7943c36850faf81c3dd6f1",
-        "report_id": "irpt_9ca664cd47de33d000b32438",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028141114_7bfb",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_163cc077d95e093583fc7f16",
-        "report_id": "irpt_af7bfa8600a4ec2b0459d7b0",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028141253_f4a4",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_ad336ba52e07b6ce7a61b476",
-        "report_id": "irpt_3f656d3e85887cc665cc7889",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028141430_c705",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_1373c120b026a720bc7d296a",
-        "report_id": "irpt_f4c612b062edeb970e7ac9c6",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028141745_c5de",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_9ee9c118f776bff3799717a3",
-        "report_id": "irpt_aa8b71ae8ac98e2e6239c85c",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028141745_c5de",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_d567596bb61192929068a6af",
-        "report_id": "irpt_621517baa1a39941688e2ba4",
-        "pred": "HA_STANDBY_LAG",
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028142247_7c84",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_e5b303a114f175f24b8c28da",
-        "report_id": "irpt_27e6d163cb6b77e3fd46c676",
-        "pred": null,
-        "rank": null
-      },
-      {
-        "case_id": "inc_lab_dn_heartbeat_20261028142247_7c84",
-        "family": "heartbeat",
-        "source": "docker",
-        "true": "DN_HEARTBEAT",
-        "event_id": "evt_05ba486a26baefcea930fabb",
-        "report_id": "irpt_585c53616808ce4fd1f2a350",
-        "pred": null,
-        "rank": null
-      },
       {
         "case_id": "inc_wsl_heartbeat_20261028182517_df45",
         "family": "heartbeat",
         "source": "wsl",
         "true": "DN_HEARTBEAT",
-        "event_id": "evt_e6563010340b415a919a56d6",
-        "report_id": "irpt_7074a647b5697bc6f678f875",
+        "event_id": "evt_b96c38f146bb50b4e709a7f6",
+        "report_id": "irpt_8b49b82ea0593312cf48812b",
         "pred": null,
         "rank": null
       }
@@ -402,18 +261,18 @@
         "cases": 22,
         "case_hits": 21,
         "case_first_hits": 21,
-        "case_all_hits": 15,
+        "case_all_hits": 21,
         "case_any_hits": 21,
-        "events": 81,
-        "event_hits": 72,
+        "events": 49,
+        "event_hits": 48,
         "report_modes": {
-          "DEGRADED_TEMPLATE": 81
+          "DEGRADED_TEMPLATE": 49
         },
         "case_rate": 0.9545,
         "case_first_rate": 0.9545,
-        "case_all_rate": 0.6818,
+        "case_all_rate": 0.9545,
         "case_any_rate": 0.9545,
-        "event_rate": 0.8889
+        "event_rate": 0.9796
       },
       "volume": {
         "cases": 13,
@@ -421,10 +280,10 @@
         "case_first_hits": 13,
         "case_all_hits": 13,
         "case_any_hits": 13,
-        "events": 32,
-        "event_hits": 32,
+        "events": 27,
+        "event_hits": 27,
         "report_modes": {
-          "DEGRADED_TEMPLATE": 32
+          "DEGRADED_TEMPLATE": 27
         },
         "case_rate": 1.0,
         "case_first_rate": 1.0,
@@ -438,10 +297,10 @@
         "case_first_hits": 6,
         "case_all_hits": 6,
         "case_any_hits": 6,
-        "events": 117,
-        "event_hits": 117,
+        "events": 18,
+        "event_hits": 18,
         "report_modes": {
-          "DEGRADED_TEMPLATE": 117
+          "DEGRADED_TEMPLATE": 18
         },
         "case_rate": 1.0,
         "case_first_rate": 1.0,
@@ -455,10 +314,10 @@
         "case_first_hits": 31,
         "case_all_hits": 31,
         "case_any_hits": 31,
-        "events": 73,
-        "event_hits": 73,
+        "events": 62,
+        "event_hits": 62,
         "report_modes": {
-          "DEGRADED_TEMPLATE": 73
+          "DEGRADED_TEMPLATE": 62
         },
         "case_rate": 1.0,
         "case_first_rate": 1.0,
@@ -484,6 +343,6 @@
     }
   },
   "report_modes": {
-    "DEGRADED_TEMPLATE": 732
+    "DEGRADED_TEMPLATE": 299
   }
 }

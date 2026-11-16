@@ -18,6 +18,8 @@ from .release import RISK_POLICY, TOOLS
 from .router_v2 import ToolRouter
 from .schemas import (ROOT_CAUSE_CODES, ActionAdvice, Evidence, GeneratedReportBody,
                       IncidentReport, RouterDecision)
+from .signals import (STRONG_THRESHOLD, analyze_rows, rank_codes,
+                      weak_code_hint as signal_weak_hint)
 from .tools import AgentTools, document_evidence, log_evidence
 
 
@@ -61,51 +63,20 @@ def utcnow():
     return datetime.now(timezone.utc).isoformat()
 
 
-# 变量说明：CODE_ORDER 是同一优先级下的稳定排序。
-CODE_ORDER = {"DN_VOLUME": 0, "NN_SAFE_MODE": 1, "DN_HEARTBEAT": 2,
-              "NETWORK_CONNECTIVITY": 3, "NN_AVAILABILITY": 4}
-
-
-# 方法说明：detected_codes_from_text 按信号出现次数与上游优先级返回根因码。
+# 方法说明：detected_codes_from_text 按统一信号本体返回根因码。
 def detected_codes_from_text(text):
-    scored = {}
-    for code, signals in AgentTools.CODE_SIGNALS.items():
-        hits = [signal for signal in signals if signal in text]
-        if hits:
-            scored[code] = (len(hits), sum(text.count(signal) for signal in hits))
-    codes = [code for code, _ in sorted(
-        scored.items(),
-        key=lambda item: (-item[1][1], CODE_ORDER.get(item[0], 9), -item[1][0]))]
-    if "DN_VOLUME" in codes and "DN_HEARTBEAT" in codes:
-        codes.remove("DN_VOLUME")
-        codes.insert(0, "DN_VOLUME")
-    if "NN_SAFE_MODE" in codes and ("safe mode" in text or "safemode" in text):
-        codes.remove("NN_SAFE_MODE")
-        codes.insert(0, "NN_SAFE_MODE")
-    # 网络分区会把 DataNode 从 NameNode 视角变成“失联”，
-    # 但只要 DataNode 仍在重试连接，根因应优先判网络，而不是进程死亡。
-    network_signal = any(word in text for word in (
-        "retrying connect", "connection timed out", "no route to host",
-        "network is unreachable", "connection reset"))
-    if network_signal and "NETWORK_CONNECTIVITY" in codes:
-        codes.remove("NETWORK_CONNECTIVITY")
-        codes.insert(0, "NETWORK_CONNECTIVITY")
-    return codes
+    return rank_codes([{"redacted_message": text or "", "level": "WARN"}])
 
 
-# 方法说明：weak_code_hint 在无强信号时用弱词给出保守的根因码先验。
+# 方法说明：detected_codes_from_rows 保留日志级别，避免 INFO 网关头压过 ERROR 卷错误。
+def detected_codes_from_rows(rows):
+    return [item["code"] for item in analyze_rows(rows)["codes"]
+            if item["score"] >= STRONG_THRESHOLD]
+
+
+# 方法说明：weak_code_hint 在无强信号时用上下文或弱词给出保守的根因码先验。
 def weak_code_hint(text):
-    volume = sum(text.count(word) for word in ("volume", "disk", "space", "磁盘", "卷"))
-    heartbeat = sum(text.count(word) for word in ("heartbeat", "lost datanode",
-                                                  "dead datanode", "心跳", "失联"))
-    network = sum(text.count(word) for word in ("connection timed out", "no route to host",
-                                                "network is unreachable", "connection reset",
-                                                "retrying connect"))
-    if volume >= 5 and volume >= 2 * max(1, heartbeat):
-        return "DN_VOLUME"
-    if network >= 2:
-        return "NETWORK_CONNECTIVITY"
-    return None
+    return signal_weak_hint(text)
 
 
 # 方法说明：_stack 判断堆栈续行。
@@ -588,9 +559,10 @@ class AgentEngine:
         rest = [row.get("redacted_message") or "" for row in picked
                 if row.get("level") not in ("ERROR", "WARN", "FATAL")]
         signal_text = " ".join(severe + rest)[:2000]
-        all_text = " ".join((row.get("redacted_message") or "")
-                            for row in log_rows).lower()
-        detected_codes = detected_codes_from_text(all_text)
+        detected_codes = detected_codes_from_rows(log_rows)
+        state["signal_scores"] = [{"root_cause_code": item["code"], "score": item["score"],
+                                   "role": item["role"]}
+                                  for item in analyze_rows(log_rows)["codes"]]
         code_text = " ".join(detected_codes)
         query = ("HDFS异常事件只读排查 " + " ".join(components[:3]) + " "
                  + signal_text + " " + code_text)

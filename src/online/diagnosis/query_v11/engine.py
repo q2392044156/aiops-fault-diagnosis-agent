@@ -9,8 +9,8 @@ from datetime import datetime, timedelta, timezone
 from pydantic import Field, ValidationError
 
 from online.diagnosis.engine import AgentEngine as LegacyAgentEngine
-from online.diagnosis.engine import (detected_codes_from_text, select_log_rows,
-                                          weak_code_hint)
+from online.diagnosis.engine import (detected_codes_from_rows, detected_codes_from_text,
+                                     select_log_rows, weak_code_hint)
 from online.diagnosis.engine import INJECTION
 import online.diagnosis.engine as legacy_engine
 from online.diagnosis.schemas import (ActionAdvice, Evidence, GeneratedReportBody,
@@ -150,9 +150,9 @@ class AgentEngine(LegacyAgentEngine):
         state["evidence_quality"] = quality
         if not quality["sufficient"]:
             state["review_reasons"].append("insufficient_evidence")
+        detected = detected_codes_from_rows(log_rows)
         all_text = " ".join((row.get("redacted_message") or "")
                             for row in log_rows).lower()
-        detected = detected_codes_from_text(all_text)
         code_hint = detected[0] if detected else weak_code_hint(all_text)
         log_items = [log_evidence(row, self.service_manifest["release_id"])
                      for row in log_rows]

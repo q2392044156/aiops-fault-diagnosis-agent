@@ -5,6 +5,8 @@ from __future__ import annotations
 import re
 from collections import Counter
 
+from .signals import STRONG_THRESHOLD, analyze_row, analyze_rows
+
 # 变量说明：WEAK_TERMS 是弱信号，用于覆盖卷/磁盘等启动期证据。
 WEAK_TERMS = ("volume", "disk", "storage", "exception", "failed", "error",
               "network", "connection", "timeout", "unreachable", "retrying")
@@ -23,7 +25,7 @@ def _signature(row):
     message = (row.get("redacted_message") or "").lower()
     if _stack(message):
         return "stack"
-    return f'{row.get("level") or ""}|{row.get("component") or ""}|' + re.sub(r"\\d+", "<n>", message)
+    return f'{row.get("level") or ""}|{row.get("component") or ""}|' + re.sub(r"\d+", "<n>", message)
 
 
 # 方法说明：_cost 估算 token。
@@ -39,18 +41,20 @@ class EvidenceSelector:
         self.token_budget = int(token_budget) if token_budget else None
         self.focus_component = focus_component
 
-    # 方法说明：_prepare 计算候选得分。
+    # 方法说明：_prepare 计算候选得分，信号强度复用根因本体而不重复计数关键词。
     def _prepare(self, rows):
-        from online.diagnosis.tools import AgentTools
-        strong = tuple(word for words in AgentTools.CODE_SIGNALS.values() for word in words)
         templates = Counter(row.get("template_id") for row in rows
                             if row.get("template_id") is not None)
         scored = []
         for index, row in enumerate(rows):
             message = (row.get("redacted_message") or "").lower()
-            hits = [word for word in strong if word in message]
+            analysis = analyze_row(row)
+            strength = max((item["score"] for item in analysis), default=0.0)
+            codes = [item["code"] for item in analysis if item["score"] >= STRONG_THRESHOLD]
             weak = [word for word in WEAK_TERMS if word in message]
-            score = 6.0 * len(hits) + 4.0 * len(weak)
+            score = 4.0 * min(3.0, strength)
+            if not codes:
+                score += 4.0 * len(weak)
             score += LEVEL_SCORE.get((row.get("level") or "").upper(), 0.2)
             template = row.get("template_id")
             if template is not None and templates[template] <= 2:
@@ -59,11 +63,12 @@ class EvidenceSelector:
                 score += 0.5 * (index / max(1, len(rows) - 1))
             if self.focus_component and row.get("component") == self.focus_component:
                 score += 0.8
-            reason = "signal" if hits else ("weak_signal" if weak else
+            reason = "signal" if codes else ("weak_signal" if strength > 0 else
                                              ("severity" if row.get("level") in
                                               ("ERROR", "WARN", "FATAL") else "context"))
             scored.append({**row, "selection_score": round(score, 4),
-                           "selection_reason": reason})
+                           "selection_reason": reason, "signal_strength": round(strength, 4),
+                           "signal_codes": codes})
         return scored
 
     # 方法说明：select 返回预算内、去重后的证据行和质量摘要。
@@ -105,12 +110,10 @@ class EvidenceSelector:
         quality = self.quality(rows, selected)
         return selected, quality
 
-    # 方法说明：quality 汇总结构化证据质量。
+    # 方法说明：quality 汇总结构化证据质量，并给出可审计的根因信号分数。
     def quality(self, pool, selected):
-        from online.diagnosis.tools import AgentTools
-        strong = tuple(word for words in AgentTools.CODE_SIGNALS.values() for word in words)
-        texts = [(row.get("redacted_message") or "").lower() for row in selected]
-        has_signal = any(any(word in text for word in strong) for text in texts)
+        analysis = analyze_rows(selected)
+        has_signal = bool(analysis["codes"])
         has_error = any(row.get("level") in ("ERROR", "FATAL") for row in selected)
         components = sorted({row.get("component") for row in selected if row.get("component")})
         return {
@@ -124,5 +127,9 @@ class EvidenceSelector:
                                        if row.get("template_id") is not None}),
             "time_range": [selected[0].get("timestamp"), selected[-1].get("timestamp")]
             if selected else [],
+            "detected_codes": [item["code"] for item in analysis["codes"]
+                               if item["score"] >= STRONG_THRESHOLD],
+            "signal_scores": [{"root_cause_code": item["code"], "score": item["score"],
+                               "role": item["role"]} for item in analysis["codes"]],
             "missing": [] if has_signal or has_error else ["signal_or_error_evidence"],
         }

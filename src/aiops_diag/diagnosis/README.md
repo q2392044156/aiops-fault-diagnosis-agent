@@ -20,6 +20,7 @@
 | `engine.py` | 封装当前模块的核心执行引擎和稳定调用接口。 | `AgentYield`、`utcnow`、`AgentEngine` |
 | `evidence.py` | 结构化证据选择、签名去重与质量评估。 | `EvidenceSelector`、`WEAK_TERMS` |
 | `release.py` | 校验并生成当前模块的不可变发布清单。 | `code_hashes`、`publish`、`verify` |
+| `signals.py` | 兼容入口，转发到 `online.diagnosis.signals`。 | — |
 | `context_builder.py` | 按 token 预算组装报告上下文，支持全量/压缩/最小策略。 | `build_context`、`estimate_tokens`、`STRATEGIES` |
 | `router_v2.py` | 实现受控工具调用路由：白名单、Schema 校验与回落。 | `ToolRouter`、`ROUTER_V2_PROMPT` |
 | `tool_specs.py` | 定义只读工具的 JSON Schema 与参数校验。 | `TOOL_SPECS`、`specs_for`、`validate_arguments` |

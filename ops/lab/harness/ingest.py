@@ -171,13 +171,79 @@ def _parse(text, session_id, fallback=None, source_type="docker_container", matc
     return rows, total
 
 
+# 方法说明：_window_start 把窗口起始时间转换为 epoch，供事件合并判断间隔。
+def _window_start(window):
+    return datetime.fromisoformat(window["start"].replace("Z", "+00:00")).timestamp()
+
+
+# 方法说明：_merge_passing 合并同组件、时间重叠或相接的 PASS 窗口，减少重复事件。
+def _merge_passing(passing, gap_seconds=0, max_span_seconds=300):
+    groups = {}
+    for window, result in passing:
+        groups.setdefault((window.get("source_type"), window.get("component")), []).append(
+            (window, result))
+    merged = []
+    for entries in groups.values():
+        entries.sort(key=lambda item: (_window_start(item[0]), item[0]["window_id"]))
+        current = None
+        for window, result in entries:
+            start = _window_start(window)
+            if current is None:
+                current = {
+                    "window_id": window["window_id"],
+                    "window_ids": [window["window_id"]],
+                    "source_type": window.get("source_type"),
+                    "component": window.get("component"),
+                    "start": window["start"], "end": window["end"],
+                    "start_epoch": start, "score": result["score"],
+                    "reason": result["reason"], "window_count": 1,
+                    "rows": list(window["rows"]),
+                }
+                continue
+            gap = start - current["end"]
+            span = max(current["end"], window["end"]) - current["start_epoch"]
+            if gap <= float(gap_seconds) and span <= float(max_span_seconds):
+                current["end"] = max(current["end"], window["end"])
+                current["rows"].extend(window["rows"])
+                current["window_ids"].append(window["window_id"])
+                current["window_count"] += 1
+                current["score"] = max(current["score"], result["score"])
+                if result["reason"] == "error_present":
+                    current["reason"] = "error_present"
+                continue
+            merged.append(current)
+            current = {
+                "window_id": window["window_id"],
+                "window_ids": [window["window_id"]],
+                "source_type": window.get("source_type"),
+                "component": window.get("component"),
+                "start": window["start"], "end": window["end"],
+                "start_epoch": start, "score": result["score"],
+                "reason": result["reason"], "window_count": 1,
+                "rows": list(window["rows"]),
+            }
+        if current is not None:
+            merged.append(current)
+    for window in merged:
+        seen, rows = set(), []
+        for row in window["rows"]:
+            if row.get("log_id") in seen:
+                continue
+            seen.add(row.get("log_id"))
+            rows.append(row)
+        window["rows"] = rows
+        window.pop("start_epoch", None)
+    merged.sort(key=lambda item: (_window_start(item), item["window_id"]))
+    return merged
+
+
 # 方法说明：ingest 把一条实验日志接入平台并跑一次模板诊断。
 def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                focus_component=None, agent_backend="native", retriever_kind="cards",
                retriever=None, source_type="docker_container", matcher=None,
                event_source="import", gate_threshold=0.6, detector_path=None,
                detector_release="novelty_v1", window_seconds=60, window_step=10,
-               max_rows=500, cutoff=None):
+               max_rows=500, cutoff=None, event_merge=True, max_event_span=300):
     log_path = Path(log_path)
     text = log_path.read_text(encoding="utf-8")
     tag = uuid.uuid4().hex[:6]
@@ -231,6 +297,12 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
         judged = [(window, detector.decide(window["rows"])) for window in windows]
         passing = [(window, result) for window, result in judged
                    if result["decision"] == "PASS"]
+        # 事件化前先合并重叠窗口，避免同一段故障被重复诊断。
+        if passing and event_merge:
+            passing = [(window, {"decision": "PASS", "score": window["score"],
+                                 "reason": window["reason"]})
+                       for window in _merge_passing(
+                           passing, gap_seconds=0, max_span_seconds=max_event_span)]
         if passing:
             window_ids = [window["window_id"] for window, _ in passing]
             decision = max((result for _, result in passing),
@@ -267,8 +339,10 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                     "start": window["start"],
                     "end": datetime.fromtimestamp(window["end"], timezone.utc).isoformat(),
                     "score": result["score"], "reason": result["reason"],
-                    "window_id": window["window_id"], "rows": window["rows"],
-                    "window_count": 1,
+                    "window_id": window["window_id"],
+                    "window_ids": window.get("window_ids") or [window["window_id"]],
+                    "rows": window["rows"],
+                    "window_count": int(window.get("window_count", 1)),
                 })
         else:
             event_specs.append({
@@ -308,6 +382,8 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
             "gate_decision": "PASS", "gate_reason": spec["reason"],
             "window_seconds": str(window_seconds), "window_step": str(window_step),
             "window_count": str(spec["window_count"]),
+            "merged_window_count": str(spec["window_count"]),
+            "window_ids": ",".join(spec.get("window_ids") or []),
         })
 
     cfg = {"agent_version": "lab_agent", "v12": {"enabled": False},
@@ -391,7 +467,8 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
            retriever_kind="cards", retriever=None, template_dir=None, matcher=None,
            source_type=None, event_source="import", gate_threshold=0.6,
            detector_path=None, detector_release="novelty_v1",
-           window_seconds=60, window_step=10, max_rows=500, cutoff=None):
+           window_seconds=60, window_step=10, max_rows=500, cutoff=None,
+           event_merge=True, max_event_span=300):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
     logs_path = next((case_dir / "evidence" / "logs").glob("*.log"))
@@ -414,7 +491,8 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
                          detector_path=detector_path,
                          detector_release=detector_release,
                          window_seconds=window_seconds, window_step=window_step,
-                         max_rows=max_rows, cutoff=cutoff)
+                         max_rows=max_rows, cutoff=cutoff,
+                         event_merge=event_merge, max_event_span=max_event_span)
     (case_dir / "map.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2)
                                        + "\n", encoding="utf-8")
     return mapping
@@ -437,6 +515,8 @@ def main(argv=None):
     parser.add_argument("--window-seconds", type=int, default=60)
     parser.add_argument("--window-step", type=int, default=10)
     parser.add_argument("--max-rows", type=int, default=500)
+    parser.add_argument("--no-event-merge", dest="event_merge", action="store_false")
+    parser.add_argument("--max-event-span", type=int, default=300)
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -451,7 +531,9 @@ def main(argv=None):
                             detector_release=args.detector_release,
                             window_seconds=args.window_seconds,
                             window_step=args.window_step,
-                            max_rows=args.max_rows),
+                            max_rows=args.max_rows,
+                            event_merge=args.event_merge,
+                            max_event_span=args.max_event_span),
                      ensure_ascii=False, indent=2))
     return 0
 
