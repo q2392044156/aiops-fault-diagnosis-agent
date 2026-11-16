@@ -105,7 +105,10 @@
       --detector-release novelty_wsl_sliding_v4 ^
       --template-dir artifacts/templates/wsl ^
       --gate-output resources/evaluation/challenge20/gates.json ^
-      --window-seconds 60 --window-step 10 --max-rows 500
+      --window-seconds 60 --window-step 10 --max-rows 500 ^
+      --skip-incident-eval
+
+`--skip-incident-eval` 只跳过基于源库 `incident_registry` 的旧摘要；挑战集指标以 `evaluate_challenge20.py` 为准。
 
 评测：
 

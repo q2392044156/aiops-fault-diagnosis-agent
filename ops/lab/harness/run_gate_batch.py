@@ -38,6 +38,8 @@ def main(argv=None):
     parser.add_argument("--window-seconds", type=int, default=60)
     parser.add_argument("--window-step", type=int, default=10)
     parser.add_argument("--max-rows", type=int, default=500)
+    parser.add_argument("--skip-incident-eval", action="store_true",
+                        help="跳过基于源库 incident_registry 的摘要，派生挑战集使用")
     args = parser.parse_args(argv)
     work = Path(args.work)
     shutil.rmtree(work, ignore_errors=True)
@@ -79,9 +81,10 @@ def main(argv=None):
                                       encoding="utf-8")
     passed = sum(1 for row in gates if row.get("event_id"))
     print("done", len(gates), "passed", passed, "rejected", len(gates) - passed, flush=True)
-    subprocess.run([sys.executable, "ops/scripts/evaluate_incidents.py",
-                    "--database", args.database, "--cases", str(work),
-                    "--output", args.output], check=False)
+    if not args.skip_incident_eval:
+        subprocess.run([sys.executable, "ops/scripts/evaluate_incidents.py",
+                        "--database", args.database, "--cases", str(work),
+                        "--output", args.output], check=False)
     return 0
 
 
