@@ -1,0 +1,16 @@
+{
+  "synthetic": true,
+  "not_independent": true,
+  "group": "format_time",
+  "original_case": "inc_lab_dn_volume_20261028112217_6ddc",
+  "source_format": "docker_container->wsl",
+  "time_shift_days": -30,
+  "host_rename": {
+    "aiops-lab-dn1": "prod-datanode-07",
+    "aiops-lab-dn2": "prod-datanode-08",
+    "aiops-lab-dn3": "prod-datanode-09",
+    "aiops-lab-namenode": "prod-namenode-01"
+  },
+  "source_log_sha256": "c469c257fd5f696205531aaf56a106e41bdc124a7c864c8d1050a929e35a7372",
+  "label_source": "original incident labels"
+}

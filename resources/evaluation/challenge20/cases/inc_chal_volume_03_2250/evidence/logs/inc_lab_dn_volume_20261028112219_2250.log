@@ -1,0 +1,2 @@
+[prod-datanode-07] 2026-09-28 19:20:40,000 WARN  lab.Fault: dfs.FSDataset: Volume /data/1 failed, 0 bytes available
+[prod-datanode-07] 2026-09-28 19:20:41,000 ERROR  lab.Fault: dfs.DataNode$DataXceiver: writeBlock received exception java.io.IOException: No space left on device

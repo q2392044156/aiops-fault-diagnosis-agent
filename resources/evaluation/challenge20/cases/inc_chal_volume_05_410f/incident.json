@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "incident_id": "inc_chal_volume_05_410f",
+  "cluster_alias": "cluster_challenge",
+  "product_version": "3.3.6",
+  "fault_family": "dn_volume",
+  "authorization": {
+    "authorization_id": "auth_challenge_001",
+    "approved_at": "2026-09-28T10:22:21.994110Z",
+    "retention_until": "2026-10-28T11:22:21.994110Z",
+    "deletion_contact": "lab@example.invalid"
+  },
+  "timestamps": {
+    "fault_start": "2026-09-28T11:20:21.192544Z",
+    "first_observable_signal": "2026-09-28T11:20:41.192544Z",
+    "agent_detected": "2026-09-28T11:22:21.240744Z",
+    "human_confirmed": "2026-09-28T11:22:01.192544Z",
+    "recovered": "2026-09-28T11:21:51.192544Z",
+    "timezone_source": "Asia/Shanghai (lab-ntp)"
+  },
+  "diagnosis_snapshot": {
+    "cutoff_time": "2026-09-28T11:21:21.192544Z",
+    "log_refs": [
+      {
+        "ref_id": "log_inc_chal_volume_05_410f",
+        "content_sha256": "9b87124936fbc5d4516f59ad9c8b57394b5312457543ce266854a7eca35b4592",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-09-28T11:21:21.192544Z"
+      }
+    ],
+    "metric_refs": [
+      {
+        "ref_id": "metrics_inc_chal_volume_05_410f",
+        "content_sha256": "8a217b7c19de5fc5c8322973eaf8fb2eaf74e57a845a3b742da92338ede896e8",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-09-28T11:21:21.192544Z"
+      }
+    ],
+    "ticket_refs": [
+      {
+        "ref_id": "ticket_inc_chal_volume_05_410f",
+        "content_sha256": "81128388694f882fc1f54f256a9003ae93f5cc7a3ec26b8a5c9aca6a3f59972e",
+        "redaction_status": "approved_redacted",
+        "observed_at": "2026-09-28T11:21:21.192544Z"
+      }
+    ]
+  },
+  "labels": {
+    "root_cause_code": "DN_VOLUME",
+    "confidence": "confirmed",
+    "review_status": "reviewed",
+    "evidence_refs": [
+      "log_inc_chal_volume_05_410f",
+      "metrics_inc_chal_volume_05_410f"
+    ],
+    "creator_id": "challenge-builder",
+    "reviewer_id": "lab-reviewer",
+    "adjudicator_id": null
+  }
+}

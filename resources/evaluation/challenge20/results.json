@@ -1,0 +1,633 @@
+{
+  "dataset": "challenge20_controlled_shift",
+  "synthetic": true,
+  "not_independent": true,
+  "cases": 20,
+  "events": 57,
+  "gate_passed": 20,
+  "gate_decision": {
+    "hits": 20,
+    "total": 20,
+    "rate": 1.0,
+    "ci95": [
+      0.8389,
+      1.0
+    ]
+  },
+  "case_majority": {
+    "hits": 13,
+    "total": 20,
+    "rate": 0.65,
+    "ci95": [
+      0.4329,
+      0.8188
+    ]
+  },
+  "case_first": {
+    "hits": 13,
+    "total": 20,
+    "rate": 0.65,
+    "ci95": [
+      0.4329,
+      0.8188
+    ]
+  },
+  "case_all_events": {
+    "hits": 12,
+    "total": 20,
+    "rate": 0.6,
+    "ci95": [
+      0.3866,
+      0.7812
+    ]
+  },
+  "case_any_event": {
+    "hits": 13,
+    "total": 20,
+    "rate": 0.65,
+    "ci95": [
+      0.4329,
+      0.8188
+    ]
+  },
+  "event_top1": {
+    "hits": 31,
+    "total": 57,
+    "rate": 0.5439,
+    "ci95": [
+      0.4159,
+      0.6663
+    ]
+  },
+  "report_modes": {
+    "DEGRADED_TEMPLATE": 57
+  },
+  "groups": {
+    "format_time": {
+      "cases": 5,
+      "case_majority": {
+        "hits": 5,
+        "total": 5,
+        "rate": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ]
+      },
+      "case_first": {
+        "hits": 5,
+        "total": 5,
+        "rate": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ]
+      },
+      "case_all_events": {
+        "hits": 5,
+        "total": 5,
+        "rate": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ]
+      },
+      "case_any_event": {
+        "hits": 5,
+        "total": 5,
+        "rate": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ]
+      },
+      "events": {
+        "hits": 17,
+        "total": 17,
+        "rate": 1.0,
+        "ci95": [
+          0.8157,
+          1.0
+        ]
+      }
+    },
+    "evidence_drop": {
+      "cases": 5,
+      "case_majority": {
+        "hits": 5,
+        "total": 5,
+        "rate": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ]
+      },
+      "case_first": {
+        "hits": 5,
+        "total": 5,
+        "rate": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ]
+      },
+      "case_all_events": {
+        "hits": 5,
+        "total": 5,
+        "rate": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ]
+      },
+      "case_any_event": {
+        "hits": 5,
+        "total": 5,
+        "rate": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ]
+      },
+      "events": {
+        "hits": 5,
+        "total": 5,
+        "rate": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ]
+      }
+    },
+    "paraphrase": {
+      "cases": 5,
+      "case_majority": {
+        "hits": 2,
+        "total": 5,
+        "rate": 0.4,
+        "ci95": [
+          0.1176,
+          0.7693
+        ]
+      },
+      "case_first": {
+        "hits": 2,
+        "total": 5,
+        "rate": 0.4,
+        "ci95": [
+          0.1176,
+          0.7693
+        ]
+      },
+      "case_all_events": {
+        "hits": 2,
+        "total": 5,
+        "rate": 0.4,
+        "ci95": [
+          0.1176,
+          0.7693
+        ]
+      },
+      "case_any_event": {
+        "hits": 2,
+        "total": 5,
+        "rate": 0.4,
+        "ci95": [
+          0.1176,
+          0.7693
+        ]
+      },
+      "events": {
+        "hits": 6,
+        "total": 15,
+        "rate": 0.4,
+        "ci95": [
+          0.1982,
+          0.6425
+        ]
+      }
+    },
+    "paraphrase_distractor": {
+      "cases": 5,
+      "case_majority": {
+        "hits": 1,
+        "total": 5,
+        "rate": 0.2,
+        "ci95": [
+          0.0362,
+          0.6245
+        ]
+      },
+      "case_first": {
+        "hits": 1,
+        "total": 5,
+        "rate": 0.2,
+        "ci95": [
+          0.0362,
+          0.6245
+        ]
+      },
+      "case_all_events": {
+        "hits": 0,
+        "total": 5,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.4345
+        ]
+      },
+      "case_any_event": {
+        "hits": 1,
+        "total": 5,
+        "rate": 0.2,
+        "ci95": [
+          0.0362,
+          0.6245
+        ]
+      },
+      "events": {
+        "hits": 3,
+        "total": 20,
+        "rate": 0.15,
+        "ci95": [
+          0.0524,
+          0.3604
+        ]
+      }
+    }
+  },
+  "families": {
+    "volume": {
+      "cases": 7,
+      "case_majority": {
+        "hits": 7,
+        "total": 7,
+        "rate": 1.0,
+        "ci95": [
+          0.6457,
+          1.0
+        ]
+      },
+      "case_all_events": {
+        "hits": 6,
+        "total": 7,
+        "rate": 0.8571,
+        "ci95": [
+          0.4869,
+          0.9743
+        ]
+      },
+      "events": {
+        "hits": 18,
+        "total": 19,
+        "rate": 0.9474,
+        "ci95": [
+          0.7536,
+          0.9906
+        ]
+      }
+    },
+    "heartbeat": {
+      "cases": 7,
+      "case_majority": {
+        "hits": 3,
+        "total": 7,
+        "rate": 0.4286,
+        "ci95": [
+          0.1582,
+          0.7495
+        ]
+      },
+      "case_all_events": {
+        "hits": 3,
+        "total": 7,
+        "rate": 0.4286,
+        "ci95": [
+          0.1582,
+          0.7495
+        ]
+      },
+      "events": {
+        "hits": 7,
+        "total": 21,
+        "rate": 0.3333,
+        "ci95": [
+          0.1719,
+          0.5463
+        ]
+      }
+    },
+    "safe_mode": {
+      "cases": 6,
+      "case_majority": {
+        "hits": 3,
+        "total": 6,
+        "rate": 0.5,
+        "ci95": [
+          0.1876,
+          0.8124
+        ]
+      },
+      "case_all_events": {
+        "hits": 3,
+        "total": 6,
+        "rate": 0.5,
+        "ci95": [
+          0.1876,
+          0.8124
+        ]
+      },
+      "events": {
+        "hits": 6,
+        "total": 17,
+        "rate": 0.3529,
+        "ci95": [
+          0.1731,
+          0.587
+        ]
+      }
+    }
+  },
+  "errors": [
+    {
+      "case_id": "inc_chal_heartbeat_11_90ea",
+      "family": "heartbeat",
+      "group": "paraphrase",
+      "expected": "DN_HEARTBEAT",
+      "pred": "DN_VOLUME",
+      "events": [
+        {
+          "event_id": "evt_73e04885b993b3f47bfa966a",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "NETWORK_CONNECTIVITY"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_ca21b3d8e7dbad243c059fa4",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME",
+            "NETWORK_CONNECTIVITY"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_909cf73b0b1d7ac8c6c1745c",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        }
+      ]
+    },
+    {
+      "case_id": "inc_chal_heartbeat_12_f009",
+      "family": "heartbeat",
+      "group": "paraphrase",
+      "expected": "DN_HEARTBEAT",
+      "pred": "DN_VOLUME",
+      "events": [
+        {
+          "event_id": "evt_7d2ffb15512cf875000dbcd9",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "NETWORK_CONNECTIVITY"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_50c4e203344fd79f64189412",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME",
+            "NETWORK_CONNECTIVITY"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_67c7a6379af7070761eccc07",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        }
+      ]
+    },
+    {
+      "case_id": "inc_chal_heartbeat_13_23b9",
+      "family": "heartbeat",
+      "group": "paraphrase_distractor",
+      "expected": "DN_HEARTBEAT",
+      "pred": "DN_VOLUME",
+      "events": [
+        {
+          "event_id": "evt_f8874d5f60a6b29a336a379c",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_0341c2221ea6421987dcbe66",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_5111cdf80fabd6936e8700da",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_62df6f36693911b88de05b72",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        }
+      ]
+    },
+    {
+      "case_id": "inc_chal_heartbeat_14_e1c3",
+      "family": "heartbeat",
+      "group": "paraphrase_distractor",
+      "expected": "DN_HEARTBEAT",
+      "pred": "DN_VOLUME",
+      "events": [
+        {
+          "event_id": "evt_17b80703312d02a43aad78e0",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_45fdef861bb0ce8af90c7429",
+          "pred": "NETWORK_CONNECTIVITY",
+          "preds": [
+            "NETWORK_CONNECTIVITY",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_f9f47bc32b1c7edc72a9a941",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_0e2b8be939d8ba70e30f0412",
+          "pred": "DN_VOLUME",
+          "preds": [
+            "DN_VOLUME",
+            "BLOCK_REPLICATION",
+            "DN_VOLUME"
+          ],
+          "rank": null
+        }
+      ]
+    },
+    {
+      "case_id": "inc_chal_safe_mode_18_a70f",
+      "family": "safe_mode",
+      "group": "paraphrase",
+      "expected": "NN_SAFE_MODE",
+      "pred": "BLOCK_REPLICATION",
+      "events": [
+        {
+          "event_id": "evt_95c89d9d26d74f52c92485af",
+          "pred": null,
+          "preds": [],
+          "rank": null
+        },
+        {
+          "event_id": "evt_f46880194258e9bfedb40dd0",
+          "pred": "BLOCK_REPLICATION",
+          "preds": [
+            "BLOCK_REPLICATION"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_d831f7d442d07061aed9f8aa",
+          "pred": "NN_AVAILABILITY",
+          "preds": [
+            "NN_AVAILABILITY"
+          ],
+          "rank": null
+        }
+      ]
+    },
+    {
+      "case_id": "inc_chal_safe_mode_19_cdae",
+      "family": "safe_mode",
+      "group": "paraphrase_distractor",
+      "expected": "NN_SAFE_MODE",
+      "pred": "DN_HEARTBEAT",
+      "events": [
+        {
+          "event_id": "evt_8e013c344d989fe01884aaca",
+          "pred": "DN_HEARTBEAT",
+          "preds": [
+            "DN_HEARTBEAT",
+            "DN_HEARTBEAT",
+            "DN_HEARTBEAT",
+            "DN_HEARTBEAT"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_84c93f781c9e93b717b75316",
+          "pred": null,
+          "preds": [],
+          "rank": null
+        },
+        {
+          "event_id": "evt_0ebe58047162cd951ffe298f",
+          "pred": "BLOCK_REPLICATION",
+          "preds": [
+            "BLOCK_REPLICATION"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_dd8607fec1627b491f96dba2",
+          "pred": "NN_AVAILABILITY",
+          "preds": [
+            "NN_AVAILABILITY"
+          ],
+          "rank": null
+        }
+      ]
+    },
+    {
+      "case_id": "inc_chal_safe_mode_20_c1df",
+      "family": "safe_mode",
+      "group": "paraphrase_distractor",
+      "expected": "NN_SAFE_MODE",
+      "pred": "DN_HEARTBEAT",
+      "events": [
+        {
+          "event_id": "evt_c12222f1a9504f75e5405951",
+          "pred": "DN_HEARTBEAT",
+          "preds": [
+            "DN_HEARTBEAT",
+            "DN_HEARTBEAT",
+            "DN_HEARTBEAT",
+            "DN_HEARTBEAT"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_1cd1ac98f018cb7c53458a1d",
+          "pred": null,
+          "preds": [],
+          "rank": null
+        },
+        {
+          "event_id": "evt_48a6f5ecb7d71b4f1b811194",
+          "pred": "BLOCK_REPLICATION",
+          "preds": [
+            "BLOCK_REPLICATION"
+          ],
+          "rank": null
+        },
+        {
+          "event_id": "evt_292fd91e33d6de4d3cfbace2",
+          "pred": "NN_AVAILABILITY",
+          "preds": [
+            "NN_AVAILABILITY"
+          ],
+          "rank": null
+        }
+      ]
+    }
+  ]
+}

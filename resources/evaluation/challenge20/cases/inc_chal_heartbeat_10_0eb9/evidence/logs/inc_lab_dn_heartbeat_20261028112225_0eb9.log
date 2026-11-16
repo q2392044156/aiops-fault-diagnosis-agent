@@ -1,0 +1,2 @@
+[prod-datanode-08] 2026-09-28 19:20:46,000 WARN  lab.Fault: dfs.FSNamesystem: Lost DataNode prod-datanode-08
+[prod-datanode-08] 2026-09-28 19:20:47,000 INFO  lab.Fault: dfs.FSNamesystem: BLOCK* ask prod-datanode-08 to replicate

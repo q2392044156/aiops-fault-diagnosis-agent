@@ -1,0 +1,7 @@
+timestamp,host_alias,component,metric,value
+2026-09-28T11:20:31.832626Z,prod-namenode-01,NameNode,disk_used_ratio,0.2
+2026-09-28T11:20:41.832626Z,prod-namenode-01,NameNode,disk_used_ratio,0.2
+2026-09-28T11:20:51.832626Z,prod-namenode-01,NameNode,disk_used_ratio,0.99
+2026-09-28T11:21:01.832626Z,prod-namenode-01,NameNode,disk_used_ratio,0.99
+2026-09-28T11:21:11.832626Z,prod-namenode-01,NameNode,disk_used_ratio,0.99
+2026-09-28T11:21:21.832626Z,prod-namenode-01,NameNode,disk_used_ratio,0.3

@@ -48,7 +48,8 @@ def main(argv=None):
         selected_ids = {row["case_id"] for row in selected}
         test.extend(row["case_id"] for row in selected)
         train.extend(row["case_id"] for row in rows if row["case_id"] not in selected_ids)
-    payload = {"dataset": "unified_5_fault", "split": "stratified_by_family_source",
+    payload = {"dataset": manifest.get("dataset", "unified_4_fault"),
+               "split": "stratified_by_family_source",
                "test_per_class": args.test_per_class,
                "test": sorted(test), "train": sorted(train),
                "test_count": len(test), "train_count": len(train)}

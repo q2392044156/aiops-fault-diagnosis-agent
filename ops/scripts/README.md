@@ -28,9 +28,11 @@
 | `freeze_v2_split.py` | 冻结 v2 的批次/分层 train-test 切分。 | `_cases`、`main` |
 | `freeze_network_split.py` | 冻结网络分区/磁盘 IO 的独立 train-test 切分。 | `main` |
 | `freeze_cross_batch.py` | 冻结网络分区+磁盘 IO 的跨批次测试集。 | `main` |
-| `build_unified_manifest.py` | 构建 5 类故障统一 manifest。 | `_rows`、`main` |
+| `build_unified_manifest.py` | 构建历史 5 类（含磁盘 IO）统一 manifest。 | `_rows`、`main` |
 | `freeze_unified_split.py` | 按故障族+来源冻结统一切分。 | `_pick`、`main` |
-| `evaluate_unified.py` | 统一 5 类指标与混淆矩阵。 | `_wilson`、`_evaluate`、`main` |
+| `evaluate_unified.py` | 统一 4 类指标、案例四口径、cluster bootstrap 与混淆矩阵。 | `_wilson`、`_bootstrap`、`_evaluate`、`main` |
+| `build_challenge20.py` | 从独立 holdout 构造 20 例受控分布偏移挑战集。 | `paraphrase`、`transform_logs`、`build_case`、`main` |
+| `evaluate_challenge20.py` | 按扰动组评测挑战集的案例/事件指标与错误明细。 | `_wilson`、`_report_codes`、`main` |
 | `evaluate_confusion.py` | 生成网络分区与心跳丢失的混淆矩阵。 | `_predict`、`_features`、`main` |
 | `evaluate_disk_confusion.py` | 生成磁盘 IO 与卷故障的混淆矩阵。 | `_predict`、`_rows`、`main` |
 | `freeze_detector.py` | 冻结检测器并生成可校验的 release 清单。 | `_sha`、`main` |

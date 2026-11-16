@@ -1,4 +1,7 @@
-"""脚本说明：构建 5 类故障的统一 manifest。"""
+"""脚本说明：构建历史 5 类（含磁盘 IO）故障的统一 manifest。
+
+当前 4 类口径使用 resources/evaluation/unified4/manifest.json，不含磁盘 IO。
+"""
 
 from __future__ import annotations
 

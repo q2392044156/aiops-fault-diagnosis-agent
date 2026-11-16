@@ -1,0 +1,14 @@
+[prod-namenode-01] 2026-09-28 19:20:25,453 WARN  lab.Fault: dfs.FSNamesystem: Lost DataNode prod-datanode-08
+[prod-namenode-01] 2026-09-28 19:20:26,453 INFO  lab.Fault: dfs.FSNamesystem: BLOCK* ask prod-datanode-08 to replicate
+[prod-namenode-01] 2026-09-28 19:20:33,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 0
+[prod-namenode-01] 2026-09-28 19:20:34,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 1
+[prod-namenode-01] 2026-09-28 19:20:35,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 2
+[prod-namenode-01] 2026-09-28 19:20:36,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 3
+[prod-namenode-01] 2026-09-28 19:20:37,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 4
+[prod-namenode-01] 2026-09-28 19:20:38,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 5
+[prod-namenode-01] 2026-09-28 19:20:39,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 6
+[prod-namenode-01] 2026-09-28 19:20:40,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 7
+[prod-namenode-01] 2026-09-28 19:20:41,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 8
+[prod-namenode-01] 2026-09-28 19:20:42,000 INFO  lab.Workload: case 2026-09-28T11:20:33.453753Z normal workload line 9
+[prod-namenode-01] 2026-09-28 19:20:54,000 INFO  lab.Fault: dfs.FSNamesystem: Entering maintenance mode
+[prod-namenode-01] 2026-09-28 19:20:55,000 WARN  lab.Fault: dfs.FSNamesystem: Startup guard is active. The reported blocks needs additional blocks to reach the threshold

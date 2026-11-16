@@ -1,0 +1,12 @@
+[prod-datanode-07] 2026-09-28 19:20:17,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 0
+[prod-datanode-07] 2026-09-28 19:20:18,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 1
+[prod-datanode-07] 2026-09-28 19:20:19,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 2
+[prod-datanode-07] 2026-09-28 19:20:20,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 3
+[prod-datanode-07] 2026-09-28 19:20:21,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 4
+[prod-datanode-07] 2026-09-28 19:20:22,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 5
+[prod-datanode-07] 2026-09-28 19:20:23,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 6
+[prod-datanode-07] 2026-09-28 19:20:24,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 7
+[prod-datanode-07] 2026-09-28 19:20:25,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 8
+[prod-datanode-07] 2026-09-28 19:20:26,000 INFO  lab.Workload: case 2026-09-28T11:20:17.353307Z normal workload line 9
+[prod-datanode-07] 2026-09-28 19:20:38,000 WARN  lab.Fault: dfs.FSDataset: Volume /data/1 failed, 0 bytes available
+[prod-datanode-07] 2026-09-28 19:20:39,000 ERROR  lab.Fault: dfs.DataNode$DataXceiver: writeBlock received exception java.io.IOException: No space left on device

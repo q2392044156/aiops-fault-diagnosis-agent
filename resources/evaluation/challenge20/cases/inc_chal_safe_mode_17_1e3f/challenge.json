@@ -1,0 +1,16 @@
+{
+  "synthetic": true,
+  "not_independent": true,
+  "group": "evidence_drop",
+  "original_case": "inc_lab_nn_safe_mode_20261028112231_1e3f",
+  "source_format": "docker_container->wsl",
+  "time_shift_days": -30,
+  "host_rename": {
+    "aiops-lab-dn1": "prod-datanode-07",
+    "aiops-lab-dn2": "prod-datanode-08",
+    "aiops-lab-dn3": "prod-datanode-09",
+    "aiops-lab-namenode": "prod-namenode-01"
+  },
+  "source_log_sha256": "250b099b2b4ae2087fd845442e107a707abefa8ac03976f39e7139300af04e31",
+  "label_source": "original incident labels"
+}
