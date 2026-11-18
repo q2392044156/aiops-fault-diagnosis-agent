@@ -39,6 +39,7 @@
 | --- | --- |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | 分层、模块边界、四条不变量 |
 | [../PROJECT_STRUCTURE.md](../PROJECT_STRUCTURE.md) | 目录结构、依赖方向、兼容约定 |
+| [发布校验策略.md](发布校验策略.md) | 两类哈希（身份指纹 / 运行期一致性）、日常与门禁两档校验、源码清单按 glob 生成 |
 | [architecture.png](architecture.png) / [architecture.svg](architecture.svg) | 架构图 |
 
 ## 4. 数据调研

@@ -16,7 +16,7 @@ harness/run_case.py
         │  采集日志 + docker stats → 脱敏 → sha256
         ▼
 incident.json（五时间戳 + 证据引用 + 根因码）
-        │  python -m aiops_diag.data incident import
+        │  python -m offline.ingestion incident import
         ▼
 incident_registry ──┐
                     ├─ evaluate_incidents.py → Top-1 / Top-3 / MRR / MTTD

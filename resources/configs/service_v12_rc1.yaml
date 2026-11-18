@@ -11,14 +11,14 @@ retrieval_backend: langchain
 v11_candidate:
   protocol: resources/evaluation/v1.1/protocol.json
   calibration: experiments/v1_1/gate_calibration.json
-  release_dir: artifacts/releases/agent_v11_framework_base_rc2
+  release_dir: artifacts/releases/agent_v11_framework_base_rc7
 framework_candidate:
   base_service_config: resources/configs/service_v11_framework_base_rc2.yaml
-  release_dir: artifacts/releases/framework_v12_rc2
+  release_dir: artifacts/releases/framework_v12_rc8
   prior_blind_observation: experiments/v1_2/blind_cde_20261020_once/result.json
 v12:
   enabled: true
-  release_dir: artifacts/releases/v1_2_rc1_09
+  release_dir: artifacts/releases/v1_2_rc1_15
   data_config: resources/configs/data_v12_external.yaml
   incident_protocol: resources/evaluation/v1.2/real_incident_protocol/incident.schema.json
   checkpoint:

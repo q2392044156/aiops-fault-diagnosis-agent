@@ -8,7 +8,7 @@ agent_backend: v11_candidate
 v11_candidate:
   protocol: resources/evaluation/v1.1/protocol.json
   calibration: experiments/v1_1/gate_calibration.json
-  release_dir: artifacts/releases/agent_v11_framework_base_rc2
+  release_dir: artifacts/releases/agent_v11_framework_base_rc7
 w4_release_dir: experiments/time_event_v1/model_selection_v1/final
 release_dir: artifacts/releases/v1.0_service
 server: {host: 127.0.0.1, port: 8000, workers: 1}

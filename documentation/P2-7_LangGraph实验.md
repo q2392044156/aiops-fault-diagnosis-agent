@@ -35,7 +35,7 @@
 
 新增 `ops/lab/harness/ingest.py --agent-backend langgraph`：
 
-- 构造 `LangGraphAgentEngine`，而不是原生 `AgentEngine`；
+- 构造 `LangGraphAgent`，而不是原生 `Agent`；
 - 注入 `v12.enabled=True`、`execution_backend=langgraph`、`query_builder` 配置；
 - 复用 `CardRetriever` 与 `OfflineClient`；
 - 默认 `native` 不变，原有实验不受影响。
@@ -74,7 +74,7 @@ python ops/lab/harness/langgraph_poc.py
 - `lost heartbeat / removedead / dead datanode` 均为 0；
 - `heartbeat` 仅 2 次，`volume` 10 次。
 
-LangGraph 走的是 v1.1 候选路径 `CandidateAgentEngine`：
+LangGraph 走的是 v1.1 候选路径 `CandidateAgent`：
 
 - 检索计划由 `query_builder` 生成；
 - 证据没有经过主引擎的"信号行优先"选择；
@@ -86,7 +86,7 @@ LangGraph 走的是 v1.1 候选路径 `CandidateAgentEngine`：
 
 | 维度 | 主引擎 | LangGraph 后端 |
 | --- | --- | --- |
-| 代码路径 | `diagnosis/engine.py` | `query_v11/engine.py` + 图包装 |
+| 代码路径 | `diagnosis/agent.py` | `v11/candidate.py` + 图包装 |
 | 证据选择 | 信号行优先 + 弱先验 | query_builder + 原始窗口 |
 | 状态 | 业务表 | 业务表 + checkpoint |
 | 默认 | ✅ | ❌ |
@@ -103,8 +103,8 @@ LangGraph 走的是 v1.1 候选路径 `CandidateAgentEngine`：
 
 ## 7. 相关文件
 
-- `src/aiops_diag/diagnosis/framework/graph.py`
-- `src/aiops_diag/diagnosis/framework/checkpoint.py`
+- `src/online/diagnosis/framework/graph.py`
+- `src/online/diagnosis/framework/checkpoint.py`
 - `ops/lab/harness/ingest.py`
 - `ops/lab/harness/langgraph_poc.py`
 - `tests/test_framework_v12.py`
