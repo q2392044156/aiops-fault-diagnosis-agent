@@ -268,6 +268,8 @@ artifacts/、runtime/、data/、experiments/ 和 ops/lab/*_cases/ 不提交 Git�
 2. **有 8 条用例 skipped**：它们要 `artifacts/releases/v1.0_service` 这类本地发布制品，而 `artifacts/`、
    `experiments/`、`data/` 都不进仓库（`publish` 还依赖 `experiments/time_event_v1/model_selection_v1/final/manifest.json`
    等上游产物）。新克隆跑不了这几条是设计如此，不是装错了。
+3. **Windows 上敲 `python` 弹出应用商店**：那是 `WindowsApps` 下的占位符，不是真解释器。用
+   `py -3.11`、`conda activate` 之后的 `python`，或直接写解释器绝对路径。
 
 ---
 
@@ -300,8 +302,8 @@ artifacts/、runtime/、data/、experiments/ 和 ops/lab/*_cases/ 不提交 Git�
     python -m ruff check .
     python -m mypy
 
-结构校验除了静态检查，还查：模块目录登记、每个 `.py` 都在 README 里列出、模块 docstring 为中文、
-禁止 `# 方法说明：` 一类机械注释标签、mypy 边界清单内的函数必须写返回标注。
+结构校验是另一套规则，与上面的静态检查互不替代：模块目录登记、每个 `.py` 都在 README 里列出、
+模块 docstring 为中文、禁止 `# 方法说明：` 一类机械注释标签、mypy 边界清单内的函数必须写返回标注。
 
 ### 可选：Makefile 快捷方式
 
