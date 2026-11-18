@@ -22,11 +22,17 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-framework-lock.txt
           python -m pip install -e . --no-deps
-          python -m pip install "pytest>=8,<10"
+          python -m pip install "pytest>=8,<10" "ruff==0.17.5" "mypy==2.4.1"
           python -m pip check
 
       - name: Run tests
-        run: python -m pytest -q --basetemp=.pytest-tmp
+        run: python -m pytest -q
+
+      - name: Lint
+        run: python -m ruff check .
+
+      - name: Type check
+        run: python -m mypy
 
       - name: Validate project structure
         run: python ops/scripts/validate_project_structure.py
