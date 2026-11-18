@@ -21,30 +21,41 @@
     aiops-fault-diagnosis-agent/
     ├─ src/
     │  ├─ offline/                 # 离线数据流程
-    │  │  ├─ ingestion/            # adapter、canonical、窗口、审计
-    │  │  ├─ case/                 # 故障事件契约、导入与受控实验记录
-    │  │  └─ detection/            # 模板挖掘/特征、severity-first 门禁、LR/LSTM、选择实验
+    │  │  ├─ ingestion/            # 解析适配、canonical、窗口、审计、下载
+    │  │  ├─ case/                 # 事件契约、导入校验、受控实验记录
+    │  │  └─ detection/            # 模板挖掘与特征、severity 门禁、LR/LSTM 检测器、选择实验
     │  ├─ online/                  # 在线诊断流程
-    │  │  ├─ diagnosis/            # 7 节点代理、证据选择、工具；v11/ 候选、framework/ LangGraph
-    │  │  └─ knowledge/            # 语料、混合检索、发布；v11/ 评测、generation/ 报告生成
-    │  ├─ evaluation/              # 跨离线/在线的评测层：轨迹、红队、路由、框架对照
+    │  │  ├─ diagnosis/            # 诊断代理（Agent / CandidateAgent）、证据与信号、工具路由、检索式查询；framework/ 为 LangGraph 实现
+    │  │  └─ knowledge/            # 语料与混合检索、发布与门禁、报告生成（generation/）
+    │  ├─ evaluation/              # 跨离线/在线的评测层
+    │  │  ├─ agent/                # 轨迹回放、红队、预算、错误分类、报告案例
+    │  │  └─ retrieval/            # 检索协议、候选池、人工复核、冻结、盲测、runbook 复核
     │  └─ aiops_diag/              # 共享基础设施
     │     ├─ common.py             # 哈希、配置解析、清单校验、分位数
     │     ├─ constants.py          # 工具白名单与预算裁剪顺序
     │     ├─ nodes.py              # 诊断节点固定顺序
-    │     ├─ platform/             # API、worker、SQLite、UI、MCP、incident 命令
+    │     ├─ platform/             # API、worker、SQLite、UI、MCP、incident 命令、发布校验
     │     └─ release/
     ├─ ops/
     │  ├─ lab/                     # Docker/WSL 实验台、采集、批量重放
-    │  └─ scripts/                 # 门禁、事件、证据、引用评测
+    │  ├─ scripts/                 # 门禁、事件、证据、引用、评测脚本
+    │  ├─ deployment/              # 健康检查与部署辅助
+    │  └─ redteam/                 # 红队语料
     ├─ resources/
-    │  ├─ configs/                 # Agent、RAG、服务配置
+    │  ├─ configs/                 # Agent、RAG、检测、服务与发布配置
     │  ├─ knowledge/               # 知识卡和知识库
-    │  └─ evaluation/              # 冻结切分与结果
-    ├─ tests/                      # 自动化测试
+    │  ├─ evaluation/              # 冻结协议、切分与评测结果
+    │  └─ releases/                # 检测器 release 元数据
+    ├─ tests/                      # 自动化测试（256 个用例）
+    ├─ documentation/              # 架构、实验报告与验收记录
     ├─ demo/                       # 离线端到端演示
-    ├─ artifacts/                  # 检测器/RAG release（本地生成）
-    └─ runtime/                    # SQLite、临时运行数据（本地生成）
+    ├─ data/                       # 原始与处理后的日志数据（本地）
+    ├─ experiments/                # 评测与调参产物（本地）
+    ├─ artifacts/                  # 检测器/RAG/发布清单（本地生成）
+     └─ runtime/                    # SQLite、临时运行数据（本地生成）
+
+目录约定的细节见 [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)；发布清单的校验方式与行尾要求见
+[documentation/发布校验策略.md](documentation/发布校验策略.md)。
 
 ---
 
@@ -217,7 +228,9 @@ test 混淆矩阵四类全部落在对角线上，案例级误判 0。
 | .env | DeepSeek API Key，离线运行不需要 |
 | resources/configs/agent.yaml | 7 节点预算、工具、审批 |
 | resources/configs/rag.yaml | RAG Top-K、RRF、BGE |
-| resources/configs/service_v12_rc1.yaml | API/worker/UI 服务 |
+| resources/configs/query_builder_v1.yaml | 检索式构造（v1.1 候选） |
+| resources/configs/service_v12_rc1.yaml | API/worker/UI 服务（v1.2 候选） |
+| resources/configs/service_framework_rc2.yaml | 框架候选（LangGraph）的服务装配 |
 | resources/knowledge/ | 知识卡与知识库 |
 | artifacts/ | 检测器、模板、RAG release |
 | runtime/ | SQLite 与运行产物 |
@@ -240,8 +253,16 @@ artifacts/、runtime/、data/、experiments/ 和 ops/lab/*_cases/ 不提交 Git�
 
 ### 测试与结构校验
 
-    conda run --name aiops-fault-diagnosis-agent python -m pytest -q --basetemp=.pytest-tmp
+    conda run --name aiops-fault-diagnosis-agent python -m pytest -q
     conda run --name aiops-fault-diagnosis-agent python ops/scripts/validate_project_structure.py
+
+静态检查（ruff / mypy，规则与标注范围都在 pyproject.toml）：
+
+    conda run --name aiops-fault-diagnosis-agent python -m ruff check .
+    conda run --name aiops-fault-diagnosis-agent python -m mypy
+
+结构校验同时检查：模块目录登记、每个 `.py` 都在 README 中列出、模块 docstring 为中文、禁止
+`# 方法说明：` 一类机械注释标签、mypy 边界清单内的函数必须写返回标注。
 
 ### 在线 Demo（需要 Key）
 
