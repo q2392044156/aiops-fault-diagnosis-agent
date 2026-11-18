@@ -33,7 +33,7 @@ Candidate 冻结时绑定的同源 v1.1 基线，便于只比较框架接入造�
 ## 运行
 
 ```powershell
-.\.w10-env\Scripts\python.exe scripts\run_framework_offline_comparison.py
+python scripts\run_framework_offline_comparison.py
 ```
 
 默认产物：

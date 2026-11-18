@@ -87,7 +87,7 @@
 - 卷：`no space left` / `ENOSPC` 2.3、`failed volumes` 2.3、`volume ... failed/full` 1.4。
 - 安全模式：`safe mode` 2.3、`startup guard` 2.2、`reported blocks ... threshold` 1.0（context）。
 - 干扰信号：`BLOCK* ... replicat` 只算 0.4 support，不再压过真正的 direct 信号。
-- 证据选择、`rank_root_causes`、`detected_codes_from_text` 和 `query_v11` 共用同一套信号本体。
+- 证据选择、`rank_root_causes`、`detected_codes_from_text` 和 `v11` 共用同一套信号本体。
 - 相接窗口合并：同一案例/组件、时间重叠或间隔为 0 的 PASS 窗口合并，57 个 event 降为 21 个，避免同一段故障重复诊断。
 - 修复 `_signature` 的数字正则（原 `r"\\d+"` 实际匹配反斜杠），`normal workload line 0-9` 现在会归一化去重。
 
