@@ -1,4 +1,8 @@
-﻿* text=auto eol=lf
+# 统一用 LF，避免 Windows 上的 autocrlf 把冻结摘要算错。
+# 注意：本文件不能带 BOM，否则第一行通配规则会失效（出现过一次，导致新克隆出现 CRLF 并让 4 个密封用例失败）。
+* text=auto eol=lf
+
+# 批处理与 PowerShell 脚本必须是 CRLF，否则 Windows 下无法执行。
 *.bat text eol=crlf
 *.cmd text eol=crlf
 *.ps1 text eol=crlf
