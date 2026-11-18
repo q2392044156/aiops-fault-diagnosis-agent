@@ -1,18 +1,16 @@
-# 模块说明：执行关键路径冒烟验证。
-"""Exercise the LangChain summary path once with the configured provider."""
+"""用已配置的模型供应商跑一次性 LangChain 摘要链路冒烟。"""
 
 import argparse
 import json
 import os
 from pathlib import Path
 
-from aiops_diag.diagnosis.query_v11.engine import AgentEngine
-from aiops_diag.diagnosis.framework.report_chain import CandidateSummaryChain
-from aiops_diag.knowledge.generation.client import BudgetLedger, DeepSeekClient
-from aiops_diag.knowledge.generation.config import load
+from online.diagnosis.candidate import Agent
+from online.diagnosis.framework.report_chain import CandidateSummaryChain
+from online.knowledge.generation.client import BudgetLedger, DeepSeekClient
+from online.knowledge.generation.settings import load
 
 
-# 方法说明：`load_local_secrets` 完成当前步骤的业务处理；参数为 `path`。
 def load_local_secrets(path):
     for line in Path(path).read_text(encoding="utf-8").splitlines():
         text = line.strip()
@@ -23,7 +21,6 @@ def load_local_secrets(path):
             os.environ.setdefault(name, value.strip().strip('"').strip("'"))
 
 
-# 方法说明：`run` 完成当前步骤的业务处理；参数为 `config_path`、`env_path`、`output`。
 def run(config_path, env_path, output):
     load_local_secrets(env_path)
     cfg = load(config_path)
@@ -34,7 +31,7 @@ def run(config_path, env_path, output):
     if not client.configured:
         raise RuntimeError("DeepSeek API key is not configured")
     try:
-        engine = object.__new__(AgentEngine)
+        engine = object.__new__(Agent)
         engine.client = client
         engine.summary_chain = CandidateSummaryChain()
         budget = {"max_tool_calls": 8, "max_llm_calls": 3, "max_tokens": 12000,

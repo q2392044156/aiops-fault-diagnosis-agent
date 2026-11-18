@@ -1,20 +1,19 @@
-"""模块说明：验证路线 A 的实验编排、incident 合法性与指标计算。"""
-
-import json
-from datetime import datetime, timedelta, timezone
-
-from aiops_diag.data.incident_v12 import import_incident, load_incident, validate_incident
-from aiops_diag.data.lab import build_incident, sha256_text, write_incident
-from aiops_diag.platform.db import Database
+"""验证路线 A 的实验编排、incident 合法性与指标计算。"""
 
 import importlib.util
+import json
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录。
+from aiops_diag.platform.db import Database
+from offline.case.incident import import_incident, load_incident, validate_incident
+from offline.case.lab import build_incident, sha256_text, write_incident
+
+# ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[1]
 
 
-# 方法说明：_load 动态加载实验室编排器，避免把 ops 目录变成包。
+# _load 动态加载实验室编排器，避免把 ops 目录变成包。
 def _load(name, relative):
     spec = importlib.util.spec_from_file_location(name, ROOT / relative)
     module = importlib.util.module_from_spec(spec)
@@ -22,9 +21,9 @@ def _load(name, relative):
     return module
 
 
-# 方法说明：_incident 构造一条带完整时间戳与证据引用的实验事件。
+# _incident 构造一条带完整时间戳与证据引用的实验事件。
 def _incident(tmp_path, code="DN_VOLUME", detected=True):
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     t0 = now - timedelta(seconds=120)
     logs = "ERROR dfs.DataNode: No space left on device\n"
     (tmp_path / "logs").mkdir(parents=True, exist_ok=True)
@@ -50,28 +49,28 @@ def _incident(tmp_path, code="DN_VOLUME", detected=True):
         cutoff_time=t0 + timedelta(seconds=60))
 
 
-# 类说明：_Stub 构造只提供所需查询的数据库桩。
+# _Stub 构造只提供所需查询的数据库桩。
 class _Stub:
-    # 方法说明：__init__ 保存事件记录与报告。
+    # __init__ 保存事件记录与报告。
     def __init__(self, record, report):
         self.record = record
         self.report = report
 
-    # 方法说明：all 返回一条 incident_registry 记录。
+    # all 返回一条 incident_registry 记录。
     def all(self, query, params=()):
         if "incident_registry" in query:
             return [{"incident_id": self.record["incident_id"],
                      "record_json": json.dumps(self.record)}]
         return []
 
-    # 方法说明：one 返回一份诊断报告。
+    # one 返回一份诊断报告。
     def one(self, query, params=()):
         if "incident_reports" in query and self.report is not None:
             return {"report_json": json.dumps(self.report)}
         return None
 
 
-# 方法说明：test_dry_run_generates_valid_incident 验证离线实验产出的记录合法且可导入。
+# test_dry_run_generates_valid_incident 验证离线实验产出的记录合法且可导入。
 def test_dry_run_generates_valid_incident(tmp_path):
     harness = _load("lab_harness", "ops/lab/harness/run_case.py")
     result = harness.run_case("DN_VOLUME", dry_run=True, case_root=tmp_path)
@@ -88,7 +87,7 @@ def test_dry_run_generates_valid_incident(tmp_path):
     assert imported["status"] == "ACTIVE"
 
 
-# 方法说明：test_incident_evidence_hash_matches_file 验证证据哈希与文件一致。
+# test_incident_evidence_hash_matches_file 验证证据哈希与文件一致。
 def test_incident_evidence_hash_matches_file(tmp_path):
     record = _incident(tmp_path)
     write_incident(tmp_path / "incident.json", record)
@@ -97,7 +96,7 @@ def test_incident_evidence_hash_matches_file(tmp_path):
     assert ref.content_sha256 == sha256_text(text)
 
 
-# 方法说明：test_incident_metrics_rank_and_mttd 验证 Top-1 与 MTTD 计算。
+# test_incident_metrics_rank_and_mttd 验证 Top-1 与 MTTD 计算。
 def test_incident_metrics_rank_and_mttd(tmp_path):
     evaluator = _load("incident_eval", "ops/scripts/evaluate_incidents.py")
     record = _incident(tmp_path).model_dump(mode="json")
@@ -110,7 +109,7 @@ def test_incident_metrics_rank_and_mttd(tmp_path):
     assert summary["mttd_seconds"] == 45.0
 
 
-# 方法说明：test_missing_diagnosis_is_counted_as_excluded 验证没有报告时返回 N/A 而不是 0。
+# test_missing_diagnosis_is_counted_as_excluded 验证没有报告时返回 N/A 而不是 0。
 def test_missing_diagnosis_is_counted_as_excluded(tmp_path):
     evaluator = _load("incident_eval_missing", "ops/scripts/evaluate_incidents.py")
     record = _incident(tmp_path).model_dump(mode="json")
@@ -118,7 +117,7 @@ def test_missing_diagnosis_is_counted_as_excluded(tmp_path):
     assert result["summary"]["top1"] == "N/A"
     assert result["summary"]["exclusion_reasons"] == {"no_diagnosis": 1}
 
-# 方法说明：test_ingest_creates_diagnosis_and_report 验证实验日志可接入并产出报告。
+# test_ingest_creates_diagnosis_and_report 验证实验日志可接入并产出报告。
 def test_ingest_creates_diagnosis_and_report(tmp_path):
     harness = _load("lab_harness_ingest", "ops/lab/harness/run_case.py")
     ingest_module = _load("lab_ingest", "ops/lab/harness/ingest.py")
@@ -132,7 +131,7 @@ def test_ingest_creates_diagnosis_and_report(tmp_path):
                         (mapping["diagnosis_id"],))["found"] == 1
     assert database.one("SELECT COUNT(*) AS n FROM incident_registry")["n"] == 0
 
-# 方法说明：test_incident_metrics_prefer_root_cause_code 验证代码级匹配优先于组件。
+# test_incident_metrics_prefer_root_cause_code 验证代码级匹配优先于组件。
 def test_incident_metrics_prefer_root_cause_code(tmp_path):
     evaluator = _load("incident_eval_code", "ops/scripts/evaluate_incidents.py")
     record = _incident(tmp_path).model_dump(mode="json")

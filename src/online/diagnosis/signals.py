@@ -1,22 +1,21 @@
-"""模块说明：定义可解释的根因信号本体，统一日志打分、根因码排序和证据严重度判断。"""
+"""定义可解释的根因信号本体，统一日志打分、根因码排序和证据严重度判断。"""
 
 from __future__ import annotations
 
 import re
 
-
-# 变量说明：LEVEL_WEIGHT 是日志级别对直接证据的放大或折扣系数。
+# LEVEL_WEIGHT 是日志级别对直接证据的放大或折扣系数。
 LEVEL_WEIGHT = {"FATAL": 1.2, "ERROR": 1.2, "WARN": 1.0, "INFO": 0.8, "DEBUG": 0.6}
-# 变量说明：ROLE_WEIGHT 区分直接原因、上下文补充和旁证，避免旁证压过主信号。
+# ROLE_WEIGHT 区分直接原因、上下文补充和旁证，避免旁证压过主信号。
 ROLE_WEIGHT = {"direct": 1.0, "context": 0.35, "support": 0.2}
-# 变量说明：STRONG_THRESHOLD 是可判定根因码所需的最低信号强度。
+# STRONG_THRESHOLD 是可判定根因码所需的最低信号强度。
 STRONG_THRESHOLD = 1.2
-# 变量说明：CODE_ORDER 是分数相同时的稳定排序，不改变实际得分。
+# CODE_ORDER 是分数相同时的稳定排序，不改变实际得分。
 CODE_ORDER = {"DN_VOLUME": 0, "NETWORK_CONNECTIVITY": 1, "NN_SAFE_MODE": 2,
               "DN_HEARTBEAT": 3, "NN_AVAILABILITY": 4}
 
 
-# 变量说明：SIGNAL_RULES 按根因码登记正则、基础权重和证据角色。
+# SIGNAL_RULES 按根因码登记正则、基础权重和证据角色。
 SIGNAL_RULES = {
     "DN_VOLUME": (
         (r"\bno\s+space\s+left(?:\s+on\s+device)?\b", 2.3, "direct"),
@@ -62,7 +61,7 @@ SIGNAL_RULES = {
 }
 
 
-# 方法说明：_compile 预编译正则，避免逐行重复编译。
+# _compile 预编译正则，避免逐行重复编译。
 def _compile():
     compiled = {}
     for code, rules in SIGNAL_RULES.items():
@@ -73,23 +72,23 @@ def _compile():
     return compiled
 
 
-# 变量说明：COMPILED_RULES 是预编译后的规则表。
+# COMPILED_RULES 是预编译后的规则表。
 COMPILED_RULES = _compile()
 
 
-# 方法说明：_level 把日志级别归一化为受控取值。
+# _level 把日志级别归一化为受控取值。
 def _level(value):
     level = (value or "").upper()
     return level if level in LEVEL_WEIGHT else "INFO"
 
 
-# 方法说明：_message 兼容 canonical 与平台证据字段读取日志正文。
+# _message 兼容 canonical 与平台证据字段读取日志正文。
 def _message(row):
     return (row.get("redacted_message") or row.get("excerpt_redacted")
             or row.get("message") or "").strip()
 
 
-# 方法说明：analyze_row 对单行日志按正则、权重和角色计算各根因码得分。
+# analyze_row 对单行日志按正则、权重和角色计算各根因码得分。
 def analyze_row(row):
     text = _message(row)
     level = _level(row.get("level"))
@@ -119,7 +118,7 @@ def analyze_row(row):
     return scored
 
 
-# 方法说明：analyze_rows 汇总多行日志，同名根因码取最高分行并保留命中日志。
+# analyze_rows 汇总多行日志，同名根因码取最高分行并保留命中日志。
 def analyze_rows(rows):
     best = {}
     for row in rows or []:
@@ -129,31 +128,31 @@ def analyze_rows(rows):
                 best[item["code"]] = {**item, "log_ids": [item["log_id"]]
                                       if item.get("log_id") else [],
                                       "matched": list(item["matched"])}
-            elif item["score"] == current["score"] and item.get("log_id"):
-                if item["log_id"] not in current["log_ids"]:
-                    current["log_ids"].append(item["log_id"])
+            elif (item["score"] == current["score"] and item.get("log_id")
+                    and item["log_id"] not in current["log_ids"]):
+                current["log_ids"].append(item["log_id"])
     codes = sorted(best.values(),
                    key=lambda item: (-item["score"], CODE_ORDER.get(item["code"], 9)))
     return {"codes": codes, "score": round(codes[0]["score"], 4) if codes else 0.0}
 
 
-# 方法说明：rank_codes 返回达到阈值的根因码，顺序即证据优先级。
+# rank_codes 返回达到阈值的根因码，顺序即证据优先级。
 def rank_codes(rows, min_score=STRONG_THRESHOLD):
     analysis = analyze_rows(rows if isinstance(rows, list) else [rows])
     return [item["code"] for item in analysis["codes"] if item["score"] >= float(min_score)]
 
 
-# 方法说明：signal_strength 返回一组日志中的最高信号强度。
+# signal_strength 返回一组日志中的最高信号强度。
 def signal_strength(rows):
     return analyze_rows(rows if isinstance(rows, list) else [rows])["score"]
 
 
-# 方法说明：signal_codes 返回带分数的根因码，供审计和调试使用。
+# signal_codes 返回带分数的根因码，供审计和调试使用。
 def signal_codes(rows):
     return analyze_rows(rows if isinstance(rows, list) else [rows])["codes"]
 
 
-# 方法说明：weak_code_hint 在没有强信号时用上下文或弱词给出保守先验。
+# weak_code_hint 在没有强信号时用上下文或弱词给出保守先验。
 def weak_code_hint(text):
     analysis = analyze_rows([{"redacted_message": text or "", "level": "INFO"}])
     codes = analysis["codes"]

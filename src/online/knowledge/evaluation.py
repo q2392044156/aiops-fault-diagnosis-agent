@@ -1,16 +1,14 @@
-"""模块说明：计算当前模块的评测指标并输出结构化结果。"""
+"""计算检索指标、选择门禁阈值并校验查询集。"""
 
 import math
 import statistics
 import time
 from collections import defaultdict
 
-import numpy as np
+from aiops_diag.common import percentile
+from online.knowledge.engine import tokenize
 
-from .engine import tokenize
 
-
-# 方法说明：`validate_queries` 完成当前步骤的业务处理；参数为 `queries`、`qrels`、`split`。
 def validate_queries(queries, qrels, split):
     if len(queries) != 60:
         raise ValueError(f"R{split} must contain exactly 60 queries")
@@ -28,12 +26,6 @@ def validate_queries(queries, qrels, split):
         raise ValueError(f"R{split} answerable query is missing qrels")
 
 
-# 方法说明：`_percentile` 完成当前步骤的业务处理；参数为 `values`、`q`。
-def _percentile(values, q):
-    return float(np.percentile(np.asarray(values, dtype=np.float64), q)) if values else 0.0
-
-
-# 方法说明：`evaluate` 完成当前步骤的业务处理；参数为 `engine`、`queries`、`qrels`、`mode`、`top_k`、`apply_gate`。
 def evaluate(engine, queries, qrels, mode, top_k, apply_gate=False):
     relevance = defaultdict(dict)
     for row in qrels:
@@ -78,7 +70,7 @@ def evaluate(engine, queries, qrels, mode, top_k, apply_gate=False):
         "recall": statistics.fmean(row["recall"] for row in answers),
         "mrr": statistics.fmean(row["mrr"] for row in answers),
         "ndcg": statistics.fmean(row["ndcg"] for row in answers),
-        "p50_ms": _percentile(latencies, 50), "p95_ms": _percentile(latencies, 95),
+        "p50_ms": percentile(latencies, 50), "p95_ms": percentile(latencies, 95),
         "mean_context_tokens": statistics.fmean(row["context_tokens"] for row in rows),
     }
     if apply_gate:
@@ -91,19 +83,27 @@ def evaluate(engine, queries, qrels, mode, top_k, apply_gate=False):
     return {"metrics": metrics, "queries": rows}
 
 
-# 方法说明：`choose_gate` 完成当前步骤的业务处理；参数为 `engine`、`queries`、`maximum_false_rate`。
 def choose_gate(engine, queries, maximum_false_rate):
+    """按服务同样的组件与版本过滤取分数，挑召回最高、误报不超限的阈值。"""
     scored = []
     for query in queries:
         result = engine.search(query["query"], mode="hybrid", top_k=5,
-                               component=query.get("component"), apply_gate=False)
-        scored.append((query["has_answer"], float(result["gate_score"])))
-    candidates = sorted({score for _, score in scored} |
-                        {max(score for _, score in scored) + 1e-9})
+                               component=query.get("component"),
+                               product_version=query.get("product_version"),
+                               apply_gate=False)
+        scored.append((query["has_answer"], result["gate_score"]))
+    if not any(answer for answer, _ in scored) or all(answer for answer, _ in scored):
+        raise ValueError("Calibration requires answerable and no-answer queries")
+    candidates = sorted({score for _, score in scored if score is not None})
+    if not candidates:
+        raise ValueError("Calibration has no eligible evidence scores")
+    candidates.append(max(candidates) + 1e-9)
     feasible = []
     for threshold in candidates:
-        answer = [score >= threshold for expected, score in scored if expected]
-        noanswer = [score >= threshold for expected, score in scored if not expected]
+        answer = [score is not None and score >= threshold
+                  for expected, score in scored if expected]
+        noanswer = [score is not None and score >= threshold
+                    for expected, score in scored if not expected]
         false_rate = sum(noanswer) / len(noanswer)
         if false_rate <= maximum_false_rate:
             feasible.append((sum(answer) / len(answer), -false_rate, threshold))

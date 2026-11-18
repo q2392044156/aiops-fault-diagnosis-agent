@@ -1,46 +1,43 @@
-"""模块说明：连接服务请求、检测、检索与诊断流程。"""
+"""连接服务请求、检测、检索与诊断流程。"""
 
 import hashlib
 import json
+import logging
 import os
 import shutil
 import sqlite3
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pyarrow as pa
 import pyarrow.parquet as pq
 
 from aiops_diag.common import digest, key, save
+from offline.detection.features import IP, content
 from offline.ingestion.parser import parse
-from offline.detection.templates import IP, content
 
+LOG = logging.getLogger(__name__)
 
-# 变量说明：`LOG_SCHEMA` 保存本模块或数据模型使用的稳定值。
 LOG_SCHEMA = pa.schema([
     ("log_id", pa.string()), ("raw_line_no", pa.int64()), ("timestamp", pa.string()),
     ("level", pa.string()), ("component", pa.string()), ("redacted_message", pa.string()),
     ("template_id", pa.int32()), ("session_ids", pa.list_(pa.string())),
     ("parse_status", pa.string()),
 ])
-# 变量说明：`QUARANTINE_SCHEMA` 保存本模块或数据模型使用的稳定值。
 QUARANTINE_SCHEMA = pa.schema([
     ("log_id", pa.string()), ("raw_line_no", pa.int64()), ("raw_hash", pa.string()),
     ("reason", pa.string()), ("redacted_preview", pa.string()),
 ])
-# 变量说明：`LINK_SCHEMA` 保存本模块或数据模型使用的稳定值。
 LINK_SCHEMA = pa.schema([
     ("session_id", pa.string()), ("raw_line_no", pa.int64()), ("log_id", pa.string()),
 ])
-# 变量说明：`SESSION_SCHEMA` 保存本模块或数据模型使用的稳定值。
 SESSION_SCHEMA = pa.schema([
     ("session_id", pa.string()), ("template_ids", pa.list_(pa.int32())),
     ("start_time", pa.string()), ("end_time", pa.string()), ("line_count", pa.int32()),
     ("unknown_count", pa.int32()), ("first_log_id", pa.string()),
     ("last_log_id", pa.string()), ("host_alias", pa.string()),
 ])
-# 变量说明：`PREDICTION_SCHEMA` 保存本模块或数据模型使用的稳定值。
 PREDICTION_SCHEMA = pa.schema([
     ("session_id", pa.string()), ("start_time", pa.string()), ("end_time", pa.string()),
     ("line_count", pa.int32()), ("unknown_count", pa.int32()),
@@ -48,20 +45,16 @@ PREDICTION_SCHEMA = pa.schema([
     ("prediction", pa.int8()), ("first_log_id", pa.string()),
     ("last_log_id", pa.string()), ("host_alias", pa.string()),
 ])
-# 变量说明：`EVENT_SCHEMA` 保存本模块或数据模型使用的稳定值。
 EVENT_SCHEMA = pa.schema([
     ("event_id", pa.string()), ("host_alias", pa.string()), ("start_time", pa.string()),
     ("end_time", pa.string()), ("detected_at", pa.string()),
     ("max_anomaly_score", pa.float64()), ("threshold", pa.float64()),
     ("session_count", pa.int32()), ("status", pa.string()),
 ])
-# 变量说明：`EVENT_MEMBER_SCHEMA` 保存本模块或数据模型使用的稳定值。
 EVENT_MEMBER_SCHEMA = pa.schema([("event_id", pa.string()), ("session_id", pa.string())])
 
 
-# 类说明：`BufferedWriter` 封装本模块内聚的数据和行为。
 class BufferedWriter:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `path`、`schema`、`batch_rows`。
     def __init__(self, path, schema, batch_rows):
         self.path = Path(path)
         self.schema = schema
@@ -69,25 +62,21 @@ class BufferedWriter:
         self.rows = []
         self.writer = pq.ParquetWriter(self.path, schema, compression="zstd")
 
-    # 方法说明：`add` 完成当前步骤的业务处理；参数为 `row`。
     def add(self, row):
         self.rows.append(row)
         if len(self.rows) >= self.batch_rows:
             self.flush()
 
-    # 方法说明：`flush` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def flush(self):
         if self.rows:
             self.writer.write_table(pa.Table.from_pylist(self.rows, schema=self.schema))
             self.rows.clear()
 
-    # 方法说明：`close` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def close(self):
         self.flush()
         self.writer.close()
 
 
-# 方法说明：`_raw_rows` 完成当前步骤的业务处理；参数为 `path`、`source_hash`、`max_line_bytes`。
 def _raw_rows(path, source_hash, max_line_bytes):
     number = 0
     offset = 0
@@ -121,7 +110,6 @@ def _raw_rows(path, source_hash, max_line_bytes):
             yield parse(raw, number, start, source_hash)
 
 
-# 方法说明：`_parquet_rows` 完成当前步骤的业务处理；参数为 `path`。
 def _parquet_rows(path):
     columns = ["log_id", "raw_line_no", "raw_hash", "timestamp_local", "level",
                "component", "message", "session_ids", "parse_status"]
@@ -129,7 +117,6 @@ def _parquet_rows(path):
         yield from batch.to_pylist()
 
 
-# 方法说明：`_host_alias` 完成当前步骤的业务处理；参数为 `source_hash`、`message`。
 def _host_alias(source_hash, message):
     found = IP.search(message or "")
     if not found:
@@ -137,7 +124,6 @@ def _host_alias(source_hash, message):
     return hashlib.sha256((source_hash + "|" + found.group(0)).encode()).hexdigest()[:16]
 
 
-# 方法说明：`_stage_db` 完成当前步骤的业务处理；参数为 `path`。
 def _stage_db(path):
     db = sqlite3.connect(path)
     db.execute("PRAGMA journal_mode=OFF")
@@ -148,7 +134,6 @@ def _stage_db(path):
     return db
 
 
-# 方法说明：`_session_rows` 完成当前步骤的业务处理；参数为 `stage_db`。
 def _session_rows(stage_db):
     cursor = stage_db.execute(
         "SELECT session_id,line_no,log_id,stamp,level,template_id,host_alias "
@@ -179,7 +164,6 @@ def _session_rows(stage_db):
         yield state
 
 
-# 方法说明：`_score_sessions` 完成当前步骤的业务处理；参数为 `stage_db`、`directory`、`model`、`cfg`。
 def _score_sessions(stage_db, directory, model, cfg):
     session_writer = BufferedWriter(directory / "sessions.parquet", SESSION_SCHEMA,
                                     cfg["processing"]["parquet_batch_rows"])
@@ -188,7 +172,6 @@ def _score_sessions(stage_db, directory, model, cfg):
     pending = []
     count = anomalies = 0
 
-    # 方法说明：`flush` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def flush():
         nonlocal count, anomalies
         if not pending:
@@ -219,7 +202,6 @@ def _score_sessions(stage_db, directory, model, cfg):
     return count, anomalies
 
 
-# 方法说明：`_event_groups` 完成当前步骤的业务处理；参数为 `predictions`、`max_gap`、`max_span`。
 def _event_groups(predictions, max_gap, max_span):
     by_host = defaultdict(list)
     groups = []
@@ -252,14 +234,13 @@ def _event_groups(predictions, max_gap, max_span):
     return groups
 
 
-# 方法说明：`_write_events` 完成当前步骤的业务处理；参数为 `directory`、`batch_id`、`cfg`。
 def _write_events(directory, batch_id, cfg):
     predictions = []
     for batch in pq.ParquetFile(directory / "predictions.parquet").iter_batches(batch_size=50000):
         predictions.extend(row for row in batch.to_pylist() if row["prediction"] == 1)
     groups = _event_groups(predictions, cfg["processing"]["event_max_gap_seconds"],
                            cfg["processing"]["event_max_span_seconds"])
-    detected = datetime.now(timezone.utc).isoformat()
+    detected = datetime.now(UTC).isoformat()
     events = []
     members = []
     for group in groups:
@@ -282,7 +263,6 @@ def _write_events(directory, batch_id, cfg):
     return len(events)
 
 
-# 方法说明：`process` 完成当前步骤的业务处理；参数为 `task`、`cfg`、`model`、`set_stage`。
 def process(task, cfg, model, set_stage):
     runtime = Path(cfg["paths"]["runtime_dir"])
     staging_root = runtime / "staging"
@@ -372,8 +352,8 @@ def process(task, cfg, model, set_stage):
             for writer in (logs, quarantine, links):
                 try:
                     writer.close()
-                except Exception:
-                    pass
+                except Exception as error:
+                    LOG.warning("关闭写入器 %s 失败：%s", type(writer).__name__, error)
         temp_db.close()
     (stage / "session_events.sqlite3").unlink(missing_ok=True)
     set_stage("AGGREGATING")
@@ -395,13 +375,11 @@ def process(task, cfg, model, set_stage):
     return final, manifest
 
 
-# 方法说明：`parquet_rows` 完成当前步骤的业务处理；参数为 `path`、`batch_size`。
 def parquet_rows(path, batch_size=50000):
     for batch in pq.ParquetFile(path).iter_batches(batch_size=batch_size):
         yield from batch.to_pylist()
 
 
-# 方法说明：`database_payload` 完成当前步骤的业务处理；参数为 `directory`、`manifest`。
 def database_payload(directory, manifest):
     directory = Path(directory)
     artifacts = {name: {"relative_path": name, "sha256": value}

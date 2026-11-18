@@ -9,23 +9,23 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, "src")
-from aiops_diag.data.windows import load_case_windows, load_normal_windows
-from aiops_diag.detection.source_detector import TemplateNoveltyDetector, wilson
+from offline.detection.novelty import TemplateNoveltyDetector, wilson
+from offline.ingestion.windows import load_case_windows, load_normal_windows
 
 
-# 方法说明：_fault_start 返回案例的故障开始时间戳。
+# _fault_start 返回案例的故障开始时间戳。
 def _fault_start(case):
     incident = json.loads((Path(case) / "incident.json").read_text(encoding="utf-8"))
     return datetime.fromisoformat(
         incident["timestamps"]["fault_start"].replace("Z", "+00:00")).timestamp()
 
 
-# 方法说明：_score 返回窗口是否 PASS。
+# _score 返回窗口是否 PASS。
 def _score(window, detector):
     return detector.decide(window["rows"])["decision"] == "PASS"
 
 
-# 方法说明：main 训练并评测统一窗口。
+# main 训练并评测统一窗口。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--cases", required=True)

@@ -1,18 +1,14 @@
-# 模块说明：执行评测或验收并输出机器可读结果。
-"""Execute the RC2 fault, safety, budget and recovery acceptance matrix."""
+"""执行 RC2 的故障、安全、预算与恢复验收矩阵。"""
 
 import argparse
 import json
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[2]
 
-# 变量说明：`MATRIX` 保存本模块或数据模型使用的稳定值。
 MATRIX = {
     "query_safety": ["tests/test_query_builder_v11.py"],
     "report_validation_and_fallback": [
@@ -53,7 +49,6 @@ MATRIX = {
 }
 
 
-# 方法说明：`render` 完成当前步骤的业务处理；参数为 `result`。
 def render(result):
     lines = ["# Framework RC2 故障注入与恢复验收", "",
              f"- 运行时间：`{result['generated_at']}`",
@@ -96,7 +91,7 @@ if __name__ == "__main__":
     }
     result = {"schema_version": 1,
               "status": "RC2_FAULT_RECOVERY_ACCEPTANCE",
-              "generated_at": datetime.now(timezone.utc).isoformat(),
+              "generated_at": datetime.now(UTC).isoformat(),
               "matrix": MATRIX, "pytest_exit_code": completed.returncode,
               "pytest_output_tail": output_tail,
               "hard_gate_counts": hard,

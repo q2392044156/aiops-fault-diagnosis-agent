@@ -1,4 +1,4 @@
-"""模块说明：实现供人工查看与复核的 Streamlit 页面。"""
+"""实现供人工查看与复核的 Streamlit 页面。"""
 
 import os
 import time
@@ -9,16 +9,12 @@ import streamlit as st
 
 from aiops_diag.platform.ui_client import ApiClient
 
-
 st.set_page_config(page_title="AIOps 异常事件复核台", page_icon="🔎", layout="wide")
 st.title("AIOps 异常事件复核台")
 st.caption("W8 · 冻结异常检测 + 可追溯检索 + 证据约束知识报告")
 
-# 变量说明：`api_url` 保存本模块或数据模型使用的稳定值。
 api_url = os.environ.get("AIOPS_API_URL", "http://127.0.0.1:8000")
-# 变量说明：`public_api_url` 保存本模块或数据模型使用的稳定值。
 public_api_url = os.environ.get("AIOPS_PUBLIC_API_URL", "http://127.0.0.1:8000").rstrip("/")
-# 变量说明：`client` 保存本模块或数据模型使用的稳定值。
 client = ApiClient(api_url, timeout=60)
 
 try:
@@ -31,14 +27,14 @@ try:
         cols,
         ("排队", "运行", "成功", "失败", "Worker"),
         (operations["queued"], operations["running"], operations["succeeded"],
-         operations["failed"], "正常" if operations["worker_ready"] else "异常"),
+         operations["failed"], "正常" if operations["worker_ready"] else "异常"), strict=False,
     ):
         column.metric(label, value)
 except (httpx.HTTPError, KeyError) as exc:
     st.error(f"API 暂不可用：{exc}")
     st.stop()
 
-# 变量说明：`tab_submit`、`tab_task`、`tab_events`、`tab_knowledge`、`tab_report`、`tab_agent` 保存本模块或数据模型使用的稳定值。
+# `tab_submit`、`tab_task`、`tab_events`、`tab_knowledge`、`tab_report`、`tab_agent` 是页面页签的标识。
 tab_submit, tab_task, tab_events, tab_knowledge, tab_report, tab_agent = st.tabs(
     ("提交日志", "任务状态", "异常事件", "知识检索", "知识报告", "Agent诊断与复核"))
 

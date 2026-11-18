@@ -1,4 +1,4 @@
-"""模块说明：以子进程方式冒烟验证 MCP 服务器（initialize / list / call）。"""
+"""以子进程方式冒烟验证 MCP 服务器（initialize / list / call）。"""
 
 from __future__ import annotations
 
@@ -9,18 +9,18 @@ import subprocess
 import sys
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录。
+# ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[2]
 
 
-# 方法说明：_rpc 发送一条 JSON-RPC 请求并读取一行响应。
+# _rpc 发送一条 JSON-RPC 请求并读取一行响应。
 def _rpc(process, payload):
     process.stdin.write(json.dumps(payload, ensure_ascii=False) + "\n")
     process.stdin.flush()
     return json.loads(process.stdout.readline())
 
 
-# 方法说明：main 启动服务器、验证握手与一次只读工具调用。
+# main 启动服务器、验证握手与一次只读工具调用。
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     database = argv[0] if argv else str(ROOT / "demo" / ".runtime" / "service.sqlite3")

@@ -1,4 +1,4 @@
-"""模块说明：执行 LSTM 训练、验证、保存和推理。"""
+"""执行 LSTM 训练、验证、保存和推理。"""
 
 import json
 import os
@@ -19,22 +19,13 @@ from torch import nn
 from torch.utils.data import DataLoader
 
 from aiops_diag.common import digest, key, save, verified_manifest
-from .lstm_model import (LSTMClassifier, SequenceDataset, collate_sequences,
-                         resolve_device, seed_everything)
+
+from .lstm_model import LSTMClassifier, SequenceDataset, collate_sequences, resolve_device, seed_everything
 from .metrics import pr_curve, select_threshold
+from .runs import git_commit, publish, run_name, stage
 from .sequences import prepare_sequences
 
 
-# 方法说明：`_git_commit` 完成当前步骤的业务处理；参数为 `root`。
-def _git_commit(root):
-    try:
-        return subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True,
-                              capture_output=True, text=True).stdout.strip()
-    except (OSError, subprocess.CalledProcessError):
-        return None
-
-
-# 方法说明：`_load_data` 完成当前步骤的业务处理；参数为 `cfg`。
 def _load_data(cfg):
     manifest = verified_manifest(cfg["feature_dir"], "manifest.json")
     if manifest["config_hash"] != cfg["config_hash"]:
@@ -48,7 +39,6 @@ def _load_data(cfg):
     return manifest, rows, labels, scaler
 
 
-# 方法说明：`_make_loader` 完成当前步骤的业务处理；参数为 `rows`、`labels`、`scaler`、`cfg`、`shuffle`、`seed`、`batch_size`。
 def _make_loader(rows, labels, scaler, cfg, shuffle, seed, batch_size=None):
     dataset = SequenceDataset(rows, labels, scaler, cfg["features"]["max_length"])
     generator = torch.Generator().manual_seed(seed)
@@ -60,13 +50,11 @@ def _make_loader(rows, labels, scaler, cfg, shuffle, seed, batch_size=None):
     )
 
 
-# 方法说明：`_move` 完成当前步骤的业务处理；参数为 `batch`、`device`。
 def _move(batch, device):
     return {name: value.to(device, non_blocking=True) if torch.is_tensor(value) else value
             for name, value in batch.items()}
 
 
-# 方法说明：`_score` 完成当前步骤的业务处理；参数为 `model`、`loader`、`device`。
 def _score(model, loader, device):
     model.eval()
     labels, scores, records = [], [], []
@@ -81,11 +69,10 @@ def _score(model, loader, device):
             records.extend({"block_id": block, "first_log_id": first, "last_log_id": last}
                            for block, first, last in zip(original["block_ids"],
                                                          original["first_log_ids"],
-                                                         original["last_log_ids"]))
+                                                         original["last_log_ids"], strict=False))
     return np.asarray(labels, dtype=np.int8), np.asarray(scores, dtype=np.float64), records
 
 
-# 方法说明：`training_weight` 完成当前步骤的业务处理；参数为 `rows`、`labels`、`mode`、`cap`。
 def training_weight(rows, labels, mode, cap):
     """Calculate pos_weight exclusively from the supplied training members."""
     positives = sum(labels[row["block_id"]] == 1 for row in rows)
@@ -105,7 +92,6 @@ def training_weight(rows, labels, mode, cap):
                    "negative": negatives, "ratio": ratio, "mode": mode, "value": value}
 
 
-# 方法说明：`_train_once` 完成当前步骤的业务处理；参数为 `train_rows`、`stop_rows`、`labels`、`scaler`、`cfg`、`hidden_dim`、`weight_mode`、`seed`、`device`、`max_epochs`、`session_feature_count`。
 def _train_once(train_rows, stop_rows, labels, scaler, cfg, hidden_dim, weight_mode,
                 seed, device, max_epochs=None, session_feature_count=4):
     seed_everything(seed)
@@ -181,7 +167,6 @@ def _train_once(train_rows, stop_rows, labels, scaler, cfg, hidden_dim, weight_m
                    "history": history, "weight": weight_audit, "resource": resource}
 
 
-# 方法说明：`_overfit_check` 完成当前步骤的业务处理；参数为 `rows`、`labels`、`scaler`、`cfg`、`device`。
 def _overfit_check(rows, labels, scaler, cfg, device):
     ordered = sorted(rows, key=lambda row: key(["overfit", row["sampling_group"],
                                                 row["block_id"], cfg["seed"]]))
@@ -233,7 +218,6 @@ def _overfit_check(rows, labels, scaler, cfg, device):
             "loss_reduction": reduction, "metrics": metrics, "passed": passed}
 
 
-# 方法说明：`_group_subset` 完成当前步骤的业务处理；参数为 `rows`、`limit`、`namespace`、`seed`。
 def _group_subset(rows, limit, namespace, seed):
     groups = {}
     for row in rows:
@@ -247,7 +231,6 @@ def _group_subset(rows, limit, namespace, seed):
     return selected
 
 
-# 方法说明：`tune_lstm` 完成当前步骤的业务处理；参数为 `cfg`、`device_name`。
 def tune_lstm(cfg, device_name="auto"):
     prepare_sequences(cfg)
     feature_manifest, rows, labels, scaler = _load_data(cfg)
@@ -319,7 +302,6 @@ def tune_lstm(cfg, device_name="auto"):
     return manifest
 
 
-# 方法说明：`_w2_lr_result` 完成当前步骤的业务处理；参数为 `cfg`。
 def _w2_lr_result(cfg):
     root = Path(cfg["experiment_root"])
     candidates = sorted(root.glob("w2_*/results.json"))
@@ -329,21 +311,6 @@ def _w2_lr_result(cfg):
     return value["logistic_regression"]["metrics"]
 
 
-# 方法说明：`_run_id` 完成当前步骤的业务处理；参数为 `cfg`、`feature_manifest`、`tuning_manifest`。
-def _run_id(cfg, feature_manifest, tuning_manifest):
-    return "w3_" + key([cfg["config_hash"], feature_manifest["artifacts"],
-                         tuning_manifest["selected"]])[:16]
-
-
-# 方法说明：`_verify_run` 完成当前步骤的业务处理；参数为 `run_dir`。
-def _verify_run(run_dir):
-    """Verify the self-registering run manifest and every registered artifact."""
-    run_dir = Path(run_dir)
-    verified_manifest(run_dir, "registry.json")
-    return verified_manifest(run_dir, "training.json")
-
-
-# 方法说明：`_environment` 完成当前步骤的业务处理；参数为 `device`。
 def _environment(device):
     value = {
         "python": platform.python_version(), "platform": platform.platform(),
@@ -365,14 +332,13 @@ def _environment(device):
     return value
 
 
-# 方法说明：`load_registered_model` 完成当前步骤的业务处理；参数为 `cfg`、`run_id`、`seed`、`device_name`。
 def load_registered_model(cfg, run_id, seed, device_name="cpu"):
     """Load only a hash-registered state_dict produced by this project."""
     root = Path(cfg["experiment_root"]).resolve()
     run_dir = (root / run_id).resolve()
     if run_dir.parent != root:
         raise ValueError("Invalid run ID")
-    manifest = _verify_run(run_dir)
+    manifest = stage(run_dir, "training.json")
     if manifest["config_hash"] != cfg["config_hash"]:
         raise ValueError("Model configuration hash does not match")
     feature_manifest = verified_manifest(cfg["feature_dir"], "manifest.json")
@@ -395,15 +361,15 @@ def load_registered_model(cfg, run_id, seed, device_name="cpu"):
     return model, device
 
 
-# 方法说明：`train_lstm` 完成当前步骤的业务处理；参数为 `cfg`、`device_name`。
 def train_lstm(cfg, device_name="auto"):
     feature_manifest = prepare_sequences(cfg)
     tuning_manifest = tune_lstm(cfg, device_name)
     _, rows, labels, scaler = _load_data(cfg)
-    run_id = _run_id(cfg, feature_manifest, tuning_manifest)
+    run_id = run_name("w3", [cfg["config_hash"], feature_manifest["artifacts"],
+                            tuning_manifest["selected"]])
     run_dir = Path(cfg["experiment_root"]) / run_id
     if (run_dir / "training.json").exists():
-        manifest = _verify_run(run_dir)
+        manifest = stage(run_dir, "training.json")
         if manifest["config_hash"] != cfg["config_hash"]:
             raise ValueError("Registered LSTM run belongs to a different configuration")
         return {**manifest, "run_dir": str(run_dir)}
@@ -489,21 +455,16 @@ def train_lstm(cfg, device_name="auto"):
     registered = ["predictions.parquet", "training_histories.json", "threshold_curves.json",
                   "pr_curves.json", "results.json", "failure_cases.json", "environment.json",
                   "model_versions.json", *checkpoint_names]
-    manifest = {
+    manifest = publish(run_dir, "training.json", {
         "schema_version": 1, "run_id": run_id, "config_hash": cfg["config_hash"],
         "feature_hash": key(feature_manifest["artifacts"]),
         "tuning_hash": key(tuning_manifest["artifacts"]),
-        "git_commit": _git_commit(cfg["root"]), "device": str(device),
+        "git_commit": git_commit(cfg["root"]), "device": str(device),
         "torch": torch.__version__, "cuda": torch.version.cuda,
         "train_sessions": len(dmain_fit), "early_stop_sessions": len(dmain_stop),
         "validation_sessions": len(validation), "elapsed_seconds": time.monotonic() - started,
         "cpu_fallback_checked": False, "test_accessed": False,
-        "artifacts": {name: digest(run_dir / name) for name in registered},
-    }
-    save(run_dir / "training.json", manifest)
-    save(run_dir / "registry.json", {"schema_version": 1,
-                                      "artifacts": {"training.json": digest(run_dir / "training.json")}})
-    _verify_run(run_dir)
+    }, registered)
 
     # Load through the public hash-verifying path and prove CPU portability.
     cpu_model, cpu_device = load_registered_model(cfg, run_id, cfg["seed"], "cpu")
@@ -514,16 +475,13 @@ def train_lstm(cfg, device_name="auto"):
     version_list["cpu_fallback_checked"] = True
     save(run_dir / "model_versions.json", version_list)
     manifest["cpu_fallback_checked"] = True
-    manifest["artifacts"]["model_versions.json"] = digest(run_dir / "model_versions.json")
-    save(run_dir / "training.json", manifest)
-    save(run_dir / "registry.json", {"schema_version": 1,
-                                      "artifacts": {"training.json": digest(run_dir / "training.json")}})
-    _verify_run(run_dir)
+    manifest = publish(run_dir, "training.json",
+                       {name: value for name, value in manifest.items() if name != "artifacts"},
+                       registered)
     _write_report(cfg, manifest, results)
     return {**manifest, "run_dir": str(run_dir)}
 
 
-# 方法说明：`_write_report` 完成当前步骤的业务处理；参数为 `cfg`、`manifest`、`results`。
 def _write_report(cfg, manifest, results):
     path = Path(cfg["root"]) / "docs" / "w3_experiment_report.md"
     summary = results["summary"]
@@ -534,7 +492,6 @@ def _write_report(cfg, manifest, results):
         "| 指标 | LSTM 三seed均值 | 标准差 | W2 LR |", "|---|---:|---:|---:|",
     ]
     for name in ("f1", "average_precision", "roc_auc", "fpr"):
-        # 方法说明：`display` 完成当前步骤的业务处理；参数为 `value`。
         def display(value):
             return "N/A" if value is None else f"{value:.6f}"
         lines.append(f"| {name} | {display(summary[name]['mean'])} | "
@@ -545,7 +502,6 @@ def _write_report(cfg, manifest, results):
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
-# 方法说明：`evaluate_lstm` 完成当前步骤的业务处理；参数为 `cfg`、`split`、`device_name`。
 def evaluate_lstm(cfg, split="validation", device_name="auto"):
     if split == "test":
         raise ValueError("W3 sealed the test split; test evaluation is forbidden")
@@ -555,11 +511,10 @@ def evaluate_lstm(cfg, split="validation", device_name="auto"):
         return tune_lstm(cfg, device_name)
     training = train_lstm(cfg, device_name)
     run_dir = Path(training["run_dir"])
-    _verify_run(run_dir)
+    stage(run_dir, "training.json")
     return json.loads((run_dir / "results.json").read_text(encoding="utf-8"))
 
 
-# 方法说明：`predict_lstm` 完成当前步骤的业务处理；参数为 `cfg`、`split`、`device_name`。
 def predict_lstm(cfg, split="validation", device_name="auto"):
     if split == "test":
         raise ValueError("W3 sealed the test split; test prediction is forbidden")
@@ -575,13 +530,12 @@ def predict_lstm(cfg, split="validation", device_name="auto"):
             "run_id": training["run_id"]}
 
 
-# 方法说明：`inspect_lstm` 完成当前步骤的业务处理；参数为 `cfg`、`run_id`、`seed`、`session_id`。
 def inspect_lstm(cfg, run_id, seed, session_id):
     root = Path(cfg["experiment_root"]).resolve()
     run_dir = (root / run_id).resolve()
     if run_dir.parent != root:
         raise ValueError("Invalid run ID")
-    manifest = _verify_run(run_dir)
+    manifest = stage(run_dir, "training.json")
     if seed not in cfg["seeds"]:
         raise ValueError("Seed is not registered")
     table = pq.read_table(run_dir / "predictions.parquet")

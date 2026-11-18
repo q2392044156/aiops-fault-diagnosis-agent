@@ -1,15 +1,13 @@
-"""模块说明：实现 `python -m` 命令行入口和参数分发。"""
+"""实现 `python -m` 命令行入口和参数分发。"""
 
 import argparse
 import json
 import sys
 
-from .config import load
-from .workflow import (ablate, compare_parsing, finalize, inspect,
-                       preregister, report, run)
+from ..settings import load_selection as load
+from .workflow import ablate, compare_parsing, finalize, inspect, preregister, report, run
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def main():
     parser = argparse.ArgumentParser(description="W4 model selection and frozen evaluation")
     parser.add_argument("command", choices=["preregister", "compare-parsing", "ablate",

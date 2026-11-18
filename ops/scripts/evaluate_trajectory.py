@@ -1,4 +1,4 @@
-"""模块说明：读取服务数据库，输出诊断轨迹指标与失败分类。"""
+"""读取服务数据库，输出诊断轨迹指标与失败分类。"""
 
 from __future__ import annotations
 
@@ -7,15 +7,15 @@ import json
 import sys
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录，便于脚本在任意工作目录运行。
+# ROOT 指向仓库根目录，便于脚本在任意工作目录运行。
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from aiops_diag.evaluation.trajectory import aggregate, markdown, summarize
 from aiops_diag.platform.db import Database
+from evaluation.trajectory import aggregate, markdown, summarize
 
 
-# 方法说明：_rows 从数据库读取每次诊断的运行、工具调用与报告。
+# _rows 从数据库读取每次诊断的运行、工具调用与报告。
 def _rows(database, limit=0):
     query = "SELECT * FROM agent_runs ORDER BY created_at, diagnosis_id"
     runs = database.all(query)
@@ -34,7 +34,7 @@ def _rows(database, limit=0):
     return rows
 
 
-# 方法说明：main 计算指标并写出 JSON 与 Markdown 报告。
+# main 计算指标并写出 JSON 与 Markdown 报告。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Agent trajectory evaluation")
     parser.add_argument("--database", required=True)

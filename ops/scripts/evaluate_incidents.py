@@ -1,4 +1,4 @@
-"""模块说明：用 incident 标签与诊断报告计算根因排序与 MTTD 指标。"""
+"""用 incident 标签与诊断报告计算根因排序与 MTTD 指标。"""
 
 from __future__ import annotations
 
@@ -9,17 +9,17 @@ import math
 import sys
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录。
+# ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from aiops_diag.platform.db import Database
 
-# 变量说明：TAXONOMY 是根因码到组件的固定映射。
+# TAXONOMY 是根因码到组件的固定映射。
 TAXONOMY = ROOT / "resources/evaluation/v1.2/real_incident_protocol/root_cause_taxonomy.json"
 
 
-# 方法说明：_wilson 返回二项比例的 95% Wilson 置信区间。
+# _wilson 返回二项比例的 95% Wilson 置信区间。
 def _wilson(successes, total):
     if not total:
         return None
@@ -31,11 +31,11 @@ def _wilson(successes, total):
     return [round(max(0.0, centre - half), 4), round(min(1.0, centre + half), 4)]
 
 
-# 变量说明：SPLIT_FILE 是冻结测试集清单，存在时优先于哈希规则。
+# SPLIT_FILE 是冻结测试集清单，存在时优先于哈希规则。
 SPLIT_FILE = ROOT / "resources/evaluation/lab/frozen_split.json"
 
 
-# 方法说明：_split 优先读取冻结清单，否则按事件 ID 哈希稳定划分 20%。
+# _split 优先读取冻结清单，否则按事件 ID 哈希稳定划分 20%。
 def _split(incident_id, fraction=0.2, split_file=None):
     path = Path(split_file) if split_file else SPLIT_FILE
     if path.is_file():
@@ -45,13 +45,13 @@ def _split(incident_id, fraction=0.2, split_file=None):
     return "test" if bucket < fraction * 100 else "train"
 
 
-# 方法说明：_taxonomy 读取根因码到组件的映射。
+# _taxonomy 读取根因码到组件的映射。
 def _taxonomy(path=TAXONOMY):
     value = json.loads(Path(path).read_text(encoding="utf-8"))
     return {item["code"]: item.get("component") for item in value.get("categories", [])}
 
 
-# 方法说明：_report 按映射读取诊断报告，缺失时返回 None。
+# _report 按映射读取诊断报告，缺失时返回 None。
 def _report(database, mapping):
     if not mapping:
         return None
@@ -66,7 +66,7 @@ def _report(database, mapping):
     return json.loads(row["report_json"]) if row else None
 
 
-# 方法说明：_rank 优先按根因码排名；有码但全不匹配时不回退组件。
+# _rank 优先按根因码排名；有码但全不匹配时不回退组件。
 def _rank(hypotheses, code, component):
     codes = [item.get("root_cause_code") for item in hypotheses]
     if code and any(codes):
@@ -80,7 +80,7 @@ def _rank(hypotheses, code, component):
     return None, None
 
 
-# 方法说明：_mttd 计算 agent_detected 与 fault_start 的秒差，缺时间戳返回 None。
+# _mttd 计算 agent_detected 与 fault_start 的秒差，缺时间戳返回 None。
 def _mttd(timestamps):
     start = timestamps.get("fault_start")
     detected = timestamps.get("agent_detected")
@@ -91,7 +91,7 @@ def _mttd(timestamps):
     return seconds if seconds >= 0 else None
 
 
-# 方法说明：evaluate 汇总根因 Top-1/Top-3/MRR 与 MTTD。
+# evaluate 汇总根因 Top-1/Top-3/MRR 与 MTTD。
 def evaluate(database, cases_dir, taxonomy=None, split_file=None):
     taxonomy = taxonomy or _taxonomy()
     rows, excluded = [], []
@@ -158,7 +158,7 @@ def evaluate(database, cases_dir, taxonomy=None, split_file=None):
     return {"summary": summary, "rows": rows, "excluded": excluded}
 
 
-# 方法说明：markdown 输出指标表与逐例排名。
+# markdown 输出指标表与逐例排名。
 def markdown(result):
     summary = result["summary"]
     lines = ["| 指标 | 值 |", "| --- | --- |",
@@ -184,7 +184,7 @@ def markdown(result):
     return "\n".join(lines)
 
 
-# 方法说明：main 计算指标并写出 JSON 与 Markdown。
+# main 计算指标并写出 JSON 与 Markdown。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Incident root-cause metrics")
     parser.add_argument("--database", required=True)

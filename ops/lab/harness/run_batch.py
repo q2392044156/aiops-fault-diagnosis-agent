@@ -1,4 +1,4 @@
-"""模块说明：批量运行受控实验，汇总根因指标与 MTTD。"""
+"""批量运行受控实验，汇总根因指标与 MTTD。"""
 
 from __future__ import annotations
 
@@ -8,15 +8,15 @@ import json
 import sys
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录。
+# ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from run_case import FAULTS, run_case
+from run_case import run_case
 
 
-# 方法说明：_evaluator 动态加载指标脚本，避免把 ops/scripts 变成包。
+# _evaluator 动态加载指标脚本，避免把 ops/scripts 变成包。
 def _evaluator():
     spec = importlib.util.spec_from_file_location(
         "evaluate_incidents", ROOT / "ops" / "scripts" / "evaluate_incidents.py")
@@ -25,7 +25,7 @@ def _evaluator():
     return module
 
 
-# 方法说明：main 按故障族批量跑实验并写出汇总结果。
+# main 按故障族批量跑实验并写出汇总结果。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Run a batch of lab cases")
     parser.add_argument("--per-fault", type=int, default=7)

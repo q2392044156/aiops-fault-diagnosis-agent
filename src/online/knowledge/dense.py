@@ -1,13 +1,11 @@
-"""模块说明：封装 BGE ONNX 向量编码和相似度计算。"""
+"""封装 BGE ONNX 向量编码和相似度计算。"""
 
 from pathlib import Path
 
 import numpy as np
 
 
-# 类说明：`OnnxEncoder` 封装本模块内聚的数据和行为。
 class OnnxEncoder:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `model_dir`、`query_prefix`、`max_length`、`batch_size`。
     def __init__(self, model_dir, query_prefix, max_length=512, batch_size=32):
         import onnxruntime as ort
         from tokenizers import Tokenizer
@@ -25,7 +23,6 @@ class OnnxEncoder:
         self.query_prefix = query_prefix
         self.batch_size = int(batch_size)
 
-    # 方法说明：`encode` 完成当前步骤的业务处理；参数为 `texts`、`query`。
     def encode(self, texts, query=False):
         values = []
         texts = [self.query_prefix + text if query else text for text in texts]

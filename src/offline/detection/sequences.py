@@ -1,4 +1,4 @@
-"""模块说明：构造 LSTM 所需的日志事件序列和张量。"""
+"""构造 LSTM 所需的日志事件序列和张量。"""
 
 import json
 import math
@@ -12,8 +12,6 @@ import pyarrow.parquet as pq
 
 from aiops_diag.common import digest, key, save, verified_manifest
 
-
-# 变量说明：`FEATURE_SCHEMA` 保存本模块或数据模型使用的稳定值。
 FEATURE_SCHEMA = pa.schema([
     ("block_id", pa.string()), ("split", pa.string()),
     ("sampling_group", pa.string()), ("ddev_role", pa.string()),
@@ -25,18 +23,15 @@ FEATURE_SCHEMA = pa.schema([
 ])
 
 
-# 方法说明：`_fraction` 完成当前步骤的业务处理；参数为 `group`、`namespace`、`seed`。
 def _fraction(group, namespace, seed):
     value = key([namespace, group, seed])[:16]
     return int(value, 16) / float(16 ** 16)
 
 
-# 方法说明：`role_for` 完成当前步骤的业务处理；参数为 `group`、`namespace`、`seed`、`fit_fraction`。
 def role_for(group, namespace, seed, fit_fraction):
     return "fit" if _fraction(group, namespace, seed) < fit_fraction else "holdout"
 
 
-# 方法说明：`_upstream` 完成当前步骤的业务处理；参数为 `cfg`。
 def _upstream(cfg):
     protocol = verified_manifest(cfg["protocol_dir"], "manifest.json")
     templates = verified_manifest(cfg["w2_artifact_dir"], "templates.json")
@@ -47,7 +42,6 @@ def _upstream(cfg):
     return protocol, templates
 
 
-# 方法说明：`_scaler` 完成当前步骤的业务处理；参数为 `rows`、`gaps`、`assignments`、`cfg`。
 def _scaler(rows, gaps, assignments, cfg):
     fit_blocks = {block for block, row in assignments.items()
                   if row.get("in_dmain") and
@@ -69,7 +63,6 @@ def _scaler(rows, gaps, assignments, cfg):
                                cfg["features"]["gap_clip_percentile"]))
     clipped = np.minimum(np.asarray(gap_values, dtype=np.float64), clip)
 
-    # 方法说明：`stats` 完成当前步骤的业务处理；参数为 `values`。
     def stats(values):
         values = np.asarray(values, dtype=np.float64)
         deviation = float(values.std())
@@ -84,7 +77,6 @@ def _scaler(rows, gaps, assignments, cfg):
     }
 
 
-# 方法说明：`prepare_sequences` 完成当前步骤的业务处理；参数为 `cfg`。
 def prepare_sequences(cfg):
     protocol, templates = _upstream(cfg)
     out = Path(cfg["feature_dir"])

@@ -11,11 +11,8 @@ from functools import lru_cache
 
 # 定义正则表达式模式，用于匹配日志行中的不同部分
 BLOCK = re.compile(r"\bblk_-?\d+\b")
-# 变量说明：`HEADER` 保存本模块或数据模型使用的稳定值。
 HEADER = re.compile(r"^(\d{6}) (\d{6}) (\d+) ([A-Z]+) ([^: ]+):\s?(.*)$")
-# 变量说明：`IP` 保存本模块或数据模型使用的稳定值。
 IP = re.compile(r"\b\d{1,3}(?:\.\d{1,3}){3}(?::\d+)?\b")
-# 变量说明：`NUMBER` 保存本模块或数据模型使用的稳定值。
 NUMBER = re.compile(r"(?<![A-Za-z])[-+]?\d+(?:\.\d+)?")
 
 
@@ -28,11 +25,11 @@ def timestamp(date, clock):
 def parse(raw, number, offset, source_hash):
     text = raw.decode("utf-8", errors="replace").rstrip("\r\n")
     blocks = sorted(set(BLOCK.findall(text)))
-    row = dict(log_id=f"{source_hash}:{number}", raw_line_no=number, byte_offset=offset,
-               byte_length=len(raw), raw_hash=hashlib.sha256(raw).hexdigest(),
-               timestamp_original=None, timestamp_local=None, timestamp_utc=None,
-               timezone_assumption="unknown", pid=None, level=None, component=None,
-               message=None, session_ids=blocks, parse_status="ok")
+    row = {"log_id": f"{source_hash}:{number}", "raw_line_no": number, "byte_offset": offset,
+           "byte_length": len(raw), "raw_hash": hashlib.sha256(raw).hexdigest(),
+           "timestamp_original": None, "timestamp_local": None, "timestamp_utc": None,
+           "timezone_assumption": "unknown", "pid": None, "level": None, "component": None,
+           "message": None, "session_ids": blocks, "parse_status": "ok"}
     try:
         raw.decode("utf-8", errors="strict")
     except UnicodeDecodeError:

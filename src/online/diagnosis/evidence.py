@@ -1,47 +1,47 @@
-"""模块说明：结构化证据选择、去重与充分性评估。"""
+"""结构化证据选择、去重与充分性评估。"""
 
 from __future__ import annotations
 
 import re
 from collections import Counter
 
-from .signals import STRONG_THRESHOLD, analyze_row, analyze_rows
+from online.diagnosis.signals import STRONG_THRESHOLD, analyze_row, analyze_rows
 
-# 变量说明：WEAK_TERMS 是弱信号，用于覆盖卷/磁盘等启动期证据。
+# WEAK_TERMS 是弱信号，用于覆盖卷/磁盘等启动期证据。
 WEAK_TERMS = ("volume", "disk", "storage", "exception", "failed", "error",
               "network", "connection", "timeout", "unreachable", "retrying")
-# 变量说明：LEVEL_SCORE 是严重度权重。
+# LEVEL_SCORE 是严重度权重。
 LEVEL_SCORE = {"FATAL": 4.0, "ERROR": 3.0, "WARN": 1.8, "INFO": 0.4}
 
 
-# 方法说明：_stack 判断堆栈续行。
-def _stack(message):
+# stack_continuation 判断堆栈续行。
+def stack_continuation(message):
     text = (message or "").lstrip()
     return text.startswith("at ") or (text.startswith("... ") and "more" in text)
 
 
-# 方法说明：_signature 生成去重签名。
+# _signature 生成去重签名。
 def _signature(row):
     message = (row.get("redacted_message") or "").lower()
-    if _stack(message):
+    if stack_continuation(message):
         return "stack"
     return f'{row.get("level") or ""}|{row.get("component") or ""}|' + re.sub(r"\d+", "<n>", message)
 
 
-# 方法说明：_cost 估算 token。
+# _cost 估算 token。
 def _cost(row):
     return max(1, len(row.get("redacted_message") or "") // 4)
 
 
-# 类说明：EvidenceSelector 按信号、严重度、稀有度、组件与时间去重排序。
+# EvidenceSelector 按信号、严重度、稀有度、组件与时间去重排序。
 class EvidenceSelector:
-    # 方法说明：__init__ 保存预算和关注组件。
+    # __init__ 保存预算和关注组件。
     def __init__(self, limit=50, token_budget=2000, focus_component=None):
         self.limit = int(limit)
         self.token_budget = int(token_budget) if token_budget else None
         self.focus_component = focus_component
 
-    # 方法说明：_prepare 计算候选得分，信号强度复用根因本体而不重复计数关键词。
+    # _prepare 计算候选得分，信号强度复用根因本体而不重复计数关键词。
     def _prepare(self, rows):
         templates = Counter(row.get("template_id") for row in rows
                             if row.get("template_id") is not None)
@@ -71,7 +71,7 @@ class EvidenceSelector:
                            "signal_codes": codes})
         return scored
 
-    # 方法说明：select 返回预算内、去重后的证据行和质量摘要。
+    # select 返回预算内、去重后的证据行和质量摘要。
     def select(self, rows):
         scored = self._prepare(rows)
         best = {}
@@ -110,7 +110,7 @@ class EvidenceSelector:
         quality = self.quality(rows, selected)
         return selected, quality
 
-    # 方法说明：quality 汇总结构化证据质量，并给出可审计的根因信号分数。
+    # quality 汇总结构化证据质量，并给出可审计的根因信号分数。
     def quality(self, pool, selected):
         analysis = analyze_rows(selected)
         has_signal = bool(analysis["codes"])

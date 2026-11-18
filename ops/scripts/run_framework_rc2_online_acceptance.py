@@ -1,29 +1,24 @@
-# 模块说明：执行评测或验收并输出机器可读结果。
-"""Run 18 FastAPI/worker/SQLite/DeepSeek RC2 acceptance flows."""
+"""跑 18 条 FastAPI/worker/SQLite/DeepSeek 的 RC2 在线验收流程。"""
 
 import argparse
 import json
 import os
 import statistics
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from fastapi.testclient import TestClient
 
-from aiops_diag.evaluation.offline_framework import _seed_agent_case
 from aiops_diag.platform.api import create_app
 from aiops_diag.platform.config import load as load_service
 from aiops_diag.platform.runtime import ServiceRuntime
+from evaluation.comparison import _seed_agent_case
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[2]
-# 变量说明：`TERMINAL` 保存本模块或数据模型使用的稳定值。
 TERMINAL = {"WAITING_REVIEW", "COMPLETED", "APPROVED_REPORT", "FAILED"}
 
 
-# 方法说明：`load_secret_environment` 完成当前步骤的业务处理；参数为 `path`。
 def load_secret_environment(path):
     allowed = {"DEEPSEEK_API_KEY", "DEEPSEEK_TRACKING_ID"}
     if path.is_file():
@@ -35,7 +30,6 @@ def load_secret_environment(path):
                 os.environ.setdefault(name.strip(), value.strip().strip('"').strip("'"))
 
 
-# 方法说明：`percentile` 完成当前步骤的业务处理；参数为 `values`、`fraction`。
 def percentile(values, fraction):
     values = sorted(values)
     position = (len(values) - 1) * fraction
@@ -43,7 +37,6 @@ def percentile(values, fraction):
     return values[low] + (values[high] - values[low]) * (position - low)
 
 
-# 方法说明：`render` 完成当前步骤的业务处理；参数为 `result`。
 def render(result):
     m = result["metrics"]
     lines = ["# Framework RC2 在线服务验收", "",
@@ -176,7 +169,7 @@ if __name__ == "__main__":
     passed = (completed == 18 and metrics["schema_valid"] == 18
               and metrics["template_fallback"] <= 1 and not any(hard.values()))
     result = {"schema_version": 1, "status": "RC2_ONLINE_SERVICE_ACCEPTANCE",
-              "generated_at": datetime.now(timezone.utc).isoformat(),
+              "generated_at": datetime.now(UTC).isoformat(),
               "framework_release_id": worker.agent_release["release_id"],
               "uses_real_deepseek": True, "secret_values_recorded": False,
               "scope": "synthetic_redacted_service_flow_not_production_effect",

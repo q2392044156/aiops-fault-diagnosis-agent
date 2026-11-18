@@ -1,4 +1,4 @@
-"""模块说明：创建 FastAPI 应用并定义 HTTP 接口。"""
+"""创建 FastAPI 应用并定义 HTTP 接口。"""
 
 import base64
 import hashlib
@@ -13,33 +13,50 @@ from pathlib import Path
 from typing import Literal
 
 import pyarrow.parquet as pq
-from fastapi import FastAPI, File, Header, Query, Request, UploadFile
+from fastapi import FastAPI, File, Header, Query, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, Response
+
 from aiops_diag.common import key
-from online.knowledge.generation.schemas import RagReport
 from online.diagnosis.auth import ReviewerAuthError
 from online.diagnosis.schemas import IncidentReport
+from online.knowledge.generation.schemas import RagReport
 
-from .db import (ApprovalConflict, ApprovalExpired, IdempotencyConflict,
-                 QueueFull)
+from .db import ApprovalConflict, ApprovalExpired, IdempotencyConflict, QueueFull
 from .runtime import ServiceRuntime
-from .schemas import (BatchResponse, ErrorBody, EventDetail, EventList, HealthResponse,
-                      KnowledgeChunkResponse, KnowledgeReleaseResponse, LogItem, LogList,
-                      OperationsSummary, RagReleaseResponse, RagReportRequest,
-                      RegisteredBatchList, RegisteredRequest, ReleaseResponse,
-                      RetrievalSearchRequest, RetrievalSearchResponse, SessionResponse, TaskResponse,
-                      AgentReleaseResponse, ApprovalDecisionRequest, ApprovalList,
-                      ApprovalResponse, DiagnosisRequest, DiagnosisResponse, ToolCallList)
+from .schemas import (
+    AgentReleaseResponse,
+    ApprovalDecisionRequest,
+    ApprovalList,
+    ApprovalResponse,
+    BatchResponse,
+    DiagnosisRequest,
+    DiagnosisResponse,
+    ErrorBody,
+    EventDetail,
+    EventList,
+    HealthResponse,
+    KnowledgeChunkResponse,
+    KnowledgeReleaseResponse,
+    LogItem,
+    LogList,
+    OperationsSummary,
+    RagReleaseResponse,
+    RagReportRequest,
+    RegisteredBatchList,
+    RegisteredRequest,
+    ReleaseResponse,
+    RetrievalSearchRequest,
+    RetrievalSearchResponse,
+    SessionResponse,
+    TaskResponse,
+    ToolCallList,
+)
 
-
-# 变量说明：`AUDIT_LOG` 保存本模块或数据模型使用的稳定值。
 AUDIT_LOG = logging.getLogger("aiops_diag.platform.audit")
 
 
-# 类说明：`ServiceError` 封装本模块内聚的数据和行为。
 class ServiceError(Exception):
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `status`、`code`、`message`、`retryable`、`headers`。
     def __init__(self, status, code, message, retryable=False, headers=None):
         super().__init__(message)
         self.status = status
@@ -49,13 +66,11 @@ class ServiceError(Exception):
         self.headers = headers or {}
 
 
-# 方法说明：`_encode_cursor` 完成当前步骤的业务处理；参数为 `value`。
 def _encode_cursor(value):
     raw = json.dumps(value, separators=(",", ":")).encode()
     return base64.urlsafe_b64encode(raw).decode().rstrip("=")
 
 
-# 方法说明：`_decode_cursor` 完成当前步骤的业务处理；参数为 `value`。
 def _decode_cursor(value):
     if not value:
         return None
@@ -69,7 +84,6 @@ def _decode_cursor(value):
         raise ServiceError(422, "INVALID_CURSOR", "Cursor is invalid") from exc
 
 
-# 方法说明：`_time_bound` 完成当前步骤的业务处理；参数为 `value`。
 def _time_bound(value):
     if value is None:
         return None
@@ -83,7 +97,6 @@ def _time_bound(value):
     return stamp.isoformat()
 
 
-# 方法说明：`_task` 完成当前步骤的业务处理；参数为 `row`、`deduplicated`。
 def _task(row, deduplicated=False):
     if not row:
         raise ServiceError(404, "TASK_NOT_FOUND", "Task was not found")
@@ -99,7 +112,6 @@ def _task(row, deduplicated=False):
     }
 
 
-# 方法说明：`_diagnosis` 完成当前步骤的业务处理；参数为 `row`、`deduplicated`。
 def _diagnosis(row, deduplicated=False):
     if not row:
         raise ServiceError(404, "DIAGNOSIS_NOT_FOUND", "Diagnosis was not found")
@@ -125,7 +137,6 @@ def _diagnosis(row, deduplicated=False):
                                  if row.get("report_id") else "")}}
 
 
-# 方法说明：`_approval` 完成当前步骤的业务处理；参数为 `row`、`next_diagnosis_id`。
 def _approval(row, next_diagnosis_id=None):
     if not row:
         raise ServiceError(404, "APPROVAL_NOT_FOUND", "Approval was not found")
@@ -138,11 +149,9 @@ def _approval(row, next_diagnosis_id=None):
             "next_diagnosis_id": next_diagnosis_id}
 
 
-# 方法说明：`create_app` 完成当前步骤的业务处理；参数为 `cfg`、`start_worker`、`runtime`。
 def create_app(cfg, start_worker=False, runtime=None):
     runtime = runtime or ServiceRuntime(cfg, load_model=False, role="api")
 
-    # 方法说明：`lifespan` 完成当前步骤的业务处理；参数为 `_app`。
     @asynccontextmanager
     async def lifespan(_app):
         if start_worker:
@@ -153,7 +162,6 @@ def create_app(cfg, start_worker=False, runtime=None):
     app = FastAPI(title="AIOps Fault Diagnosis API", version="0.5.0", lifespan=lifespan)
     app.state.runtime = runtime
 
-    # 方法说明：`request_id` 完成当前步骤的业务处理；参数为 `request`、`call_next`。
     @app.middleware("http")
     async def request_id(request, call_next):
         started = time.perf_counter()
@@ -170,33 +178,28 @@ def create_app(cfg, start_worker=False, runtime=None):
         }, separators=(",", ":")))
         return response
 
-    # 方法说明：`service_error` 完成当前步骤的业务处理；参数为 `request`、`exc`。
     @app.exception_handler(ServiceError)
     async def service_error(request, exc):
         body = ErrorBody(code=exc.code, message=exc.message, retryable=exc.retryable,
                          request_id=getattr(request.state, "request_id", uuid.uuid4().hex))
         return JSONResponse(status_code=exc.status, content=body.model_dump(), headers=exc.headers)
 
-    # 方法说明：`validation_error` 完成当前步骤的业务处理；参数为 `request`、`exc`。
     @app.exception_handler(RequestValidationError)
     async def validation_error(request, exc):
         body = ErrorBody(code="VALIDATION_ERROR", message=str(exc.errors()),
                          request_id=getattr(request.state, "request_id", uuid.uuid4().hex))
         return JSONResponse(status_code=422, content=body.model_dump())
 
-    # 方法说明：`unexpected_error` 完成当前步骤的业务处理；参数为 `request`、`exc`。
     @app.exception_handler(Exception)
     async def unexpected_error(request, exc):
         body = ErrorBody(code="INTERNAL_ERROR", message="Internal service error", retryable=True,
                          request_id=getattr(request.state, "request_id", uuid.uuid4().hex))
         return JSONResponse(status_code=500, content=body.model_dump())
 
-    # 方法说明：`live` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @app.get("/api/v1/health/live", response_model=HealthResponse)
     def live():
         return {"status": "live"}
 
-    # 方法说明：`ready` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @app.get("/api/v1/health/ready", response_model=HealthResponse,
              responses={503: {"model": ErrorBody}})
     def ready():
@@ -204,14 +207,12 @@ def create_app(cfg, start_worker=False, runtime=None):
             raise ServiceError(503, "MODEL_UNAVAILABLE", runtime.ready_detail or "Not ready", True)
         return {"status": "ready"}
 
-    # 方法说明：`current_release` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @app.get("/api/v1/releases/current", response_model=ReleaseResponse)
     def current_release():
         if not runtime.ready:
             raise ServiceError(503, "MODEL_UNAVAILABLE", runtime.ready_detail or "Not ready", True)
         return (runtime.model or runtime.release).public()
 
-    # 方法说明：`operations_summary` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @app.get("/api/v1/operations/summary", response_model=OperationsSummary)
     def operations_summary():
         if runtime.manifest is None:
@@ -219,21 +220,18 @@ def create_app(cfg, start_worker=False, runtime=None):
         age = int(cfg.get("worker", {}).get("heartbeat_max_age_seconds", 15))
         return runtime.db.operation_summary(runtime.manifest["release_id"], age)
 
-    # 方法说明：`current_knowledge_release` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @app.get("/api/v1/knowledge/releases/current", response_model=KnowledgeReleaseResponse)
     def current_knowledge_release():
         if runtime.retriever is None:
             raise ServiceError(503, "KNOWLEDGE_UNAVAILABLE", "Knowledge release is unavailable", True)
         return runtime.retriever.public()
 
-    # 方法说明：`current_rag_release` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @app.get("/api/v1/rag/releases/current", response_model=RagReleaseResponse)
     def current_rag_release():
         if runtime.rag is None:
             raise ServiceError(503, "RAG_UNAVAILABLE", "RAG report engine is unavailable", True)
         return runtime.rag.public()
 
-    # 方法说明：`current_agent_release` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @app.get("/api/v1/agent/releases/current", response_model=AgentReleaseResponse)
     def current_agent_release():
         if runtime.agent_release is None:
@@ -243,7 +241,6 @@ def create_app(cfg, start_worker=False, runtime=None):
             "release_id", "rag_version",
             "kb_release_id", "tool_manifest_hash", "risk_policy_hash", "prompt_version")}
 
-    # 方法说明：`create_diagnosis` 完成当前步骤的业务处理；参数为 `body`、`idempotency_key`。
     @app.post("/api/v1/diagnoses", status_code=202, response_model=DiagnosisResponse)
     def create_diagnosis(body: DiagnosisRequest,
                          idempotency_key: str | None = Header(default=None,
@@ -263,14 +260,12 @@ def create_app(cfg, start_worker=False, runtime=None):
         except RuntimeError as exc:
             raise ServiceError(503, "AGENT_UNAVAILABLE", str(exc), True) from exc
 
-    # 方法说明：`diagnosis` 完成当前步骤的业务处理；参数为 `diagnosis_id`。
     @app.get("/api/v1/diagnoses/{diagnosis_id}", response_model=DiagnosisResponse)
     def diagnosis(diagnosis_id: str):
         if not re.fullmatch(r"dia_[a-f0-9]{24}", diagnosis_id):
             raise ServiceError(422, "INVALID_DIAGNOSIS_ID", "Diagnosis ID is invalid")
         return _diagnosis(runtime.db.get_agent_run(diagnosis_id))
 
-    # 方法说明：`diagnosis_tool_calls` 完成当前步骤的业务处理；参数为 `diagnosis_id`。
     @app.get("/api/v1/diagnoses/{diagnosis_id}/tool-calls", response_model=ToolCallList)
     def diagnosis_tool_calls(diagnosis_id: str):
         if runtime.db.get_agent_run(diagnosis_id) is None:
@@ -285,7 +280,7 @@ def create_app(cfg, start_worker=False, runtime=None):
             "finished_at")}, "result": json.loads(row["result_json"])
             if row["result_json"] else None} for row in rows]}
 
-    # 方法说明：diagnosis_trace 返回一次诊断的 span 瀑布与 trace 标识。
+    # diagnosis_trace 返回一次诊断的 span 瀑布与 trace 标识。
     @app.get("/api/v1/diagnoses/{diagnosis_id}/trace")
     def diagnosis_trace(diagnosis_id: str):
         if runtime.db.get_agent_run(diagnosis_id) is None:
@@ -300,7 +295,6 @@ def create_app(cfg, start_worker=False, runtime=None):
                            "attributes": json.loads(row["attributes_json"])}
                           for row in rows]}
 
-    # 方法说明：`incident_report` 完成当前步骤的业务处理；参数为 `report_id`、`format`。
     @app.get("/api/v1/reports/{report_id}")
     def incident_report(report_id: str, format: Literal["json", "markdown"] = Query("json")):
         if not re.fullmatch(r"irpt_[a-f0-9]{24}", report_id):
@@ -314,7 +308,6 @@ def create_app(cfg, start_worker=False, runtime=None):
                                      f'inline; filename="{report_id}.md"'})
         return IncidentReport.model_validate_json(row["report_json"]).model_dump()
 
-    # 方法说明：`approvals` 完成当前步骤的业务处理；参数为 `status`。
     @app.get("/api/v1/approvals", response_model=ApprovalList)
     def approvals(status: str = Query("PENDING", pattern=r"^[A-Z_]+$")):
         runtime.db.expire_approvals()
@@ -322,14 +315,12 @@ def create_app(cfg, start_worker=False, runtime=None):
                               (status,))
         return {"items": [_approval(row) for row in rows]}
 
-    # 方法说明：`approval` 完成当前步骤的业务处理；参数为 `approval_id`。
     @app.get("/api/v1/approvals/{approval_id}", response_model=ApprovalResponse)
     def approval(approval_id: str):
         runtime.db.expire_approvals()
         return _approval(runtime.db.one("SELECT * FROM approvals WHERE approval_id=?",
                                         (approval_id,)))
 
-    # 方法说明：`decide_approval` 完成当前步骤的业务处理；参数为 `approval_id`、`body`、`authorization`、`idempotency_key`。
     @app.post("/api/v1/approvals/{approval_id}/decision", response_model=ApprovalResponse)
     def decide_approval(approval_id: str, body: ApprovalDecisionRequest,
                         authorization: str | None = Header(default=None, alias="Authorization"),
@@ -359,7 +350,6 @@ def create_app(cfg, start_worker=False, runtime=None):
         except ApprovalConflict as exc:
             raise ServiceError(409, "APPROVAL_CONFLICT", str(exc)) from exc
 
-    # 方法说明：`create_rag_report` 完成当前步骤的业务处理；参数为 `body`、`idempotency_key`。
     @app.post("/api/v1/rag/reports", response_model=RagReport)
     def create_rag_report(body: RagReportRequest,
                           idempotency_key: str | None = Header(default=None, alias="Idempotency-Key")):
@@ -401,7 +391,6 @@ def create_app(cfg, start_worker=False, runtime=None):
         except ValueError as exc:
             raise ServiceError(422, "INVALID_RAG_REQUEST", str(exc)) from exc
 
-    # 方法说明：`get_rag_report` 完成当前步骤的业务处理；参数为 `report_id`。
     @app.get("/api/v1/rag/reports/{report_id}", response_model=RagReport)
     def get_rag_report(report_id: str):
         if not re.fullmatch(r"rpt_[a-f0-9]{24}", report_id):
@@ -411,7 +400,6 @@ def create_app(cfg, start_worker=False, runtime=None):
             raise ServiceError(404, "REPORT_NOT_FOUND", "Report was not found")
         return report
 
-    # 方法说明：`retrieve` 完成当前步骤的业务处理；参数为 `body`。
     @app.post("/api/v1/retrieval/search", response_model=RetrievalSearchResponse)
     def retrieve(body: RetrievalSearchRequest):
         if runtime.retriever is None:
@@ -446,7 +434,6 @@ def create_app(cfg, start_worker=False, runtime=None):
                 "mode": result["mode"], "status": result["status"],
                 "elapsed_ms": elapsed, "items": items}
 
-    # 方法说明：`knowledge_chunk` 完成当前步骤的业务处理；参数为 `chunk_id`。
     @app.get("/api/v1/knowledge/chunks/{chunk_id}", response_model=KnowledgeChunkResponse)
     def knowledge_chunk(chunk_id: str):
         if runtime.retriever is None:
@@ -464,7 +451,6 @@ def create_app(cfg, start_worker=False, runtime=None):
                 "source_id": row["source_id"], "source_url": row["source_url"],
                 "source_version": row["source_version"], "maintained_at": row["maintained_at"]}
 
-    # 方法说明：`upload_batch` 完成当前步骤的业务处理；参数为 `file`、`idempotency_key`。
     @app.post("/api/v1/batches/uploads", status_code=202, response_model=TaskResponse)
     async def upload_batch(file: UploadFile = File(...), idempotency_key: str | None = Header(
             default=None, alias="Idempotency-Key")):
@@ -487,7 +473,6 @@ def create_app(cfg, start_worker=False, runtime=None):
         except RuntimeError as exc:
             raise ServiceError(503, "MODEL_UNAVAILABLE", str(exc), True) from exc
 
-    # 方法说明：`registered_batch` 完成当前步骤的业务处理；参数为 `body`、`idempotency_key`。
     @app.post("/api/v1/batches/registered", status_code=202, response_model=TaskResponse)
     def registered_batch(body: RegisteredRequest, idempotency_key: str | None = Header(
             default=None, alias="Idempotency-Key")):
@@ -506,18 +491,15 @@ def create_app(cfg, start_worker=False, runtime=None):
         except RuntimeError as exc:
             raise ServiceError(503, "MODEL_UNAVAILABLE", str(exc), True) from exc
 
-    # 方法说明：`registered_batches` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @app.get("/api/v1/batches/registered", response_model=RegisteredBatchList)
     def registered_batches():
         return {"items": sorted(cfg.get("registered_batches", {}))}
 
-    # 方法说明：`task_status` 完成当前步骤的业务处理；参数为 `task_id`。
     @app.get("/api/v1/tasks/{task_id}", response_model=TaskResponse)
     def task_status(task_id: str):
         row = runtime.db.one("SELECT * FROM tasks WHERE task_id=?", (task_id,))
         return _task(row)
 
-    # 方法说明：`batch_status` 完成当前步骤的业务处理；参数为 `batch_id`。
     @app.get("/api/v1/batches/{batch_id}", response_model=BatchResponse)
     def batch_status(batch_id: str):
         row = runtime.db.one("SELECT * FROM batches WHERE batch_id=?", (batch_id,))
@@ -532,7 +514,6 @@ def create_app(cfg, start_worker=False, runtime=None):
                        "quarantined_lines", "session_count", "anomaly_count", "event_count")},
         }
 
-    # 方法说明：`events` 完成当前步骤的业务处理；参数为 `batch_id`、`limit`、`cursor`。
     @app.get("/api/v1/events", response_model=EventList)
     def events(batch_id: str | None = None, limit: int = Query(50, ge=1, le=200),
                cursor: str | None = None):
@@ -556,7 +537,6 @@ def create_app(cfg, start_worker=False, runtime=None):
                                        "event_id": rows[-1]["event_id"]}) if more else None)
         return {"items": rows, "next_cursor": next_cursor}
 
-    # 方法说明：`event_detail` 完成当前步骤的业务处理；参数为 `event_id`。
     @app.get("/api/v1/events/{event_id}", response_model=EventDetail)
     def event_detail(event_id: str):
         event = runtime.db.one("SELECT * FROM events WHERE event_id=?", (event_id,))
@@ -567,7 +547,6 @@ def create_app(cfg, start_worker=False, runtime=None):
             "AND e.session_id=s.session_id WHERE e.event_id=? ORDER BY s.session_id", (event_id,))
         return {"event": event, "sessions": sessions}
 
-    # 方法说明：`session_detail` 完成当前步骤的业务处理；参数为 `batch_id`、`session_id`。
     @app.get("/api/v1/batches/{batch_id}/sessions/{session_id}", response_model=SessionResponse)
     def session_detail(batch_id: str, session_id: str):
         row = runtime.db.one("SELECT * FROM sessions WHERE batch_id=? AND session_id=?",
@@ -576,7 +555,6 @@ def create_app(cfg, start_worker=False, runtime=None):
             raise ServiceError(404, "SESSION_NOT_FOUND", "Session was not found")
         return row
 
-    # 方法说明：`batch_artifact_dir` 完成当前步骤的业务处理；参数为 `batch_id`。
     def batch_artifact_dir(batch_id):
         row = runtime.db.one("SELECT status,artifact_dir FROM batches WHERE batch_id=?", (batch_id,))
         if not row:
@@ -589,7 +567,6 @@ def create_app(cfg, start_worker=False, runtime=None):
             raise ServiceError(500, "ARTIFACT_PATH_INVALID", "Stored artifact path is invalid")
         return directory
 
-    # 方法说明：`scan_logs` 完成当前步骤的业务处理；参数为 `batch_id`、`session_id`、`start`、`end`、`after`、`limit`、`exact_log_id`。
     def scan_logs(batch_id, session_id=None, start=None, end=None, after=0, limit=50,
                   exact_log_id=None):
         directory = batch_artifact_dir(batch_id)
@@ -611,7 +588,6 @@ def create_app(cfg, start_worker=False, runtime=None):
                     return found
         return found
 
-    # 方法说明：`logs` 完成当前步骤的业务处理；参数为 `batch_id`、`session_id`、`start`、`end`、`limit`、`cursor`。
     @app.get("/api/v1/batches/{batch_id}/logs", response_model=LogList)
     def logs(batch_id: str, session_id: str | None = None, start: str | None = None,
              end: str | None = None, limit: int = Query(50, ge=1, le=200),
@@ -637,7 +613,6 @@ def create_app(cfg, start_worker=False, runtime=None):
         next_cursor = _encode_cursor({"raw_line_no": rows[-1]["raw_line_no"]}) if more else None
         return {"items": rows, "next_cursor": next_cursor}
 
-    # 方法说明：`log_detail` 完成当前步骤的业务处理；参数为 `batch_id`、`log_id`。
     @app.get("/api/v1/batches/{batch_id}/logs/{log_id}", response_model=LogItem)
     def log_detail(batch_id: str, log_id: str):
         rows = scan_logs(batch_id, exact_log_id=log_id, limit=1)

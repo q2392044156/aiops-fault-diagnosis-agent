@@ -1,5 +1,4 @@
-# 模块说明：校验并生成当前模块的不可变发布清单。
-"""Immutable release manifest for the opt-in framework flow candidate."""
+"""可选框架候选流程的不可变发布清单。"""
 
 import json
 import os
@@ -8,37 +7,33 @@ import tomllib
 import uuid
 from pathlib import Path
 
-from online.diagnosis.query_v11.engine import CANDIDATE_REPORT_PROMPT
-from online.diagnosis.query_v11.release import verify as verify_v11
-from aiops_diag.common import digest, key, save, verified_manifest
+from aiops_diag.common import digest, key, save, source_files, verified_manifest
+from online.diagnosis.candidate import CANDIDATE_REPORT_PROMPT
+from online.diagnosis.release_candidate import verify as verify_v11
 
-
-# 变量说明：`PRODUCT_VERSION` 保存本模块或数据模型使用的稳定值。
 PRODUCT_VERSION = "v1.1-framework-rc2"
-# 变量说明：`AGENT_VERSION` 保存本模块或数据模型使用的稳定值。
 AGENT_VERSION = "agent_v0.4.1_langgraph"
-# 变量说明：`RAG_VERSION` 保存本模块或数据模型使用的稳定值。
 RAG_VERSION = "rag_v0.3.1_query_builder"
 
 
-# 方法说明：`_base` 完成当前步骤的业务处理；参数为 `agent_cfg`、`v11`。
 def _base(agent_cfg, v11):
     return verify_v11(agent_cfg, v11["protocol"], v11["calibration"],
                       v11["base_service_config"], v11["release_dir"])
 
 
-# 方法说明：`_code_hashes` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def _code_hashes():
-    package = Path(__file__).resolve().parents[1]
-    paths = [*Path(__file__).resolve().parent.glob("*.py"),
-             package / "agent_v11" / "engine.py",
-             package / "service" / "config.py",
-             package / "service" / "runtime.py"]
-    return {str(path.relative_to(package)).replace("\\", "/"): digest(path)
-            for path in sorted(paths)}
+    root = Path(__file__).resolve().parents[4]
+    paths = source_files(
+        root, "src/online/diagnosis/framework/*.py",
+        "src/online/diagnosis/*.py",
+        "src/online/knowledge/gate.py",
+        "src/online/knowledge/protocol.py",
+        "src/aiops_diag/platform/config.py",
+        "src/aiops_diag/platform/runtime.py")
+    return {str(path.relative_to(root)).replace("\\", "/"): digest(path)
+            for path in paths}
 
 
-# 方法说明：`_dependencies` 完成当前步骤的业务处理；参数为 `agent_cfg`。
 def _dependencies(agent_cfg):
     root = Path(agent_cfg["root"])
     return {name: digest(root / name) for name in (
@@ -46,7 +41,6 @@ def _dependencies(agent_cfg):
         "requirements-framework-lock.txt")}
 
 
-# 方法说明：`_deployment` 完成当前步骤的业务处理；参数为 `agent_cfg`。
 def _deployment(agent_cfg):
     root = Path(agent_cfg["root"])
     names = ("ops/deployment/Dockerfile", "ops/deployment/compose.framework-rc2.yaml",
@@ -54,14 +48,12 @@ def _deployment(agent_cfg):
     return {name: digest(root / name) for name in names}
 
 
-# 方法说明：`_package` 完成当前步骤的业务处理；参数为 `agent_cfg`。
 def _package(agent_cfg):
     path = Path(agent_cfg["root"]) / "pyproject.toml"
     version = tomllib.loads(path.read_text(encoding="utf-8"))["project"]["version"]
     return version, digest(path)
 
 
-# 方法说明：`_prior_observation` 完成当前步骤的业务处理；参数为 `path`。
 def _prior_observation(path):
     path = Path(path)
     result = json.loads(path.read_text(encoding="utf-8"))
@@ -82,7 +74,6 @@ def _prior_observation(path):
     }
 
 
-# 方法说明：`_value` 完成当前步骤的业务处理；参数为 `agent_cfg`、`v11`、`framework`、`service_config_path`。
 def _value(agent_cfg, v11, framework, service_config_path):
     base = _base(agent_cfg, {**v11,
         "base_service_config": framework["base_service_config"]})
@@ -123,7 +114,6 @@ def _value(agent_cfg, v11, framework, service_config_path):
     return value
 
 
-# 方法说明：`publish` 完成当前步骤的业务处理；参数为 `agent_cfg`、`v11`、`framework`、`service_config_path`、`directory`。
 def publish(agent_cfg, v11, framework, service_config_path, directory):
     value = _value(agent_cfg, v11, framework, service_config_path)
     directory = Path(directory)
@@ -148,7 +138,6 @@ def publish(agent_cfg, v11, framework, service_config_path, directory):
     return value
 
 
-# 方法说明：`verify` 完成当前步骤的业务处理；参数为 `agent_cfg`、`v11`、`framework`、`service_config_path`、`directory`、`strict_source`。
 def verify(agent_cfg, v11, framework, service_config_path, directory,
            strict_source=False):
     directory = Path(directory)

@@ -1,4 +1,4 @@
-"""模块说明：执行关键路径冒烟验证。"""
+"""执行关键路径冒烟验证。"""
 
 import argparse
 import json
@@ -12,7 +12,6 @@ from aiops_diag.platform.config import load
 from aiops_diag.platform.runtime import ServiceRuntime
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def main():
     parser = argparse.ArgumentParser(description="W9 local approval API smoke test")
     parser.add_argument("--config", required=True)

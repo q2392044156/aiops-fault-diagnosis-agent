@@ -1,15 +1,13 @@
-"""模块说明：计算 Precision、Recall、F1、AUC 等检测指标。"""
+"""计算 Precision、Recall、F1、AUC 等检测指标。"""
 
 import numpy as np
 from sklearn.metrics import average_precision_score, precision_recall_curve, roc_auc_score
 
 
-# 方法说明：`_ratio` 完成当前步骤的业务处理；参数为 `numerator`、`denominator`。
 def _ratio(numerator, denominator):
     return float(numerator / denominator) if denominator else None
 
 
-# 方法说明：`classification_metrics` 完成当前步骤的业务处理；参数为 `labels`、`predictions`、`scores`。
 def classification_metrics(labels, predictions, scores=None):
     y = np.asarray(labels, dtype=np.int8)
     p = np.asarray(predictions, dtype=np.int8)
@@ -37,7 +35,6 @@ def classification_metrics(labels, predictions, scores=None):
     }
 
 
-# 方法说明：`select_threshold` 完成当前步骤的业务处理；参数为 `labels`、`scores`、`max_fpr`。
 def select_threshold(labels, scores, max_fpr=0.01):
     """Select the best observed cutoff without relaxing the false-positive budget."""
     y = np.asarray(labels, dtype=np.int8)
@@ -91,7 +88,6 @@ def select_threshold(labels, scores, max_fpr=0.01):
     return result, curve
 
 
-# 方法说明：`pr_curve` 完成当前步骤的业务处理；参数为 `labels`、`scores`。
 def pr_curve(labels, scores):
     y = np.asarray(labels, dtype=np.int8)
     s = np.asarray(scores, dtype=np.float64)

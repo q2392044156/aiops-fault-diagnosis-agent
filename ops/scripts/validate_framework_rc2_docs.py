@@ -1,5 +1,4 @@
-# 模块说明：校验输入、产物和运行条件是否满足约定。
-"""Validate RC2 JSON, Markdown links, evidence hashes, and release hygiene."""
+"""校验 RC2 的 JSON、Markdown 链接、证据哈希与发布卫生。"""
 
 from __future__ import annotations
 
@@ -8,15 +7,11 @@ import json
 import re
 from pathlib import Path
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[2]
-# 变量说明：`REPORTS` 保存本模块或数据模型使用的稳定值。
 REPORTS = [
     ROOT / "README.md",
     ROOT / "documentation/framework_rc2_acceptance_report.md",
 ]
-# 变量说明：`JSON_FILES` 保存本模块或数据模型使用的稳定值。
 JSON_FILES = [
     ROOT / "documentation/results/framework_rc2_acceptance_manifest.json",
     ROOT / "documentation/results/framework_offline_acceptance_rc2.json",
@@ -27,7 +22,6 @@ JSON_FILES = [
     ROOT / "resources/evaluation/v1.1/framework_rc2_sealed_20261020/freeze_manifest.json",
     ROOT / "resources/evaluation/v1.2/real_incident_protocol/manifest.json",
 ]
-# 变量说明：`SCAN_ROOTS` 保存本模块或数据模型使用的稳定值。
 SCAN_ROOTS = [
     "README.md",
     "resources",
@@ -36,16 +30,13 @@ SCAN_ROOTS = [
     "src",
     "tests",
 ]
-# 变量说明：`TEXT_SUFFIXES` 保存本模块或数据模型使用的稳定值。
 TEXT_SUFFIXES = {".md", ".json", ".jsonl", ".yaml", ".yml", ".py", ".ps1", ".toml", ".txt"}
 
 
-# 方法说明：`digest` 完成当前步骤的业务处理；参数为 `path`。
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-# 方法说明：`markdown_missing_links` 完成当前步骤的业务处理；参数为 `path`。
 def markdown_missing_links(path: Path) -> list[str]:
     missing: list[str] = []
     for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", path.read_text(encoding="utf-8")):
@@ -58,7 +49,6 @@ def markdown_missing_links(path: Path) -> list[str]:
     return missing
 
 
-# 方法说明：`iter_text_files` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def iter_text_files() -> list[Path]:
     files: list[Path] = []
     for name in SCAN_ROOTS:
@@ -74,7 +64,6 @@ def iter_text_files() -> list[Path]:
     return files
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def main() -> None:
     parsed = {path.relative_to(ROOT).as_posix(): json.loads(path.read_text(encoding="utf-8")) for path in JSON_FILES}
     acceptance = parsed["documentation/results/framework_rc2_acceptance_manifest.json"]
@@ -106,7 +95,7 @@ def main() -> None:
         path.relative_to(ROOT).as_posix()
         for path in ROOT.rglob("*.log")
         if not any(
-            part in {"runtime", ".w10-env", ".uv-cache", ".git", "data", ".pytest-tmp", ".pytest_cache"}
+            part in {"runtime", "data", "__pycache__"} or part.startswith(".")
             for part in path.parts
         )
     ]

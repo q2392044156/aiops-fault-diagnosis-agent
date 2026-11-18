@@ -1,29 +1,29 @@
-"""模块说明：按时间与组件生成统一滑动窗口。"""
+"""按时间与组件生成统一滑动窗口。"""
 
 from __future__ import annotations
 
 import hashlib
 import json
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from offline.ingestion.adapters import parse_lines
 
 
-# 方法说明：_stamp 返回可用于分桶的 UTC 时间。
+# _stamp 返回可用于分桶的 UTC 时间。
 def _stamp(row):
     value = (row.get("timestamp_utc") or row.get("timestamp")
              or row.get("timestamp_local"))
     if not value:
         return None
     try:
-        return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(UTC)
     except ValueError:
         return None
 
 
-# 方法说明：make_windows 按来源/组件/时间生成滑动窗口。
+# make_windows 按来源/组件/时间生成滑动窗口。
 def make_windows(rows, source_type, duration_seconds=60, step_seconds=10,
                  max_rows=500, min_rows=1):
     duration_seconds = max(1, int(duration_seconds))
@@ -48,7 +48,7 @@ def make_windows(rows, source_type, duration_seconds=60, step_seconds=10,
                          if start_epoch <= int(stamp.timestamp()) < end_epoch]
             if len(chunk_all) < int(min_rows):
                 continue
-            start = datetime.fromtimestamp(start_epoch, timezone.utc)
+            start = datetime.fromtimestamp(start_epoch, UTC)
             for part in range(0, len(chunk_all), max_rows):
                 chunk = chunk_all[part:part + max_rows]
                 raw = f"{source}|{component}|{start.isoformat()}|{part // max_rows}"
@@ -61,7 +61,7 @@ def make_windows(rows, source_type, duration_seconds=60, step_seconds=10,
     return windows
 
 
-# 方法说明：load_case_windows 解析案例日志并生成滑动窗口。
+# load_case_windows 解析案例日志并生成滑动窗口。
 def load_case_windows(case_dir, source_type=None, duration_seconds=60,
                       step_seconds=10, max_rows=500):
     case_dir = Path(case_dir)
@@ -85,7 +85,7 @@ def load_case_windows(case_dir, source_type=None, duration_seconds=60,
     return make_windows(rows, source_type, duration_seconds, step_seconds, max_rows)
 
 
-# 方法说明：load_normal_windows 从正常日志目录生成滑动窗口。
+# load_normal_windows 从正常日志目录生成滑动窗口。
 def load_normal_windows(directory, source_type="docker_container",
                         duration_seconds=60, step_seconds=10, max_rows=500):
     windows = []

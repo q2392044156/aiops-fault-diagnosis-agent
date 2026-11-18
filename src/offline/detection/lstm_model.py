@@ -1,4 +1,4 @@
-"""模块说明：实现 LSTM 异常检测网络结构。"""
+"""实现 LSTM 异常检测网络结构。"""
 
 import math
 import os
@@ -10,7 +10,6 @@ from torch import nn
 from torch.utils.data import Dataset
 
 
-# 方法说明：`seed_everything` 完成当前步骤的业务处理；参数为 `seed`。
 def seed_everything(seed):
     # Required by CUDA for deterministic matrix multiplications.  It must be set
     # before the first training operation; setdefault preserves an explicit user
@@ -26,7 +25,6 @@ def seed_everything(seed):
     torch.backends.cudnn.deterministic = True
 
 
-# 方法说明：`resolve_device` 完成当前步骤的业务处理；参数为 `requested`。
 def resolve_device(requested):
     if requested == "auto":
         return torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -37,20 +35,16 @@ def resolve_device(requested):
     return torch.device(requested)
 
 
-# 类说明：`SequenceDataset` 封装本模块内聚的数据和行为。
 class SequenceDataset(Dataset):
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `rows`、`labels`、`scaler`、`max_length`。
     def __init__(self, rows, labels, scaler, max_length):
         self.rows = rows
         self.labels = labels
         self.scaler = scaler
         self.max_length = max_length
 
-    # 方法说明：`__len__` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def __len__(self):
         return len(self.rows)
 
-    # 方法说明：`__getitem__` 完成当前步骤的业务处理；参数为 `index`。
     def __getitem__(self, index):
         row = self.rows[index]
         template_ids = row["template_ids"]
@@ -79,7 +73,6 @@ class SequenceDataset(Dataset):
         }
 
 
-# 方法说明：`collate_sequences` 完成当前步骤的业务处理；参数为 `items`、`max_length`。
 def collate_sequences(items, max_length=128):
     if not items:
         raise ValueError("Cannot collate an empty batch")
@@ -116,9 +109,7 @@ def collate_sequences(items, max_length=128):
     }
 
 
-# 类说明：`LSTMClassifier` 封装本模块内聚的数据和行为。
 class LSTMClassifier(nn.Module):
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `vocabulary_size`、`embedding_dim`、`hidden_dim`、`dropout`、`session_feature_count`。
     def __init__(self, vocabulary_size, embedding_dim=32, hidden_dim=64, dropout=0.2,
                  session_feature_count=4):
         super().__init__()
@@ -129,7 +120,6 @@ class LSTMClassifier(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.output = nn.Linear(hidden_dim * 2 + session_feature_count, 1)
 
-    # 方法说明：`forward` 完成当前步骤的业务处理；参数为 `template_ids`、`gaps`、`mask`、`chunk_valid`、`session_features`。
     def forward(self, template_ids, gaps, mask, chunk_valid, session_features):
         batch, chunks, length = template_ids.shape
         flat_ids = template_ids.reshape(batch * chunks, length)

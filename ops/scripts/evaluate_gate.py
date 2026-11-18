@@ -9,11 +9,12 @@ from pathlib import Path
 
 sys.path.insert(0, "src")
 sys.path.insert(0, "ops/lab/harness")
-from aiops_diag.platform.events import score_rows
 from windows import load_windows
 
+from aiops_diag.platform.events import score_rows
 
-# 方法说明：_quantile 返回分位数。
+
+# _quantile 返回分位数。
 def _quantile(values, q):
     if not values:
         return None
@@ -21,7 +22,7 @@ def _quantile(values, q):
     return values[min(len(values) - 1, int(len(values) * q))]
 
 
-# 方法说明：_metrics 计算给定阈值下的 FPR/Recall。
+# _metrics 计算给定阈值下的 FPR/Recall。
 def _metrics(normal, fault, threshold):
     false_positive = sum(1 for score in normal if score >= threshold)
     hits = sum(1 for score in fault if score >= threshold)
@@ -32,7 +33,7 @@ def _metrics(normal, fault, threshold):
             "recall": round(hits / len(fault), 4) if fault else None}
 
 
-# 方法说明：main 扫描案例并输出门禁评测。
+# main 扫描案例并输出门禁评测。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--cases", required=True)

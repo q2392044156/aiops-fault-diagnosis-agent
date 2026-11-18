@@ -1,6 +1,7 @@
-"""模块说明：装配配置、数据库、发布制品和后台 worker。"""
+"""装配配置、数据库、发布制品和后台 worker。"""
 
 import hashlib
+import logging
 import os
 import re
 import socket
@@ -9,26 +10,29 @@ import uuid
 from pathlib import Path
 
 from aiops_diag.common import digest, key
-from online.knowledge.release import FrozenRetriever
-from online.knowledge.generation.engine import RagEngine
-from online.knowledge.generation.client import DeepSeekClient
+from online.diagnosis.agent import Agent, AgentYield
 from online.diagnosis.auth import ReviewerRegistry
 from online.diagnosis.budget import DatabaseBudgetLedger
-from online.diagnosis.engine import AgentEngine, AgentYield
 from online.diagnosis.release import verify as verify_agent
+from online.knowledge.generation.client import DeepSeekClient
+from online.knowledge.generation.engine import RagEngine
+from online.knowledge.release import FrozenRetriever
 
 from .db import Database, LeaseLost
 from .pipeline import database_payload, process
 from .release import FrozenRelease, ReleaseMetadata
 
+LOG = logging.getLogger(__name__)
 
-# 变量说明：`IDEMPOTENCY` 保存本模块或数据模型使用的稳定值。
 IDEMPOTENCY = re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
 
 
-# 类说明：`ServiceRuntime` 封装本模块内聚的数据和行为。
+def _strict_source(cfg):
+    """运行期默认只校验知识库与数据资产；发布/门禁通过 verify.strict_source 打开源码复核。"""
+    return bool(cfg.get("verify", {}).get("strict_source", False))
+
+
 class ServiceRuntime:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `cfg`、`load_model`、`role`。
     def __init__(self, cfg, load_model=False, role="api"):
         self.cfg = cfg
         self.role = role
@@ -57,8 +61,8 @@ class ServiceRuntime:
             if role in ("api", "worker") and cfg.get("retrieval"):
                 self.retriever = FrozenRetriever(cfg["retrieval"])
             if cfg.get("agent_backend") in ("v11_candidate", "framework_candidate"):
-                from online.diagnosis.query_v11.release import verify as verify_v11
-                from online.knowledge.gate_v11 import CandidateRetriever
+                from online.diagnosis.release_candidate import verify as verify_v11
+                from online.knowledge.gate import GatedRetriever
 
                 candidate = cfg["v11_candidate"]
                 if cfg.get("agent_backend") == "framework_candidate":
@@ -67,22 +71,22 @@ class ServiceRuntime:
                     framework = cfg["framework_candidate"]
                     self.agent_release = verify_framework(
                         cfg["agent"], candidate, framework, cfg["config_path"],
-                        framework["release_dir"])
+                        framework["release_dir"], strict_source=_strict_source(cfg))
                     base_release = self.agent_release
                     if cfg.get("v12", {}).get("enabled"):
-                        from online.diagnosis.framework.release_v12 import verify as verify_v12
+                        from online.diagnosis.framework.release_checkpointed import verify as verify_v12
 
                         self.agent_release = verify_v12(
-                            cfg, cfg["v12"]["release_dir"])
+                            cfg, cfg["v12"]["release_dir"], strict_source=_strict_source(cfg))
                         base_release = self.agent_release
                 else:
                     base_release = verify_v11(
                         cfg["agent"], candidate["protocol"], candidate["calibration"],
                         cfg["config_path"], candidate["release_dir"],
-                        strict_source=False)
+                        strict_source=_strict_source(cfg))
                 if self.retriever is None:
                     raise ValueError("v1.1 candidate requires frozen retrieval")
-                self.retriever = CandidateRetriever(
+                self.retriever = GatedRetriever(
                     self.retriever, base_release["gate_threshold"])
                 if cfg.get("agent_backend") == "framework_candidate":
                     if cfg.get("retrieval_backend") == "langchain":
@@ -106,13 +110,13 @@ class ServiceRuntime:
                 if cfg.get("agent_backend") not in ("v11_candidate", "framework_candidate"):
                     self.agent_release = verify_agent(cfg["agent"])
                 if role == "worker":
-                    agent_class = AgentEngine
+                    agent_class = Agent
                     agent_cfg = cfg["agent"]
                     if cfg.get("agent_backend") in ("v11_candidate", "framework_candidate"):
-                        from online.diagnosis.query_v11.engine import AgentEngine as CandidateAgentEngine
-                        from online.diagnosis.query_v11.query_builder import load_config as load_query
+                        from online.diagnosis.candidate import CandidateAgent
+                        from online.diagnosis.retrieval_query import load_config as load_query
 
-                        agent_class = CandidateAgentEngine
+                        agent_class = CandidateAgent
                         agent_cfg = {**agent_cfg,
                                      "agent_version": self.agent_release["agent_version"],
                                      "report_backend": cfg.get("report_backend", "legacy"),
@@ -122,9 +126,9 @@ class ServiceRuntime:
                             agent_cfg["v12"] = cfg["v12"]
                     if (cfg.get("agent_backend") == "framework_candidate"
                             and cfg.get("execution_backend") == "langgraph"):
-                        from online.diagnosis.framework.graph import LangGraphAgentEngine
+                        from online.diagnosis.framework.graph import LangGraphAgent
 
-                        agent_class = LangGraphAgentEngine
+                        agent_class = LangGraphAgent
                     self.agent = agent_class(agent_cfg, self.db, self.retriever,
                                              self.manifest, self.agent_release)
                 if role == "api" and cfg["agent"]["approval"].get("reviewer_registry"):
@@ -137,13 +141,11 @@ class ServiceRuntime:
         self.worker_id = f"{socket.gethostname()}-{os.getpid()}-{uuid.uuid4().hex[:8]}"
         self.prefer_agent = False
 
-    # 方法说明：`manifest` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @property
     def manifest(self):
         source = self.model or self.release
         return source.manifest if source else None
 
-    # 方法说明：`ready` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @property
     def ready(self):
         if self.ready_error is not None or self.manifest is None:
@@ -166,7 +168,6 @@ class ServiceRuntime:
         max_age = int(self.cfg.get("worker", {}).get("heartbeat_max_age_seconds", 15))
         return self.db.worker_ready(self.manifest["release_id"], max_age) is not None
 
-    # 方法说明：`ready_detail` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @property
     def ready_detail(self):
         if self.ready_error:
@@ -190,7 +191,6 @@ class ServiceRuntime:
             return "No healthy model worker heartbeat"
         return None
 
-    # 方法说明：`start` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def start(self):
         """Compatibility helper for local tests; production uses the worker CLI."""
         if self.model is None or self.ready_error:
@@ -201,7 +201,6 @@ class ServiceRuntime:
                                        name="aiops-single-worker", daemon=True)
         self.thread.start()
 
-    # 方法说明：`stop` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def stop(self):
         self.stop_event.set()
         if self.thread:
@@ -211,12 +210,10 @@ class ServiceRuntime:
         if self.agent is not None:
             self.agent.close()
 
-    # 方法说明：`_heartbeat` 完成当前步骤的业务处理；参数为 `status`、`details`。
     def _heartbeat(self, status="READY", details=None):
         if self.manifest:
             self.db.heartbeat(self.worker_id, self.manifest["release_id"], status, details)
 
-    # 方法说明：`run_forever` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def run_forever(self):
         if self.model is None or self.ready_error:
             raise RuntimeError(self.ready_error or "Worker model is unavailable")
@@ -245,7 +242,6 @@ class ServiceRuntime:
                 self.stop_event.wait(min(poll, heartbeat))
         self._heartbeat("STOPPED")
 
-    # 方法说明：`run_one` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def run_one(self):
         if self.model is None or self.ready_error:
             raise RuntimeError(self.ready_error or "Worker model is unavailable")
@@ -269,7 +265,6 @@ class ServiceRuntime:
         lease_token = task["lease_token"]
         renew_stop = threading.Event()
 
-        # 方法说明：`renew_loop` 完成当前步骤的业务处理；参数为 无显式业务参数。
         def renew_loop():
             while not renew_stop.wait(min(heartbeat_seconds, max(1, lease_seconds / 3))):
                 try:
@@ -295,7 +290,7 @@ class ServiceRuntime:
                 self.db.fail(task["task_id"], "PROCESSING_FAILED",
                              f"{type(exc).__name__}: {exc}", lease_token)
             except LeaseLost:
-                pass
+                LOG.debug("任务 %s 的租约已失效，跳过失败标记", task["task_id"])
             raise
         finally:
             renew_stop.set()
@@ -303,12 +298,10 @@ class ServiceRuntime:
             self._heartbeat()
         return self.db.one("SELECT * FROM tasks WHERE task_id=?", (task["task_id"],))
 
-    # 方法说明：`_run_agent` 完成当前步骤的业务处理；参数为 `run`、`lease_seconds`、`heartbeat_seconds`。
     def _run_agent(self, run, lease_seconds, heartbeat_seconds):
         lease_token = run["lease_token"]
         renew_stop = threading.Event()
 
-        # 方法说明：`renew_loop` 完成当前步骤的业务处理；参数为 无显式业务参数。
         def renew_loop():
             while not renew_stop.wait(min(heartbeat_seconds, max(1, lease_seconds / 3))):
                 try:
@@ -331,14 +324,13 @@ class ServiceRuntime:
                 self.db.fail_agent(run["diagnosis_id"], lease_token, "AGENT_FAILED",
                                    f"{type(exc).__name__}: {exc}")
             except LeaseLost:
-                pass
+                LOG.debug("诊断 %s 的租约已失效，跳过失败标记", run["diagnosis_id"])
             raise
         finally:
             renew_stop.set()
             renewer.join(timeout=2)
             self._heartbeat()
 
-    # 方法说明：`_identity` 完成当前步骤的业务处理；参数为 `input_hash`。
     def _identity(self, input_hash):
         if not self.manifest:
             raise RuntimeError(self.ready_detail or "Service is not ready")
@@ -346,7 +338,6 @@ class ServiceRuntime:
                         self.cfg["processing_hash"]])
         return "bat_" + identity[:24], "tsk_" + identity[:24], identity
 
-    # 方法说明：`_submit` 完成当前步骤的业务处理；参数为 `source_kind`、`source_ref`、`input_hash`、`idempotency_key`。
     def _submit(self, source_kind, source_ref, input_hash, idempotency_key):
         if not self.ready:
             raise RuntimeError(self.ready_detail or "Service is not ready")
@@ -361,7 +352,6 @@ class ServiceRuntime:
         )
         return task, deduplicated
 
-    # 方法说明：`submit_registered` 完成当前步骤的业务处理；参数为 `registered_id`、`idempotency_key`。
     def submit_registered(self, registered_id, idempotency_key=None):
         item = self.cfg["registered_batches"].get(registered_id)
         if not item:
@@ -371,7 +361,6 @@ class ServiceRuntime:
             raise ValueError("Registered batch is unavailable or has an unsupported type")
         return self._submit("registered", path.resolve(), digest(path), idempotency_key)
 
-    # 方法说明：`submit_upload` 完成当前步骤的业务处理；参数为 `upload`、`idempotency_key`。
     async def submit_upload(self, upload, idempotency_key=None):
         allowed = {"text/plain", "application/octet-stream", "text/x-log", ""}
         content_type = (upload.content_type or "").split(";", 1)[0].lower()
@@ -416,7 +405,6 @@ class ServiceRuntime:
             partial.unlink(missing_ok=True)
             raise
 
-    # 方法说明：`submit_diagnosis` 完成当前步骤的业务处理；参数为 `event_id`、`mode`、`idempotency_key`。
     def submit_diagnosis(self, event_id, mode="auto", idempotency_key=None):
         if not self.agent_release:
             raise RuntimeError("Agent release is unavailable")

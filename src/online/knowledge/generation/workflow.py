@@ -1,4 +1,4 @@
-"""模块说明：组织当前模块的端到端工作流和文件产物。"""
+"""串联建库、生成与评测并落盘产物。"""
 
 import json
 import os
@@ -10,13 +10,11 @@ from pathlib import Path
 
 from aiops_diag.common import digest, key, save
 from online.knowledge.corpus import read_jsonl
-from online.knowledge.workflow import validate as validate_retrieval
+from online.knowledge.generation.engine import SYSTEM_PROMPT, RagEngine
+from online.knowledge.generation.release import verify
+from online.knowledge.retrieval import validate as validate_retrieval
 
-from .engine import RagEngine, SYSTEM_PROMPT
-from .release import verify
 
-
-# 方法说明：`validate` 完成当前步骤的业务处理；参数为 `cfg`。
 def validate(cfg):
     retrieval = validate_retrieval(cfg["retrieval"])
     budget = cfg["budget"]
@@ -29,7 +27,6 @@ def validate(cfg):
             "reranker_revision": cfg["reranker"]["revision"]}
 
 
-# 方法说明：`_score` 完成当前步骤的业务处理；参数为 `rows`。
 def _score(rows):
     total = len(rows)
     answerable = [row for row in rows if row["has_answer"]]
@@ -54,7 +51,6 @@ def _score(rows):
     }
 
 
-# 方法说明：`_run_split` 完成当前步骤的业务处理；参数为 `cfg`、`split`。
 def _run_split(cfg, split):
     evaluation = Path(cfg["retrieval"]["paths"]["evaluation_dir"])
     queries = read_jsonl(evaluation / f"r{split}.jsonl")
@@ -83,7 +79,6 @@ def _run_split(cfg, split):
     return rows
 
 
-# 方法说明：`tune` 完成当前步骤的业务处理；参数为 `cfg`。
 def tune(cfg):
     validate(cfg)
     output = Path(cfg["paths"]["work_dir"])
@@ -101,7 +96,6 @@ def tune(cfg):
     return {name: value[name] for name in ("schema_version", "split", "rag_version", "metrics")}
 
 
-# 方法说明：`publish` 完成当前步骤的业务处理；参数为 `cfg`。
 def publish(cfg):
     work = Path(cfg["paths"]["work_dir"])
     frozen_path = work / "frozen.json"
@@ -147,7 +141,6 @@ def publish(cfg):
     return verify(cfg)
 
 
-# 方法说明：`finalize` 完成当前步骤的业务处理；参数为 `cfg`。
 def finalize(cfg):
     release = verify(cfg)
     output = Path(cfg["paths"]["work_dir"])
@@ -166,13 +159,13 @@ def finalize(cfg):
     return {name: value[name] for name in ("schema_version", "split", "metrics", "input_hash")}
 
 
-# 方法说明：`fetch_reranker` 完成当前步骤的业务处理；参数为 `cfg`。
 def fetch_reranker(cfg):
     from huggingface_hub import snapshot_download
     from optimum.exporters.onnx import main_export
+
     from online.knowledge.evaluation import evaluate
+    from online.knowledge.generation.reranker import OnnxReranker, RerankedRetriever
     from online.knowledge.release import FrozenRetriever
-    from .reranker import OnnxReranker, RerankedRetriever
 
     target = Path(cfg["paths"]["reranker_source_dir"])
     snapshot_download(repo_id=cfg["reranker"]["repo_id"],
@@ -193,8 +186,8 @@ def fetch_reranker(cfg):
         if source.is_file() and not destination.is_file():
             shutil.copy2(source, destination)
     reranker = OnnxReranker(onnx_dir)
-    import torch
     import numpy as np
+    import torch
     from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
     sample_query = "NameNode连接失败如何排查"
@@ -235,7 +228,6 @@ def fetch_reranker(cfg):
     return result
 
 
-# 方法说明：`benchmark` 完成当前步骤的业务处理；参数为 `cfg`。
 def benchmark(cfg):
     engine = RagEngine(cfg)
     try:

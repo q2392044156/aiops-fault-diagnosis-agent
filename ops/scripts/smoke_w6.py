@@ -1,4 +1,4 @@
-"""模块说明：执行关键路径冒烟验证。"""
+"""执行关键路径冒烟验证。"""
 
 import argparse
 import json
@@ -6,8 +6,6 @@ import time
 
 import httpx
 
-
-# 变量说明：`SAMPLE` 保存本模块或数据模型使用的稳定值。
 SAMPLE = (
     b"081109 203518 143 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1 "
     b"src: /10.0.0.1:1\n"
@@ -16,7 +14,6 @@ SAMPLE = (
 )
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--base-url", default="http://127.0.0.1:8000")

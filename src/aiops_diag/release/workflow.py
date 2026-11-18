@@ -1,24 +1,22 @@
-"""模块说明：聚合组件哈希并验证整体发布一致性。"""
+"""聚合组件哈希并验证整体发布一致性。"""
 
 import json
 import platform
 import sys
 from pathlib import Path
 
-from online.diagnosis.release import verify as verify_agent
-from online.diagnosis.workflow import validate_isolation
 from aiops_diag.common import digest, key, save, verified_manifest
 from aiops_diag.platform.release import verify as verify_service
+from online.diagnosis.isolation import validate_isolation
+from online.diagnosis.release import verify as verify_agent
 
 
-# 方法说明：`_source_hashes` 完成当前步骤的业务处理；参数为 `root`。
 def _source_hashes(root):
     base = Path(root) / "src" / "aiops_diag"
     return {str(path.relative_to(root)).replace("\\", "/"): digest(path)
             for path in sorted(base.rglob("*.py"))}
 
 
-# 方法说明：`freeze` 完成当前步骤的业务处理；参数为 `cfg`。
 def freeze(cfg):
     service = verify_service(cfg["service"])
     agent = verify_agent(cfg["agent"])
@@ -56,7 +54,6 @@ def freeze(cfg):
     return value
 
 
-# 方法说明：`verify` 完成当前步骤的业务处理；参数为 `cfg`。
 def verify(cfg):
     directory = Path(cfg["paths"]["release_dir"])
     manifest = verified_manifest(directory, "manifest.json")
@@ -83,13 +80,11 @@ def verify(cfg):
     return value
 
 
-# 方法说明：`_read_optional` 完成当前步骤的业务处理；参数为 `path`。
 def _read_optional(path):
     path = Path(path)
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
 
 
-# 方法说明：`accept` 完成当前步骤的业务处理；参数为 `cfg`。
 def accept(cfg):
     release = verify(cfg)
     work = Path(cfg["paths"]["work_dir"])
@@ -136,7 +131,6 @@ def accept(cfg):
     return result
 
 
-# 方法说明：`export` 完成当前步骤的业务处理；参数为 `cfg`。
 def export(cfg):
     result = accept(cfg)
     online = (result["atest"].get("online") or {})

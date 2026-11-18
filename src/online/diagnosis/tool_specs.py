@@ -1,14 +1,13 @@
-"""模块说明：定义只读工具的 JSON Schema，供受控工具调用路由使用。"""
+"""定义只读工具的 JSON Schema，供受控工具调用路由使用。"""
 
 from __future__ import annotations
 
 import re
 
-
-# 变量说明：EVENT_ID 是事件编号的合法形式。
+# EVENT_ID 是事件编号的合法形式。
 EVENT_ID = re.compile(r"^evt_[A-Za-z0-9_-]{1,64}$")
 
-# 变量说明：TOOL_SPECS 是 OpenAI 风格的工具定义，name 与 AgentTools 方法一一对应。
+# TOOL_SPECS 是 OpenAI 风格的工具定义，name 与 AgentTools 方法一一对应。
 TOOL_SPECS = {
     "detect_anomaly": {
         "name": "detect_anomaly",
@@ -60,17 +59,15 @@ TOOL_SPECS = {
     },
 }
 
-# 变量说明：PRIORITY 决定超预算时的保留顺序。
-PRIORITY = ("query_metrics", "search_similar_incidents")
 
 
-# 方法说明：specs_for 把工具名转换为 function-calling 所需的定义列表。
+# specs_for 把工具名转换为 function-calling 所需的定义列表。
 def specs_for(names):
     return [{"type": "function", "function": dict(TOOL_SPECS[name])}
             for name in names if name in TOOL_SPECS]
 
 
-# 方法说明：validate_arguments 按 JSON Schema 子集校验参数，返回错误列表。
+# validate_arguments 按 JSON Schema 子集校验参数，返回错误列表。
 def validate_arguments(name, arguments):
     spec = TOOL_SPECS.get(name)
     if spec is None:

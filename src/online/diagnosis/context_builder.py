@@ -1,21 +1,20 @@
-"""模块说明：按 token 预算组装报告上下文，支持全量、压缩与最小三种策略。"""
+"""按 token 预算组装报告上下文，支持全量、压缩与最小三种策略。"""
 
 from __future__ import annotations
 
 import re
 
-
-# 变量说明：STRATEGIES 是受支持的上下文策略。
+# STRATEGIES 是受支持的上下文策略。
 STRATEGIES = ("full", "compressed", "minimal")
-# 变量说明：CJK 用于估算中文 token。
+# CJK 用于估算中文 token。
 CJK = re.compile(r"[\u4e00-\u9fff]")
-# 变量说明：SPACES 用于压缩连续空白。
+# SPACES 用于压缩连续空白。
 SPACES = re.compile(r"\s+")
-# 变量说明：TRUNCATE 是各策略下单条证据的最大字符数。
+# TRUNCATE 是各策略下单条证据的最大字符数。
 TRUNCATE = {"full": 600, "compressed": 320, "minimal": 600}
 
 
-# 方法说明：estimate_tokens 用“中文按字、英文按 4 字符”的保守规则估算 token。
+# estimate_tokens 用“中文按字、英文按 4 字符”的保守规则估算 token。
 def estimate_tokens(text):
     value = text or ""
     cjk = len(CJK.findall(value))
@@ -23,12 +22,12 @@ def estimate_tokens(text):
     return max(1, int(cjk + other / 4))
 
 
-# 方法说明：_clean 压缩空白，避免格式噪声占用预算。
+# _clean 压缩空白，避免格式噪声占用预算。
 def _clean(text):
     return SPACES.sub(" ", text or "").strip()
 
 
-# 方法说明：_truncate 保留首尾并按比例截断，尽量不丢关键信息。
+# _truncate 保留首尾并按比例截断，尽量不丢关键信息。
 def _truncate(text, max_chars):
     if max_chars <= 0 or len(text) <= max_chars:
         return text
@@ -37,7 +36,7 @@ def _truncate(text, max_chars):
     return text[:head] + "…" + text[-tail:]
 
 
-# 方法说明：_dedupe 去掉前缀高度相似的证据，避免同一段文字重复占位。
+# _dedupe 去掉前缀高度相似的证据，避免同一段文字重复占位。
 def _dedupe(items):
     seen, kept = set(), []
     for item in items:
@@ -49,7 +48,7 @@ def _dedupe(items):
     return kept
 
 
-# 方法说明：_select 按策略挑选候选证据，压缩策略保证每类证据至少有一条种子。
+# _select 按策略挑选候选证据，压缩策略保证每类证据至少有一条种子。
 def _select(evidence, strategy, max_evidence):
     if strategy == "minimal":
         return list(evidence[:1]), set()
@@ -65,7 +64,7 @@ def _select(evidence, strategy, max_evidence):
     return selected, {row.get("evidence_id") for row in seed}
 
 
-# 方法说明：_fit 按预算保留证据，种子证据总是保留，其余超出预算则丢弃。
+# _fit 按预算保留证据，种子证据总是保留，其余超出预算则丢弃。
 def _fit(selected, seed_ids, strategy, budget_tokens):
     sent, dropped, used = [], [], 0
     for item in selected:
@@ -82,7 +81,7 @@ def _fit(selected, seed_ids, strategy, budget_tokens):
     return sent, dropped, used
 
 
-# 方法说明：_package 组装与报告链一致的输入，并把候选原因的引用裁剪到已发送证据。
+# _package 组装与报告链一致的输入，并把候选原因的引用裁剪到已发送证据。
 def _package(event, hypotheses, rows):
     allowed = {row["evidence_id"] for row in rows}
     candidates = []
@@ -106,7 +105,7 @@ def _package(event, hypotheses, rows):
     }
 
 
-# 方法说明：build_context 按预算裁剪证据，返回可直接喂给报告链的包与统计信息。
+# build_context 按预算裁剪证据，返回可直接喂给报告链的包与统计信息。
 def build_context(event, hypotheses, evidence, budget_tokens=1200,
                   strategy="compressed", max_evidence=20):
     strategy = strategy if strategy in STRATEGIES else "compressed"

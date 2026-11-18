@@ -1,4 +1,4 @@
-"""模块说明：定义只读工具白名单、调用审计和结果契约。"""
+"""定义只读工具白名单、调用审计和结果契约。"""
 
 import json
 import time
@@ -7,13 +7,11 @@ from pathlib import Path
 import pyarrow.parquet as pq
 
 from aiops_diag.common import key
-from online.knowledge.engine import tokenize
 from aiops_diag.platform.metrics_store import MetricsStore
+from online.diagnosis.signals import STRONG_THRESHOLD, analyze_rows
+from online.knowledge.engine import tokenize
 
-from .signals import STRONG_THRESHOLD, analyze_rows
 
-
-# 方法说明：`result` 完成当前步骤的业务处理；参数为 `data`、`error`、`provenance`、`started`、`truncated`。
 def result(data=None, error=None, provenance=None, started=None, truncated=False):
     return {"ok": error is None, "data": data or {}, "error": error,
             "provenance": provenance or {},
@@ -21,9 +19,7 @@ def result(data=None, error=None, provenance=None, started=None, truncated=False
             "truncated": bool(truncated)}
 
 
-# 类说明：`AgentTools` 封装本模块内聚的数据和行为。
 class AgentTools:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `database`、`cfg`、`retriever`、`service_manifest`。
     def __init__(self, database, cfg, retriever, service_manifest):
         self.db = database
         self.cfg = cfg
@@ -31,7 +27,6 @@ class AgentTools:
         self.service_manifest = service_manifest
         self.metrics = MetricsStore((cfg.get("tools") or {}).get("metrics_path"))
 
-    # 方法说明：`detect_anomaly` 完成当前步骤的业务处理；参数为 `event_id`。
     def detect_anomaly(self, event_id):
         started = time.perf_counter()
         event = self.db.one("SELECT * FROM events WHERE event_id=?", (event_id,))
@@ -49,7 +44,6 @@ class AgentTools:
                       provenance={"release_id": self.service_manifest["release_id"]},
                       started=started)
 
-    # 方法说明：`query_logs` 完成当前步骤的业务处理；参数为 `event_id`、`limit`。
     def query_logs(self, event_id, limit=200):
         started = time.perf_counter()
         event = self.db.one("SELECT batch_id,start_time,end_time FROM events WHERE event_id=?",
@@ -88,7 +82,7 @@ class AgentTools:
                       provenance={"batch_id": event["batch_id"], "event_id": event_id},
                       started=started, truncated=total > len(rows))
 
-    # 方法说明：`query_metrics` 查询事件窗口内的真实指标，缺少指标文件时保持 not_available。
+    # `query_metrics` 查询事件窗口内的真实指标，缺少指标文件时保持 not_available。
     def query_metrics(self, event_id):
         started = time.perf_counter()
         event = self.db.one("SELECT * FROM events WHERE event_id=?", (event_id,))
@@ -109,7 +103,6 @@ class AgentTools:
                       provenance={"source": str(store.path), "event_id": event_id},
                       started=started)
 
-    # 方法说明：`search_similar_incidents` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`event`、`summary`、`top_k`。
     def search_similar_incidents(self, diagnosis_id, event, summary, top_k=5):
         started = time.perf_counter()
         candidates = self.db.all(
@@ -136,7 +129,7 @@ class AgentTools:
         return result({"items": ranked[:int(top_k)]},
                       provenance={"as_of_time": event.get("start_time")}, started=started)
 
-    # 方法说明：`retrieve_runbook` 完成检索；`code` 为证据命中的根因码，用于硬过滤。
+    # `retrieve_runbook` 完成检索；`code` 为证据命中的根因码，用于硬过滤。
     def retrieve_runbook(self, query, component=None, product_version=None, top_k=3, code=None):
         started = time.perf_counter()
         try:
@@ -154,7 +147,7 @@ class AgentTools:
         return result(found, provenance={"kb_release_id":
                       self.retriever.manifest["kb_release_id"]}, started=started)
 
-    # 变量说明：CODE_SIGNALS 是兼容旧接口的关键词视图，实际排序使用 signals 本体。
+    # CODE_SIGNALS 是兼容旧接口的关键词视图，实际排序使用 signals 本体。
     CODE_SIGNALS = {"DN_VOLUME": ("no space left", "volume failed", "failed volume",
                                   "disk full"),
                     "NETWORK_CONNECTIVITY": ("connection timed out", "no route to host",
@@ -166,14 +159,13 @@ class AgentTools:
                                      "dead datanode", "removedead"),
                     "NN_SAFE_MODE": ("safe mode",)}
 
-    # 变量说明：WEAK_TERMS 是无强信号时的弱先验词，只用于候选内重排。
+    # WEAK_TERMS 是无强信号时的弱先验词，只用于候选内重排。
     WEAK_TERMS = {"DN_VOLUME": ("volume", "disk", "space", "磁盘", "卷"),
                   "NETWORK_CONNECTIVITY": ("network", "connection", "timeout",
                                            "unreachable", "retrying"),
                   "DN_HEARTBEAT": ("heartbeat", "dead", "lost", "心跳", "失联"),
                   "NN_SAFE_MODE": ("safe mode", "safemode", "安全模式")}
 
-    # 方法说明：`rank_root_causes` 完成当前步骤的业务处理；参数为 `log_evidence`、`doc_evidence`、`components`。
     @staticmethod
     def rank_root_causes(log_evidence, doc_evidence, components):
         started = time.perf_counter()
@@ -218,7 +210,7 @@ class AgentTools:
                 "support_score": min(1.0, 0.45 + 0.05 * len(support)),
                 "confidence_level": "medium" if len(support) >= 2 else "low",
             })
-        for index, document in enumerate(doc_evidence[:max(0, 5 - len(hypotheses))], 1):
+        for document in doc_evidence[:max(0, 5 - len(hypotheses))]:
             component = document.get("component") or (components[0] if components else None)
             support = [document["evidence_id"]]
             support.extend(row["evidence_id"] for row in log_evidence
@@ -248,7 +240,6 @@ class AgentTools:
                       started=started)
 
 
-# 方法说明：`log_evidence` 完成当前步骤的业务处理；参数为 `row`、`version`。
 def log_evidence(row, version):
     evidence_id = "evd_log_" + key([row["log_id"], row.get("timestamp"),
                                      row.get("redacted_message")])[:20]
@@ -259,7 +250,6 @@ def log_evidence(row, version):
             "level": row.get("level"), "template_id": row.get("template_id")}
 
 
-# 方法说明：`document_evidence` 完成当前步骤的业务处理；参数为 `row`、`version`。
 def document_evidence(row, version):
     component = row.get("component")
     if isinstance(component, list):
@@ -271,3 +261,50 @@ def document_evidence(row, version):
             "component": component, "title": row.get("title"),
             "root_cause_code": row.get("root_cause_code") or (codes[0] if codes else None),
             "section_path": row.get("section_path"), "source_url": row.get("source_url")}
+
+
+class CandidateAgentTools(AgentTools):
+    def detect_anomaly(self, event_id):
+        value = super().detect_anomaly(event_id)
+        if value.get("ok"):
+            value["data"]["event"].update(self.db.get_event_metadata(event_id))
+        return value
+
+    def retrieve_runbook(self, query, component=None, product_version=None, top_k=3,
+                         code=None):
+        value = super().retrieve_runbook(query, component, product_version, top_k,
+                                         code=code)
+        if not value.get("ok"):
+            return value
+        try:
+            raw = self.retriever.search(
+                query, mode="frozen", top_k=int(top_k), component=component,
+                product_version=product_version, apply_gate=False, code=code)
+        except TypeError:
+            raw = self.retriever.search(
+                query, mode="frozen", top_k=int(top_k), component=component,
+                product_version=product_version, apply_gate=False)
+        candidates = [{name: item.get(name) for name in (
+            "chunk_id", "doc_id", "section_path", "source_version",
+            "rrf_score", "dense_score", "bm25_score")}
+            for item in raw.get("items", [])]
+        top_score = raw.get("gate_score")
+        if top_score is None and raw.get("items"):
+            top_score = raw["items"][0].get("dense_score")
+        second_score = (raw["items"][1].get("dense_score")
+                        if len(raw.get("items", [])) > 1 else None)
+        if value["data"].get("status") == "evidence_found":
+            reason = "passed"
+        elif top_score is None:
+            reason = "no_candidate"
+        else:
+            reason = "below_threshold"
+        value["data"]["gate_diagnostics"] = {
+            "reason": reason,
+            "pre_gate_candidates": candidates,
+            "top1_top2_dense_gap": (
+                top_score - second_score
+                if top_score is not None and second_score is not None else None),
+        }
+        return value
+

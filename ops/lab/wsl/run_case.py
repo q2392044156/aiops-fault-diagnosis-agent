@@ -1,4 +1,4 @@
-"""模块说明：在 WSL 单机 Hadoop 上跑一次卷故障实验（只读 remount）。"""
+"""在 WSL 单机 Hadoop 上跑一次卷故障实验（只读 remount）。"""
 
 from __future__ import annotations
 
@@ -7,23 +7,24 @@ import subprocess
 import sys
 import time
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录。
+# ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "ops" / "lab" / "harness"))
 
-from aiops_diag.data.lab import build_incident, redact, sha256_text, write_incident
 from ingest import ingest_log
 
-# 变量说明：ENV 是每次 WSL 命令都要带上的 Hadoop 环境。
+from offline.case.lab import build_incident, redact, sha256_text, write_incident
+
+# ENV 是每次 WSL 命令都要带上的 Hadoop 环境。
 ENV = ("export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64; "
        "export HADOOP_HOME=/opt/lab/hadoop; export PATH=$HADOOP_HOME/bin:$PATH; ")
 
 
-# 方法说明：_wsl 在 WSL 里执行一条 root 命令并返回标准输出。
+# _wsl 在 WSL 里执行一条 root 命令并返回标准输出。
 def _wsl(command, check=True):
     value = subprocess.run(["wsl", "-u", "root", "-e", "bash", "-c", ENV + command],
                            capture_output=True, text=True, encoding="utf-8",
@@ -33,7 +34,7 @@ def _wsl(command, check=True):
     return value.stdout
 
 
-# 方法说明：_wait_live 等待 DataNode 重新注册。
+# _wait_live 等待 DataNode 重新注册。
 def _wait_live(timeout=90):
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -43,9 +44,9 @@ def _wait_live(timeout=90):
     return False
 
 
-# 方法说明：run 执行一次只读卷故障实验并产出 incident。
+# run 执行一次只读卷故障实验并产出 incident。
 def run(database, require_signal=False, disk_io=False):
-    started = datetime.now(timezone.utc)
+    started = datetime.now(UTC)
     prefix = "inc_wsl_disk_io" if disk_io else "inc_wsl_volume"
     case_id = f"{prefix}_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
     case_dir = ROOT / "ops" / "lab" / "wsl_cases" / case_id
@@ -78,17 +79,17 @@ def run(database, require_signal=False, disk_io=False):
                      check=False).strip()
         return count not in ("", "0")
 
-    nn_start = int((_wsl("wc -l < /opt/lab/nn.log", check=False).strip() or "0"))
-    t0 = datetime.now(timezone.utc)
+    nn_start = int(_wsl("wc -l < /opt/lab/nn.log", check=False).strip() or "0")
+    t0 = datetime.now(UTC)
     injection_ok = _inject_ro() or _inject_ro()
 
-    signal_at, found = datetime.now(timezone.utc), False
+    signal_at, found = datetime.now(UTC), False
     deadline = time.monotonic() + 45
     while time.monotonic() < deadline:
         count = _wsl("grep -c 'Too many failed volumes' /opt/lab/dn_ro.log || true",
                      check=False).strip()
         if count and count != "0":
-            signal_at, found = datetime.now(timezone.utc), True
+            signal_at, found = datetime.now(UTC), True
             break
         time.sleep(2)
 
@@ -117,7 +118,7 @@ def run(database, require_signal=False, disk_io=False):
     live = _wait_live(120)
     if require_signal and not found:
         raise RuntimeError("WSL volume injection signal was not observed")
-    recovered = datetime.now(timezone.utc)
+    recovered = datetime.now(UTC)
     human = recovered + timedelta(seconds=5)
 
     logs_path = case_dir / "evidence" / "logs" / f"{case_id}.log"
@@ -148,7 +149,7 @@ def run(database, require_signal=False, disk_io=False):
     write_incident(case_dir / "incident.json", record)
 
     from aiops_diag.platform.db import Database
-    from aiops_diag.data.incident_v12 import import_incident
+    from offline.case.incident import import_incident
     database_path = database
     database = Database(database_path)
     database.init()
@@ -166,9 +167,9 @@ def run(database, require_signal=False, disk_io=False):
             "recovered": live, "mapping": mapping}
 
 
-# 方法说明：run_heartbeat 执行一次心跳丢失实验并产出 incident。
+# run_heartbeat 执行一次心跳丢失实验并产出 incident。
 def run_heartbeat(database):
-    started = datetime.now(timezone.utc)
+    started = datetime.now(UTC)
     case_id = f"inc_wsl_heartbeat_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
     case_dir = ROOT / "ops" / "lab" / "wsl_cases" / case_id
     case_dir.mkdir(parents=True, exist_ok=True)
@@ -176,20 +177,20 @@ def run_heartbeat(database):
     if not _wait_live(30):
         _wsl("hdfs --daemon start datanode", check=False)
         _wait_live(90)
-    start_line = int((_wsl("wc -l < /opt/lab/nn.log", check=False).strip() or "0"))
+    start_line = int(_wsl("wc -l < /opt/lab/nn.log", check=False).strip() or "0")
 
-    t0 = datetime.now(timezone.utc)
+    t0 = datetime.now(UTC)
     _wsl("/usr/lib/jvm/java-11-openjdk-amd64/bin/jps | awk '/DataNode/{print $1}' | "
          "xargs -r kill -9", check=False)
 
-    signal_at, found = datetime.now(timezone.utc), False
+    signal_at, found = datetime.now(UTC), False
     deadline = time.monotonic() + 90
     while time.monotonic() < deadline:
         out = _wsl(f"tail -n +{start_line + 1} /opt/lab/nn.log | "
                    "grep -E 'Dead datanode|removeDeadDatanode|is dead' | tail -1",
                    check=False).strip()
         if out:
-            signal_at, found = datetime.now(timezone.utc), True
+            signal_at, found = datetime.now(UTC), True
             break
         time.sleep(2)
 
@@ -202,7 +203,7 @@ def run_heartbeat(database):
 
     _wsl("hdfs --daemon start datanode", check=False)
     live = _wait_live(120)
-    recovered = datetime.now(timezone.utc)
+    recovered = datetime.now(UTC)
     human = recovered + timedelta(seconds=5)
 
     logs_path = case_dir / "evidence" / "logs" / f"{case_id}.log"
@@ -233,7 +234,7 @@ def run_heartbeat(database):
     write_incident(case_dir / "incident.json", record)
 
     from aiops_diag.platform.db import Database
-    from aiops_diag.data.incident_v12 import import_incident
+    from offline.case.incident import import_incident
     database_path = database
     database = Database(database_path)
     database.init()
@@ -250,9 +251,9 @@ def run_heartbeat(database):
             "recovered": live, "mapping": mapping}
 
 
-# 方法说明：run_safemode 执行一次 NameNode 安全模式实验并产出 incident。
+# run_safemode 执行一次 NameNode 安全模式实验并产出 incident。
 def run_safemode(database):
-    started = datetime.now(timezone.utc)
+    started = datetime.now(UTC)
     case_id = f"inc_wsl_safe_mode_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
     case_dir = ROOT / "ops" / "lab" / "wsl_cases" / case_id
     case_dir.mkdir(parents=True, exist_ok=True)
@@ -261,18 +262,18 @@ def run_safemode(database):
         _wsl("hdfs --daemon start datanode", check=False)
         _wait_live(90)
     _wsl("hdfs dfsadmin -safemode leave", check=False)
-    nn_start = int((_wsl("wc -l < /opt/lab/nn.log", check=False).strip() or "0"))
+    nn_start = int(_wsl("wc -l < /opt/lab/nn.log", check=False).strip() or "0")
 
-    t0 = datetime.now(timezone.utc)
+    t0 = datetime.now(UTC)
     _wsl("hdfs dfsadmin -safemode enter", check=False)
 
-    signal_at, found = datetime.now(timezone.utc), False
+    signal_at, found = datetime.now(UTC), False
     deadline = time.monotonic() + 30
     while time.monotonic() < deadline:
         count = _wsl(f"tail -n +{nn_start + 1} /opt/lab/nn.log | "
                      "grep -c 'Safe mode is ON' || true", check=False).strip()
         if count and count != "0":
-            signal_at, found = datetime.now(timezone.utc), True
+            signal_at, found = datetime.now(UTC), True
             break
         time.sleep(2)
 
@@ -283,7 +284,7 @@ def run_safemode(database):
 
     _wsl("hdfs dfsadmin -safemode leave", check=False)
     live = _wait_live(60)
-    recovered = datetime.now(timezone.utc)
+    recovered = datetime.now(UTC)
     human = recovered + timedelta(seconds=5)
 
     logs_path = case_dir / "evidence" / "logs" / f"{case_id}.log"
@@ -314,7 +315,7 @@ def run_safemode(database):
     write_incident(case_dir / "incident.json", record)
 
     from aiops_diag.platform.db import Database
-    from aiops_diag.data.incident_v12 import import_incident
+    from offline.case.incident import import_incident
     database_path = database
     database = Database(database_path)
     database.init()
@@ -331,7 +332,7 @@ def run_safemode(database):
             "recovered": live, "mapping": mapping}
 
 
-# 方法说明：main 解析参数并执行实验。
+# main 解析参数并执行实验。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="WSL single-node volume experiment")
     parser.add_argument("--database", default=str(ROOT / "runtime/lab/wsl.sqlite3"))

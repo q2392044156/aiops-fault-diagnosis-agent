@@ -1,10 +1,9 @@
-"""模块说明：比较候选模型并根据冻结规则选择发布模型。"""
+"""比较候选模型并根据冻结规则选择发布模型。"""
 
 import copy
 import csv
 import json
 import math
-import subprocess
 import time
 from collections import defaultdict
 from datetime import datetime
@@ -23,17 +22,20 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 
 from aiops_diag.common import digest, key, save, verified_manifest
+from offline.detection.features import content, miner_config
 from offline.detection.lstm_model import resolve_device
 from offline.detection.lstm_workflow import (
-    _load_data, _make_loader, _score, _train_once, _verify_run,
-    load_registered_model, train_lstm,
+    _load_data,
+    _make_loader,
+    _score,
+    _train_once,
+    load_registered_model,
+    train_lstm,
 )
 from offline.detection.metrics import classification_metrics, select_threshold
-from offline.detection.models import _document, _load_rows, load_registered, train
-from offline.detection.templates import content, miner_config
+from offline.detection.model import _document, _load_rows, load_registered, train
+from offline.detection.runs import git_commit, publish, stage
 
-
-# 变量说明：`UNIFIED_SCHEMA` 保存本模块或数据模型使用的稳定值。
 UNIFIED_SCHEMA = pa.schema([
     ("model_id", pa.string()), ("model_family", pa.string()), ("seed", pa.int32()),
     ("split", pa.string()), ("block_id", pa.string()), ("sampling_group", pa.string()),
@@ -42,7 +44,6 @@ UNIFIED_SCHEMA = pa.schema([
     ("line_count", pa.int32()),
 ])
 
-# 变量说明：`TEST_FEATURE_SCHEMA` 保存本模块或数据模型使用的稳定值。
 TEST_FEATURE_SCHEMA = pa.schema([
     ("block_id", pa.string()), ("split", pa.string()), ("sampling_group", pa.string()),
     ("template_ids", pa.list_(pa.int32())), ("gap_seconds", pa.list_(pa.float32())),
@@ -52,51 +53,21 @@ TEST_FEATURE_SCHEMA = pa.schema([
 ])
 
 
-# 方法说明：`_git_commit` 完成当前步骤的业务处理；参数为 `root`。
-def _git_commit(root):
-    try:
-        return subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True,
-                              capture_output=True, text=True).stdout.strip()
-    except (OSError, subprocess.CalledProcessError):
-        return None
-
-
-# 方法说明：`_read` 完成当前步骤的业务处理；参数为 `path`。
 def _read(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-# 方法说明：`_stage` 完成当前步骤的业务处理；参数为 `directory`、`manifest_name`。
-def _stage(directory, manifest_name):
-    directory = Path(directory)
-    verified_manifest(directory, "registry.json")
-    return verified_manifest(directory, manifest_name)
-
-
-# 方法说明：`_publish_stage` 完成当前步骤的业务处理；参数为 `directory`、`manifest_name`、`details`、`filenames`。
-def _publish_stage(directory, manifest_name, details, filenames):
-    directory = Path(directory)
-    details = {**details, "artifacts": {name: digest(directory / name) for name in filenames}}
-    save(directory / manifest_name, details)
-    save(directory / "registry.json", {
-        "schema_version": 1, "artifacts": {manifest_name: digest(directory / manifest_name)}})
-    return _stage(directory, manifest_name)
-
-
-# 方法说明：`_runs` 完成当前步骤的业务处理；参数为 `cfg`。
 def _runs(cfg):
     w2 = train(cfg["w2"])
     w3 = train_lstm(cfg["lstm"], cfg["runtime"]["device"])
     return w2, w3
 
 
-# 方法说明：`_assignments` 完成当前步骤的业务处理；参数为 `cfg`。
 def _assignments(cfg):
     path = Path(cfg["w2"]["protocol_dir"]) / "assignments.parquet"
     return {row["block_id"]: row for row in pq.read_table(path).to_pylist()}
 
 
-# 方法说明：`_validation_predictions` 完成当前步骤的业务处理；参数为 `cfg`、`w2`、`w3`、`output`。
 def _validation_predictions(cfg, w2, w3, output):
     assignment = _assignments(cfg)
     w2_rows = pq.read_table(Path(w2["run_dir"]) / "predictions.parquet").to_pylist()
@@ -147,7 +118,6 @@ def _validation_predictions(cfg, w2, w3, output):
     return counts, thresholds
 
 
-# 方法说明：`_selection_decision` 完成当前步骤的业务处理；参数为 `w2`、`w3`、`cfg`。
 def _selection_decision(w2, w3, cfg):
     lr = _read(Path(w2["run_dir"]) / "results.json")["logistic_regression"]["metrics"]
     lstm = _read(Path(w3["run_dir"]) / "results.json")
@@ -172,11 +142,10 @@ def _selection_decision(w2, w3, cfg):
     }
 
 
-# 方法说明：`preregister` 完成当前步骤的业务处理；参数为 `cfg`。
 def preregister(cfg):
     out = Path(cfg["experiment_dir"]) / "preregister"
     if (out / "manifest.json").exists():
-        value = _stage(out, "manifest.json")
+        value = stage(out, "manifest.json")
         if value["config_hash"] != cfg["config_hash"]:
             raise ValueError("W4 preregistration belongs to a different configuration")
         w2, w3 = _runs(cfg)
@@ -198,7 +167,7 @@ def preregister(cfg):
     protocol = verified_manifest(cfg["w2"]["protocol_dir"], "manifest.json")
     details = {
         "schema_version": 1, "protocol": cfg["protocol_name"],
-        "config_hash": cfg["config_hash"], "git_commit": _git_commit(cfg["root"]),
+        "config_hash": cfg["config_hash"], "git_commit": git_commit(cfg["root"]),
         "created_before_test_evaluation": True,
         "allowed_test_models": cfg["allowed_test_models"],
         "validation_counts": dict(counts), "frozen_thresholds": thresholds,
@@ -210,12 +179,11 @@ def preregister(cfg):
         },
         "test_status": "sealed; no W4 test prediction or metric exists",
     }
-    value = _publish_stage(out, "manifest.json", details,
+    value = publish(out, "manifest.json", details,
                            ["validation_predictions.parquet", "selection_decision.json"])
     return {**value, "directory": str(out)}
 
 
-# 方法说明：`_fit_lr` 完成当前步骤的业务处理；参数为 `x_train`、`y_train`、`x_validation`、`y_validation`、`cfg`。
 def _fit_lr(x_train, y_train, x_validation, y_validation, cfg):
     runs = []
     models = {}
@@ -249,7 +217,6 @@ def _fit_lr(x_train, y_train, x_validation, y_validation, cfg):
     return models[identity], scores[identity], selected, runs
 
 
-# 方法说明：`_raw_documents` 完成当前步骤的业务处理；参数为 `cfg`、`rows`。
 def _raw_documents(cfg, rows):
     wanted = {row["block_id"] for row in rows}
     pieces = {block: [] for block in wanted}
@@ -272,12 +239,11 @@ def _raw_documents(cfg, rows):
     return documents
 
 
-# 方法说明：`compare_parsing` 完成当前步骤的业务处理；参数为 `cfg`。
 def compare_parsing(cfg):
     preregister(cfg)
     out = Path(cfg["experiment_dir"]) / "parsing_comparison"
     if (out / "manifest.json").exists():
-        value = _stage(out, "manifest.json")
+        value = stage(out, "manifest.json")
         if value["config_hash"] != cfg["config_hash"]:
             raise ValueError("Parsing comparison configuration changed")
         return {**value, "directory": str(out)}
@@ -351,11 +317,10 @@ def compare_parsing(cfg):
                "representations": list(representations), "test_accessed": False,
                "forbidden_features": ["label", "block_id", "ip", "pid", "path", "raw_number"],
                "elapsed_seconds": time.monotonic() - started}
-    value = _publish_stage(out, "manifest.json", details, files)
+    value = publish(out, "manifest.json", details, files)
     return {**value, "directory": str(out)}
 
 
-# 方法说明：`_variant_rows` 完成当前步骤的业务处理；参数为 `rows`、`variant`、`cfg`。
 def _variant_rows(rows, variant, cfg):
     if variant != "no_order_no_gap":
         return rows
@@ -371,11 +336,10 @@ def _variant_rows(rows, variant, cfg):
     return transformed
 
 
-# 方法说明：`_ablation_variant` 完成当前步骤的业务处理；参数为 `cfg`、`variant`、`rows`、`labels`、`scaler`、`device`。
 def _ablation_variant(cfg, variant, rows, labels, scaler, device):
     out = Path(cfg["experiment_dir"]) / "ablations" / variant
     if (out / "manifest.json").exists():
-        return _stage(out, "manifest.json")
+        return stage(out, "manifest.json")
     local_cfg = copy.deepcopy(cfg["lstm"])
     session_features = 4
     if variant == "max_len_32":
@@ -425,7 +389,7 @@ def _ablation_variant(cfg, variant, rows, labels, scaler, device):
     pq.write_table(pa.Table.from_pylist(predictions), out / "predictions.parquet",
                    compression="zstd")
     files = ["results.json", "histories.json", "predictions.parquet", *checkpoints]
-    return _publish_stage(out, "manifest.json", {
+    return publish(out, "manifest.json", {
         "schema_version": 1, "variant": variant, "config_hash": cfg["config_hash"],
         "seeds": cfg["lstm"]["seeds"], "train_sessions": len(fit),
         "early_stop_sessions": len(stop), "validation_sessions": len(validation),
@@ -434,7 +398,6 @@ def _ablation_variant(cfg, variant, rows, labels, scaler, device):
     }, files)
 
 
-# 方法说明：`ablate` 完成当前步骤的业务处理；参数为 `cfg`、`device_name`。
 def ablate(cfg, device_name="auto"):
     preregister(cfg)
     _, rows, labels, scaler = _load_data(cfg["lstm"])
@@ -467,15 +430,14 @@ def ablate(cfg, device_name="auto"):
                "validation_only": True, "test_accessed": False,
                "variant_manifest_hashes": {name: digest(out / name / "manifest.json")
                                             for name in cfg["ablation"]["variants"]}}
-    value = _publish_stage(out, "manifest.json", details, files)
+    value = publish(out, "manifest.json", details, files)
     return {**value, "directory": str(out)}
 
 
-# 方法说明：`_test_features` 完成当前步骤的业务处理；参数为 `cfg`。
 def _test_features(cfg):
     out = Path(cfg["artifact_dir"]) / "test_features"
     if (out / "manifest.json").exists():
-        return _stage(out, "manifest.json")
+        return stage(out, "manifest.json")
     preregister(cfg)
     assignment = _assignments(cfg)
     selected = {block: row for block, row in assignment.items() if row["split"] == "test"}
@@ -547,7 +509,7 @@ def _test_features(cfg):
     if buffer:
         writer.write_table(pa.Table.from_pylist(buffer, schema=TEST_FEATURE_SCHEMA))
     writer.close()
-    return _publish_stage(out, "manifest.json", {
+    return publish(out, "manifest.json", {
         "schema_version": 1, "config_hash": cfg["config_hash"], "sessions": len(states),
         "messages": messages, "unknown_messages": unknown_messages,
         "unknown_rate": unknown_messages / messages if messages else None,
@@ -556,7 +518,6 @@ def _test_features(cfg):
     }, ["sessions.parquet"])
 
 
-# 方法说明：`_test_labels` 完成当前步骤的业务处理；参数为 `cfg`。
 def _test_labels(cfg):
     path = Path(cfg["w2"]["data"]["raw_dir"]) / "anomaly_label.csv"
     with path.open(encoding="utf-8-sig", newline="") as handle:
@@ -564,7 +525,6 @@ def _test_labels(cfg):
                 for row in csv.DictReader(handle)}
 
 
-# 方法说明：`_unified_metrics` 完成当前步骤的业务处理；参数为 `rows`。
 def _unified_metrics(rows):
     grouped = defaultdict(list)
     for row in rows:
@@ -575,7 +535,6 @@ def _unified_metrics(rows):
             for name, values in grouped.items()}
 
 
-# 方法说明：`_weighted_ap` 完成当前步骤的业务处理；参数为 `labels`、`scores`、`weights`。
 def _weighted_ap(labels, scores, weights):
     order = np.argsort(-scores, kind="stable")
     y = labels[order]
@@ -595,7 +554,6 @@ def _weighted_ap(labels, scores, weights):
     return float(np.sum((positive / total_positive) * precision))
 
 
-# 方法说明：`_ap_plan` 完成当前步骤的业务处理；参数为 `labels`、`scores`。
 def _ap_plan(labels, scores):
     order = np.argsort(-scores, kind="stable")
     sorted_scores = scores[order]
@@ -603,7 +561,6 @@ def _ap_plan(labels, scores):
         sorted_scores[1:] != sorted_scores[:-1]) + 1]
 
 
-# 方法说明：`_planned_weighted_ap` 完成当前步骤的业务处理；参数为 `plan`、`weights`。
 def _planned_weighted_ap(plan, weights):
     order, labels, starts = plan
     ordered_weights = weights[order]
@@ -620,7 +577,6 @@ def _planned_weighted_ap(plan, weights):
     return float(np.sum((positive / total_positive) * precision))
 
 
-# 方法说明：`paired_bootstrap` 完成当前步骤的业务处理；参数为 `rows`、`cfg`。
 def paired_bootstrap(rows, cfg):
     by_model = defaultdict(dict)
     groups = {}
@@ -647,7 +603,6 @@ def paired_bootstrap(rows, cfg):
     rng = np.random.default_rng(cfg["bootstrap"]["seed"])
     delta_f1, delta_ap = [], []
 
-    # 方法说明：`weighted_f1` 完成当前步骤的业务处理；参数为 `prediction`、`weights`。
     def weighted_f1(prediction, weights):
         tp = float(weights[(y == 1) & (prediction == 1)].sum())
         fp = float(weights[(y == 0) & (prediction == 1)].sum())
@@ -676,7 +631,6 @@ def paired_bootstrap(rows, cfg):
     }
 
 
-# 方法说明：`_failure_cases` 完成当前步骤的业务处理；参数为 `rows`。
 def _failure_cases(rows):
     by_model = defaultdict(list)
     for row in rows:
@@ -706,13 +660,12 @@ def _failure_cases(rows):
     return result
 
 
-# 方法说明：`finalize` 完成当前步骤的业务处理；参数为 `cfg`、`device_name`。
 def finalize(cfg, device_name="auto"):
     prereg = preregister(cfg)
     out = Path(cfg["experiment_dir"]) / "final"
     if (out / "manifest.json").exists():
-        value = _stage(out, "manifest.json")
-        test_manifest = _stage(Path(cfg["artifact_dir"]) / "test_features", "manifest.json")
+        value = stage(out, "manifest.json")
+        test_manifest = stage(Path(cfg["artifact_dir"]) / "test_features", "manifest.json")
         if value["config_hash"] != cfg["config_hash"] or \
                 value["preregister_hash"] != digest(Path(prereg["directory"]) / "manifest.json") or \
                 value["test_feature_hash"] != key(test_manifest["artifacts"]):
@@ -722,7 +675,7 @@ def finalize(cfg, device_name="auto"):
     test_rows = pq.read_table(Path(cfg["artifact_dir"]) / "test_features" /
                               "sessions.parquet").to_pylist()
     labels = _test_labels(cfg)
-    if set(row["block_id"] for row in test_rows) - set(labels):
+    if {row["block_id"] for row in test_rows} - set(labels):
         raise ValueError("Some test sessions do not have labels")
     frozen_thresholds = prereg["frozen_thresholds"]
     unified = []
@@ -811,7 +764,7 @@ def finalize(cfg, device_name="auto"):
     files = ["predictions.parquet", "metrics.json", "uncertainty.json",
              "failure_cases.json", "release_manifest.json", "algorithm_table.csv",
              "algorithm_table.json"]
-    value = _publish_stage(out, "manifest.json", {
+    value = publish(out, "manifest.json", {
         "schema_version": 1, "config_hash": cfg["config_hash"],
         "preregister_hash": digest(Path(prereg["directory"]) / "manifest.json"),
         "test_feature_hash": key(test_manifest["artifacts"]),
@@ -821,7 +774,6 @@ def finalize(cfg, device_name="auto"):
     return {**value, "directory": str(out)}
 
 
-# 方法说明：`report` 完成当前步骤的业务处理；参数为 `cfg`。
 def report(cfg):
     final = finalize(cfg, cfg["runtime"]["device"])
     ablation = ablate(cfg, cfg["runtime"]["device"])
@@ -836,7 +788,6 @@ def report(cfg):
     docs.mkdir(exist_ok=True)
     path = docs / "w4_model_selection_report.md"
 
-    # 方法说明：`fmt` 完成当前步骤的业务处理；参数为 `value`。
     def fmt(value):
         return "N/A" if value is None else f"{value:.6f}"
 
@@ -885,7 +836,6 @@ def report(cfg):
     return {"report": str(path), "release": release, "metrics": metrics}
 
 
-# 方法说明：`inspect` 完成当前步骤的业务处理；参数为 `cfg`、`model_id`、`session_id`。
 def inspect(cfg, model_id, session_id):
     final = finalize(cfg, cfg["runtime"]["device"])
     if model_id not in cfg["allowed_test_models"]:
@@ -901,7 +851,6 @@ def inspect(cfg, model_id, session_id):
             "gap_seconds": row["gap_seconds"], "unknown_count": row["unknown_count"]}
 
 
-# 方法说明：`run` 完成当前步骤的业务处理；参数为 `cfg`、`device_name`。
 def run(cfg, device_name="auto"):
     return {"preregister": preregister(cfg), "parsing": compare_parsing(cfg),
             "ablation": ablate(cfg, device_name), "final": finalize(cfg, device_name),

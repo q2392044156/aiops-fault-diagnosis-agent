@@ -1,4 +1,4 @@
-"""模块说明：对同一批报告做上下文策略消融（全量 / 压缩 / 最小）。"""
+"""对同一批报告做上下文策略消融（全量 / 压缩 / 最小）。"""
 
 from __future__ import annotations
 
@@ -9,25 +9,24 @@ import sys
 import time
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录，便于脚本在任意工作目录运行。
+# ROOT 指向仓库根目录，便于脚本在任意工作目录运行。
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from pydantic import ValidationError
 
-from aiops_diag.diagnosis.context_builder import build_context
-from aiops_diag.diagnosis.engine import REPORT_PROMPT
-from aiops_diag.diagnosis.schemas import GeneratedReportBody
-from aiops_diag.knowledge.generation.client import (BudgetLedger, DeepSeekClient,
-                                                    DeepSeekError)
 from aiops_diag.platform.db import Database
+from online.diagnosis.agent import REPORT_PROMPT
+from online.diagnosis.context_builder import build_context
+from online.diagnosis.schemas import GeneratedReportBody
+from online.knowledge.generation.client import BudgetLedger, DeepSeekClient, DeepSeekError
 
-# 变量说明：BUDGET 限制实验花费。
+# BUDGET 限制实验花费。
 BUDGET = {"max_total_tokens": 500000, "max_cost_cny": 5.0, "max_input_tokens_per_call": 10000,
           "input_cny_per_million": 2.0, "output_cny_per_million": 8.0}
 
 
-# 方法说明：_load_env 读取 .env，已存在的环境变量优先。
+# _load_env 读取 .env，已存在的环境变量优先。
 def _load_env(path):
     if not path.is_file():
         return
@@ -38,7 +37,7 @@ def _load_env(path):
             os.environ.setdefault(name.strip(), value.strip().strip('"').strip("'"))
 
 
-# 方法说明：_client 构造带预算账本的 DeepSeek 客户端。
+# _client 构造带预算账本的 DeepSeek 客户端。
 def _client(args):
     cfg = {"provider": {"name": "deepseek", "base_url": "https://api.deepseek.com",
                         "model": args.model, "api_key_env": "DEEPSEEK_API_KEY",
@@ -52,7 +51,7 @@ def _client(args):
     return DeepSeekClient(cfg, ledger=ledger)
 
 
-# 方法说明：_cases 从数据库读取可复用的报告，重建事件与证据。
+# _cases 从数据库读取可复用的报告，重建事件与证据。
 def _cases(database, limit):
     rows = database.all(
         "SELECT report_json FROM incident_reports ORDER BY created_at")
@@ -75,7 +74,7 @@ def _cases(database, limit):
     return cases
 
 
-# 方法说明：_citation_check 校验报告引用是否合法，并统计是否同时引用日志与知识。
+# _citation_check 校验报告引用是否合法，并统计是否同时引用日志与知识。
 def _citation_check(body, package):
     kinds = {row["evidence_id"]: row["kind"] for row in package["evidence"]}
     cited = set()
@@ -89,7 +88,7 @@ def _citation_check(body, package):
     return cited <= allowed, {"log"} <= used and {"doc"} <= used
 
 
-# 方法说明：main 依次运行三种策略并汇总质量、token 与延迟。
+# main 依次运行三种策略并汇总质量、token 与延迟。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Context strategy ablation")
     parser.add_argument("--database", required=True)

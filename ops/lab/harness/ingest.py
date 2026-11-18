@@ -1,4 +1,4 @@
-"""模块说明：把实验证据日志接入诊断链路，跑 Agent 并回填映射。"""
+"""把实验证据日志接入诊断链路，跑 Agent 并回填映射。"""
 
 from __future__ import annotations
 
@@ -6,12 +6,11 @@ import argparse
 import json
 import re
 import sys
-import time
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录。
+# ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -19,24 +18,24 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import yaml
 
-from aiops_diag.data.adapters import parse_lines
-from aiops_diag.data.common import digest, key
-from aiops_diag.data.windows import make_windows
-from aiops_diag.platform.events import build_event, gate_session
-from aiops_diag.diagnosis.engine import AgentEngine, AgentYield
+from aiops_diag.common import digest, key
 from aiops_diag.platform.db import Database
+from aiops_diag.platform.events import build_event, gate_session
 from aiops_diag.platform.pipeline import LOG_SCHEMA
+from offline.ingestion.adapters import parse_lines
+from offline.ingestion.windows import make_windows
+from online.diagnosis.agent import Agent, AgentYield
 
-# 变量说明：LINE 解析容器日志的通用前缀。
+# LINE 解析容器日志的通用前缀。
 LINE = re.compile(r"^\[(?P<host>[^\]]+)\]\s+(?P<stamp>\d{4}-\d{2}-\d{2} "
                   r"\d{2}:\d{2}:\d{2})(?:[.,]\d+)?\s+(?P<level>[A-Z]+)\s+(?P<rest>.*)$")
-# 变量说明：CARDS 是知识卡目录。
+# CARDS 是知识卡目录。
 CARDS = ROOT / "resources" / "knowledge" / "cards"
 
 
-# 类说明：CardRetriever 用知识卡做确定性检索，供实验室接入使用。
+# CardRetriever 用知识卡做确定性检索，供实验室接入使用。
 class CardRetriever:
-    # 方法说明：__init__ 载入知识卡并给出稳定的知识库标识。
+    # __init__ 载入知识卡并给出稳定的知识库标识。
     def __init__(self, directory=CARDS):
         self.cards = []
         for path in sorted(Path(directory).glob("*.json")):
@@ -52,7 +51,7 @@ class CardRetriever:
                                "source_url": None})
         self.manifest = {"kb_release_id": "kb_lab_cards"}
 
-    # 方法说明：search 按关键词重叠返回 Top-K 知识卡。
+    # search 按关键词重叠返回 Top-K 知识卡。
     def search(self, query, mode=None, top_k=3, component=None, product_version=None,
                apply_gate=True, code=None):
         tokens = set(re.findall(r"[a-z0-9]+", (query or "").lower()))
@@ -109,14 +108,14 @@ class CardRetriever:
                 "mode": "lab", "items": items, "gate_score": 1.0 if items else None}
 
 
-# 类说明：FrozenCodeRetriever 在冻结检索器上补一层根因码过滤。
+# FrozenCodeRetriever 在冻结检索器上补一层根因码过滤。
 class FrozenCodeRetriever:
-    # 方法说明：__init__ 保存底层冻结检索器。
+    # __init__ 保存底层冻结检索器。
     def __init__(self, inner):
         self.inner = inner
         self.manifest = inner.manifest
 
-    # 方法说明：search 在需要时扩大召回并按根因码过滤。
+    # search 在需要时扩大召回并按根因码过滤。
     def search(self, query, mode=None, top_k=3, component=None, product_version=None,
                apply_gate=True, code=None):
         result = self.inner.search(query, mode=mode, top_k=10,
@@ -136,22 +135,22 @@ class FrozenCodeRetriever:
             unique.append(item)
         return {**result, "items": unique[:int(top_k)]}
 
-    # 方法说明：__getattr__ 透传 chunk 等方法。
+    # __getattr__ 透传 chunk 等方法。
     def __getattr__(self, name):
         return getattr(self.inner, name)
 
 
-# 类说明：OfflineClient 表示实验室接入不调用付费模型。
+# OfflineClient 表示实验室接入不调用付费模型。
 class OfflineClient:
-    # 变量说明：configured 表示未配置模型。
+    # configured 表示未配置模型。
     configured = False
 
-    # 方法说明：close 保持与真实客户端一致的接口。
+    # close 保持与真实客户端一致的接口。
     def close(self):
         return None
 
 
-# 方法说明：_parse 把容器日志转换为平台日志行。
+# _parse 把容器日志转换为平台日志行。
 def _parse(text, session_id, fallback=None, source_type="docker_container", matcher=None):
     total = len(text.splitlines())
     rows = []
@@ -171,12 +170,12 @@ def _parse(text, session_id, fallback=None, source_type="docker_container", matc
     return rows, total
 
 
-# 方法说明：_window_start 把窗口起始时间转换为 epoch，供事件合并判断间隔。
+# _window_start 把窗口起始时间转换为 epoch，供事件合并判断间隔。
 def _window_start(window):
     return datetime.fromisoformat(window["start"].replace("Z", "+00:00")).timestamp()
 
 
-# 方法说明：_merge_passing 合并同组件、时间重叠或相接的 PASS 窗口，减少重复事件。
+# _merge_passing 合并同组件、时间重叠或相接的 PASS 窗口，减少重复事件。
 def _merge_passing(passing, gap_seconds=0, max_span_seconds=300):
     groups = {}
     for window, result in passing:
@@ -237,7 +236,7 @@ def _merge_passing(passing, gap_seconds=0, max_span_seconds=300):
     return merged
 
 
-# 方法说明：ingest 把一条实验日志接入平台并跑一次模板诊断。
+# ingest 把一条实验日志接入平台并跑一次模板诊断。
 def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                focus_component=None, agent_backend="native", retriever_kind="cards",
                retriever=None, source_type="docker_container", matcher=None,
@@ -271,10 +270,9 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
     directory.mkdir(parents=True, exist_ok=True)
 
     # 统一窗口：正常检测和故障检测使用同一时间/组件窗口。
-    window_ids = []
     passing = []
     if event_source == "model" and detector_path:
-        from aiops_diag.detection.source_detector import TemplateNoveltyDetector
+        from offline.detection.novelty import TemplateNoveltyDetector
         detector = TemplateNoveltyDetector.load(detector_path)
         lower = (datetime.fromisoformat(start.replace("Z", "+00:00"))
                  - timedelta(seconds=60)).timestamp()
@@ -304,7 +302,6 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                        for window in _merge_passing(
                            passing, gap_seconds=0, max_span_seconds=max_event_span)]
         if passing:
-            window_ids = [window["window_id"] for window, _ in passing]
             decision = max((result for _, result in passing),
                            key=lambda item: (item["reason"] == "error_present",
                                              item["score"]))
@@ -325,7 +322,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
             path.write_text("", encoding="utf-8")
         artifacts[name] = {"relative_path": name, "sha256": digest(path)}
 
-    detected = datetime.now(timezone.utc).isoformat()
+    detected = datetime.now(UTC).isoformat()
     if event_source != "model":
         decision = {"decision": "PASS", "score": 1.0, "reason": "import"}
     passed = decision["decision"] == "PASS"
@@ -337,7 +334,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                 event_specs.append({
                     "event_id": "evt_" + key([case_id, tag, window["window_id"]])[:24],
                     "start": window["start"],
-                    "end": datetime.fromtimestamp(window["end"], timezone.utc).isoformat(),
+                    "end": datetime.fromtimestamp(window["end"], UTC).isoformat(),
                     "score": result["score"], "reason": result["reason"],
                     "window_id": window["window_id"],
                     "window_ids": window.get("window_ids") or [window["window_id"]],
@@ -402,15 +399,15 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                 "threshold": 1.0}
     if retriever is None:
         if retriever_kind == "frozen":
-            from aiops_diag.knowledge.config import load as load_knowledge
-            from aiops_diag.knowledge.release import FrozenRetriever
+            from online.knowledge.release import FrozenRetriever
+            from online.knowledge.settings import load as load_knowledge
             retriever = FrozenCodeRetriever(
                 FrozenRetriever(load_knowledge(
                     ROOT / "resources" / "configs" / "retrieval.yaml")))
         else:
             retriever = CardRetriever()
     if agent_backend == "langgraph":
-        from aiops_diag.diagnosis.framework.graph import LangGraphAgentEngine
+        from online.diagnosis.framework.graph import LangGraphAgent
         cfg.update({
             "v12": {"enabled": True},
             "execution_backend": "langgraph",
@@ -421,10 +418,10 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
                                .read_text(encoding="utf-8")),
                 config_sha256=digest(ROOT / "resources" / "configs" / "query_builder_v1.yaml")),
         })
-        engine = LangGraphAgentEngine(cfg, database, retriever, detector,
+        engine = LangGraphAgent(cfg, database, retriever, detector,
                                       release, client=OfflineClient())
     else:
-        engine = AgentEngine(cfg, database, retriever, detector, release,
+        engine = Agent(cfg, database, retriever, detector, release,
                              client=OfflineClient())
     event_results = []
     for spec in event_specs:
@@ -462,7 +459,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
     return {**first, "events": event_results}
 
 
-# 方法说明：ingest 读取已生成的案例并调用 ingest_log，回填 map.json。
+# ingest 读取已生成的案例并调用 ingest_log，回填 map.json。
 def ingest(case_dir, database_path, mode="template", agent_backend="native",
            retriever_kind="cards", retriever=None, template_dir=None, matcher=None,
            source_type=None, event_source="import", gate_threshold=0.6,
@@ -477,7 +474,7 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
     if source_type is None:
         source_type = "wsl" if "wsl_cases" in str(case_dir) else "docker_container"
     if matcher is None and template_dir:
-        from aiops_diag.detection.source_templates import SourceTemplateMatcher
+        from offline.detection.mining import SourceTemplateMatcher
         matcher = SourceTemplateMatcher(template_dir)
     if cutoff is None:
         cutoff = incident.get("diagnosis_snapshot", {}).get("cutoff_time")
@@ -498,7 +495,7 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
     return mapping
 
 
-# 方法说明：main 接入一条实验案例并打印映射。
+# main 接入一条实验案例并打印映射。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Ingest a lab case into the diagnosis chain")
     parser.add_argument("--case", required=True)

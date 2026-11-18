@@ -1,20 +1,16 @@
-# 模块说明：执行评测或验收并输出机器可读结果。
-"""Run the separate fixture and real-index RC2 development comparisons."""
+"""跑互相独立的 fixture 与真实索引两套 RC2 开发期对比。"""
 
 import argparse
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from aiops_diag.evaluation.offline_framework import run
-from aiops_diag.data.common import digest
+from aiops_diag.common import digest
+from evaluation.comparison import run
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[2]
 
 
-# 方法说明：`render` 完成当前步骤的业务处理；参数为 `result`。
 def render(result):
     lines = [
         "# Framework RC2 离线开发验收", "",
@@ -79,7 +75,7 @@ if __name__ == "__main__":
     result = {
         "schema_version": 1,
         "status": "RC2_DEVELOPMENT_OFFLINE_ACCEPTANCE",
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "scope": "development_only_not_independent_quality_evidence",
         "configs": {
             "legacy": {"path": str(options.legacy_config.resolve()),

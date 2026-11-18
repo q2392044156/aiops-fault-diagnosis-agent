@@ -13,54 +13,54 @@ import hashlib
 import json
 import re
 import shutil
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-# 变量说明：ROOT 是仓库根目录。
+# ROOT 是仓库根目录。
 ROOT = Path(__file__).resolve().parents[2]
-# 变量说明：SOURCE 是未进入 unified4 的早期自然 holdout 案例。
+# SOURCE 是未进入 unified4 的早期自然 holdout 案例。
 SOURCE = ROOT / "ops" / "lab" / "cases"
-# 变量说明：OUTPUT 是挑战案例默认输出目录。
+# OUTPUT 是挑战案例默认输出目录。
 OUTPUT = ROOT / "resources" / "evaluation" / "challenge20" / "cases"
-# 变量说明：MANIFEST 是挑战集清单默认路径。
+# MANIFEST 是挑战集清单默认路径。
 MANIFEST = ROOT / "resources" / "evaluation" / "challenge20" / "manifest.json"
-# 变量说明：SHIFT 把所有案例时间平移 30 天，避免与训练/测试同时间。
+# SHIFT 把所有案例时间平移 30 天，避免与训练/测试同时间。
 SHIFT = timedelta(days=-30)
-# 变量说明：HOSTS 是主机别名映射，模拟生产主机命名。
+# HOSTS 是主机别名映射，模拟生产主机命名。
 HOSTS = {
     "aiops-lab-dn1": "prod-datanode-07",
     "aiops-lab-dn2": "prod-datanode-08",
     "aiops-lab-dn3": "prod-datanode-09",
     "aiops-lab-namenode": "prod-namenode-01",
 }
-# 变量说明：TEXT_HOSTS 是日志正文中的短主机名映射。
+# TEXT_HOSTS 是日志正文中的短主机名映射。
 TEXT_HOSTS = {
     "datanode1": "prod-datanode-07",
     "datanode2": "prod-datanode-08",
     "datanode3": "prod-datanode-09",
     "namenode": "prod-namenode-01",
 }
-# 变量说明：LINE 匹配统一的 [host] timestamp level message 行。
+# LINE 匹配统一的 [host] timestamp level message 行。
 LINE = re.compile(
     r"^\[(?P<host>[^\]]+)\]\s+(?P<stamp>\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}"
     r"(?:[.,]\d+)?)\s+(?P<level>[A-Z]+)\s+(?P<rest>.*)$")
-# 变量说明：EMBEDDED_ISO 匹配日志正文中的 ISO 时间，需与文件时间一起平移。
+# EMBEDDED_ISO 匹配日志正文中的 ISO 时间，需与文件时间一起平移。
 EMBEDDED_ISO = re.compile(
     r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})")
 
 
-# 方法说明：shift_iso 平移 ISO 时间并保持 UTC Z 表示。
+# shift_iso 平移 ISO 时间并保持 UTC Z 表示。
 def shift_iso(text: str) -> str:
     value = datetime.fromisoformat(text.replace("Z", "+00:00")) + SHIFT
-    return value.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+    return value.astimezone(UTC).isoformat().replace("+00:00", "Z")
 
 
-# 方法说明：sha 计算文件内容哈希，用于更新证据包引用。
+# sha 计算文件内容哈希，用于更新证据包引用。
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-# 方法说明：rename 同时替换主机别名和日志正文短主机名。
+# rename 同时替换主机别名和日志正文短主机名。
 def rename(text: str) -> str:
     for old, new in HOSTS.items():
         text = text.replace(old, new)
@@ -69,18 +69,18 @@ def rename(text: str) -> str:
     return text
 
 
-# 方法说明：shift_embedded 同步平移日志正文中的 ISO 时间，避免内外时间矛盾。
+# shift_embedded 同步平移日志正文中的 ISO 时间，避免内外时间矛盾。
 def shift_embedded(text: str) -> str:
     return EMBEDDED_ISO.sub(lambda match: shift_iso(match.group(0)), text)
 
 
-# 方法说明：format_wsl 输出带 +08 本地时间的 WSL 日志时间戳。
+# format_wsl 输出带 +08 本地时间的 WSL 日志时间戳。
 def format_wsl(stamp: datetime) -> str:
-    local = stamp.astimezone(timezone.utc) + timedelta(hours=8)
+    local = stamp.astimezone(UTC) + timedelta(hours=8)
     return local.strftime("%Y-%m-%d %H:%M:%S,%f")[:23]
 
 
-# 方法说明：paraphrase 用未见过的同义表述替换四类故障的关键信号。
+# paraphrase 用未见过的同义表述替换四类故障的关键信号。
 def paraphrase(rest: str) -> str:
     rest = re.sub(r"Lost DataNode (\S+)", r"DataNode \1 missed its liveness deadline", rest)
     rest = re.sub(r"BLOCK\* ask (\S+) to replicate",
@@ -94,7 +94,7 @@ def paraphrase(rest: str) -> str:
     return rest
 
 
-# 方法说明：transform_logs 按组重渲染日志；evidence_drop 只保留故障相关行。
+# transform_logs 按组重渲染日志；evidence_drop 只保留故障相关行。
 def transform_logs(lines: list[str], group: str) -> list[str]:
     out = []
     for line in lines:
@@ -103,7 +103,7 @@ def transform_logs(lines: list[str], group: str) -> list[str]:
             out.append(rename(line))
             continue
         stamp = datetime.fromisoformat(
-            match.group("stamp").replace(",", ".")).replace(tzinfo=timezone.utc) + SHIFT
+            match.group("stamp").replace(",", ".")).replace(tzinfo=UTC) + SHIFT
         rest = shift_embedded(rename(match.group("rest")))
         if group.startswith("paraphrase"):
             rest = paraphrase(rest)
@@ -116,7 +116,7 @@ def transform_logs(lines: list[str], group: str) -> list[str]:
     return out
 
 
-# 方法说明：distractor_lines 在故障前插入另一类故障的已知信号。
+# distractor_lines 在故障前插入另一类故障的已知信号。
 def distractor_lines(code: str, fault_start: datetime) -> list[str]:
     stamp = fault_start - timedelta(seconds=8)
     if code == "DN_VOLUME":
@@ -134,7 +134,7 @@ def distractor_lines(code: str, fault_start: datetime) -> list[str]:
     ]
 
 
-# 方法说明：shift_incident 重写 incident 的时间、引用和授权信息。
+# shift_incident 重写 incident 的时间、引用和授权信息。
 def shift_incident(data: dict, case_id: str, original: str, group: str) -> dict:
     data["incident_id"] = case_id
     data["cluster_alias"] = "cluster_challenge"
@@ -155,13 +155,13 @@ def shift_incident(data: dict, case_id: str, original: str, group: str) -> dict:
     if group.endswith("distractor"):
         start = datetime.fromisoformat(
             data["timestamps"]["fault_start"].replace("Z", "+00:00"))
-        early = (start + timedelta(seconds=-8)).astimezone(timezone.utc).isoformat().replace(
+        early = (start + timedelta(seconds=-8)).astimezone(UTC).isoformat().replace(
             "+00:00", "Z")
         data["timestamps"]["first_observable_signal"] = early
     return data
 
 
-# 方法说明：build_case 复制一个源案例并施加指定扰动。
+# build_case 复制一个源案例并施加指定扰动。
 def build_case(source: Path, case_id: str, group: str, output: Path) -> dict:
     original = source.name
     source_incident = json.loads((source / "incident.json").read_text(encoding="utf-8"))
@@ -221,7 +221,7 @@ def build_case(source: Path, case_id: str, group: str, output: Path) -> dict:
             "source_format": "docker_container->wsl", "time_shift_days": -30}
 
 
-# 方法说明：main 选择 20 个独立 holdout 案例并按固定计划分组构造。
+# main 选择 20 个独立 holdout 案例并按固定计划分组构造。
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", default=str(SOURCE))
@@ -239,9 +239,9 @@ def main() -> None:
         family = {"DN_VOLUME": "volume", "DN_HEARTBEAT": "heartbeat",
                   "NN_SAFE_MODE": "safe_mode"}[code]
         logs = list((path / "evidence" / "logs").glob("*"))
-        if family == "safe_mode" and logs:
-            if sum(1 for _ in logs[0].open(encoding="utf-8", errors="replace")) < 6:
-                continue
+        if (family == "safe_mode" and logs
+                and sum(1 for _ in logs[0].open(encoding="utf-8", errors="replace")) < 6):
+            continue
         by_family[family].append(path)
     plan = {
         "volume": ["format_time", "format_time", "evidence_drop", "evidence_drop",
@@ -256,7 +256,7 @@ def main() -> None:
     cases = []
     index = 0
     for family, groups in plan.items():
-        for source, group in zip(by_family[family], groups):
+        for source, group in zip(by_family[family], groups, strict=False):
             index += 1
             original = source.name
             case_id = f"inc_chal_{family}_{index:02d}_{original.split('_')[-1]}"

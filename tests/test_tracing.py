@@ -1,4 +1,4 @@
-"""模块说明：验证 trace/span 的写入、父子关系与空实现。"""
+"""验证 trace/span 的写入、父子关系与空实现。"""
 
 import json
 
@@ -6,7 +6,7 @@ from aiops_diag.platform.db import Database
 from aiops_diag.platform.tracing import NullTrace, SpanRecord, Tracer
 
 
-# 方法说明：test_tracer_records_parent_and_attributes 验证 span 落库与父子关系。
+# test_tracer_records_parent_and_attributes 验证 span 落库与父子关系。
 def test_tracer_records_parent_and_attributes(tmp_path):
     database = Database(tmp_path / "service.sqlite3")
     database.init()
@@ -28,16 +28,16 @@ def test_tracer_records_parent_and_attributes(tmp_path):
     assert rows[1]["duration_ms"] == 3.0
 
 
-# 方法说明：test_null_trace_is_noop 验证未启用追踪时不会报错。
+# test_null_trace_is_noop 验证未启用追踪时不会报错。
 def test_null_trace_is_noop():
     trace = NullTrace()
     assert trace.new_span() is None
     trace.record(SpanRecord("x", "internal"))
 
 
-# 方法说明：test_tracer_disabled_without_database_support 验证无 add_span 时自动降级。
+# test_tracer_disabled_without_database_support 验证无 add_span 时自动降级。
 def test_tracer_disabled_without_database_support():
-    # 类说明：Database 是不支持 span 写入的桩对象。
+    # Database 是不支持 span 写入的桩对象。
     class Database:
         pass
 

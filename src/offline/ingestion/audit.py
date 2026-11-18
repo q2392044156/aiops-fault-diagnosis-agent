@@ -8,7 +8,6 @@ import hashlib
 import platform
 import random
 import shutil
-import sqlite3
 from collections import Counter
 from pathlib import Path
 
@@ -16,8 +15,10 @@ import psutil
 import pyarrow.parquet as pq
 
 from aiops_diag.common import digest, save, verified_manifest
+
 from .parser import parse
 from .pipeline import connect, location
+
 
 # 审计数据集的完整性, 验证构建好的数据集是否符合预期
 def audit(c):

@@ -1,4 +1,4 @@
-"""模块说明：读取、校验并规范化当前模块的 YAML 配置。"""
+"""读取服务配置：数据库、租约、预算与后端选择。"""
 
 import json
 import os
@@ -7,13 +7,12 @@ from pathlib import Path
 import yaml
 
 from aiops_diag.common import config_root, key, logical_config
-from offline.detection.config import load as load_model_config
-from online.knowledge.config import load as load_retrieval_config
-from online.knowledge.generation.config import load as load_rag_config
-from online.diagnosis.config import load as load_agent_config
+from offline.detection.settings import load as load_model_config
+from online.diagnosis.settings import load as load_agent_config
+from online.knowledge.generation.settings import load as load_rag_config
+from online.knowledge.settings import load as load_retrieval_config
 
 
-# 方法说明：`load` 完成当前步骤的业务处理；参数为 `path`。
 def load(path):
     path = Path(path).resolve()
     root = config_root(path)

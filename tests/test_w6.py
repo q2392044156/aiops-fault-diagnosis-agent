@@ -1,8 +1,8 @@
-"""模块说明：验证 w6 相关功能、边界和回归行为。"""
+"""验证 w6 相关功能、边界和回归行为。"""
 
 import json
 import sqlite3
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import httpx
 import pytest
@@ -11,7 +11,6 @@ from aiops_diag.platform.db import Database, LeaseLost, QueueFull
 from aiops_diag.platform.ui_client import ApiClient
 
 
-# 方法说明：`create` 完成当前步骤的业务处理；参数为 `db`、`number`、`capacity`。
 def create(db, number, capacity=32):
     suffix = str(number)
     return db.create_task("b" + suffix, "t" + suffix, "upload", "source", "h" + suffix,
@@ -19,7 +18,6 @@ def create(db, number, capacity=32):
                           max_inflight=capacity)
 
 
-# 方法说明：`test_schema_v1_migrates_idempotently` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_schema_v1_migrates_idempotently(tmp_path):
     path = tmp_path / "service.sqlite3"
     db = Database(path)
@@ -35,7 +33,6 @@ def test_schema_v1_migrates_idempotently(tmp_path):
     assert {"lease_owner", "lease_token", "lease_expires_at"} <= columns
 
 
-# 方法说明：`test_queue_capacity_allows_duplicates_but_rejects_new_tasks` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_queue_capacity_allows_duplicates_but_rejects_new_tasks(tmp_path):
     db = Database(tmp_path / "service.sqlite3")
     db.init()
@@ -47,14 +44,13 @@ def test_queue_capacity_allows_duplicates_but_rejects_new_tasks(tmp_path):
         create(db, 2, capacity=1)
 
 
-# 方法说明：`test_lease_expiry_recovery_and_fencing` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_lease_expiry_recovery_and_fencing(tmp_path):
     db = Database(tmp_path / "service.sqlite3")
     db.init()
     create(db, 1)
     claimed = db.claim("worker-a", lease_seconds=30)
     old_token = claimed["lease_token"]
-    past = (datetime.now(timezone.utc) - timedelta(seconds=1)).isoformat()
+    past = (datetime.now(UTC) - timedelta(seconds=1)).isoformat()
     raw = db.connect()
     raw.execute("UPDATE tasks SET lease_expires_at=? WHERE task_id='t1'", (past,))
     raw.close()
@@ -66,7 +62,6 @@ def test_lease_expiry_recovery_and_fencing(tmp_path):
     db.set_stage("t1", "SCORING", reclaimed["lease_token"])
 
 
-# 方法说明：`test_worker_heartbeat_and_operation_summary` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_worker_heartbeat_and_operation_summary(tmp_path):
     db = Database(tmp_path / "service.sqlite3")
     db.init()
@@ -77,9 +72,7 @@ def test_worker_heartbeat_and_operation_summary(tmp_path):
     assert summary["queued"] == 1 and summary["running"] == 0
 
 
-# 方法说明：`test_ui_client_uses_only_http_api` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_ui_client_uses_only_http_api():
-    # 方法说明：`handler` 完成当前步骤的业务处理；参数为 `request`。
     def handler(request):
         assert request.url.path.startswith("/api/v1/")
         if request.url.path.endswith("health/ready"):

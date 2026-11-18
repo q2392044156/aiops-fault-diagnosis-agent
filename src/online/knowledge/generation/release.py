@@ -1,14 +1,13 @@
-"""模块说明：校验并生成当前模块的不可变发布清单。"""
+"""校验并冻结报告生成产物：提示词、模型与知识快照。"""
 
 import json
 from pathlib import Path
 
-from aiops_diag.common import digest, key, verified_manifest
+from aiops_diag.common import key, verified_manifest
 
 
-# 方法说明：`verify` 完成当前步骤的业务处理；参数为 `cfg`。
 def verify(cfg):
-    from .engine import SYSTEM_PROMPT
+    from online.knowledge.generation.engine import SYSTEM_PROMPT
     directory = Path(cfg["paths"]["release_dir"])
     registry = verified_manifest(directory, "registry.json")
     manifest = json.loads((directory / "rag_release.json").read_text(encoding="utf-8"))
@@ -28,7 +27,6 @@ def verify(cfg):
     return manifest
 
 
-# 方法说明：`public` 完成当前步骤的业务处理；参数为 `cfg`。
 def public(cfg):
     manifest = verify(cfg)
     return {name: manifest[name] for name in (

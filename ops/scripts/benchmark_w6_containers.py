@@ -1,4 +1,4 @@
-"""模块说明：运行基准测试并记录耗时与资源指标。"""
+"""运行基准测试并记录耗时与资源指标。"""
 
 import argparse
 import json
@@ -9,7 +9,6 @@ from pathlib import Path
 import httpx
 
 
-# 方法说明：`wait_ready` 完成当前步骤的业务处理；参数为 `timeout`。
 def wait_ready(timeout):
     client = httpx.Client(timeout=2, trust_env=False)
     deadline = time.monotonic() + timeout
@@ -25,7 +24,6 @@ def wait_ready(timeout):
     raise TimeoutError("W6 containers did not become ready before the timeout")
 
 
-# 方法说明：`compose` 完成当前步骤的业务处理；参数为 `root`、`*args`。
 def compose(root, *args):
     subprocess.run(
         ["docker", "compose", "-f", "ops/deployment/compose.yaml", *args],
@@ -33,7 +31,6 @@ def compose(root, *args):
     )
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--repetitions", type=int, default=5)

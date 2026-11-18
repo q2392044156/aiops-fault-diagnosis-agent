@@ -1,4 +1,4 @@
-"""模块说明：预留、结算并审计模型调用预算。"""
+"""预留、结算并审计模型调用预算。"""
 
 import json
 import threading
@@ -7,11 +7,9 @@ from pathlib import Path
 from online.knowledge.generation.client import BudgetExceeded
 
 
-# 类说明：`DatabaseBudgetLedger` 封装本模块内聚的数据和行为。
 class DatabaseBudgetLedger:
     """SQLite-backed process-safe adapter for the existing DeepSeek client."""
 
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `database`、`provider`、`budget`、`legacy_path`、`scope`。
     def __init__(self, database, provider, budget, legacy_path=None, scope="shared"):
         self.database = database
         self.provider = provider
@@ -24,11 +22,9 @@ class DatabaseBudgetLedger:
             legacy = json.loads(Path(legacy_path).read_text(encoding="utf-8"))
         self.database.import_provider_usage(provider, legacy)
 
-    # 方法说明：`read` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def read(self):
         return self.database.provider_usage(self.provider)
 
-    # 方法说明：`reserve_check` 完成当前步骤的业务处理；参数为 `reserved_output_tokens`。
     def reserve_check(self, reserved_output_tokens=0):
         self.close()
         output = int(reserved_output_tokens)
@@ -44,7 +40,6 @@ class DatabaseBudgetLedger:
             raise BudgetExceeded(str(exc)) from exc
         self.local.reservation = reservation
 
-    # 方法说明：`close` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def close(self):
         reservation = getattr(self.local, "reservation", None)
         if reservation:
@@ -52,7 +47,6 @@ class DatabaseBudgetLedger:
                 self.provider, self.scope, reservation)
             self.local.reservation = None
 
-    # 方法说明：`record` 完成当前步骤的业务处理；参数为 `input_tokens`、`output_tokens`。
     def record(self, input_tokens, output_tokens):
         reservation = getattr(self.local, "reservation", None)
         if not reservation:

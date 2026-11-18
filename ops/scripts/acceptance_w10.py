@@ -1,4 +1,4 @@
-"""模块说明：执行评测或验收并输出机器可读结果。"""
+"""执行评测或验收并输出机器可读结果。"""
 
 import argparse
 import hashlib
@@ -9,7 +9,6 @@ from pathlib import Path
 import httpx
 
 
-# 方法说明：`wait_for` 完成当前步骤的业务处理；参数为 `client`、`path`、`terminal`、`timeout`。
 def wait_for(client, path, terminal, timeout):
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -22,7 +21,6 @@ def wait_for(client, path, terminal, timeout):
     raise TimeoutError(path)
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--base-url", default="http://127.0.0.1:18000")

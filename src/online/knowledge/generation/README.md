@@ -15,7 +15,7 @@
 | `__init__.py` | 定义当前包的公共入口、版本或导出符号。 | — |
 | `__main__.py` | 实现 `python -m` 命令行入口和参数分发。 | `main` |
 | `client.py` | 封装 DeepSeek HTTP 调用、超时和错误处理。 | `BudgetExceeded`、`DeepSeekError`、`DeepSeekJsonError`、`_secret`、`BudgetLedger`、`DeepSeekClient` |
-| `config.py` | 读取、校验并规范化当前模块的 YAML 配置。 | `load` |
+| `settings.py` | 读取、校验并规范化当前模块的 YAML 配置。 | `load` |
 | `engine.py` | 封装当前模块的核心执行引擎和稳定调用接口。 | `_canonical_hash`、`RagEngine` |
 | `release.py` | 校验并生成当前模块的不可变发布清单。 | `verify`、`public` |
 | `reranker.py` | 对检索候选执行确定性重排。 | `OnnxReranker`、`RerankedRetriever` |

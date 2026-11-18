@@ -1,20 +1,25 @@
-"""模块说明：实现 `python -m` 命令行入口和参数分发。"""
+"""实现 `python -m` 命令行入口和参数分发。"""
 
 import argparse
 import json
 import logging
+import sys
 
 import uvicorn
 
 from .api import create_app
 from .benchmark import run as run_benchmark
 from .config import load
+from .incident_cli import run as run_incident
 from .release import FrozenRelease, publish, verify
 from .runtime import ServiceRuntime
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 `argv`。
 def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] == "incident":
+        print(json.dumps(run_incident(argv[1:]), ensure_ascii=False, default=str, indent=2))
+        return
     parser = argparse.ArgumentParser(description="W9 controlled AIOps diagnosis service")
     sub = parser.add_subparsers(dest="command", required=True)
     for name in ("publish", "init", "verify", "serve", "worker", "worker-health"):

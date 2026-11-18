@@ -1,4 +1,4 @@
-"""模块说明：校验并生成当前模块的不可变发布清单。"""
+"""校验并冻结服务发布的组件哈希与产物清单。"""
 
 import json
 import os
@@ -12,28 +12,22 @@ from drain3.file_persistence import FilePersistence
 from drain3.template_miner import TemplateMiner
 
 from aiops_diag.common import digest, key, save, verified_manifest
-from offline.detection.templates import content, miner_config
+from offline.detection.features import content, miner_config
 
-
-# 变量说明：`MODEL_RELEASE` 保存本模块或数据模型使用的稳定值。
 MODEL_RELEASE = "v0.2_lr"
-# 变量说明：`DEPLOYMENT_RELEASE` 保存本模块或数据模型使用的稳定值。
 DEPLOYMENT_RELEASE = "v1.0"
 
 
-# 方法说明：`_read` 完成当前步骤的业务处理；参数为 `path`。
 def _read(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-# 方法说明：`_w2_run` 完成当前步骤的业务处理；参数为 `cfg`、`templates`。
 def _w2_run(cfg, templates):
     run_id = "w2_" + key([cfg["config_hash"], templates["artifacts"],
                           templates["protocol_hash"]])[:16]
     return run_id, Path(cfg["experiment_dir"]) / run_id
 
 
-# 方法说明：`_components` 完成当前步骤的业务处理；参数为 `cfg`。
 def _components(cfg):
     model_cfg = cfg["model"]
     final_dir = Path(cfg["w4_release_dir"])
@@ -67,7 +61,6 @@ def _components(cfg):
     return w4, final, templates, training, files, float(threshold)
 
 
-# 方法说明：`_bundle_names` 完成当前步骤的业务处理；参数为 `files`。
 def _bundle_names(files):
     suffixes = {
         "drain3_state": ".bin", "template_vocab": ".json", "tfidf": ".joblib",
@@ -77,7 +70,6 @@ def _bundle_names(files):
     return {name: f"components/{name}{suffixes[name]}" for name in files}
 
 
-# 方法说明：`publish` 完成当前步骤的业务处理；参数为 `cfg`。
 def publish(cfg):
     """Build an atomic, self-contained and path-portable CPU service bundle."""
     w4, _final, templates, training, files, threshold = _components(cfg)
@@ -160,7 +152,6 @@ def publish(cfg):
             shutil.rmtree(staging)
 
 
-# 方法说明：`verify` 完成当前步骤的业务处理；参数为 `cfg`、`verify_rag`。
 def verify(cfg, verify_rag=True):
     """Verify only the portable bundle; source experiment directories are not required."""
     directory = Path(cfg["release_dir"]).resolve()
@@ -205,15 +196,12 @@ def verify(cfg, verify_rag=True):
     return release
 
 
-# 类说明：`ReleaseMetadata` 封装本模块内聚的数据和行为。
 class ReleaseMetadata:
     """Hash-verified release metadata for API processes; does not deserialize models."""
 
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `cfg`、`verify_rag`。
     def __init__(self, cfg, verify_rag=True):
         self.manifest = verify(cfg, verify_rag=verify_rag)
 
-    # 方法说明：`public` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def public(self):
         return {name: self.manifest[name] for name in (
             "schema_version", "deployment_release", "release_id", "model_id",
@@ -222,14 +210,11 @@ class ReleaseMetadata:
         )}
 
 
-# 类说明：`FrozenRelease` 封装本模块内聚的数据和行为。
 class FrozenRelease(ReleaseMetadata):
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `cfg`。
     def __init__(self, cfg):
         super().__init__(cfg, verify_rag=False)
         directory = Path(cfg["release_dir"]).resolve()
 
-        # 方法说明：`component` 完成当前步骤的业务处理；参数为 `name`。
         def component(name):
             path = (directory / self.manifest["components"][name]).resolve()
             if directory not in path.parents:
@@ -247,19 +232,16 @@ class FrozenRelease(ReleaseMetadata):
             miner_config(parser_cfg, self.manifest["selected_similarity"]),
         )
 
-    # 方法说明：`template` 完成当前步骤的业务处理；参数为 `row`。
     def template(self, row):
         cluster = self.miner.match(content(row), full_search_strategy="always")
         return 0 if cluster is None else int(cluster.cluster_id)
 
-    # 方法说明：`score` 完成当前步骤的业务处理；参数为 `sequences`。
     def score(self, sequences):
         documents = [" ".join(f"T{value}" for value in values) for values in sequences]
         matrix = self.vectorizer.transform(documents)
         scores = np.asarray(self.model.decision_function(matrix), dtype=np.float64)
         return scores, (scores >= self.threshold).astype(np.int8)
 
-    # 方法说明：`assert_unchanged` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def assert_unchanged(self):
         if digest(self.snapshot) != self.snapshot_hash:
             raise ValueError("Frozen Drain3 snapshot changed during inference")

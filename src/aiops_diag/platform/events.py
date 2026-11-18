@@ -1,11 +1,11 @@
-"""模块说明：对会话打分并做异常门禁，只有 PASS 才创建事件。"""
+"""对会话打分并做异常门禁，只有 PASS 才创建事件。"""
 
 from __future__ import annotations
 
-# 变量说明：SEVERITY 是日志级别对应的基础分数。
+# SEVERITY 是日志级别对应的基础分数。
 SEVERITY = {"FATAL": 1.0, "ERROR": 0.9, "WARN": 0.6, "INFO": 0.1, "DEBUG": 0.05}
 
-# 变量说明：KEYWORDS 是故障相关关键词。
+# KEYWORDS 是故障相关关键词。
 KEYWORDS = (
     "exception", "failed", "failure", "no space", "disk", "volume",
     "lost", "dead", "heartbeat", "safe mode", "safemode", "timeout",
@@ -13,7 +13,7 @@ KEYWORDS = (
 )
 
 
-# 方法说明：score_rows 根据级别与关键词给会话打分。
+# score_rows 根据级别与关键词给会话打分。
 def score_rows(rows):
     base = 0.0
     hits = 0
@@ -26,7 +26,7 @@ def score_rows(rows):
     return round(min(1.0, base), 4)
 
 
-# 方法说明：gate_session 返回 PASS/REJECT 与原因。
+# gate_session 返回 PASS/REJECT 与原因。
 def gate_session(rows, threshold=0.6, min_lines=1):
     score = score_rows(rows)
     if len(rows) < int(min_lines):
@@ -36,7 +36,7 @@ def gate_session(rows, threshold=0.6, min_lines=1):
     return {"decision": "PASS", "score": score, "reason": "score>=threshold"}
 
 
-# 方法说明：build_event 把 PASS 会话转换为事件字典。
+# build_event 把 PASS 会话转换为事件字典。
 def build_event(event_id, batch_id, session_id, rows, score, threshold,
                 host_alias="lab", start=None, end=None, detected_at=None):
     return {

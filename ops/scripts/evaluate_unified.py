@@ -10,7 +10,7 @@ import sqlite3
 from collections import Counter
 from pathlib import Path
 
-# 变量说明：BATCH 映射批次到 gates、数据库和案例目录。
+# BATCH 映射批次到 gates、数据库和案例目录。
 BATCH = {
     "docker": ("resources/evaluation/unified4/docker_gates.json",
                "runtime/unified4/docker_run.sqlite3", "runtime/unified4/docker_cases"),
@@ -22,13 +22,13 @@ BATCH = {
                 "runtime/unified4/docker_run.sqlite3", "runtime/unified4/docker_cases"),
 }
 
-# 变量说明：BOOTSTRAP_REPS 是 bootstrap 默认重复次数。
+# BOOTSTRAP_REPS 是 bootstrap 默认重复次数。
 BOOTSTRAP_REPS = 2000
-# 变量说明：BOOTSTRAP_SEED 是固定随机种子，保证区间可复现。
+# BOOTSTRAP_SEED 是固定随机种子，保证区间可复现。
 BOOTSTRAP_SEED = 20261116
 
 
-# 方法说明：_wilson 计算独立样本比例的 Wilson 置信区间，保留作参考。
+# _wilson 计算独立样本比例的 Wilson 置信区间，保留作参考。
 def _wilson(hits, total):
     if not total:
         return None
@@ -40,7 +40,7 @@ def _wilson(hits, total):
     return [round(max(0, centre - margin), 4), round(min(1, centre + margin), 4)]
 
 
-# 方法说明：_quantile 计算经验分布的分位数，用于 bootstrap 区间。
+# _quantile 计算经验分布的分位数，用于 bootstrap 区间。
 def _quantile(values, q):
     if not values:
         return None
@@ -54,14 +54,14 @@ def _quantile(values, q):
     return ordered[lower] * (1 - weight) + ordered[upper] * weight
 
 
-# 方法说明：_interval 取 2.5% 和 97.5% 分位数，得到 95% 区间。
+# _interval 取 2.5% 和 97.5% 分位数，得到 95% 区间。
 def _interval(values):
     if not values:
         return None
     return [round(_quantile(values, 0.025), 4), round(_quantile(values, 0.975), 4)]
 
 
-# 方法说明：_bootstrap 按故障族分层、以案例为重采样单元，估计指标不确定性。
+# _bootstrap 按故障族分层、以案例为重采样单元，估计指标不确定性。
 def _bootstrap(records, reps, seed):
     if not records or reps <= 0:
         return {}
@@ -105,7 +105,7 @@ def _bootstrap(records, reps, seed):
     return {key: _interval(values) for key, values in samples.items()}
 
 
-# 方法说明：_load_batches 加载各批次 gates 和报告数据库。
+# _load_batches 加载各批次 gates 和报告数据库。
 def _load_batches(root):
     cache = {}
     for name, (gates, db, cases) in BATCH.items():
@@ -115,10 +115,10 @@ def _load_batches(root):
     return cache
 
 
-# 方法说明：_evaluate 计算案例/事件指标、cluster bootstrap 区间与混淆矩阵。
+# _evaluate 计算案例/事件指标、cluster bootstrap 区间与混淆矩阵。
 def _evaluate(rows, cache, merge_storage=False,
               bootstrap_reps=BOOTSTRAP_REPS, bootstrap_seed=BOOTSTRAP_SEED):
-    # 方法说明：norm 在合并模式下把卷/磁盘统一为存储故障。
+    # norm 在合并模式下把卷/磁盘统一为存储故障。
     def norm(code):
         if merge_storage and code in ("DN_VOLUME", "DISK_IO"):
             return "STORAGE_FAILURE"
@@ -250,7 +250,7 @@ def _evaluate(rows, cache, merge_storage=False,
             "details": details}
 
 
-# 方法说明：_summary 只保留打印摘要需要的字段。
+# _summary 只保留打印摘要需要的字段。
 def _summary(result):
     return {
         "cases": result["cases"],
@@ -278,7 +278,7 @@ def _summary(result):
     }
 
 
-# 方法说明：main 输出统一 4 类评测结果。
+# main 输出统一 4 类评测结果。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", required=True)

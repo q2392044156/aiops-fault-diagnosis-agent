@@ -1,4 +1,4 @@
-"""模块说明：用 LangGraph 后端跑 5 例 WSL 实验并输出对比结果。"""
+"""用 LangGraph 后端跑 5 例 WSL 实验并输出对比结果。"""
 
 from __future__ import annotations
 
@@ -16,13 +16,13 @@ sys.path.insert(0, str(ROOT / "ops" / "lab" / "harness"))
 from ingest import ingest
 
 
-# 方法说明：_pick 选出有 incident.json 的案例。
+# _pick 选出有 incident.json 的案例。
 def _pick(cases_dir, pattern, count):
     return [path for path in sorted(Path(cases_dir).glob(pattern))
             if (path / "incident.json").is_file()][:count]
 
 
-# 方法说明：_score 读取报告并按根因码计算 Top-1。
+# _score 读取报告并按根因码计算 Top-1。
 def _score(database, expected):
     connection = sqlite3.connect(database)
     rows = []
@@ -38,7 +38,7 @@ def _score(database, expected):
     return rows, checkpoints
 
 
-# 方法说明：main 复制案例、用 LangGraph 后端接入并打印结果。
+# main 复制案例、用 LangGraph 后端接入并打印结果。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="LangGraph PoC on WSL lab cases")
     parser.add_argument("--cases-dir", default="ops/lab/wsl_cases")

@@ -6,18 +6,18 @@ import argparse
 import json
 import subprocess
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 CONTAINERS = ("aiops-lab-namenode", "aiops-lab-dn1", "aiops-lab-dn2", "aiops-lab-dn3")
 
 
-# 方法说明：_run 执行 docker 命令并返回输出。
+# _run 执行 docker 命令并返回输出。
 def _run(args, timeout=60):
     return subprocess.run(args, capture_output=True, text=True, timeout=timeout)
 
 
-# 方法说明：main 运行健康读写负载并采集容器日志。
+# main 运行健康读写负载并采集容器日志。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--minutes", type=float, default=5)
@@ -26,7 +26,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     output = Path(args.output)
     (output / "logs").mkdir(parents=True, exist_ok=True)
-    started = datetime.now(timezone.utc)
+    started = datetime.now(UTC)
     deadline = started.timestamp() + args.minutes * 60
     rounds = 0
     while time.time() < deadline:

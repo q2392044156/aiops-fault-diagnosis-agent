@@ -17,6 +17,7 @@
 | `api.py` | 创建 FastAPI 应用并定义 HTTP 接口。 | `ServiceError`、`_encode_cursor`、`_decode_cursor`、`_time_bound`、`_task`、`_diagnosis`、`_approval`、`create_app` |
 | `benchmark.py` | 采集服务吞吐、延迟和资源使用指标。 | `_percentile`、`_meta`、`_sequences`、`e1`、`e2`、`e3`、`e4`、`run` |
 | `config.py` | 读取、校验并规范化当前模块的 YAML 配置。 | `load` |
+| `incident_cli.py` | 实现 `incident` 子命令：校验、导入、审计与删除故障事件。 | `run` |
 | `mcp_server.py` | 以 stdio JSON-RPC 暴露只读工具（MCP tools 能力）。 | `McpServer`、`ToolFacade` |
 | `tracing.py` | 记录诊断链路的 trace/span 并写入 SQLite。 | `Tracer`、`Trace`、`SpanRecord` |
 | `metrics_store.py` | 读取 CSV/JSONL 指标并按主机与时间窗聚合。 | `MetricsStore` |

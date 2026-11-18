@@ -1,13 +1,12 @@
-"""模块说明：验证按来源构建与加载 Drain3 模板。"""
+"""验证按来源构建与加载 Drain3 模板。"""
 
 import json
-from pathlib import Path
 
-from aiops_diag.data.adapters import parse_lines
-from aiops_diag.detection.source_templates import SourceTemplateMatcher, build
+from offline.detection.mining import SourceTemplateMatcher, build
+from offline.ingestion.adapters import parse_lines
 
 
-# 方法说明：_case 构造一个最小的实验案例目录。
+# _case 构造一个最小的实验案例目录。
 def _case(root, name, lines):
     case = root / name
     (case / "evidence/logs").mkdir(parents=True)
@@ -17,7 +16,7 @@ def _case(root, name, lines):
     return case
 
 
-# 方法说明：验证模板构建、匹配与冻结词表。
+# 验证模板构建、匹配与冻结词表。
 def test_build_and_match_source_templates(tmp_path):
     cases = tmp_path / "cases"
     _case(cases, "case-a", [

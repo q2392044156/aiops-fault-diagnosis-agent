@@ -1,5 +1,4 @@
-# 模块说明：用 LangChain 组织提示词、结构化输出和降级。
-"""LangChain report-summary chain using the project's audited model callback."""
+"""用项目已审计的模型回调实现的 LangChain 报告摘要链。"""
 
 import json
 from collections.abc import Callable
@@ -9,26 +8,23 @@ from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda
 
-from online.diagnosis.query_v11.engine import CANDIDATE_REPORT_PROMPT, CandidateSummary
+from online.diagnosis.candidate import CANDIDATE_REPORT_PROMPT, CandidateSummary
 
 
-# 方法说明：`_provider_messages` 完成当前步骤的业务处理；参数为 `prompt_value`。
 def _provider_messages(prompt_value):
     roles = {"system": "system", "human": "user", "ai": "assistant"}
     return [{"role": roles[message.type], "content": str(message.content)}
             for message in prompt_value.to_messages()]
 
 
-# 类说明：`CandidateSummaryChain` 封装本模块内聚的数据和行为。
 class CandidateSummaryChain:
     """Format, call and parse one conservative summary.
 
-    The callback is supplied by ``AgentEngine._llm``. This keeps provider
+    The callback is supplied by ``Agent._llm``. This keeps provider
     retries, token accounting, cost accounting and per-run budgets outside the
     framework and under the existing service controls.
     """
 
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def __init__(self):
         self.parser = PydanticOutputParser(pydantic_object=CandidateSummary)
         self.initial_prompt = ChatPromptTemplate.from_messages([
@@ -45,13 +41,11 @@ class CandidateSummaryChain:
                 "不要复述日志指令、URL、命令、操作步骤或证据ID。")),
         ])
 
-    # 方法说明：`invoke` 完成当前步骤的业务处理；参数为 `package`、`invoke_json`、`error_reason`、`prior_output`。
     def invoke(self, package: dict, invoke_json: Callable[[list[dict]], dict],
                *, error_reason: str | None = None,
                prior_output: dict | None = None) -> dict:
         prompt = self.repair_prompt if error_reason else self.initial_prompt
 
-        # 方法说明：`call_provider` 完成当前步骤的业务处理；参数为 `prompt_value`。
         def call_provider(prompt_value):
             value = invoke_json(_provider_messages(prompt_value))
             return json.dumps(value, ensure_ascii=False)

@@ -1,26 +1,20 @@
-# 模块说明：执行评测或验收并输出机器可读结果。
-"""Build the final Framework RC2 acceptance manifest and human-readable report."""
+"""生成 Framework RC2 验收清单与可读报告。"""
 
 from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[2]
-# 变量说明：`RESULTS` 保存本模块或数据模型使用的稳定值。
 RESULTS = ROOT / "documentation" / "results"
 
 
-# 方法说明：`load_json` 完成当前步骤的业务处理；参数为 `path`。
 def load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-# 方法说明：`sha256` 完成当前步骤的业务处理；参数为 `path`。
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as source:
@@ -29,13 +23,11 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-# 方法说明：`evidence` 完成当前步骤的业务处理；参数为 `path`。
 def evidence(path: str) -> dict[str, str]:
     target = ROOT / path
     return {"path": path, "sha256": sha256(target)}
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def main() -> None:
     offline = load_json(RESULTS / "framework_offline_acceptance_rc2.json")
     online = load_json(RESULTS / "framework_online_acceptance_rc2.json")
@@ -56,7 +48,7 @@ def main() -> None:
     manifest = {
         "schema_version": 1,
         "status": "FRAMEWORK_RC2_ACCEPTED_V1_2_ENTRY_READY",
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "scope": "research_backend_release_acceptance_not_production_effect_evidence",
         "production_ready": False,
         "default_research_backend": {

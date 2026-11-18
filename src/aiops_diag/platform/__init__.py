@@ -1,2 +1,1 @@
-# 模块说明：定义当前包的公共入口、版本或导出符号。
-"""W6 container-ready anomaly-detection API, worker and review UI."""
+"""W6 容器化异常检测的 API、worker 与复核 UI。"""

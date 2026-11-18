@@ -1,17 +1,17 @@
-"""模块说明：验证跨来源日志适配器与 canonical schema。"""
+"""验证跨来源日志适配器与 canonical schema。"""
 
 from pathlib import Path
 
 import pytest
 
-from aiops_diag.data.adapters import parse_line, parse_lines
-from aiops_diag.data.canonical import CANONICAL_FIELDS, is_parsed
+from offline.ingestion.adapters import parse_line, parse_lines
+from offline.ingestion.canonical import CANONICAL_FIELDS, is_parsed
 
-# 变量说明：ROOT 指向仓库根目录。
+# ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[1]
 
 
-# 方法说明：验证 HDFS_v1 适配器字段映射。
+# 验证 HDFS_v1 适配器字段映射。
 def test_hdfs_v1_adapter_maps_fields():
     raw = (b"081109 203518 143 INFO dfs.DataNode$DataXceiver: "
            b"Receiving block blk_-1608999687919862906 src: /10.0.0.1:50010")
@@ -26,7 +26,7 @@ def test_hdfs_v1_adapter_maps_fields():
     assert set(CANONICAL_FIELDS).issubset(row)
 
 
-# 方法说明：验证容器日志适配器。
+# 验证容器日志适配器。
 def test_container_adapter_parses_docker_and_wsl():
     raw = (b"[aiops-lab-dn1] 2026-10-28 12:59:49 INFO  FsDatasetImpl:425 - "
            b"Time taken to scan block pool")
@@ -41,7 +41,7 @@ def test_container_adapter_parses_docker_and_wsl():
         assert row["parse_status"] == "ok"
 
 
-# 方法说明：验证续行保留原始消息。
+# 验证续行保留原始消息。
 def test_container_continuation_keeps_message():
     raw = b"    at org.apache.hadoop.util.DiskChecker.checkDirInternal"
     row = parse_line("docker_container", raw, 2, 0, "source",
@@ -53,7 +53,7 @@ def test_container_continuation_keeps_message():
     assert is_parsed(row)
 
 
-# 方法说明：验证缺失字段保持为空。
+# 验证缺失字段保持为空。
 def test_missing_fields_are_null_not_fabricated():
     raw = b"[node1] 2026-10-28 12:59:49 INFO  Logger:1 - hello"
     row = parse_line("docker_container", raw, 1, 0, "source")
@@ -61,13 +61,13 @@ def test_missing_fields_are_null_not_fabricated():
     assert row["session_ids"] == []
 
 
-# 方法说明：验证未知来源被拒绝。
+# 验证未知来源被拒绝。
 def test_unknown_source_type_rejected():
     with pytest.raises(ValueError, match="Unsupported source_type"):
         parse_line("unknown", b"x", 1, 0, "source")
 
 
-# 方法说明：验证真实日志解析率达标。
+# 验证真实日志解析率达标。
 def test_real_lab_logs_parse_rate():
     total = parsed = 0
     cases = [p for p in (ROOT / "ops/lab/wsl_cases").glob("*") if (p / "incident.json").is_file()]

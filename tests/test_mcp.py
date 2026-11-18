@@ -1,4 +1,4 @@
-"""模块说明：验证 MCP 服务器的初始化、工具清单与只读调用。"""
+"""验证 MCP 服务器的初始化、工具清单与只读调用。"""
 
 import json
 
@@ -6,7 +6,7 @@ from aiops_diag.platform.db import Database
 from aiops_diag.platform.mcp_server import McpServer, ToolFacade
 
 
-# 方法说明：_database 构造带一条事件的最小数据库。
+# _database 构造带一条事件的最小数据库。
 def _database(tmp_path):
     database = Database(tmp_path / "service.sqlite3")
     database.init()
@@ -25,7 +25,7 @@ def _database(tmp_path):
     return database
 
 
-# 方法说明：test_mcp_initialize_and_list 验证握手与工具清单。
+# test_mcp_initialize_and_list 验证握手与工具清单。
 def test_mcp_initialize_and_list(tmp_path):
     server = McpServer(ToolFacade(_database(tmp_path)))
     init = server.handle({"jsonrpc": "2.0", "id": 1, "method": "initialize"})
@@ -36,7 +36,7 @@ def test_mcp_initialize_and_list(tmp_path):
                      "search_similar_incidents"}
 
 
-# 方法说明：test_mcp_call_returns_text_and_rejects_bad_input 验证调用与参数校验。
+# test_mcp_call_returns_text_and_rejects_bad_input 验证调用与参数校验。
 def test_mcp_call_returns_text_and_rejects_bad_input(tmp_path):
     server = McpServer(ToolFacade(_database(tmp_path)))
     call = server.handle({"jsonrpc": "2.0", "id": 3, "method": "tools/call",
@@ -52,7 +52,7 @@ def test_mcp_call_returns_text_and_rejects_bad_input(tmp_path):
     assert invalid["error"]["code"] == -32602
 
 
-# 方法说明：test_mcp_query_metrics_reads_csv 验证指标文件可通过 MCP 查询。
+# test_mcp_query_metrics_reads_csv 验证指标文件可通过 MCP 查询。
 def test_mcp_query_metrics_reads_csv(tmp_path):
     metrics = tmp_path / "metrics.csv"
     metrics.write_text(
@@ -66,7 +66,7 @@ def test_mcp_query_metrics_reads_csv(tmp_path):
     assert payload["data"]["status"] == "available"
 
 
-# 方法说明：test_mcp_notification_is_ignored 验证通知类消息不产生响应。
+# test_mcp_notification_is_ignored 验证通知类消息不产生响应。
 def test_mcp_notification_is_ignored(tmp_path):
     server = McpServer(ToolFacade(_database(tmp_path)))
     assert server.handle({"jsonrpc": "2.0", "method": "notifications/initialized"}) is None

@@ -1,5 +1,4 @@
-# 模块说明：执行关键路径冒烟验证。
-"""Run one local framework-candidate API flow without exposing log content."""
+"""跑通一次本地框架候选 API 流程，且不暴露日志内容。"""
 
 import argparse
 import json
@@ -8,14 +7,10 @@ from pathlib import Path
 
 import httpx
 
-
-# 变量说明：`TERMINAL_TASKS` 保存本模块或数据模型使用的稳定值。
 TERMINAL_TASKS = {"SUCCEEDED", "FAILED"}
-# 变量说明：`TERMINAL_DIAGNOSES` 保存本模块或数据模型使用的稳定值。
 TERMINAL_DIAGNOSES = {"WAITING_REVIEW", "COMPLETED", "APPROVED_REPORT", "FAILED"}
 
 
-# 方法说明：`wait_for` 完成当前步骤的业务处理；参数为 `client`、`path`、`terminal`、`timeout`。
 def wait_for(client, path, terminal, timeout):
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -28,7 +23,6 @@ def wait_for(client, path, terminal, timeout):
     raise TimeoutError(f"Timed out waiting for {path}")
 
 
-# 方法说明：`run` 完成当前步骤的业务处理；参数为 `base_url`、`timeout`。
 def run(base_url, timeout):
     with httpx.Client(base_url=base_url, timeout=15) as client:
         health = client.get("/api/v1/health/ready")

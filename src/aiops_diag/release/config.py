@@ -1,16 +1,15 @@
-"""模块说明：读取、校验并规范化当前模块的 YAML 配置。"""
+"""读取产品发布配置：产物目录、组件清单与版本号。"""
 
 import json
 from pathlib import Path
 
 import yaml
 
-from online.diagnosis.config import load as load_agent
 from aiops_diag.common import config_root, key, logical_config
 from aiops_diag.platform.config import load as load_service
+from online.diagnosis.settings import load as load_agent
 
 
-# 方法说明：`load` 完成当前步骤的业务处理；参数为 `path`。
 def load(path):
     path = Path(path).resolve()
     root = config_root(path)

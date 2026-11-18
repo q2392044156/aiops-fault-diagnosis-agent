@@ -1,25 +1,19 @@
-"""模块说明：验证 candidate pool v11 相关功能、边界和回归行为。"""
+"""验证 candidate pool v11 相关功能、边界和回归行为。"""
 
 import json
 from pathlib import Path
 
 import pytest
 
-from aiops_diag.knowledge.candidate_pool_v11 import build_packet, validate
-from aiops_diag.knowledge.freeze_reviewed_v11 import freeze
-from aiops_diag.knowledge.protocol_v11 import validate_protocol
-from aiops_diag.knowledge.review_v11 import validate_submission
+from evaluation.retrieval.freeze import freeze
+from evaluation.retrieval.pool import build_packet, validate
+from evaluation.retrieval.review import validate_submission
+from online.knowledge.protocol import validate_protocol
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[1]
-# 变量说明：`POOL` 保存本模块或数据模型使用的稳定值。
 POOL = ROOT / "resources/evaluation/v1.1/public_candidate_pool_60.jsonl"
-# 变量说明：`PACKET` 保存本模块或数据模型使用的稳定值。
 PACKET = ROOT / "resources/evaluation/v1.1/public_review_packet_60.jsonl"
-# 变量说明：`CARDS` 保存本模块或数据模型使用的稳定值。
 CARDS = ROOT / "resources/knowledge/cards"
-# 变量说明：`COMPARISON` 保存本模块或数据模型使用的稳定值。
 COMPARISON = [ROOT / name for name in (
     "resources/evaluation/v1.1/development.jsonl",
     "resources/evaluation/v1.1/calibration.jsonl",
@@ -29,13 +23,12 @@ COMPARISON = [ROOT / name for name in (
 )]
 
 
-# 方法说明：`_reviewed_rows` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def _reviewed_rows():
     proposed = [json.loads(line) for line in POOL.read_text(
         encoding="utf-8").splitlines()]
     reviewed = [json.loads(line) for line in PACKET.read_text(
         encoding="utf-8").splitlines()]
-    for source, row in zip(proposed, reviewed):
+    for source, row in zip(proposed, reviewed, strict=False):
         row["review_has_answer"] = source["proposed_has_answer"]
         row["review_evidence_unit_ids"] = ([source["proposed_evidence_unit_id"]]
                                            if source["proposed_evidence_unit_id"] else [])
@@ -44,13 +37,11 @@ def _reviewed_rows():
     return reviewed
 
 
-# 方法说明：`_write_rows` 完成当前步骤的业务处理；参数为 `path`、`rows`。
 def _write_rows(path, rows):
     path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n"
                             for row in rows), encoding="utf-8")
 
 
-# 方法说明：`test_public_candidate_pool_is_blinded_complete_and_nonduplicate` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_public_candidate_pool_is_blinded_complete_and_nonduplicate():
     result = validate(POOL, PACKET, CARDS, COMPARISON)
     assert result["queries"] == 60
@@ -64,7 +55,6 @@ def test_public_candidate_pool_is_blinded_complete_and_nonduplicate():
     assert all(row["review_has_answer"] is None for row in packet)
 
 
-# 方法说明：`test_public_candidate_packet_builder_refuses_overwrite` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_public_candidate_packet_builder_refuses_overwrite(tmp_path):
     output = tmp_path / "packet.jsonl"
     assert build_packet(POOL, output)["queries"] == 60
@@ -75,7 +65,6 @@ def test_public_candidate_packet_builder_refuses_overwrite(tmp_path):
         build_packet(POOL, output)
 
 
-# 方法说明：`test_public_candidate_pool_rejects_label_leak` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_public_candidate_pool_rejects_label_leak(tmp_path):
     rows = [json.loads(line) for line in PACKET.read_text(
         encoding="utf-8").splitlines()]
@@ -87,7 +76,6 @@ def test_public_candidate_pool_rejects_label_leak(tmp_path):
         validate(POOL, changed, CARDS, COMPARISON)
 
 
-# 方法说明：`test_public_candidate_pool_accepts_complete_external_review_structure` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_public_candidate_pool_accepts_complete_external_review_structure(tmp_path):
     submission = tmp_path / "submission.jsonl"
     _write_rows(submission, _reviewed_rows())
@@ -96,7 +84,6 @@ def test_public_candidate_pool_accepts_complete_external_review_structure(tmp_pa
     assert result["disagreement_count"] == 0
 
 
-# 方法说明：`test_reviewed_candidate_pool_freezes_to_release_ready_protocol` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_reviewed_candidate_pool_freezes_to_release_ready_protocol(tmp_path):
     submission = tmp_path / "submission.jsonl"
     _write_rows(submission, _reviewed_rows())
@@ -118,7 +105,6 @@ def test_reviewed_candidate_pool_freezes_to_release_ready_protocol(tmp_path):
                submission, CARDS, output)
 
 
-# 方法说明：`test_review_disagreement_cannot_be_frozen` 完成当前步骤的业务处理；参数为 `tmp_path`。
 def test_review_disagreement_cannot_be_frozen(tmp_path):
     reviewed = _reviewed_rows()
     reviewed[0]["review_has_answer"] = False

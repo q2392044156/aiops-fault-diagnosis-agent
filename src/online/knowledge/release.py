@@ -1,4 +1,4 @@
-"""模块说明：校验并生成当前模块的不可变发布清单。"""
+"""校验并冻结知识检索产物：语料、索引与模型文件的哈希清单。"""
 
 import json
 from pathlib import Path
@@ -6,13 +6,11 @@ from pathlib import Path
 import numpy as np
 
 from aiops_diag.common import digest, verified_manifest
+from online.knowledge.corpus import read_jsonl
+from online.knowledge.dense import OnnxEncoder
+from online.knowledge.engine import BM25, Retriever
 
-from .corpus import read_jsonl
-from .dense import OnnxEncoder
-from .engine import BM25, Retriever
 
-
-# 方法说明：`verify` 完成当前步骤的业务处理；参数为 `cfg`。
 def verify(cfg):
     directory = Path(cfg["paths"]["release_dir"]).resolve()
     integrity = cfg.get("release_integrity", {})
@@ -32,9 +30,7 @@ def verify(cfg):
     return release
 
 
-# 类说明：`FrozenRetriever` 封装本模块内聚的数据和行为。
 class FrozenRetriever:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `cfg`。
     def __init__(self, cfg):
         self.cfg = cfg
         self.directory = Path(cfg["paths"]["release_dir"]).resolve()
@@ -54,14 +50,12 @@ class FrozenRetriever:
                                 self.manifest["gate_threshold"])
         self._stats = self._artifact_stats()
 
-    # 方法说明：`_artifact_stats` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def _artifact_stats(self):
         registry = json.loads((self.directory / "registry.json").read_text(encoding="utf-8"))
         return {relative: (path.stat().st_size, path.stat().st_mtime_ns)
                 for relative in registry["artifacts"]
                 for path in (self.directory / relative,)}
 
-    # 方法说明：`verify_integrity` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def verify_integrity(self):
         """Rehash only when a registered file's size or mtime has changed."""
         current = self._artifact_stats()
@@ -72,17 +66,14 @@ class FrozenRetriever:
             self._stats = current
         return True
 
-    # 方法说明：`public` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def public(self):
         return {name: self.manifest[name] for name in (
             "schema_version", "kb_release_id", "corpus_hash", "index_hash",
             "model_revision", "model_hash", "default_mode", "default_k",
             "gate_threshold", "chunk_variant", "chunk_count")}
 
-    # 方法说明：`search` 完成当前步骤的业务处理；参数为 `*args`、`**kwargs`。
     def search(self, *args, **kwargs):
         return self.engine.search(*args, **kwargs)
 
-    # 方法说明：`chunk` 完成当前步骤的业务处理；参数为 `chunk_id`。
     def chunk(self, chunk_id):
         return self.engine.by_id.get(chunk_id)

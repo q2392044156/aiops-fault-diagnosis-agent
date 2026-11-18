@@ -7,12 +7,12 @@ import json
 from pathlib import Path
 
 
-# 方法说明：_load 读取 JSON。
+# _load 读取 JSON。
 def _load(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-# 方法说明：main 输出 v2 合并指标。
+# main 输出 v2 合并指标。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--docker", required=True)

@@ -1,22 +1,23 @@
-"""模块说明：按来源解析日志，并输出统一的 canonical log。"""
+"""按来源解析日志，并输出统一的 canonical log。"""
 
 from __future__ import annotations
 
 import re
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from .canonical import canonical_log
-from .parser import BLOCK, parse as parse_hdfs
+from .parser import BLOCK
+from .parser import parse as parse_hdfs
 
-# 变量说明：CONTAINER 匹配 [host] timestamp LEVEL rest 的容器日志。
+# CONTAINER 匹配 [host] timestamp LEVEL rest 的容器日志。
 CONTAINER = re.compile(
     r"^\[(?P<host>[^\]]+)\]\s+(?P<stamp>\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}"
     r"(?:[.,]\d+)?)\s+(?P<level>[A-Z]+)\s+(?P<rest>.*)$")
-# 变量说明：REST 拆分 logger[:line] 与 message。
+# REST 拆分 logger[:line] 与 message。
 REST = re.compile(r"^(?P<logger>[A-Za-z0-9_$.]+)(?::(?P<line>\d+))?\s*(?:-|:)\s*(?P<message>.*)$")
 
 
-# 方法说明：_component 把 logger 或 host 映射到统一组件。
+# _component 把 logger 或 host 映射到统一组件。
 def _component(value):
     text = (value or "").lower()
     if "namenode" in text or "fsnamesystem" in text:
@@ -30,7 +31,7 @@ def _component(value):
     return value
 
 
-# 方法说明：_timestamp 把容器日志时间统一到 UTC。
+# _timestamp 把容器日志时间统一到 UTC。
 def _timestamp(stamp, offset_hours=0):
     normalized = stamp.replace(",", ".")
     try:
@@ -38,13 +39,13 @@ def _timestamp(stamp, offset_hours=0):
     except ValueError:
         return None, None
     if value.tzinfo is None:
-        value = value.replace(tzinfo=timezone.utc)
+        value = value.replace(tzinfo=UTC)
     if offset_hours:
         value = value - timedelta(hours=float(offset_hours))
-    return value.isoformat(), value.astimezone(timezone.utc).isoformat()
+    return value.isoformat(), value.astimezone(UTC).isoformat()
 
 
-# 方法说明：parse_hdfs_v1 解析 HDFS_v1 行。
+# parse_hdfs_v1 解析 HDFS_v1 行。
 def parse_hdfs_v1(raw, number, offset, source_hash):
     row = parse_hdfs(raw, number, offset, source_hash)
     logger = row.get("component")
@@ -59,7 +60,7 @@ def parse_hdfs_v1(raw, number, offset, source_hash):
         parse_status=row.get("parse_status"), parser_version="hdfs_v1@1")
 
 
-# 方法说明：parse_container 解析 Docker/WSL 的 [host] 日志。
+# parse_container 解析 Docker/WSL 的 [host] 日志。
 def parse_container(raw, number, offset, source_hash, fallback=None,
                     source_type="docker_container", timezone_offset_hours=0):
     text = raw.decode("utf-8", errors="replace") if isinstance(raw, bytes) else str(raw)
@@ -94,7 +95,7 @@ def parse_container(raw, number, offset, source_hash, fallback=None,
         parser_version=f"{source_type}@1")
 
 
-# 方法说明：parse_line 按来源分派单行解析。
+# parse_line 按来源分派单行解析。
 def parse_line(source_type, raw, number, offset, source_hash, fallback=None,
                timezone_offset_hours=None):
     if source_type == "hdfs_v1":
@@ -107,7 +108,7 @@ def parse_line(source_type, raw, number, offset, source_hash, fallback=None,
     raise ValueError(f"Unsupported source_type: {source_type}")
 
 
-# 方法说明：parse_lines 解析整份日志并累计字节偏移。
+# parse_lines 解析整份日志并累计字节偏移。
 def parse_lines(source_type, lines, source_hash, fallback=None,
                 timezone_offset_hours=None):
     rows, offset = [], 0

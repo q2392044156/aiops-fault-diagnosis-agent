@@ -1,8 +1,8 @@
-"""模块说明：定义跨日志源的 canonical log 字段与规范化函数。"""
+"""定义跨日志源的 canonical log 字段与规范化函数。"""
 
 from __future__ import annotations
 
-# 变量说明：CANONICAL_FIELDS 是跨来源日志的统一字段集合。
+# CANONICAL_FIELDS 是跨来源日志的统一字段集合。
 CANONICAL_FIELDS = (
     "log_id", "source_type", "source_file", "raw_line_no", "byte_offset",
     "byte_length", "raw_hash", "timestamp_original", "timestamp_local",
@@ -12,7 +12,7 @@ CANONICAL_FIELDS = (
 )
 
 
-# 方法说明：canonical_log 把适配器输出补齐为统一字段。
+# canonical_log 把适配器输出补齐为统一字段。
 def canonical_log(source_type, **fields):
     row = {name: fields.get(name) for name in CANONICAL_FIELDS}
     row["source_type"] = source_type
@@ -29,6 +29,6 @@ def canonical_log(source_type, **fields):
     return row
 
 
-# 方法说明：is_parsed 判断该行是否被适配器成功接收。
+# is_parsed 判断该行是否被适配器成功接收。
 def is_parsed(row):
     return row.get("parse_status") in ("ok", "continuation")

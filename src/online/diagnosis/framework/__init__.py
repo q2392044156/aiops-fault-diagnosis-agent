@@ -1,8 +1,6 @@
-# 模块说明：定义当前包的公共入口、版本或导出符号。
-"""Opt-in LangChain and LangGraph adapters for parallel validation."""
+"""可选的 LangChain / LangGraph 适配层，用于并行验证。"""
 
-from .report_chain import CandidateSummaryChain
-from .retriever import LangChainRetrieverAdapter
+from online.diagnosis.framework.report_chain import CandidateSummaryChain
+from online.diagnosis.framework.retriever import LangChainRetrieverAdapter
 
-# 变量说明：`__all__` 保存本模块或数据模型使用的稳定值。
 __all__ = ["CandidateSummaryChain", "LangChainRetrieverAdapter"]

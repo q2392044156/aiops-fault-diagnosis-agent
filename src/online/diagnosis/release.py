@@ -1,4 +1,4 @@
-"""模块说明：校验并生成当前模块的不可变发布清单。"""
+"""校验并冻结诊断代理产物：源码哈希、工具规格与提示词。"""
 
 import json
 from pathlib import Path
@@ -6,14 +6,11 @@ from pathlib import Path
 from aiops_diag.common import digest, key, save, verified_manifest
 from online.knowledge.generation.release import verify as verify_rag
 
-
-# 变量说明：`TOOLS` 保存本模块或数据模型使用的稳定值。
 TOOLS = [
     "detect_anomaly", "query_logs", "query_metrics", "search_similar_incidents",
     "retrieve_runbook", "rank_root_causes", "generate_incident_report",
     "request_human_approval",
 ]
-# 变量说明：`RISK_POLICY` 保存本模块或数据模型使用的稳定值。
 RISK_POLICY = {
     "always_review": ["high_risk", "unknown_action", "low_confidence",
                       "unknown_confidence", "conflicting_evidence", "version_mismatch",
@@ -22,13 +19,11 @@ RISK_POLICY = {
 }
 
 
-# 方法说明：`code_hashes` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def code_hashes():
     directory = Path(__file__).resolve().parent
     return {path.name: digest(path) for path in sorted(directory.glob("*.py"))}
 
 
-# 方法说明：`publish` 完成当前步骤的业务处理；参数为 `cfg`。
 def publish(cfg):
     rag = verify_rag(cfg["rag"])
     release = {
@@ -63,7 +58,6 @@ def publish(cfg):
     return release
 
 
-# 方法说明：`verify` 完成当前步骤的业务处理；参数为 `cfg`。
 def verify(cfg):
     directory = Path(cfg["paths"]["release_dir"])
     verified_manifest(directory, "manifest.json")

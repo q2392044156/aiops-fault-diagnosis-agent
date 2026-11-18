@@ -1,14 +1,14 @@
-"""模块说明：管理 SQLite 任务、预算、报告、审批和审计记录。"""
+"""管理 SQLite 任务、预算、报告、审批和审计记录。"""
 
 import json
 import sqlite3
 import uuid
+from collections.abc import Iterator
 from contextlib import contextmanager
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from typing import Any
 
-
-# 变量说明：`SCHEMA` 保存本模块或数据模型使用的稳定值。
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS schema_meta(version INTEGER NOT NULL);
 CREATE TABLE IF NOT EXISTS batches(
@@ -162,49 +162,39 @@ CREATE TABLE IF NOT EXISTS langgraph_writes(
 """
 
 
-# 类说明：`IdempotencyConflict` 封装本模块内聚的数据和行为。
 class IdempotencyConflict(ValueError):
     pass
 
 
-# 类说明：`QueueFull` 封装本模块内聚的数据和行为。
 class QueueFull(RuntimeError):
     pass
 
 
-# 类说明：`LeaseLost` 封装本模块内聚的数据和行为。
 class LeaseLost(RuntimeError):
     pass
 
 
-# 类说明：`ApprovalConflict` 封装本模块内聚的数据和行为。
 class ApprovalConflict(ValueError):
     pass
 
 
-# 类说明：`ApprovalExpired` 封装本模块内聚的数据和行为。
 class ApprovalExpired(ValueError):
     pass
 
 
-# 方法说明：`now` 完成当前步骤的业务处理；参数为 无显式业务参数。
-def now():
-    return datetime.now(timezone.utc).isoformat()
+def now() -> str:
+    return datetime.now(UTC).isoformat()
 
 
-# 方法说明：`_deadline` 完成当前步骤的业务处理；参数为 `seconds`。
-def _deadline(seconds):
-    return (datetime.now(timezone.utc) + timedelta(seconds=seconds)).isoformat()
+def _deadline(seconds: float) -> str:
+    return (datetime.now(UTC) + timedelta(seconds=seconds)).isoformat()
 
 
-# 类说明：`Database` 封装本模块内聚的数据和行为。
 class Database:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `path`。
-    def __init__(self, path):
+    def __init__(self, path: str | Path) -> None:
         self.path = Path(path)
 
-    # 方法说明：`connect` 完成当前步骤的业务处理；参数为 无显式业务参数。
-    def connect(self):
+    def connect(self, ) -> sqlite3.Connection:
         db = sqlite3.connect(self.path, timeout=5, isolation_level=None)
         db.row_factory = sqlite3.Row
         db.execute("PRAGMA foreign_keys=ON")
@@ -212,8 +202,7 @@ class Database:
         db.execute("PRAGMA journal_mode=WAL")
         return db
 
-    # 方法说明：`init` 完成当前步骤的业务处理；参数为 无显式业务参数。
-    def init(self):
+    def init(self, ) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         db = self.connect()
         try:
@@ -250,8 +239,7 @@ class Database:
         finally:
             db.close()
 
-    # 方法说明：`set_event_metadata` 完成当前步骤的业务处理；参数为 `event_id`、`values`。
-    def set_event_metadata(self, event_id, values):
+    def set_event_metadata(self, event_id: str, values: dict[str, Any]) -> None:
         allowed = {"product_version", "source_type", "dataset", "split",
                    "snapshot_hash", "cluster_alias", "detector_release_id",
                    "detector_score", "detector_threshold", "gate_decision",
@@ -270,14 +258,12 @@ class Database:
                  if value is not None),
             )
 
-    # 方法说明：`get_event_metadata` 完成当前步骤的业务处理；参数为 `event_id`。
-    def get_event_metadata(self, event_id):
+    def get_event_metadata(self, event_id: str) -> dict[str, Any]:
         return {row["name"]: row["value"] for row in self.all(
             "SELECT name,value FROM event_metadata WHERE event_id=? ORDER BY name", (event_id,))}
 
-    # 方法说明：`transaction` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @contextmanager
-    def transaction(self):
+    def transaction(self) -> Iterator[sqlite3.Connection]:
         db = self.connect()
         try:
             db.execute("BEGIN IMMEDIATE")
@@ -289,23 +275,19 @@ class Database:
         finally:
             db.close()
 
-    # 方法说明：`_dict` 完成当前步骤的业务处理；参数为 `row`。
     @staticmethod
-    def _dict(row):
+    def _dict(row: Any) -> dict[str, Any] | None:
         return None if row is None else dict(row)
 
-    # 方法说明：`_audit` 完成当前步骤的业务处理；参数为 `db`、`task_id`、`action`、`details`、`stamp`。
     @staticmethod
-    def _audit(db, task_id, action, details, stamp):
+    def _audit(db: sqlite3.Connection, task_id: str | None, action: str,
+               details: dict[str, Any], stamp: str) -> None:
         db.execute(
             "INSERT INTO audit_records(task_id,action,details_json,created_at) VALUES (?,?,?,?)",
             (task_id, action, json.dumps(details, separators=(",", ":")), stamp),
         )
 
-    # 方法说明：`create_task` 完成当前步骤的业务处理；参数为 `batch_id`、`task_id`、`source_kind`、`source_ref`、`input_hash`、`release_id`、`processing_hash`、`fingerprint`、`idempotency_key`、`max_inflight`。
-    def create_task(self, batch_id, task_id, source_kind, source_ref, input_hash,
-                    release_id, processing_hash, fingerprint, idempotency_key=None,
-                    max_inflight=32):
+    def create_task(self, batch_id: str, task_id: str, source_kind: str, source_ref: str, input_hash: str, release_id: str, processing_hash: str, fingerprint: str, idempotency_key: str | None = None, max_inflight: int = 32) -> tuple[dict[str, Any] | None, bool]:
         stamp = now()
         with self.transaction() as db:
             if idempotency_key:
@@ -348,8 +330,7 @@ class Database:
                 "SELECT * FROM tasks WHERE task_id=?", (task_id,)
             ).fetchone()), False
 
-    # 方法说明：`heartbeat` 完成当前步骤的业务处理；参数为 `worker_id`、`release_id`、`status`、`details`。
-    def heartbeat(self, worker_id, release_id, status="READY", details=None):
+    def heartbeat(self, worker_id: str, release_id: str, status: str = 'READY', details: dict[str, Any] | None = None) -> None:
         stamp = now()
         payload = json.dumps(details or {}, separators=(",", ":"))
         with self.transaction() as db:
@@ -360,16 +341,14 @@ class Database:
                 (worker_id, release_id, status, stamp, stamp, payload),
             )
 
-    # 方法说明：`worker_ready` 完成当前步骤的业务处理；参数为 `release_id`、`max_age_seconds`。
-    def worker_ready(self, release_id, max_age_seconds=15):
-        cutoff = (datetime.now(timezone.utc) - timedelta(seconds=max_age_seconds)).isoformat()
+    def worker_ready(self, release_id: str, max_age_seconds: int = 15) -> dict[str, Any] | None:
+        cutoff = (datetime.now(UTC) - timedelta(seconds=max_age_seconds)).isoformat()
         return self.one(
             "SELECT worker_id,status,heartbeat_at FROM workers WHERE release_id=? AND status='READY' "
             "AND heartbeat_at>=? ORDER BY heartbeat_at DESC LIMIT 1", (release_id, cutoff),
         )
 
-    # 方法说明：`claim` 完成当前步骤的业务处理；参数为 `worker_id`、`lease_seconds`。
-    def claim(self, worker_id=None, lease_seconds=30):
+    def claim(self, worker_id: str | None = None, lease_seconds: int = 30) -> dict[str, Any] | None:
         stamp = now()
         with self.transaction() as db:
             row = db.execute(
@@ -396,8 +375,7 @@ class Database:
                 "FROM tasks t JOIN batches b USING(batch_id) WHERE task_id=?", (row["task_id"],)
             ).fetchone())
 
-    # 方法说明：`renew` 完成当前步骤的业务处理；参数为 `task_id`、`lease_token`、`lease_seconds`。
-    def renew(self, task_id, lease_token, lease_seconds=30):
+    def renew(self, task_id: str, lease_token: str, lease_seconds: int = 30) -> None:
         db = self.connect()
         try:
             changed = db.execute(
@@ -409,8 +387,7 @@ class Database:
         finally:
             db.close()
 
-    # 方法说明：`recover_expired` 完成当前步骤的业务处理；参数为 无显式业务参数。
-    def recover_expired(self):
+    def recover_expired(self, ) -> int:
         stamp = now()
         recovered = 0
         with self.transaction() as db:
@@ -430,8 +407,7 @@ class Database:
                 recovered += 1
         return recovered
 
-    # 方法说明：`recover` 完成当前步骤的业务处理；参数为 无显式业务参数。
-    def recover(self):
+    def recover(self, ) -> int:
         """Legacy explicit recovery used by W5 callers and migration tests."""
         stamp = now()
         with self.transaction() as db:
@@ -447,8 +423,7 @@ class Database:
                 self._audit(db, row["task_id"], "TASK_RECOVERED", {}, stamp)
         return len(rows)
 
-    # 方法说明：`set_stage` 完成当前步骤的业务处理；参数为 `task_id`、`stage`、`lease_token`。
-    def set_stage(self, task_id, stage, lease_token=None):
+    def set_stage(self, task_id: str, stage: str, lease_token: str | None = None) -> None:
         db = self.connect()
         try:
             sql = "UPDATE tasks SET stage=?,updated_at=? WHERE task_id=? AND status='RUNNING'"
@@ -461,8 +436,7 @@ class Database:
         finally:
             db.close()
 
-    # 方法说明：`fail` 完成当前步骤的业务处理；参数为 `task_id`、`code`、`message`、`lease_token`。
-    def fail(self, task_id, code, message, lease_token=None):
+    def fail(self, task_id: str, code: str, message: str, lease_token: str | None = None) -> None:
         stamp = now()
         with self.transaction() as db:
             sql = "SELECT batch_id FROM tasks WHERE task_id=? AND status='RUNNING'"
@@ -482,9 +456,7 @@ class Database:
                        (stamp, row["batch_id"]))
             self._audit(db, task_id, "TASK_FAILED", {"code": code}, stamp)
 
-    # 方法说明：`complete` 完成当前步骤的业务处理；参数为 `task_id`、`artifact_dir`、`counts`、`sessions`、`events`、`event_members`、`artifacts`、`lease_token`。
-    def complete(self, task_id, artifact_dir, counts, sessions, events, event_members, artifacts,
-                 lease_token=None):
+    def complete(self, task_id: str, artifact_dir: str, counts: dict[str, Any], sessions: Any, events: Any, event_members: Any, artifacts: Any, lease_token: str | None = None) -> None:
         stamp = now()
         with self.transaction() as db:
             sql = "SELECT batch_id FROM tasks WHERE task_id=? AND status='RUNNING'"
@@ -543,8 +515,7 @@ class Database:
             )
             self._audit(db, task_id, "TASK_SUCCEEDED", counts, stamp)
 
-    # 方法说明：`operation_summary` 完成当前步骤的业务处理；参数为 `release_id`、`heartbeat_age`。
-    def operation_summary(self, release_id, heartbeat_age=15):
+    def operation_summary(self, release_id: str, heartbeat_age: int = 15) -> dict[str, Any]:
         counts = {row["status"]: row["n"] for row in self.all(
             "SELECT status,COUNT(*) AS n FROM tasks GROUP BY status"
         )}
@@ -554,7 +525,7 @@ class Database:
         )
         wait = None
         if oldest:
-            wait = max(0.0, (datetime.now(timezone.utc) -
+            wait = max(0.0, (datetime.now(UTC) -
                              datetime.fromisoformat(oldest["created_at"])).total_seconds())
         worker = self.worker_ready(release_id, heartbeat_age)
         return {
@@ -566,8 +537,7 @@ class Database:
             "last_finished_at": latest["finished_at"] if latest else None,
         }
 
-    # 方法说明：`save_rag_report` 完成当前步骤的业务处理；参数为 `report`、`request_fingerprint`、`idempotency_key`。
-    def save_rag_report(self, report, request_fingerprint, idempotency_key=None):
+    def save_rag_report(self, report: dict[str, Any], request_fingerprint: str, idempotency_key: str | None = None) -> tuple[dict[str, Any], bool]:
         stamp = now()
         payload = json.dumps(report, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
         with self.transaction() as db:
@@ -597,15 +567,11 @@ class Database:
                          report["provenance"]["query_hash"], "status": report["status"]}, stamp)
             return report, False
 
-    # 方法说明：`get_rag_report` 完成当前步骤的业务处理；参数为 `report_id`。
-    def get_rag_report(self, report_id):
+    def get_rag_report(self, report_id: str) -> dict[str, Any] | None:
         row = self.one("SELECT report_json FROM rag_reports WHERE report_id=?", (report_id,))
         return json.loads(row["report_json"]) if row else None
 
-    # 方法说明：`create_agent_run` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`event_id`、`mode`、`release_id`、`fingerprint`、`budget`、`idempotency_key`、`max_inflight`、`revision`、`parent_diagnosis_id`。
-    def create_agent_run(self, diagnosis_id, event_id, mode, release_id, fingerprint,
-                         budget, idempotency_key=None, max_inflight=16, revision=1,
-                         parent_diagnosis_id=None):
+    def create_agent_run(self, diagnosis_id: str, event_id: str, mode: str, release_id: str, fingerprint: str, budget: dict[str, Any], idempotency_key: str | None = None, max_inflight: int = 16, revision: int = 1, parent_diagnosis_id: str | None = None) -> tuple[dict[str, Any] | None, bool]:
         stamp = now()
         with self.transaction() as db:
             if not db.execute("SELECT 1 FROM events WHERE event_id=?", (event_id,)).fetchone():
@@ -637,7 +603,7 @@ class Database:
             ).fetchone()[0]
             if inflight >= int(max_inflight):
                 raise QueueFull("Agent queue reached its configured capacity")
-            state = {"tool_calls": [], "evidence_ids": [], "errors": [],
+            state: dict[str, Any] = {"tool_calls": [], "evidence_ids": [], "errors": [],
                      "review_reasons": []}
             db.execute(
                 "INSERT INTO agent_runs(diagnosis_id,event_id,revision,parent_diagnosis_id,mode,"
@@ -657,9 +623,10 @@ class Database:
                 "SELECT * FROM agent_runs WHERE diagnosis_id=?", (diagnosis_id,),
             ).fetchone()), False
 
-    # 方法说明：`_agent_audit` 完成当前步骤的业务处理；参数为 `db`、`diagnosis_id`、`actor_type`、`actor_id`、`action`、`details`、`stamp`。
     @staticmethod
-    def _agent_audit(db, diagnosis_id, actor_type, actor_id, action, details, stamp):
+    def _agent_audit(db: sqlite3.Connection, diagnosis_id: str, actor_type: str,
+                     actor_id: str | None,
+                     action: str, details: dict[str, Any], stamp: str) -> None:
         db.execute(
             "INSERT INTO agent_audit_records(diagnosis_id,actor_type,actor_id,action,"
             "details_json,created_at) VALUES (?,?,?,?,?,?)",
@@ -667,8 +634,7 @@ class Database:
              json.dumps(details, ensure_ascii=False, separators=(",", ":")), stamp),
         )
 
-    # 方法说明：`claim_agent` 完成当前步骤的业务处理；参数为 `worker_id`、`lease_seconds`。
-    def claim_agent(self, worker_id, lease_seconds=30):
+    def claim_agent(self, worker_id: str, lease_seconds: int = 30) -> dict[str, Any] | None:
         stamp = now()
         with self.transaction() as db:
             row = db.execute(
@@ -693,8 +659,7 @@ class Database:
                 "SELECT * FROM agent_runs WHERE diagnosis_id=?", (row["diagnosis_id"],),
             ).fetchone())
 
-    # 方法说明：`renew_agent` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`lease_token`、`lease_seconds`。
-    def renew_agent(self, diagnosis_id, lease_token, lease_seconds=30):
+    def renew_agent(self, diagnosis_id: str, lease_token: str, lease_seconds: int = 30) -> None:
         db = self.connect()
         try:
             changed = db.execute(
@@ -707,8 +672,7 @@ class Database:
         finally:
             db.close()
 
-    # 方法说明：`recover_expired_agents` 完成当前步骤的业务处理；参数为 无显式业务参数。
-    def recover_expired_agents(self):
+    def recover_expired_agents(self, ) -> int:
         stamp = now()
         with self.transaction() as db:
             rows = db.execute(
@@ -729,8 +693,7 @@ class Database:
                                   "AGENT_LEASE_RECOVERED", {"ambiguous_calls": ambiguous}, stamp)
             return len(rows)
 
-    # 方法说明：`yield_agent` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`lease_token`、`completed_node`。
-    def yield_agent(self, diagnosis_id, lease_token, completed_node):
+    def yield_agent(self, diagnosis_id: str, lease_token: str, completed_node: str) -> None:
         stamp = now()
         with self.transaction() as db:
             changed = db.execute(
@@ -743,8 +706,7 @@ class Database:
             self._agent_audit(db, diagnosis_id, "worker", None, "AGENT_NODE_COMPLETED",
                               {"node": completed_node}, stamp)
 
-    # 方法说明：`update_agent_state` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`lease_token`、`current_node`、`state`、`budget`。
-    def update_agent_state(self, diagnosis_id, lease_token, current_node, state, budget):
+    def update_agent_state(self, diagnosis_id: str, lease_token: str, current_node: str, state: dict[str, Any], budget: dict[str, Any]) -> None:
         db = self.connect()
         try:
             changed = db.execute(
@@ -758,8 +720,7 @@ class Database:
         finally:
             db.close()
 
-    # 方法说明：`start_agent_tool` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`tool_name`、`args_hash`、`args`、`ordinal`。
-    def start_agent_tool(self, diagnosis_id, tool_name, args_hash, args, ordinal):
+    def start_agent_tool(self, diagnosis_id: str, tool_name: str, args_hash: str, args: dict[str, Any], ordinal: int) -> tuple[dict[str, Any] | None, bool]:
         stamp = now()
         tool_call_id = "tc_" + uuid.uuid4().hex[:24]
         with self.transaction() as db:
@@ -780,8 +741,7 @@ class Database:
                 "SELECT * FROM agent_tool_calls WHERE tool_call_id=?", (tool_call_id,),
             ).fetchone()), False
 
-    # 方法说明：`finish_agent_tool` 完成当前步骤的业务处理；参数为 `tool_call_id`、`result`、`status`。
-    def finish_agent_tool(self, tool_call_id, result, status="SUCCEEDED"):
+    def finish_agent_tool(self, tool_call_id: int, result: dict[str, Any], status: str = 'SUCCEEDED') -> None:
         db = self.connect()
         try:
             db.execute(
@@ -793,8 +753,7 @@ class Database:
         finally:
             db.close()
 
-    # 方法说明：`save_agent_evidence` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`items`。
-    def save_agent_evidence(self, diagnosis_id, items):
+    def save_agent_evidence(self, diagnosis_id: str, items: list[dict[str, Any]]) -> None:
         if not items:
             return
         with self.transaction() as db:
@@ -807,8 +766,7 @@ class Database:
                   item["evidence_hash"]) for item in items),
             )
 
-    # 方法说明：`save_agent_report` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`lease_token`、`report`、`markdown`、`approval`。
-    def save_agent_report(self, diagnosis_id, lease_token, report, markdown, approval=None):
+    def save_agent_report(self, diagnosis_id: str, lease_token: str, report: dict[str, Any], markdown: str, approval: dict[str, Any] | None = None) -> dict[str, Any] | None:
         stamp = now()
         payload = json.dumps(report, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
         with self.transaction() as db:
@@ -846,8 +804,7 @@ class Database:
                               "report_id": report["report_id"]}, stamp)
         return self.one("SELECT * FROM agent_runs WHERE diagnosis_id=?", (diagnosis_id,))
 
-    # 方法说明：`fail_agent` 完成当前步骤的业务处理；参数为 `diagnosis_id`、`lease_token`、`code`、`message`。
-    def fail_agent(self, diagnosis_id, lease_token, code, message):
+    def fail_agent(self, diagnosis_id: str, lease_token: str, code: str, message: str) -> None:
         stamp = now()
         with self.transaction() as db:
             changed = db.execute(
@@ -862,8 +819,8 @@ class Database:
             self._agent_audit(db, diagnosis_id, "worker", None, "AGENT_FAILED",
                               {"code": code}, stamp)
 
-    # 方法说明：add_span 把一条 span 写入追踪表。
-    def add_span(self, trace_id, subject_id, record):
+    # add_span 把一条 span 写入追踪表。
+    def add_span(self, trace_id: str, subject_id: str, record: Any) -> None:
         with self.transaction() as db:
             db.execute(
                 "INSERT OR REPLACE INTO trace_spans(trace_id,span_id,parent_id,subject_id,name,"
@@ -874,23 +831,21 @@ class Database:
                  json.dumps(record.attributes, ensure_ascii=False, sort_keys=True)),
             )
 
-    # 方法说明：spans 返回某次诊断的 span，按开始时间排序。
-    def spans(self, subject_id):
+    # spans 返回某次诊断的 span，按开始时间排序。
+    def spans(self, subject_id: str) -> list[Any]:
         return self.all(
             "SELECT trace_id,span_id,parent_id,name,kind,started_at,ended_at,duration_ms,"
             "status,attributes_json FROM trace_spans WHERE subject_id=? "
             "ORDER BY started_at, duration_ms DESC", (subject_id,))
 
-    # 方法说明：`get_agent_run` 完成当前步骤的业务处理；参数为 `diagnosis_id`。
-    def get_agent_run(self, diagnosis_id):
+    def get_agent_run(self, diagnosis_id: str) -> dict[str, Any] | None:
         row = self.one("SELECT * FROM agent_runs WHERE diagnosis_id=?", (diagnosis_id,))
         if row:
             row["state"] = json.loads(row.pop("state_json"))
             row["budget"] = json.loads(row.pop("budget_json"))
         return row
 
-    # 方法说明：`expire_approvals` 完成当前步骤的业务处理；参数为 无显式业务参数。
-    def expire_approvals(self):
+    def expire_approvals(self, ) -> int:
         stamp = now()
         with self.transaction() as db:
             rows = db.execute(
@@ -904,9 +859,7 @@ class Database:
                            "AND status='WAITING_REVIEW'", (stamp, row["diagnosis_id"]))
             return len(rows)
 
-    # 方法说明：`decide_approval` 完成当前步骤的业务处理；参数为 `approval_id`、`decision`、`report_hash`、`revision`、`reason`、`reviewer_id`、`idempotency_key`。
-    def decide_approval(self, approval_id, decision, report_hash, revision, reason,
-                        reviewer_id, idempotency_key):
+    def decide_approval(self, approval_id: str, decision: str, report_hash: str, revision: int, reason: str, reviewer_id: str, idempotency_key: str) -> tuple[dict[str, Any] | None, Any]:
         self.expire_approvals()
         stamp = now()
         target = {"approve": "APPROVED", "reject": "REJECTED",
@@ -980,8 +933,7 @@ class Database:
                 "SELECT * FROM approvals WHERE approval_id=?", (approval_id,),
             ).fetchone()), next_run
 
-    # 方法说明：`import_provider_usage` 完成当前步骤的业务处理；参数为 `provider`、`legacy`。
-    def import_provider_usage(self, provider, legacy):
+    def import_provider_usage(self, provider: str, legacy: Any) -> None:
         stamp = now()
         with self.transaction() as db:
             db.execute(
@@ -999,9 +951,7 @@ class Database:
                      stamp, provider),
                 )
 
-    # 方法说明：`reserve_provider_usage` 完成当前步骤的业务处理；参数为 `provider`、`scope`、`reserved_tokens`、`reserved_cost`、`max_tokens`、`max_cost`。
-    def reserve_provider_usage(self, provider, scope, reserved_tokens, reserved_cost,
-                               max_tokens, max_cost):
+    def reserve_provider_usage(self, provider: str, scope: str, reserved_tokens: int, reserved_cost: float, max_tokens: int, max_cost: float) -> str:
         stamp = now()
         reservation_id = "res_" + uuid.uuid4().hex[:24]
         with self.transaction() as db:
@@ -1029,9 +979,7 @@ class Database:
             )
         return reservation_id
 
-    # 方法说明：`settle_provider_usage` 完成当前步骤的业务处理；参数为 `reservation_id`、`input_tokens`、`output_tokens`、`input_rate`、`output_rate`。
-    def settle_provider_usage(self, reservation_id, input_tokens, output_tokens,
-                              input_rate, output_rate):
+    def settle_provider_usage(self, reservation_id: str, input_tokens: int, output_tokens: int, input_rate: float, output_rate: float) -> dict[str, Any]:
         stamp = now()
         cost = (int(input_tokens) * float(input_rate)
                 + int(output_tokens) * float(output_rate)) / 1_000_000
@@ -1054,9 +1002,7 @@ class Database:
             )
         return self.provider_usage(row["provider"])
 
-    # 方法说明：`settle_provider_reservations_conservatively` 完成当前步骤的业务处理；参数为 `provider`、`scope`、`reservation_id`。
-    def settle_provider_reservations_conservatively(self, provider, scope,
-                                                    reservation_id=None):
+    def settle_provider_reservations_conservatively(self, provider: str, scope: str, reservation_id: str | None = None) -> int:
         """Close ambiguous paid calls without allowing their reservation to disappear."""
         stamp = now()
         with self.transaction() as db:
@@ -1081,8 +1027,7 @@ class Database:
                 "WHERE reservation_id=?", [(stamp, value) for value in ids])
         return len(rows)
 
-    # 方法说明：`provider_usage` 完成当前步骤的业务处理；参数为 `provider`。
-    def provider_usage(self, provider):
+    def provider_usage(self, provider: str) -> dict[str, Any]:
         row = self.one("SELECT * FROM provider_usage WHERE provider=?", (provider,))
         if not row:
             return {"schema_version": 2, "input_tokens": 0, "output_tokens": 0,
@@ -1094,18 +1039,16 @@ class Database:
         return {"schema_version": 2, "input_tokens": row["input_tokens"],
                 "output_tokens": row["output_tokens"],
                 "estimated_cost_cny": row["estimated_cost_cny"], "calls": row["calls"],
-                "reserved_tokens": pending["tokens"]}
+                "reserved_tokens": (pending or {}).get("tokens")}
 
-    # 方法说明：`one` 完成当前步骤的业务处理；参数为 `query`、`params`。
-    def one(self, query, params=()):
+    def one(self, query: str, params: Any = ()) -> dict[str, Any] | None:
         db = self.connect()
         try:
             return self._dict(db.execute(query, params).fetchone())
         finally:
             db.close()
 
-    # 方法说明：`all` 完成当前步骤的业务处理；参数为 `query`、`params`。
-    def all(self, query, params=()):
+    def all(self, query: str, params: Any = ()) -> list[dict[str, Any]]:
         db = self.connect()
         try:
             return [dict(row) for row in db.execute(query, params).fetchall()]

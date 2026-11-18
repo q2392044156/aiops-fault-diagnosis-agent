@@ -1,4 +1,4 @@
-"""模块说明：封装 DeepSeek HTTP 调用、超时和错误处理。"""
+"""封装 DeepSeek HTTP 调用、超时和错误处理。"""
 
 import json
 import os
@@ -11,25 +11,20 @@ import httpx
 from aiops_diag.common import save
 
 
-# 类说明：`BudgetExceeded` 封装本模块内聚的数据和行为。
 class BudgetExceeded(RuntimeError):
     pass
 
 
-# 类说明：`DeepSeekError` 封装本模块内聚的数据和行为。
 class DeepSeekError(RuntimeError):
     pass
 
 
-# 类说明：`DeepSeekJsonError` 封装本模块内聚的数据和行为。
 class DeepSeekJsonError(DeepSeekError):
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `message`、`usage`。
     def __init__(self, message, usage):
         super().__init__(message)
         self.usage = usage
 
 
-# 方法说明：`_secret` 完成当前步骤的业务处理；参数为 `env_name`、`file_env_name`。
 def _secret(env_name, file_env_name):
     direct = os.environ.get(env_name)
     if direct:
@@ -43,24 +38,19 @@ def _secret(env_name, file_env_name):
     return None
 
 
-# 类说明：`BudgetLedger` 封装本模块内聚的数据和行为。
 class BudgetLedger:
-    # 变量说明：`_lock` 保存本模块或数据模型使用的稳定值。
     _lock = threading.Lock()
 
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `path`、`budget`。
     def __init__(self, path, budget):
         self.path = Path(path)
         self.budget = budget
 
-    # 方法说明：`read` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def read(self):
         if not self.path.exists():
             return {"schema_version": 1, "input_tokens": 0, "output_tokens": 0,
                     "estimated_cost_cny": 0.0, "calls": 0}
         return json.loads(self.path.read_text(encoding="utf-8"))
 
-    # 方法说明：`reserve_check` 完成当前步骤的业务处理；参数为 `reserved_output_tokens`。
     def reserve_check(self, reserved_output_tokens=0):
         state = self.read()
         if (state["input_tokens"] + state["output_tokens"] + int(reserved_output_tokens)
@@ -71,7 +61,6 @@ class BudgetLedger:
         if state["estimated_cost_cny"] + reserved_cost > self.budget["max_cost_cny"]:
             raise BudgetExceeded("Cost budget has been exhausted")
 
-    # 方法说明：`record` 完成当前步骤的业务处理；参数为 `input_tokens`、`output_tokens`。
     def record(self, input_tokens, output_tokens):
         with self._lock:
             state = self.read()
@@ -92,9 +81,7 @@ class BudgetLedger:
             return state
 
 
-# 类说明：`DeepSeekClient` 封装本模块内聚的数据和行为。
 class DeepSeekClient:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `cfg`、`transport`、`ledger`。
     def __init__(self, cfg, transport=None, ledger=None):
         provider = cfg["provider"]
         self.cfg = cfg
@@ -105,19 +92,17 @@ class DeepSeekClient:
                                  timeout=provider["timeout_seconds"], transport=transport,
                                  trust_env=False)
 
-    # 方法说明：`configured` 完成当前步骤的业务处理；参数为 无显式业务参数。
     @property
     def configured(self):
         return bool(self.api_key)
 
-    # 方法说明：`close` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def close(self):
         close_ledger = getattr(self.ledger, "close", None)
         if close_ledger:
             close_ledger()
         self.http.close()
 
-    # 方法说明：`_request` 发送一次带重试的请求，并结算本次调用的预算与用量。
+    # `_request` 发送一次带重试的请求，并结算本次调用的预算与用量。
     def _request(self, payload):
         if not self.api_key:
             raise DeepSeekError("DeepSeek API key is not configured")
@@ -133,12 +118,13 @@ class DeepSeekClient:
                 break
             except httpx.HTTPStatusError as exc:
                 status = exc.response.status_code
-                if status == 429 or status >= 500:
-                    if attempt < 2 and time.monotonic() - started < provider["overall_timeout_seconds"]:
-                        retry_after = exc.response.headers.get("Retry-After")
-                        delay = min(float(retry_after), 2.0) if retry_after else 0.5 * (2 ** attempt)
-                        time.sleep(max(0.0, delay))
-                        continue
+                retryable = status == 429 or status >= 500
+                if (retryable and attempt < 2
+                        and time.monotonic() - started < provider["overall_timeout_seconds"]):
+                    retry_after = exc.response.headers.get("Retry-After")
+                    delay = min(float(retry_after), 2.0) if retry_after else 0.5 * (2 ** attempt)
+                    time.sleep(max(0.0, delay))
+                    continue
                 try:
                     error_code = exc.response.json().get("error", {}).get("code")
                 except (ValueError, AttributeError):
@@ -167,7 +153,7 @@ class DeepSeekClient:
         except (KeyError, TypeError, ValueError) as exc:
             raise DeepSeekError(f"DeepSeek JSON request failed: {type(exc).__name__}") from exc
 
-    # 方法说明：`complete_json` 要求模型返回 JSON 对象，并把坏 JSON 包装成可重试错误。
+    # `complete_json` 要求模型返回 JSON 对象，并把坏 JSON 包装成可重试错误。
     def complete_json(self, messages):
         provider = self.cfg["provider"]
         payload = {"model": provider["model"], "messages": messages,
@@ -186,7 +172,7 @@ class DeepSeekClient:
         except json.JSONDecodeError as exc:
             raise DeepSeekJsonError("DeepSeek returned invalid or truncated JSON", usage) from exc
 
-    # 方法说明：`complete_tool_calls` 走 function calling，返回模型选择的工具与原始参数。
+    # `complete_tool_calls` 走 function calling，返回模型选择的工具与原始参数。
     def complete_tool_calls(self, messages, tools, tool_choice="auto"):
         provider = self.cfg["provider"]
         payload = {"model": provider["model"], "messages": messages,

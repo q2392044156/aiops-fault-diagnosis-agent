@@ -14,8 +14,7 @@
 | --- | --- | --- |
 | `__init__.py` | 定义当前包的公共入口、版本或导出符号。 | — |
 | `__main__.py` | 实现 `python -m` 命令行入口和参数分发。 | `main` |
-| `config.py` | 读取、校验并规范化当前模块的 YAML 配置。 | `load`、`resolved` |
-| `workflow.py` | 比较候选模型并根据冻结规则选择发布模型。 | `_git_commit`、`_read`、`_stage`、`_publish_stage`、`_runs`、`_assignments`、`_validation_predictions`、`_selection_decision` 等 |
+| `workflow.py` | 比较候选模型并根据冻结规则选择发布模型。 | `_read`、`_runs`、`_assignments`、`_validation_predictions`、`_selection_decision` 等 |
 
 ## 阅读建议
 

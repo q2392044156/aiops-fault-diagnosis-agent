@@ -12,6 +12,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import io
 import json
 import os
@@ -26,12 +27,12 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from aiops_diag.data.common import digest, key
-from aiops_diag.diagnosis.budget import DatabaseBudgetLedger
-from aiops_diag.diagnosis.engine import AgentEngine, AgentYield
-from aiops_diag.knowledge.generation.client import DeepSeekClient
+from aiops_diag.common import digest, key
 from aiops_diag.platform.db import Database
 from aiops_diag.platform.pipeline import database_payload, process
+from online.diagnosis.agent import Agent, AgentYield
+from online.diagnosis.budget import DatabaseBudgetLedger
+from online.knowledge.generation.client import DeepSeekClient
 
 DEMO_RELEASE_ID = "demo_rule_lr"
 AGENT_RELEASE_ID = "agr_demo"
@@ -39,7 +40,7 @@ KB_RELEASE_ID = "kb_demo_v1"
 WORKER_ID = "demo-worker"
 
 
-# 类说明：DemoDetector 是演示用的确定性检测器，替代训练好的 TF-IDF+LR 模型。
+# DemoDetector 是演示用的确定性检测器，替代训练好的 TF-IDF+LR 模型。
 class DemoDetector:
     """只做一件事：包含 ERROR/FATAL 的会话判为异常。
 
@@ -50,22 +51,22 @@ class DemoDetector:
     manifest = {"release_id": DEMO_RELEASE_ID}
     threshold = 1.0
 
-    # 方法说明：template 把日志行映射为模板编号，ERROR/FATAL 记为 2。
+    # template 把日志行映射为模板编号，ERROR/FATAL 记为 2。
     def template(self, row):
         level = (row.get("level") or "").upper()
         return 2 if level in ("ERROR", "FATAL") else 1
 
-    # 方法说明：score 给每个会话打分，返回分数与是否超过阈值。
+    # score 给每个会话打分，返回分数与是否超过阈值。
     def score(self, sequences):
         scores = np.asarray([2.0 if 2 in row else -2.0 for row in sequences],
                             dtype=np.float64)
         return scores, (scores >= self.threshold).astype(np.int8)
 
-    # 方法说明：assert_unchanged 真实模型会校验制品未被篡改，演示版为空实现。
+    # assert_unchanged 真实模型会校验制品未被篡改，演示版为空实现。
     def assert_unchanged(self):
         return None
 
-    # 方法说明：public 返回可写入发布清单的模型元数据。
+    # public 返回可写入发布清单的模型元数据。
     def public(self):
         return {
             "schema_version": 1,
@@ -79,12 +80,12 @@ class DemoDetector:
         }
 
 
-# 方法说明：_tokens 把文本切分为小写词元，供演示检索器打分。
+# _tokens 把文本切分为小写词元，供演示检索器打分。
 def _tokens(text):
     return set(re.findall(r"[a-z0-9]+", (text or "").lower()))
 
 
-# 类说明：DemoRetriever 是按关键词打分的本地知识检索器，替代 BM25+BGE 混合检索。
+# DemoRetriever 是按关键词打分的本地知识检索器，替代 BM25+BGE 混合检索。
 class DemoRetriever:
     """演示用检索器：关键词命中优先，未命中时按固定顺序补齐。
 
@@ -92,12 +93,12 @@ class DemoRetriever:
     并对无答案场景做证据门禁。
     """
 
-    # 方法说明：__init__ 读取知识卡并记录发布标识。
+    # __init__ 读取知识卡并记录发布标识。
     def __init__(self, cards):
         self.cards = list(cards)
         self.manifest = {"kb_release_id": KB_RELEASE_ID}
 
-    # 方法说明：search 返回排序后的知识条目，字段与真实检索器保持一致。
+    # search 返回排序后的知识条目，字段与真实检索器保持一致。
     def search(self, query, mode=None, top_k=3, component=None,
                product_version=None, apply_gate=True):
         tokens = _tokens(query)
@@ -128,16 +129,16 @@ class DemoRetriever:
                 "gate_score": 1.0}
 
 
-# 类说明：OfflineClient 表示没有配置大模型，让 Agent 走确定性模板降级。
+# OfflineClient 表示没有配置大模型，让 Agent 走确定性模板降级。
 class OfflineClient:
     configured = False
 
-    # 方法说明：close 保持与真实客户端一致的资源释放接口。
+    # close 保持与真实客户端一致的资源释放接口。
     def close(self):
         return None
 
 
-# 方法说明：_load_env 读取 .env 中的键值对，已存在的环境变量优先。
+# _load_env 读取 .env 中的键值对，已存在的环境变量优先。
 def _load_env(path):
     if not path.is_file():
         return
@@ -151,7 +152,7 @@ def _load_env(path):
             os.environ.setdefault(name, value)
 
 
-# 方法说明：_rule 打印分节标题，让终端输出更像一次演示。
+# _rule 打印分节标题，让终端输出更像一次演示。
 def _rule(title):
     print()
     print("=" * 72)
@@ -159,7 +160,7 @@ def _rule(title):
     print("=" * 72)
 
 
-# 方法说明：main 串起解析、检测、诊断、复核，并输出演示报告。
+# main 串起解析、检测、诊断、复核，并输出演示报告。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="AIOps offline demo")
     parser.add_argument("--workdir", default=str(ROOT / "demo" / ".runtime"))
@@ -287,7 +288,7 @@ def main(argv=None):
             print("DEEPSEEK_API_KEY 为空，无法进入在线模式。")
             return 2
         print(f"在线模式：{args.model}（预算上限 20,000 tokens / ¥0.5）")
-    engine = AgentEngine(agent_cfg, db, retriever, service_manifest, agent_release,
+    engine = Agent(agent_cfg, db, retriever, service_manifest, agent_release,
                          client=client)
 
     mode = "auto" if args.online else "template"
@@ -311,11 +312,9 @@ def main(argv=None):
             print(f"  节点完成 -> {yielded}")
             continue
         except Exception as exc:
-            try:
+            with contextlib.suppress(Exception):
                 db.fail_agent(run["diagnosis_id"], run["lease_token"],
                               "DEMO_FAILED", f"{type(exc).__name__}: {exc}")
-            except Exception:
-                pass
             print(f"  诊断失败：{type(exc).__name__}: {exc}")
             return 3
         break

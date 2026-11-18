@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 
-# 方法说明：main 合并两个独立测试集并冻结。
+# main 合并两个独立测试集并冻结。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--network-split", required=True)

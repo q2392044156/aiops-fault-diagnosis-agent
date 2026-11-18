@@ -2,7 +2,7 @@
 
 ## 模块职责
 
-构建知识语料、混合检索、门禁、评测和知识库发布。
+构建知识语料、混合检索、证据门控、检索指标与知识库发布；生成式问答在 `generation/`，v1.1 评测数据流水线在 `src/evaluation/retrieval/`。
 
 ## 依赖边界
 
@@ -14,22 +14,20 @@
 | --- | --- | --- |
 | `__init__.py` | 定义当前包的公共入口、版本或导出符号。 | — |
 | `__main__.py` | 实现 `python -m` 命令行入口和参数分发。 | `main` |
-| `blind_v11.py` | 执行 v1.1 揭盲与一次性测试结果整理。 | `_read_sealed_test`、`_summarize`、`_groups`、`run` |
-| `candidate_pool_v11.py` | 构造、校验和冻结 v1.1 候选题池。 | `_rows`、`_normalized`、`_knowledge_units`、`validate`、`build_packet` |
-| `config.py` | 读取、校验并规范化当前模块的 YAML 配置。 | `load` |
-| `corpus.py` | 加载知识卡并切分为带稳定 chunk_id 的语料。 | `normalized`、`load_cards`、`load_sources`、`validate_corpus`、`evidence_units`、`_chunk_id`、`_metadata`、`chunk_structured` 等 |
-| `coverage_v11.py` | 统计知识卡对问题族和组件的覆盖。 | `compare` |
+| `corpus.py` | 加载知识卡并切分为带稳定 chunk_id 的语料。 | `normalized`、`load_cards`、`load_sources`、`validate_corpus`、`evidence_units`、`chunk_structured` 等 |
 | `dense.py` | 封装 BGE ONNX 向量编码和相似度计算。 | `OnnxEncoder` |
-| `engine.py` | 封装当前模块的核心执行引擎和稳定调用接口。 | `tokenize`、`BM25`、`reciprocal_rank_fusion`、`Retriever` |
-| `evaluation.py` | 计算当前模块的评测指标并输出结构化结果。 | `validate_queries`、`_percentile`、`evaluate`、`choose_gate` |
-| `freeze_reviewed_v11.py` | 冻结完成复核的 v1.1 数据集与哈希。 | `_relative`、`freeze` |
-| `gate_v11.py` | 执行 v1.1 有答案与无答案检索门禁。 | `choose_gate_candidate`、`CandidateRetriever`、`calibrate_candidate` |
-| `protocol_v11.py` | 定义 v1.1 检索校准、盲测和冻结协议。 | `_inside`、`_read_jsonl`、`_normalized`、`validate_protocol` |
+| `engine.py` | 词法 BM25、向量召回与倒数排名融合。 | `tokenize`、`BM25`、`reciprocal_rank_fusion`、`Retriever` |
+| `evaluation.py` | 计算检索指标、门禁阈值与查询集校验。 | `validate_queries`、`evaluate`、`choose_gate` |
+| `gate.py` | 用首条证据的稠密相似度做门控，并在开发与校准切分上标定阈值。 | `GatedRetriever`、`calibrate` |
+| `jsonl.py` | v1.1 复核流程共用的 JSONL 读写。 | `read_rows`、`write_rows` |
+| `protocol.py` | 校验 v1.1 评测协议的三份密封切分、来源版本与查询泄漏。 | `validate_protocol`、`SPLITS` |
 | `release.py` | 校验并生成当前模块的不可变发布清单。 | `verify`、`FrozenRetriever` |
-| `review_v11.py` | 合并复核意见并生成分歧清单。 | `_rows`、`_units`、`validate_packet`、`validate_submission` |
-| `runbook_review_v11.py` | 检查知识卡与运行手册覆盖关系。 | `_rows`、`_write_rows`、`_sealed_cases`、`_log_sample`、`build`、`evaluate` |
-| `workflow.py` | 组织当前模块的端到端工作流和文件产物。 | `_model_files`、`validate`、`fetch_model`、`validate_model_export`、`_write_build`、`build`、`_load_engine`、`_inputs_hash` 等 |
+| `retrieval.py` | 组织"建库—评测—发布"的端到端流程与文件产物。 | `validate`、`fetch_model`、`validate_model_export`、`build`、`_load_engine` 等 |
+| `review_schema.py` | 题包与回传文件的字段约定。 | `VISIBLE`、`REVIEW` |
+| `settings.py` | 读取检索配置：知识卡目录、语料与发布产物路径。 | `load` |
+
+子目录：`generation/` 是知识驱动的报告生成。
 
 ## 阅读建议
 
-先阅读配置或 Schema，再阅读核心引擎，最后查看 `workflow.py`、`__main__.py` 或验收脚本了解完整调用顺序。文件内的中文注释重点解释职责、输入参数、数据字段和关键约束。
+先读 `corpus.py` 弄清一条知识卡怎么变成可检索的 chunk，再看 `engine.py` 的召回与融合；`retrieval.py` 是把这些步骤和发布串起来的入口。

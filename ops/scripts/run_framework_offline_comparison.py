@@ -1,14 +1,11 @@
-# 模块说明：实现 run framework offline comparison 相关的辅助流程。
-"""Run the development-only legacy/framework offline comparison."""
+"""跑仅限开发期的 legacy 与 framework 离线对比。"""
 
 import argparse
 import json
 from pathlib import Path
 
-from aiops_diag.evaluation.offline_framework import run
+from evaluation.comparison import run
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[2]
 
 

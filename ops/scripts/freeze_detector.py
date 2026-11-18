@@ -6,16 +6,16 @@ import argparse
 import hashlib
 import json
 import shutil
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 
-# 方法说明：_sha 计算文件 SHA-256。
+# _sha 计算文件 SHA-256。
 def _sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-# 方法说明：main 生成 detector release。
+# main 生成 detector release。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--detector", required=True)
@@ -35,7 +35,7 @@ def main(argv=None):
     payload = json.loads(Path(args.detector).read_text(encoding="utf-8"))
     release = {
         "schema_version": 1, "release_id": args.release_id,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "source_type": args.source_type,
         "detector_sha256": _sha(output / "detector.json"),
         "normal_sha256": normal_hash.hexdigest(),

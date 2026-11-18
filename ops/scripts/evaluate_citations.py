@@ -15,7 +15,7 @@ from evaluate_evidence import _rows
 from evidence import gold_ids
 
 
-# 方法说明：_line 从 log_id/source_ref 中取行号。
+# _line 从 log_id/source_ref 中取行号。
 def _line(value):
     try:
         return int(str(value).rsplit(":", 1)[1])
@@ -23,7 +23,7 @@ def _line(value):
         return None
 
 
-# 方法说明：main 汇总引用覆盖率。
+# main 汇总引用覆盖率。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--gates", required=True)

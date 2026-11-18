@@ -8,7 +8,7 @@ import sqlite3
 from pathlib import Path
 
 
-# 方法说明：_rank 返回期望根因码在报告中的名次。
+# _rank 返回期望根因码在报告中的名次。
 def _rank(report, expected):
     for index, hypothesis in enumerate(report.get("hypotheses", []), 1):
         if hypothesis.get("root_cause_code") == expected:
@@ -16,7 +16,7 @@ def _rank(report, expected):
     return None
 
 
-# 方法说明：main 汇总事件级指标。
+# main 汇总事件级指标。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--gates", required=True)

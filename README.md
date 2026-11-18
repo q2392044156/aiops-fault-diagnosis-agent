@@ -21,17 +21,18 @@
     aiops-fault-diagnosis-agent/
     ├─ src/
     │  ├─ offline/                 # 离线数据流程
-    │  │  ├─ capture/              # 采集入口，实际脚本在 ops/lab
-    │  │  ├─ ingestion/            # adapter、canonical、窗口、incident
-    │  │  ├─ detection/            # Drain3、severity-first 门禁
-    │  │  └─ evaluation/           # 红队、轨迹、框架评测
+    │  │  ├─ ingestion/            # adapter、canonical、窗口、审计
+    │  │  ├─ case/                 # 故障事件契约、导入与受控实验记录
+    │  │  └─ detection/            # 模板挖掘/特征、severity-first 门禁、LR/LSTM、选择实验
     │  ├─ online/                  # 在线诊断流程
-    │  │  ├─ diagnosis/            # 7 节点引擎、证据选择、工具
-    │  │  ├─ knowledge/            # 104 卡 RAG
-    │  │  └─ reporting/            # 报告 Schema 入口
-    │  └─ aiops_diag/              # 共享基础设施 + 旧导入兼容层
-    │     ├─ common.py
-    │     ├─ platform/             # API、worker、SQLite、UI、MCP
+    │  │  ├─ diagnosis/            # 7 节点代理、证据选择、工具；v11/ 候选、framework/ LangGraph
+    │  │  └─ knowledge/            # 语料、混合检索、发布；v11/ 评测、generation/ 报告生成
+    │  ├─ evaluation/              # 跨离线/在线的评测层：轨迹、红队、路由、框架对照
+    │  └─ aiops_diag/              # 共享基础设施
+    │     ├─ common.py             # 哈希、配置解析、清单校验、分位数
+    │     ├─ constants.py          # 工具白名单与预算裁剪顺序
+    │     ├─ nodes.py              # 诊断节点固定顺序
+    │     ├─ platform/             # API、worker、SQLite、UI、MCP、incident 命令
     │     └─ release/
     ├─ ops/
     │  ├─ lab/                     # Docker/WSL 实验台、采集、批量重放

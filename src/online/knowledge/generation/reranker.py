@@ -1,13 +1,11 @@
-"""模块说明：对检索候选执行确定性重排。"""
+"""对检索候选执行确定性重排。"""
 
 from pathlib import Path
 
 import numpy as np
 
 
-# 类说明：`OnnxReranker` 封装本模块内聚的数据和行为。
 class OnnxReranker:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `model_dir`、`max_length`、`batch_size`。
     def __init__(self, model_dir, max_length=512, batch_size=8):
         import onnxruntime as ort
         from tokenizers import Tokenizer
@@ -27,7 +25,6 @@ class OnnxReranker:
         self.input_names = {item.name for item in self.session.get_inputs()}
         self.batch_size = int(batch_size)
 
-    # 方法说明：`score` 完成当前步骤的业务处理；参数为 `query`、`documents`。
     def score(self, query, documents):
         values = []
         pairs = [(query, text) for text in documents]
@@ -44,16 +41,13 @@ class OnnxReranker:
         return np.asarray(values, dtype=np.float32)
 
 
-# 类说明：`RerankedRetriever` 封装本模块内聚的数据和行为。
 class RerankedRetriever:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `base`、`reranker`、`candidate_k`、`output_k`。
     def __init__(self, base, reranker, candidate_k=10, output_k=3):
         self.base = base
         self.reranker = reranker
         self.candidate_k = int(candidate_k)
         self.output_k = int(output_k)
 
-    # 方法说明：`search` 完成当前步骤的业务处理；参数为 `query`、`mode`、`top_k`、`component`、`product_version`、`apply_gate`。
     def search(self, query, mode=None, top_k=None, component=None, product_version=None,
                apply_gate=False):
         result = self.base.search(query, mode="hybrid", top_k=self.candidate_k,

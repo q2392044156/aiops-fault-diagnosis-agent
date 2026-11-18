@@ -1,13 +1,11 @@
-# 模块说明：校验输入、产物和运行条件是否满足约定。
-"""Run full preparation, independent subset rebuild and audit (no download)."""
+"""跑完整数据准备、独立子集重建与审计（不下载）。"""
 import json
 
-from aiops_diag.data.common import config, save
-from aiops_diag.data.pipeline import build, split, subset
-from aiops_diag.data.audit import audit
+from aiops_diag.common import config, save
+from offline.ingestion.audit import audit
+from offline.ingestion.pipeline import build, split, subset
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def main():
     c = config("resources/configs/data.yaml")
     folder = build(c)

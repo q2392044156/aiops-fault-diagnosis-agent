@@ -13,7 +13,9 @@
 | 文件 | 主要功能 | 主要类或函数 |
 | --- | --- | --- |
 | `__init__.py` | 定义当前包的公共入口、版本或导出符号。 | — |
+| `constants.py` | 跨层共享的稳定取值：工具白名单与预算裁剪顺序。 | `ROUTER_TOOLS` |
 | `common.py` | 提供跨流程共享的哈希、路径、JSON 和配置工具。 | `digest`、`canonical`、`save`、`config_root` |
+| `nodes.py` | 诊断节点的固定推进顺序。 | `NODE_ORDER` |
 
 ## 阅读建议
 

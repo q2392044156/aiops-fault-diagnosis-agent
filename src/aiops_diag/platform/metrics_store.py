@@ -1,18 +1,17 @@
-"""模块说明：加载并查询事件时间窗内的指标序列，供只读工具使用。"""
+"""加载并查询事件时间窗内的指标序列，供只读工具使用。"""
 
 from __future__ import annotations
 
 import csv
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-
-# 变量说明：FIELDS 是指标文件必须包含的列。
+# FIELDS 是指标文件必须包含的列。
 FIELDS = ("timestamp", "host_alias", "component", "metric", "value")
 
 
-# 方法说明：_parse_time 把 ISO 时间字符串解析为带时区的 datetime。
+# _parse_time 把 ISO 时间字符串解析为带时区的 datetime。
 def _parse_time(value):
     if not value:
         return None
@@ -21,10 +20,10 @@ def _parse_time(value):
         parsed = datetime.fromisoformat(text)
     except ValueError:
         return None
-    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
 
 
-# 类说明：MetricsStore 读取 CSV/JSONL 指标文件，并按主机与时间窗聚合。
+# MetricsStore 读取 CSV/JSONL 指标文件，并按主机与时间窗聚合。
 class MetricsStore:
     """一个极小的指标仓库：够让 query_metrics 返回真实序列，又不引入时序数据库。
 
@@ -32,7 +31,7 @@ class MetricsStore:
     没有文件时 available 为 False，工具保持原有的 not_available 语义。
     """
 
-    # 方法说明：__init__ 读取指标文件并记录无效行数量。
+    # __init__ 读取指标文件并记录无效行数量。
     def __init__(self, path):
         self.path = Path(path) if path else None
         self.rows = []
@@ -40,7 +39,7 @@ class MetricsStore:
         if self.path and self.path.is_file():
             self.rows = self._load()
 
-    # 方法说明：_load 按扩展名解析 CSV 或 JSONL，跳过缺列与坏行。
+    # _load 按扩展名解析 CSV 或 JSONL，跳过缺列与坏行。
     def _load(self):
         rows = []
         if self.path.suffix.lower() == ".jsonl":
@@ -66,7 +65,7 @@ class MetricsStore:
                     self.invalid_rows += 1
         return rows
 
-    # 方法说明：_row 把一行原始数据转换为统一结构，无法解析时返回 None。
+    # _row 把一行原始数据转换为统一结构，无法解析时返回 None。
     @staticmethod
     def _row(item):
         stamp = _parse_time(item.get("timestamp"))
@@ -85,12 +84,12 @@ class MetricsStore:
             "value": value,
         }
 
-    # 方法说明：available 表示是否存在可查询的指标文件。
+    # available 表示是否存在可查询的指标文件。
     @property
     def available(self):
         return bool(self.rows)
 
-    # 方法说明：window 返回指定主机与时间窗内的指标摘要，最多保留 60 个采样点。
+    # window 返回指定主机与时间窗内的指标摘要，最多保留 60 个采样点。
     def window(self, host_alias, start, end, slack_seconds=300, limit=60):
         start_at = _parse_time(start)
         end_at = _parse_time(end)

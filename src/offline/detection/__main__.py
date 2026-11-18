@@ -1,4 +1,4 @@
-"""模块说明：实现 `python -m` 命令行入口和参数分发。"""
+"""实现 `python -m` 命令行入口和参数分发。"""
 
 import argparse
 import json
@@ -9,18 +9,16 @@ import pyarrow.compute as pc
 import pyarrow.parquet as pq
 
 from aiops_diag.common import verified_manifest
-from .config import load
-from .evaluation import evaluate
-from .lstm_config import load_lstm
-from .lstm_workflow import (evaluate_lstm, inspect_lstm, predict_lstm,
-                            train_lstm, tune_lstm)
-from .models import predictions, train
+
+from .features import build_templates
+from .lstm_workflow import evaluate_lstm, inspect_lstm, predict_lstm, train_lstm, tune_lstm
+from .model import predictions, train
 from .protocol import freeze
+from .report import evaluate
 from .sequences import prepare_sequences
-from .templates import build_templates
+from .settings import load, load_lstm
 
 
-# 方法说明：`inspect` 完成当前步骤的业务处理；参数为 `cfg`、`run_id`、`session_id`。
 def inspect(cfg, run_id, session_id):
     base = Path(cfg["experiment_dir"])
     run_dir = (base / run_id).resolve()
@@ -41,7 +39,6 @@ def inspect(cfg, run_id, session_id):
     return row
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def main():
     parser = argparse.ArgumentParser(description="AIOps W2/W3 modeling workflows")
     parser.add_argument("command", choices=["freeze", "templates", "train", "predict",

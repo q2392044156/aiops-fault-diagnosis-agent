@@ -1,14 +1,14 @@
-"""模块说明：按故障时间切分正常窗口与故障窗口。"""
+"""按故障时间切分正常窗口与故障窗口。"""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-from aiops_diag.data.adapters import parse_lines
+from offline.ingestion.adapters import parse_lines
 
 
-# 方法说明：load_windows 解析单个案例并切分正常/故障窗口。
+# load_windows 解析单个案例并切分正常/故障窗口。
 def load_windows(case_dir, source_type=None):
     case_dir = Path(case_dir)
     incident = json.loads((case_dir / "incident.json").read_text(encoding="utf-8"))
@@ -26,7 +26,7 @@ def load_windows(case_dir, source_type=None):
             "normal": normal, "fault": fault, "fault_start": start}
 
 
-# 方法说明：load_normal_windows 读取独立正常目录中的每份日志。
+# load_normal_windows 读取独立正常目录中的每份日志。
 def load_normal_windows(directory, source_type="docker_container", window_lines=50):
     windows = []
     for log in sorted(Path(directory).glob("*.log")):

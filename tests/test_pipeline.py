@@ -1,19 +1,17 @@
-"""模块说明：验证 pipeline 相关功能、边界和回归行为。"""
+"""验证 pipeline 相关功能、边界和回归行为。"""
 
-import hashlib
 import json
 from pathlib import Path
 
 import pyarrow.parquet as pq
 import pytest
 
-from aiops_diag.data.parser import parse
-from aiops_diag.data.pipeline import build, split, subset, trace
-from aiops_diag.data.audit import audit
-from aiops_diag.data.common import digest
+from aiops_diag.common import digest
+from offline.ingestion.audit import audit
+from offline.ingestion.parser import parse
+from offline.ingestion.pipeline import build, split, subset, trace
 
 
-# 方法说明：`test_parser` 完成当前步骤的业务处理；参数为 `ending`。
 @pytest.mark.parametrize("ending", [b"\n", b"\r\n", b""])
 def test_parser(ending):
     raw = b"081109 203518 143 INFO dfs.DataNode: blk_-1 blk_2 blk_-1" + ending
@@ -24,14 +22,12 @@ def test_parser(ending):
     assert r["byte_length"] == len(raw)
 
 
-# 方法说明：`test_bad` 完成当前步骤的业务处理；参数为 `raw`、`status`。
 @pytest.mark.parametrize("raw,status", [(b"bad blk_1", "format_error"),
     (b"081332 203518 1 INFO x: blk_1", "time_error"), (b"\xff blk_1", "decode_error")])
 def test_bad(raw, status):
     assert parse(raw, 1, 0, "x")["parse_status"] == status
 
 
-# 方法说明：`dataset` 完成当前步骤的业务处理；参数为 `tmp_path`。
 @pytest.fixture
 def dataset(tmp_path):
     raw = tmp_path / "raw"; raw.mkdir()
@@ -45,11 +41,11 @@ def dataset(tmp_path):
              "081101 100000 1 INFO x: blk_8"]
     (raw / "HDFS.log").write_text("\n".join(lines), encoding="utf-8")
     (raw / "anomaly_label.csv").write_text("BlockId,Label\n" + "".join(f"blk_{i},Normal\n" for i in range(9)))
-    return dict(raw_dir=str(raw), output_dir=str(tmp_path / "out"), dataset="synthetic", batch_size=3,
-                min_free_gb=0, embargo_seconds=600, seed=42, target_blocks=4, max_lines=10)
+    return {"raw_dir": str(raw), "output_dir": str(tmp_path / "out"), "dataset": "synthetic",
+            "batch_size": 3, "min_free_gb": 0, "embargo_seconds": 600, "seed": 42,
+            "target_blocks": 4, "max_lines": 10}
 
 
-# 方法说明：`test_end_to_end` 完成当前步骤的业务处理；参数为 `dataset`。
 def test_end_to_end(dataset):
     folder = build(dataset); split(dataset); subset(dataset)
     report = audit(dataset)
@@ -76,7 +72,6 @@ def test_end_to_end(dataset):
     assert audit(dataset)["label_counts"] == {"Anomaly": 9}
 
 
-# 方法说明：`test_crossing_group` 完成当前步骤的业务处理；参数为 `dataset`。
 def test_crossing_group(dataset):
     path = Path(dataset["raw_dir"]) / "HDFS.log"
     path.write_text(path.read_text() + "\n081101 090000 1 INFO x: blk_3")
@@ -85,7 +80,6 @@ def test_crossing_group(dataset):
     assert all(r["reason"] == "boundary_excluded" for r in rows if r["block_id"] in {"blk_1", "blk_2", "blk_3"})
 
 
-# 方法说明：`test_bad_session_and_budget` 完成当前步骤的业务处理；参数为 `dataset`。
 def test_bad_session_and_budget(dataset):
     path = Path(dataset["raw_dir"]) / "HDFS.log"
     path.write_bytes(path.read_bytes() + b"\nbroken blk_3\n081101 040000 1 INFO x: no block\n")
@@ -99,7 +93,6 @@ def test_bad_session_and_budget(dataset):
     assert report["dev"]["lines"] <= 1
 
 
-# 方法说明：`test_tamper_rejected` 完成当前步骤的业务处理；参数为 `dataset`。
 def test_tamper_rejected(dataset):
     folder = build(dataset)
     with (folder / "logs.parquet").open("ab") as f:
@@ -108,7 +101,6 @@ def test_tamper_rejected(dataset):
         split(dataset)
 
 
-# 方法说明：`test_relocated_rebuild` 完成当前步骤的业务处理；参数为 `dataset`、`tmp_path`。
 def test_relocated_rebuild(dataset, tmp_path):
     import shutil
     folder = build(dataset); split(dataset); subset(dataset)
@@ -122,7 +114,6 @@ def test_relocated_rebuild(dataset, tmp_path):
     assert json.loads((other / "subset.json").read_text()) == original
 
 
-# 方法说明：`test_duplicate_label_rejected` 完成当前步骤的业务处理；参数为 `dataset`。
 def test_duplicate_label_rejected(dataset):
     build(dataset); split(dataset); subset(dataset)
     with (Path(dataset["raw_dir"]) / "anomaly_label.csv").open("a") as f:

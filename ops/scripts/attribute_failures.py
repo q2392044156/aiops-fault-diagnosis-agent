@@ -1,4 +1,4 @@
-"""模块说明：对失败样例做归因统计（证据缺失/召回缺失/排序错误）。"""
+"""对失败样例做归因统计（证据缺失/召回缺失/排序错误）。"""
 
 from __future__ import annotations
 
@@ -8,13 +8,13 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录。
+# ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from aiops_diag.platform.db import Database
 
-# 变量说明：SIGNALS 是各根因码在日志里的关键信号词。
+# SIGNALS 是各根因码在日志里的关键信号词。
 SIGNALS = {
     "DN_VOLUME": ("no space", "out of space", "diskoutofspace", "failed volume",
                   "too many failed volumes"),
@@ -23,7 +23,7 @@ SIGNALS = {
 }
 
 
-# 方法说明：_report 按 map.json 读取诊断报告。
+# _report 按 map.json 读取诊断报告。
 def _report(database, mapping):
     if not mapping:
         return None
@@ -32,13 +32,13 @@ def _report(database, mapping):
     return json.loads(row["report_json"]) if row else None
 
 
-# 方法说明：_log_text 读取证据日志并转小写。
+# _log_text 读取证据日志并转小写。
 def _log_text(case_dir):
     files = list((Path(case_dir) / "evidence" / "logs").glob("*.log"))
     return files[0].read_text(encoding="utf-8").lower() if files else ""
 
 
-# 方法说明：attribute 统计每个失败样例的归因。
+# attribute 统计每个失败样例的归因。
 def attribute(database, cases_dir):
     rows = []
     for registry in database.all("SELECT incident_id,record_json FROM incident_registry "
@@ -66,7 +66,7 @@ def attribute(database, cases_dir):
     return rows
 
 
-# 方法说明：summarize 按故障族汇总归因。
+# summarize 按故障族汇总归因。
 def summarize(rows):
     summary = defaultdict(lambda: defaultdict(int))
     for row in rows:
@@ -75,7 +75,7 @@ def summarize(rows):
     return {code: dict(values) for code, values in sorted(summary.items())}
 
 
-# 方法说明：markdown 输出归因表。
+# markdown 输出归因表。
 def markdown(rows):
     summary = summarize(rows)
     lines = ["| 故障族 | 总数 | 命中 | 证据缺失 | 召回缺失 | 排序错误 |",
@@ -92,7 +92,7 @@ def markdown(rows):
     return "\n".join(lines)
 
 
-# 方法说明：main 读取数据库并输出归因结果。
+# main 读取数据库并输出归因结果。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Failure attribution for lab incidents")
     parser.add_argument("--database", required=True)

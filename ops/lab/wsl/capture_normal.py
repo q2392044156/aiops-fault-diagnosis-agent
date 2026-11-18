@@ -7,18 +7,18 @@ import json
 import subprocess
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 
-# 方法说明：_wsl 在 WSL 内执行命令。
+# _wsl 在 WSL 内执行命令。
 def _wsl(distro, command, timeout=60):
     return subprocess.run(["wsl", "-d", distro, "-u", "root", "--", "bash", "-lc", command],
                           capture_output=True, text=True, encoding="utf-8",
                           errors="replace", timeout=timeout)
 
 
-# 方法说明：_count 返回 WSL 文件当前行数。
+# _count 返回 WSL 文件当前行数。
 def _count(distro, path):
     result = _wsl(distro, f"wc -l < {path}")
     try:
@@ -27,7 +27,7 @@ def _count(distro, path):
         return 0
 
 
-# 方法说明：main 运行健康读写并采集 NameNode/DataNode 日志。
+# main 运行健康读写并采集 NameNode/DataNode 日志。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--minutes", type=float, default=5)
@@ -43,7 +43,7 @@ def main(argv=None):
     (output / "logs").mkdir(parents=True, exist_ok=True)
     nn_start = _count(args.distro, args.nn_log)
     dn_start = _count(args.distro, args.dn_log)
-    started = datetime.now(timezone.utc)
+    started = datetime.now(UTC)
     deadline = started.timestamp() + args.minutes * 60
     rounds = 0
     while time.time() < deadline:

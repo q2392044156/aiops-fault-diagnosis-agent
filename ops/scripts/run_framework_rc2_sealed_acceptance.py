@@ -1,29 +1,24 @@
-# 模块说明：执行评测或验收并输出机器可读结果。
-"""Run the frozen 30-case RC2 acceptance exactly once."""
+"""对冻结的 30 条 RC2 用例执行且仅执行一次验收。"""
 
 import argparse
 import json
 import math
 import os
 import statistics
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from aiops_diag.evaluation.offline_framework import run
-from aiops_diag.data.common import digest
+from aiops_diag.common import digest
+from evaluation.comparison import run
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[2]
 
 
-# 方法说明：`read_jsonl` 完成当前步骤的业务处理；参数为 `path`。
 def read_jsonl(path):
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()
             if line.strip()]
 
 
-# 方法说明：`percentile` 完成当前步骤的业务处理；参数为 `values`、`fraction`。
 def percentile(values, fraction):
     values = sorted(values)
     if not values:
@@ -35,7 +30,6 @@ def percentile(values, fraction):
     return values[low] + (values[high] - values[low]) * (position - low)
 
 
-# 方法说明：`ranking_metrics` 完成当前步骤的业务处理；参数为 `case`、`expected`。
 def ranking_metrics(case, expected):
     merged = []
     for retrieval in case["backends"]["framework_candidate"]["normalized"]["retrievals"]:
@@ -52,7 +46,6 @@ def ranking_metrics(case, expected):
     return recall, mrr, dcg / ideal if ideal else 0.0, merged
 
 
-# 方法说明：`render` 完成当前步骤的业务处理；参数为 `result`。
 def render(result):
     m = result["metrics"]
     g = result["gates"]
@@ -110,7 +103,7 @@ if __name__ == "__main__":
     recovery = json.loads(options.recovery_report.read_text(encoding="utf-8"))
     if not recovery.get("passed"):
         raise SystemExit("Fault and recovery acceptance must pass before the official run")
-    started = datetime.now(timezone.utc).isoformat()
+    started = datetime.now(UTC).isoformat()
     fd = os.open(marker, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     with os.fdopen(fd, "w", encoding="utf-8") as stream:
         json.dump({"schema_version": 1, "started_at": started,
@@ -197,7 +190,7 @@ if __name__ == "__main__":
     result = {
         "schema_version": 1, "status": "RC2_SEALED_ACCEPTANCE_ONCE",
         "official_run_started_at": started,
-        "completed_at": datetime.now(timezone.utc).isoformat(),
+        "completed_at": datetime.now(UTC).isoformat(),
         "revealed_after_run": True, "reusable_for_tuning_or_acceptance": False,
         "identity_verified_human_reviewers": False,
         "old_revealed_60_used": False,

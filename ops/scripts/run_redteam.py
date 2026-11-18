@@ -1,4 +1,4 @@
-"""模块说明：运行红队用例，输出拦截率、误杀率与未通过清单。"""
+"""运行红队用例，输出拦截率、误杀率与未通过清单。"""
 
 from __future__ import annotations
 
@@ -7,14 +7,14 @@ import json
 import sys
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录，便于脚本在任意工作目录运行。
+# ROOT 指向仓库根目录，便于脚本在任意工作目录运行。
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from aiops_diag.evaluation.redteam import evaluate, load_cases, markdown
+from evaluation.redteam import evaluate, load_cases, markdown
 
 
-# 方法说明：main 执行全部用例并写出 JSON 与 Markdown 结果。
+# main 执行全部用例并写出 JSON 与 Markdown 结果。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Red team evaluation")
     parser.add_argument("--cases", default=str(ROOT / "ops/redteam/cases.jsonl"))

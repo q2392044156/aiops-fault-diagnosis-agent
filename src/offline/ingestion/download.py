@@ -8,10 +8,11 @@ import shutil
 import time
 import urllib.request
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path, PurePosixPath
 
 from aiops_diag.common import digest, save
+
 
 # 主要用于从远程 URL 下载归档文件（如 ZIP），并确保下载完整性。
 # 输入：
@@ -101,7 +102,8 @@ def download(c):
     try:
         handle = lock.open("x")
     except FileExistsError:
-        raise ValueError("Download already running; inspect download.lock if a previous process was killed")
+        raise ValueError(
+            "Download already running; inspect download.lock if a previous process was killed") from None
     try:
         with handle:
             return _download(c, raw)
@@ -126,7 +128,7 @@ def _download(c, raw):
     extract(archive, raw)
     # 存证，记录下载的文件信息和校验结果
     save(raw / "download.json", {"schema_version": 1, "record": c["record"], "url": c["url"],
-         "verified_at": datetime.now(timezone.utc).isoformat(),
+         "verified_at": datetime.now(UTC).isoformat(),
          "size": c["size"], "md5": c["md5"], "artifacts": {
              p.name: digest(p) for p in (archive, raw / "HDFS.log", raw / "anomaly_label.csv")}})
     # 返回结果，指示下载和验证成功，并提供存证文件的路径

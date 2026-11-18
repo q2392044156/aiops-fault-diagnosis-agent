@@ -1,31 +1,28 @@
-# 模块说明：保存和恢复 LangGraph 图进度快照。
-"""SQLite LangGraph checkpointer using the service database.
-
-Business state remains authoritative in ``agent_runs``.  This saver records
-only the compact graph state passed by ``LangGraphAgentEngine``.
-"""
+"""用服务 SQLite 保存 LangGraph checkpoint；业务状态仍以 agent_runs 为唯一权威。"""
 
 from __future__ import annotations
 
 import hashlib
 from collections.abc import Iterator, Sequence
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
-from langgraph.checkpoint.base import (BaseCheckpointSaver, CheckpointTuple,
-                                       WRITES_IDX_MAP, get_checkpoint_id,
-                                       get_checkpoint_metadata, writes_sort_key)
+from langgraph.checkpoint.base import (
+    WRITES_IDX_MAP,
+    BaseCheckpointSaver,
+    CheckpointTuple,
+    get_checkpoint_id,
+    get_checkpoint_metadata,
+    writes_sort_key,
+)
 
 
-# 类说明：`DatabaseCheckpointSaver` 封装本模块内聚的数据和行为。
 class DatabaseCheckpointSaver(BaseCheckpointSaver):
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `database`、`serde`、`default_namespace`。
     def __init__(self, database, *, serde=None, default_namespace="agent-v12"):
         super().__init__(serde=serde)
         self.database = database
         self.default_namespace = default_namespace
 
-    # 方法说明：`_identity` 完成当前步骤的业务处理；参数为 `config`。
     def _identity(self, config):
         configurable = config.get("configurable", {})
         thread_id = configurable.get("thread_id")
@@ -34,7 +31,6 @@ class DatabaseCheckpointSaver(BaseCheckpointSaver):
         namespace = configurable.get("checkpoint_ns") or self.default_namespace
         return str(thread_id), str(namespace)
 
-    # 方法说明：`_tuple` 完成当前步骤的业务处理；参数为 `row`、`config`。
     def _tuple(self, row, config=None):
         checkpoint = self.serde.loads_typed((row["checkpoint_type"], row["checkpoint_blob"]))
         metadata = self.serde.loads_typed((row["metadata_type"], row["metadata_blob"]))
@@ -59,7 +55,6 @@ class DatabaseCheckpointSaver(BaseCheckpointSaver):
             }}
         return CheckpointTuple(config or stored_config, checkpoint, metadata, parent, pending)
 
-    # 方法说明：`get_tuple` 完成当前步骤的业务处理；参数为 `config`。
     def get_tuple(self, config):
         thread_id, namespace = self._identity(config)
         checkpoint_id = get_checkpoint_id(config)
@@ -73,7 +68,6 @@ class DatabaseCheckpointSaver(BaseCheckpointSaver):
                 "ORDER BY created_at DESC,checkpoint_id DESC LIMIT 1", (thread_id, namespace))
         return self._tuple(row, config if checkpoint_id else None) if row else None
 
-    # 方法说明：`list` 完成当前步骤的业务处理；参数为 `config`、`filter`、`before`、`limit`。
     def list(self, config, *, filter=None, before=None, limit=None) -> Iterator[CheckpointTuple]:
         params: list[Any] = []
         clauses = []
@@ -97,7 +91,6 @@ class DatabaseCheckpointSaver(BaseCheckpointSaver):
                                  for name, expected in filter.items()):
                 yield value
 
-    # 方法说明：`put` 完成当前步骤的业务处理；参数为 `config`、`checkpoint`、`metadata`、`new_versions`。
     def put(self, config, checkpoint, metadata, new_versions):
         thread_id, namespace = self._identity(config)
         checkpoint_type, checkpoint_blob = self.serde.dumps_typed(checkpoint)
@@ -105,7 +98,7 @@ class DatabaseCheckpointSaver(BaseCheckpointSaver):
             get_checkpoint_metadata(config, metadata))
         parent = config.get("configurable", {}).get("checkpoint_id")
         state_hash = hashlib.sha256(checkpoint_blob).hexdigest()
-        stamp = checkpoint.get("ts") or datetime.now(timezone.utc).isoformat()
+        stamp = checkpoint.get("ts") or datetime.now(UTC).isoformat()
         with self.database.transaction() as db:
             db.execute(
                 "INSERT OR REPLACE INTO langgraph_checkpoints(thread_id,checkpoint_ns,"
@@ -117,7 +110,6 @@ class DatabaseCheckpointSaver(BaseCheckpointSaver):
         return {"configurable": {"thread_id": thread_id, "checkpoint_ns": namespace,
                                  "checkpoint_id": checkpoint["id"]}}
 
-    # 方法说明：`put_writes` 完成当前步骤的业务处理；参数为 `config`、`writes`、`task_id`、`task_path`。
     def put_writes(self, config, writes: Sequence[tuple[str, Any]], task_id: str,
                    task_path: str = "") -> None:
         thread_id, namespace = self._identity(config)
@@ -137,22 +129,18 @@ class DatabaseCheckpointSaver(BaseCheckpointSaver):
                      channel, value_type, value_blob),
                 )
 
-    # 方法说明：`delete_thread` 完成当前步骤的业务处理；参数为 `thread_id`。
     def delete_thread(self, thread_id: str) -> None:
         with self.database.transaction() as db:
             db.execute("DELETE FROM langgraph_writes WHERE thread_id=?", (thread_id,))
             db.execute("DELETE FROM langgraph_checkpoints WHERE thread_id=?", (thread_id,))
 
-    # 方法说明：`delete_for_runs` 完成当前步骤的业务处理；参数为 `run_ids`。
     def delete_for_runs(self, run_ids: Sequence[str]) -> None:
         for thread_id in run_ids:
             self.delete_thread(thread_id)
 
-    # 方法说明：`copy_thread` 完成当前步骤的业务处理；参数为 `source_thread_id`、`target_thread_id`。
     def copy_thread(self, source_thread_id: str, target_thread_id: str) -> None:
         raise NotImplementedError("Checkpoint thread copying is intentionally disabled")
 
-    # 方法说明：`prune` 完成当前步骤的业务处理；参数为 `thread_ids`、`strategy`。
     def prune(self, thread_ids: Sequence[str], *, strategy: str = "keep_latest") -> None:
         if strategy == "delete":
             for thread_id in thread_ids:

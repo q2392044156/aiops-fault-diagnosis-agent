@@ -1,8 +1,7 @@
-"""模块说明：冻结数据划分、随机种子和检测评测协议。"""
+"""冻结数据划分、随机种子和检测评测协议。"""
 
 import csv
 import hashlib
-import json
 import re
 import sqlite3
 from collections import Counter, defaultdict
@@ -14,18 +13,15 @@ import pyarrow.parquet as pq
 
 from aiops_diag.common import digest, key, save, verified_manifest
 
-# 变量说明：`IP` 保存本模块或数据模型使用的稳定值。
 IP = re.compile(r"(?<![0-9])(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?![0-9])")
 
 
-# 方法说明：`_labels` 完成当前步骤的业务处理；参数为 `cfg`。
 def _labels(cfg):
     path = Path(cfg["data"]["raw_dir"]) / "anomaly_label.csv"
     with path.open(encoding="utf-8-sig", newline="") as f:
         return {r["BlockId"]: r["Label"] for r in csv.DictReader(f)}
 
 
-# 方法说明：`_first_messages` 完成当前步骤的业务处理；参数为 `w1`、`wanted_lines`。
 def _first_messages(w1, wanted_lines):
     result = {}
     for batch in pq.ParquetFile(w1 / "logs.parquet").iter_batches(
@@ -39,7 +35,6 @@ def _first_messages(w1, wanted_lines):
     return result
 
 
-# 方法说明：`_event_clusters` 完成当前步骤的业务处理；参数为 `blocks`、`max_gap`、`max_span`。
 def _event_clusters(blocks, max_gap, max_span):
     """Cluster by host proxy with a gap rule and a hard span cap."""
     by_host = defaultdict(list)
@@ -68,7 +63,6 @@ def _event_clusters(blocks, max_gap, max_span):
     return clusters
 
 
-# 方法说明：`_sample_groups` 完成当前步骤的业务处理；参数为 `assignments`、`limit`、`dataset_hash`、`seed`。
 def _sample_groups(assignments, limit, dataset_hash, seed):
     groups = defaultdict(list)
     for row in assignments:
@@ -87,7 +81,6 @@ def _sample_groups(assignments, limit, dataset_hash, seed):
     return selected
 
 
-# 方法说明：`freeze` 完成当前步骤的业务处理；参数为 `cfg`。
 def freeze(cfg):
     w1 = Path(cfg["w1_dir"])
     out = Path(cfg["protocol_dir"])

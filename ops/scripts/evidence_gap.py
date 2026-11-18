@@ -10,11 +10,12 @@ from pathlib import Path
 sys.path.insert(0, "src")
 sys.path.insert(0, "ops/lab/harness")
 sys.path.insert(0, "ops/scripts")
-from aiops_diag.diagnosis.engine import evidence_sufficiency, select_log_rows
 from evaluate_evidence import _rows
 
+from online.diagnosis.agent import evidence_sufficiency, select_log_rows
 
-# 方法说明：main 输出证据不足案例。
+
+# main 输出证据不足案例。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--cases", required=True)

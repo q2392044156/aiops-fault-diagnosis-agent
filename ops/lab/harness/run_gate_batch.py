@@ -14,12 +14,13 @@ from pathlib import Path
 sys.path.insert(0, "ops/lab/harness")
 sys.path.insert(0, "src")
 from ingest import FrozenCodeRetriever, ingest
-from aiops_diag.detection.source_templates import SourceTemplateMatcher
-from aiops_diag.knowledge.config import load as load_knowledge
-from aiops_diag.knowledge.release import FrozenRetriever
+
+from offline.detection.mining import SourceTemplateMatcher
+from online.knowledge.release import FrozenRetriever
+from online.knowledge.settings import load as load_knowledge
 
 
-# 方法说明：main 逐案例走检测门禁并触发诊断。
+# main 逐案例走检测门禁并触发诊断。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--cases", required=True)

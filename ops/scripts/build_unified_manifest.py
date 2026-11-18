@@ -10,7 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 
-# 变量说明：FAMILIES 映射根因码到故障族名称。
+# FAMILIES 映射根因码到故障族名称。
 FAMILIES = {
     "DN_VOLUME": "volume", "DN_HEARTBEAT": "heartbeat",
     "NN_SAFE_MODE": "safe_mode", "NETWORK_CONNECTIVITY": "network",
@@ -18,7 +18,7 @@ FAMILIES = {
 }
 
 
-# 方法说明：_rows 读取一个批次目录的案例。
+# _rows 读取一个批次目录的案例。
 def _rows(directory, batch, bad=None):
     rows = []
     for case in sorted(Path(directory).glob("*")):
@@ -36,7 +36,7 @@ def _rows(directory, batch, bad=None):
     return rows
 
 
-# 方法说明：main 构建并写出统一 manifest。
+# main 构建并写出统一 manifest。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=".")

@@ -1,19 +1,16 @@
-# 模块说明：实现 run framework rc2 rollback drill 相关的辅助流程。
-"""Verify SQLite backup and the RC2 legacy backend rollback path."""
+"""验证 SQLite 备份与 RC2 回退到 legacy 后端的演练路径。"""
 
 import argparse
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from aiops_diag.diagnosis.query_v11.engine import AgentEngine as LegacyCandidateEngine
-from aiops_diag.data.common import digest
+from aiops_diag.common import digest
 from aiops_diag.platform.config import load as load_service
 from aiops_diag.platform.runtime import ServiceRuntime
+from online.diagnosis.candidate import Agent as LegacyCandidateEngine
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -60,7 +57,7 @@ if __name__ == "__main__":
             "pending_approvals_survive_backend_switch": pending > 0,
         }
         result = {"schema_version": 1, "status": "RC2_LEGACY_ROLLBACK_DRILL",
-                  "generated_at": datetime.now(timezone.utc).isoformat(),
+                  "generated_at": datetime.now(UTC).isoformat(),
                   "source_database_sha256": digest(options.source),
                   "backup_database_sha256": digest(target),
                   "legacy_release_id": runtime.agent_release["release_id"],

@@ -1,4 +1,4 @@
-"""模块说明：把只读工具暴露为 MCP 服务器（stdio JSON-RPC）。"""
+"""把只读工具暴露为 MCP 服务器（stdio JSON-RPC）。"""
 
 from __future__ import annotations
 
@@ -6,27 +6,27 @@ import argparse
 import json
 import sys
 
+from aiops_diag.platform.db import Database
 from online.diagnosis.tool_specs import TOOL_SPECS, validate_arguments
 from online.diagnosis.tools import AgentTools, result
-from aiops_diag.platform.db import Database
 
-# 变量说明：PROTOCOL 是服务器声明的 MCP 协议版本。
+# PROTOCOL 是服务器声明的 MCP 协议版本。
 PROTOCOL = "2024-11-05"
-# 变量说明：TOOL_NAMES 是允许通过 MCP 暴露的只读工具。
+# TOOL_NAMES 是允许通过 MCP 暴露的只读工具。
 TOOL_NAMES = ("detect_anomaly", "query_logs", "query_metrics",
               "search_similar_incidents")
 
 
-# 类说明：ToolFacade 把 MCP 调用适配到现有只读工具，不提供任何写操作。
+# ToolFacade 把 MCP 调用适配到现有只读工具，不提供任何写操作。
 class ToolFacade:
-    # 方法说明：__init__ 装配只读工具，缺少检索制品时不影响其余工具。
+    # __init__ 装配只读工具，缺少检索制品时不影响其余工具。
     def __init__(self, database, metrics_path=None):
         self.db = database
         self.tools = AgentTools(database, {"tools": {"metrics_path": metrics_path}},
                                 None, {"release_id": "mcp-readonly",
                                        "model_id": "not_available", "threshold": 1.0})
 
-    # 方法说明：call 按工具名分发，返回统一的结果契约。
+    # call 按工具名分发，返回统一的结果契约。
     def call(self, name, arguments):
         event_id = arguments.get("event_id")
         if name == "detect_anomaly":
@@ -45,19 +45,19 @@ class ToolFacade:
         raise ValueError(f"Unknown tool: {name}")
 
 
-# 类说明：McpServer 处理 JSON-RPC 请求，只实现 MCP 的 tools 能力。
+# McpServer 处理 JSON-RPC 请求，只实现 MCP 的 tools 能力。
 class McpServer:
-    # 方法说明：__init__ 保存工具门面。
+    # __init__ 保存工具门面。
     def __init__(self, facade):
         self.facade = facade
 
-    # 方法说明：tools 返回 MCP 工具清单（名称、描述、输入 Schema）。
+    # tools 返回 MCP 工具清单（名称、描述、输入 Schema）。
     @staticmethod
     def tools():
         return [{"name": name, "description": TOOL_SPECS[name]["description"],
                  "inputSchema": TOOL_SPECS[name]["parameters"]} for name in TOOL_NAMES]
 
-    # 方法说明：handle 处理一条 JSON-RPC 请求，通知类消息返回 None。
+    # handle 处理一条 JSON-RPC 请求，通知类消息返回 None。
     def handle(self, request):
         method = request.get("method")
         request_id = request.get("id")
@@ -91,7 +91,7 @@ class McpServer:
             return {"jsonrpc": "2.0", "id": request_id,
                     "error": {"code": -32602, "message": str(exc)[:300]}}
 
-    # 方法说明：serve 逐行读取 stdin 并写出 stdout，直到输入结束。
+    # serve 逐行读取 stdin 并写出 stdout，直到输入结束。
     def serve(self, stdin, stdout):
         for line in stdin:
             line = line.strip()
@@ -109,7 +109,7 @@ class McpServer:
                 stdout.flush()
 
 
-# 方法说明：main 启动 stdio MCP 服务器。
+# main 启动 stdio MCP 服务器。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Read-only AIOps MCP server")
     parser.add_argument("--database", required=True)

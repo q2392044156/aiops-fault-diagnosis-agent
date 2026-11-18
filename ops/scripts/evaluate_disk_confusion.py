@@ -8,13 +8,13 @@ import sqlite3
 from collections import Counter
 from pathlib import Path
 
-# 变量说明：DISK_IO 是磁盘 IO 根因码。
+# DISK_IO 是磁盘 IO 根因码。
 DISK_IO = "DISK_IO"
-# 变量说明：VOLUME 是卷故障根因码。
+# VOLUME 是卷故障根因码。
 VOLUME = "DN_VOLUME"
 
 
-# 方法说明：_predict 读取案例所有 event 的首选根因。
+# _predict 读取案例所有 event 的首选根因。
 def _predict(gate, db):
     codes = []
     for event in gate.get("events", []):
@@ -29,7 +29,7 @@ def _predict(gate, db):
     return Counter(codes).most_common(1)[0][0] if codes else None
 
 
-# 方法说明：_rows 构造指定真实根因的案例行。
+# _rows 构造指定真实根因的案例行。
 def _rows(gates, db, cases, code):
     rows = []
     for gate in gates:
@@ -45,7 +45,7 @@ def _rows(gates, db, cases, code):
     return rows
 
 
-# 方法说明：main 输出磁盘 IO 与卷故障矩阵。
+# main 输出磁盘 IO 与卷故障矩阵。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--disk-gates", required=True)
@@ -60,7 +60,7 @@ def main(argv=None):
     vg = json.loads(Path(args.volume_gates).read_text(encoding="utf-8"))
     rows = _rows(dg, sqlite3.connect(args.disk_db), args.disk_cases, DISK_IO)
     rows += _rows(vg, sqlite3.connect(args.volume_db), args.volume_cases, VOLUME)
-    matrix = {true: {pred: 0 for pred in (DISK_IO, VOLUME, None)}
+    matrix = {true: dict.fromkeys((DISK_IO, VOLUME, None), 0)
               for true in (DISK_IO, VOLUME)}
     for row in rows:
         matrix[row["true"]][row["pred"]] += 1

@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 
-# 方法说明：_cases 读取案例 ID 与故障族。
+# _cases 读取案例 ID 与故障族。
 def _cases(directory, prefix=None):
     rows = []
     for case in sorted(Path(directory).glob("*")):
@@ -23,7 +23,7 @@ def _cases(directory, prefix=None):
     return rows
 
 
-# 方法说明：main 生成 train/test 并冻结哈希。
+# main 生成 train/test 并冻结哈希。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True)

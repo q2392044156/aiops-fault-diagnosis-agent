@@ -9,19 +9,19 @@ import sqlite3
 from collections import Counter
 from pathlib import Path
 
-# 变量说明：ROOT 是仓库根目录。
+# ROOT 是仓库根目录。
 ROOT = Path(__file__).resolve().parents[2]
-# 变量说明：DEFAULT_MANIFEST 是挑战集清单。
+# DEFAULT_MANIFEST 是挑战集清单。
 DEFAULT_MANIFEST = ROOT / "resources" / "evaluation" / "challenge20" / "manifest.json"
-# 变量说明：DEFAULT_GATES 是门禁/事件重放结果。
+# DEFAULT_GATES 是门禁/事件重放结果。
 DEFAULT_GATES = ROOT / "resources" / "evaluation" / "challenge20" / "gates.json"
-# 变量说明：DEFAULT_DB 是重放生成的报告数据库，位于 ignored runtime。
+# DEFAULT_DB 是重放生成的报告数据库，位于 ignored runtime。
 DEFAULT_DB = ROOT / "runtime" / "challenge20" / "events_committed.sqlite3"
-# 变量说明：DEFAULT_OUTPUT 是挑战集指标输出。
+# DEFAULT_OUTPUT 是挑战集指标输出。
 DEFAULT_OUTPUT = ROOT / "resources" / "evaluation" / "challenge20" / "results.json"
 
 
-# 方法说明：_wilson 计算案例或事件比例的 Wilson 95% 区间。
+# _wilson 计算案例或事件比例的 Wilson 95% 区间。
 def _wilson(hits: int, total: int) -> list[float] | None:
     if not total:
         return None
@@ -33,7 +33,7 @@ def _wilson(hits: int, total: int) -> list[float] | None:
     return [round(max(0.0, centre - margin), 4), round(min(1.0, centre + margin), 4)]
 
 
-# 方法说明：_report_codes 从报告 JSON 中按候选顺序取出根因码。
+# _report_codes 从报告 JSON 中按候选顺序取出根因码。
 def _report_codes(raw: str | None) -> tuple[list[str], str | None]:
     if not raw:
         return [], None
@@ -43,13 +43,13 @@ def _report_codes(raw: str | None) -> tuple[list[str], str | None]:
     return codes, report.get("diagnosis_status")
 
 
-# 方法说明：_rate 返回命中数和比例，零样本时比例为 None。
+# _rate 返回命中数和比例，零样本时比例为 None。
 def _rate(hits: int, total: int) -> dict:
     return {"hits": hits, "total": total, "rate": round(hits / total, 4) if total else None,
             "ci95": _wilson(hits, total)}
 
 
-# 方法说明：main 读取清单、门禁和报告，输出按组/故障族的指标与错误事件。
+# main 读取清单、门禁和报告，输出按组/故障族的指标与错误事件。
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", default=str(DEFAULT_MANIFEST))

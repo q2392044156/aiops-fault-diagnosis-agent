@@ -1,4 +1,4 @@
-"""模块说明：编排一次受控故障实验，产出 incident.json 与附带映射。"""
+"""编排一次受控故障实验，产出 incident.json 与附带映射。"""
 
 from __future__ import annotations
 
@@ -9,28 +9,28 @@ import subprocess
 import sys
 import time
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录。
+# ROOT 指向仓库根目录。
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "src"))
 
-from aiops_diag.data.lab import build_incident, redact, sha256_text, write_incident
+from offline.case.lab import build_incident, redact, sha256_text, write_incident
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ingest import ingest_log
 
-# 变量说明：COMPOSE 是本机实验台的 compose 文件。
+# COMPOSE 是本机实验台的 compose 文件。
 COMPOSE = ROOT / "ops" / "lab" / "compose.yaml"
-# 变量说明：WRITE_LOOP 在卷满实验中持续写块，制造 ENOSPC 主信号。
+# WRITE_LOOP 在卷满实验中持续写块，制造 ENOSPC 主信号。
 WRITE_LOOP = ("for i in $(seq 1 120); do "
               "dd if=/dev/zero of=/tmp/lab_write bs=16M count=1 status=none 2>/dev/null; "
               "hdfs dfs -Ddfs.replication=1 -put -f /tmp/lab_write /lab/lab_write_$i "
               ">/dev/null 2>&1; "
               "sleep 1; done")
 
-# 变量说明：FAULTS 定义 MVP 与网络分区故障族的注入与恢复方式。
+# FAULTS 定义 MVP 与网络分区故障族的注入与恢复方式。
 FAULTS = {
     "DN_VOLUME": {
         "component": "DataNode", "container": "aiops-lab-dn1", "mode": "exec",
@@ -69,7 +69,7 @@ FAULTS = {
 }
 
 
-# 方法说明：_docker 执行一条 docker 命令并返回标准输出。
+# _docker 执行一条 docker 命令并返回标准输出。
 def _docker(*args, check=True):
     value = subprocess.run(["docker", *args], capture_output=True, text=True,
                            encoding="utf-8", errors="replace")
@@ -78,7 +78,7 @@ def _docker(*args, check=True):
     return value.stdout
 
 
-# 方法说明：_wait_ready 等待 NameNode 报告 3 个活跃 DataNode。
+# _wait_ready 等待 NameNode 报告 3 个活跃 DataNode。
 def _network_name():
     names = _docker("network", "ls", "--format", "{{.Name}}").splitlines()
     for name in names:
@@ -98,7 +98,7 @@ def _wait_ready(timeout):
     return False
 
 
-# 方法说明：_capture_logs 采集时间窗内的容器日志并脱敏合并。
+# _capture_logs 采集时间窗内的容器日志并脱敏合并。
 def _capture_logs(containers, since, until):
     chunks = []
     for name in containers:
@@ -110,10 +110,10 @@ def _capture_logs(containers, since, until):
     return redact("\n".join(chunks)) + "\n"
 
 
-# 方法说明：_metrics 采样一次容器资源占用，写成指标 CSV。
+# _metrics 采样一次容器资源占用，写成指标 CSV。
 def _metrics(containers):
     rows = ["timestamp,host_alias,component,metric,value"]
-    stamp = datetime.now(timezone.utc).isoformat()
+    stamp = datetime.now(UTC).isoformat()
     for name in containers:
         output = _docker("stats", "--no-stream", "--format", "{{json .}}", name, check=False)
         try:
@@ -132,7 +132,7 @@ def _metrics(containers):
     return "\n".join(rows) + "\n"
 
 
-# 方法说明：_wait_signal 轮询日志，返回首次可观测信号时间。
+# _wait_signal 轮询日志，返回首次可观测信号时间。
 def _wait_signal(spec, since, timeout):
     deadline = time.monotonic() + timeout
     pattern = re.compile(spec["signal"], re.I)
@@ -140,12 +140,12 @@ def _wait_signal(spec, since, timeout):
     while time.monotonic() < deadline:
         text = _docker("logs", "--since", since, target, check=False)
         if pattern.search(text):
-            return datetime.now(timezone.utc), True
+            return datetime.now(UTC), True
         time.sleep(3)
-    return datetime.now(timezone.utc), False
+    return datetime.now(UTC), False
 
 
-# 方法说明：_dry 生成一份与真实故障同形的离线样本，用于无集群时验证链路。
+# _dry 生成一份与真实故障同形的离线样本，用于无集群时验证链路。
 def _dry(fault, start):
     spec = FAULTS[fault]
     host = spec["container"]
@@ -167,11 +167,11 @@ def _dry(fault, start):
     return "\n".join(lines) + "\n", "\n".join(metrics) + "\n"
 
 
-# 方法说明：run_case 执行一次实验并写出 incident 与映射文件。
+# run_case 执行一次实验并写出 incident 与映射文件。
 def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root=None,
              ingest_db=None, require_signal=False):
     spec = FAULTS[fault]
-    started = datetime.now(timezone.utc)
+    started = datetime.now(UTC)
     case_id = f"inc_lab_{fault.lower()}_{started:%Y%m%d%H%M%S}_{uuid.uuid4().hex[:4]}"
     case_dir = Path(case_root or ROOT / "ops" / "lab" / "cases") / case_id
     if dry_run:
@@ -186,7 +186,7 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         _docker("compose", "-f", str(COMPOSE), "up", "-d")
         if not _wait_ready(180):
             raise RuntimeError("HDFS cluster did not become ready")
-        t0 = datetime.now(timezone.utc)
+        t0 = datetime.now(UTC)
         writer = None
         if fault == "DN_VOLUME":
             _docker("exec", "aiops-lab-namenode", "bash", "-lc",
@@ -215,7 +215,7 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
         else:
             window_seconds = max_seconds
         window_end = t0 + timedelta(seconds=window_seconds)
-        remaining = (window_end - datetime.now(timezone.utc)).total_seconds()
+        remaining = (window_end - datetime.now(UTC)).total_seconds()
         if remaining > 0:
             time.sleep(remaining)
         cutoff = window_end
@@ -242,7 +242,7 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
                 time.sleep(2)
                 _docker("restart", spec["container"])
         _wait_ready(180)
-        recovered = datetime.now(timezone.utc)
+        recovered = datetime.now(UTC)
         human = recovered + timedelta(seconds=10)
         agent_detected = None
 
@@ -295,7 +295,7 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
 
     if import_db:
         from aiops_diag.platform.db import Database
-        from aiops_diag.data.incident_v12 import import_incident
+        from offline.case.incident import import_incident
         database = Database(import_db)
         database.init()
         value = import_incident(database, case_dir / "incident.json")
@@ -306,7 +306,7 @@ def run_case(fault, observe_seconds=60, dry_run=False, import_db=None, case_root
             "dry_run": dry_run}
 
 
-# 方法说明：main 解析参数并执行一次实验。
+# main 解析参数并执行一次实验。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Route A lab harness")
     parser.add_argument("--fault", required=True, choices=sorted(FAULTS))

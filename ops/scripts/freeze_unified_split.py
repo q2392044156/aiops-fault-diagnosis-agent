@@ -8,14 +8,14 @@ import json
 from pathlib import Path
 
 
-# 方法说明：_pick 按稳定哈希选择测试案例。
+# _pick 按稳定哈希选择测试案例。
 def _pick(rows, count):
     ranked = sorted(rows, key=lambda row: hashlib.sha256(
         row["case_id"].encode("utf-8")).hexdigest())
     return ranked[:count]
 
 
-# 方法说明：main 生成统一 train/test 切分。
+# main 生成统一 train/test 切分。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", required=True)

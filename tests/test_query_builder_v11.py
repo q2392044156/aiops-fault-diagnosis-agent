@@ -1,20 +1,16 @@
-"""模块说明：验证 query builder v11 相关功能、边界和回归行为。"""
+"""验证 query builder v11 相关功能、边界和回归行为。"""
 
 from pathlib import Path
 
-from aiops_diag.diagnosis.query_v11.query_builder import RetrievalQueryBuilder, load_config
+from online.diagnosis.retrieval_query import RetrievalQueryBuilder, load_config
 
-
-# 变量说明：`ROOT` 保存本模块或数据模型使用的稳定值。
 ROOT = Path(__file__).resolve().parents[1]
 
 
-# 方法说明：`builder` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def builder():
     return RetrievalQueryBuilder(load_config(ROOT / "resources/configs/query_builder_v1.yaml"))
 
 
-# 方法说明：`test_query_builder_is_deterministic_and_uses_only_allowlisted_terms` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_query_builder_is_deterministic_and_uses_only_allowlisted_terms():
     rows = [{
         "level": "ERROR", "component": "NameNode",
@@ -32,7 +28,6 @@ def test_query_builder_is_deterministic_and_uses_only_allowlisted_terms():
         assert forbidden not in query
 
 
-# 方法说明：`test_query_builder_stably_ranks_components_and_caps_at_three` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_query_builder_stably_ranks_components_and_caps_at_three():
     rows = [
         {"level": "WARN", "component": "NameNode", "template_id": "safe mode",
@@ -50,7 +45,6 @@ def test_query_builder_stably_ranks_components_and_caps_at_three():
     assert len(plans) == 3
 
 
-# 方法说明：`test_query_builder_rejects_untrusted_component_and_invalid_version` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_query_builder_rejects_untrusted_component_and_invalid_version():
     rows = [{"level": "ERROR", "component": "PostgreSQL",
              "template_id": "safe mode", "redacted_message": "safe mode"}]
@@ -59,7 +53,6 @@ def test_query_builder_rejects_untrusted_component_and_invalid_version():
     assert builder().build(rows, "3.4.1; rm -rf /")[0]["product_version"] is None
 
 
-# 方法说明：`test_query_builder_uses_component_default_without_signal` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def test_query_builder_uses_component_default_without_signal():
     rows = [{"level": "INFO", "component": "DataNode",
              "template_id": "tpl_other", "redacted_message": "generic observation"}]
@@ -68,7 +61,7 @@ def test_query_builder_uses_component_default_without_signal():
     assert plan["matched_signals"] == []
 
 
-# 方法说明：验证只剩续行时可以用根因码构造安全 fallback 计划。
+# 验证只剩续行时可以用根因码构造安全 fallback 计划。
 def test_query_builder_fallback_uses_code_hint():
     plan = builder().fallback(None, "DN_VOLUME")
     assert plan["component"] == "DataNode"

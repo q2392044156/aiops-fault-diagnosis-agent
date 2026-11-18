@@ -9,12 +9,13 @@ from pathlib import Path
 
 sys.path.insert(0, "src")
 sys.path.insert(0, "ops/lab/harness")
-from aiops_diag.data.adapters import parse_lines
-from aiops_diag.diagnosis.engine import evidence_sufficiency, select_log_rows
 from evidence import gold_ids
 
+from offline.ingestion.adapters import parse_lines
+from online.diagnosis.agent import evidence_sufficiency, select_log_rows
 
-# 方法说明：_rows 解析案例日志为平台证据行。
+
+# _rows 解析案例日志为平台证据行。
 def _rows(case, source_type):
     incident = json.loads((case / "incident.json").read_text(encoding="utf-8"))
     log = next((case / "evidence/logs").glob("*.log"))
@@ -27,7 +28,7 @@ def _rows(case, source_type):
     return incident, rows
 
 
-# 方法说明：main 对多个预算做证据选择消融。
+# main 对多个预算做证据选择消融。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--cases", required=True)

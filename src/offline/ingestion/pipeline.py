@@ -39,6 +39,7 @@ import pyarrow.compute as pc
 import pyarrow.parquet as pq
 
 from aiops_diag.common import digest, key, save, verified_manifest
+
 from .parser import normalized, parse
 
 # 定义日志记录的 Parquet 格式
@@ -48,7 +49,6 @@ LOG_SCHEMA = pa.schema([(name, typ) for name, typ in [
     ("timestamp_local", pa.string()), ("timestamp_utc", pa.string()), ("timezone_assumption", pa.string()),
     ("pid", pa.string()), ("level", pa.string()), ("component", pa.string()), ("message", pa.string()),
     ("session_ids", pa.list_(pa.string())), ("parse_status", pa.string())]])
-# 变量说明：`LINK_SCHEMA` 保存本模块或数据模型使用的稳定值。
 LINK_SCHEMA = pa.schema([("block_id", pa.string()), ("raw_line_no", pa.int64())])
 
 # 定义数据集的存储位置
@@ -97,7 +97,6 @@ def build(c):
     min_time, max_time = None, None
     rows, links, locators = [], [], []
 
-    # 方法说明：`flush` 完成当前步骤的业务处理；参数为 `lw`、`aw`。
     def flush(lw, aw):
         nonlocal peak
         lw.write_table(pa.Table.from_pylist(rows, schema=LOG_SCHEMA))
@@ -169,7 +168,6 @@ def split(c):
         raise ValueError("No block sessions")
     parent = {b: b for b in sessions}
 
-    # 方法说明：`find` 完成当前步骤的业务处理；参数为 `b`。
     def find(b):
         while parent[b] != b:
             parent[b] = parent[parent[b]]
@@ -189,7 +187,7 @@ def split(c):
     boundaries = [lo + (hi - lo) * f for f in (0.6, 0.8)]
     embargo = timedelta(seconds=c["embargo_seconds"])
     groups = {}
-    for b, s in sessions.items():
+    for b in sessions:
         groups.setdefault(find(b), []).append(b)
     assignments, group_rows = [], []
     for g, members in sorted(groups.items()):

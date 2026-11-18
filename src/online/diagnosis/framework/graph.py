@@ -1,37 +1,26 @@
-# 模块说明：定义 LangGraph 节点、分支和状态流转。
-"""Deterministic LangGraph shell around the proven database workflow."""
+"""围绕既有数据库工作流的确定性 LangGraph 外壳：每次调用只推进一个持久化节点。"""
 
 from collections import Counter
 from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from online.diagnosis.engine import AgentYield
-from online.diagnosis.query_v11.engine import AgentEngine as CandidateAgentEngine
 from aiops_diag.common import key
+from online.diagnosis.agent import AgentYield
+from online.diagnosis.candidate import CandidateAgent
 
 
-# 类说明：`GraphRunState` 封装本模块内聚的数据和行为。
 class GraphRunState(TypedDict, total=False):
-    # 变量说明：`diagnosis_id` 保存本模块或数据模型使用的稳定值。
     diagnosis_id: str
-    # 变量说明：`revision` 保存本模块或数据模型使用的稳定值。
     revision: int
-    # 变量说明：`release_id` 保存本模块或数据模型使用的稳定值。
     release_id: str
-    # 变量说明：`current_node` 保存本模块或数据模型使用的稳定值。
     current_node: str
-    # 变量说明：`database_state_hash` 保存本模块或数据模型使用的稳定值。
     database_state_hash: str
-    # 变量说明：`yielded_node` 保存本模块或数据模型使用的稳定值。
     yielded_node: str
-    # 变量说明：`completed` 保存本模块或数据模型使用的稳定值。
     completed: bool
-    # 变量说明：`report` 保存本模块或数据模型使用的稳定值。
     report: dict
 
 
-# 变量说明：`GRAPH_NODE_BY_CURRENT` 保存本模块或数据模型使用的稳定值。
 GRAPH_NODE_BY_CURRENT = {
     "RECEIVED": "validate",
     "VALIDATED": "detect",
@@ -43,8 +32,7 @@ GRAPH_NODE_BY_CURRENT = {
 }
 
 
-# 类说明：`LangGraphAgentEngine` 封装本模块内聚的数据和行为。
-class LangGraphAgentEngine(CandidateAgentEngine):
+class LangGraphAgent(CandidateAgent):
     """Select one fixed workflow transition through LangGraph per worker lease.
 
     The business tables remain authoritative for node, budget, tool audit,
@@ -52,7 +40,6 @@ class LangGraphAgentEngine(CandidateAgentEngine):
     checkpointer containing only compact graph progress; v1.1 keeps it disabled.
     """
 
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `*args`、`**kwargs`。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.node_execution_counts = Counter()
@@ -60,14 +47,13 @@ class LangGraphAgentEngine(CandidateAgentEngine):
         self._active_run = None
         if self.cfg.get("v12", {}).get("enabled"):
             from online.diagnosis.framework.checkpoint import DatabaseCheckpointSaver
-            from online.diagnosis.framework.tools_v12 import V12AgentTools
+            from online.diagnosis.framework.tools import CheckpointTools
 
             self.checkpointer = DatabaseCheckpointSaver(self.db)
-            self.tools = V12AgentTools(
+            self.tools = CheckpointTools(
                 self.db, self.cfg, self.retriever, self.service_manifest)
         self.graph = self._build_graph()
 
-    # 方法说明：`_build_graph` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def _build_graph(self):
         builder = StateGraph(GraphRunState)
         for node_name in GRAPH_NODE_BY_CURRENT.values():
@@ -77,7 +63,6 @@ class LangGraphAgentEngine(CandidateAgentEngine):
                                       {name: name for name in GRAPH_NODE_BY_CURRENT.values()})
         return builder.compile(checkpointer=getattr(self, "checkpointer", None))
 
-    # 方法说明：`_route_current_node` 完成当前步骤的业务处理；参数为 `state`。
     @staticmethod
     def _route_current_node(state: GraphRunState) -> str:
         current = state.get("current_node")
@@ -86,7 +71,6 @@ class LangGraphAgentEngine(CandidateAgentEngine):
         except KeyError as exc:
             raise ValueError(f"Unsupported persisted Agent node: {current}") from exc
 
-    # 方法说明：`_advance_database_workflow` 完成当前步骤的业务处理；参数为 `state`。
     def _advance_database_workflow(self, state: GraphRunState) -> GraphRunState:
         node_name = self._route_current_node(state)
         if not hasattr(self, "node_execution_counts"):
@@ -96,7 +80,7 @@ class LangGraphAgentEngine(CandidateAgentEngine):
         if run is None:
             raise RuntimeError("LangGraph node has no active database run")
         try:
-            report = CandidateAgentEngine.run(self, run)
+            report = CandidateAgent.run(self, run)
         except AgentYield as exc:
             persisted = (self.db.get_agent_run(run["diagnosis_id"])
                          if hasattr(self, "db") and run.get("diagnosis_id") else run)
@@ -104,7 +88,6 @@ class LangGraphAgentEngine(CandidateAgentEngine):
                     "database_state_hash": key(persisted), "completed": False}
         return {"report": report, "completed": True}
 
-    # 方法说明：`run` 完成当前步骤的业务处理；参数为 `run`。
     def run(self, run):
         self._active_run = run
         release = getattr(self, "release", {}) or {}

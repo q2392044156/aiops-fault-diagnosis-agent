@@ -1,6 +1,5 @@
-"""模块说明：采集服务吞吐、延迟和资源使用指标。"""
+"""采集服务吞吐、延迟和资源使用指标。"""
 
-import json
 import platform
 import statistics
 import time
@@ -17,7 +16,6 @@ from .pipeline import _raw_rows
 from .release import FrozenRelease
 
 
-# 方法说明：`_percentile` 完成当前步骤的业务处理；参数为 `values`、`fraction`。
 def _percentile(values, fraction):
     if not values:
         return None
@@ -25,7 +23,6 @@ def _percentile(values, fraction):
     return ordered[min(len(ordered) - 1, int((len(ordered) - 1) * fraction))]
 
 
-# 方法说明：`_meta` 完成当前步骤的业务处理；参数为 无显式业务参数。
 def _meta():
     return {
         "python": platform.python_version(), "platform": platform.platform(),
@@ -34,7 +31,6 @@ def _meta():
     }
 
 
-# 方法说明：`_sequences` 完成当前步骤的业务处理；参数为 `cfg`、`limit`。
 def _sequences(cfg, limit=128):
     path = Path(cfg["model"]["artifact_dir"]) / "sessions.parquet"
     values = []
@@ -45,7 +41,6 @@ def _sequences(cfg, limit=128):
     return values
 
 
-# 方法说明：`e1` 完成当前步骤的业务处理；参数为 `cfg`。
 def e1(cfg):
     model = FrozenRelease(cfg)
     source = _sequences(cfg)
@@ -72,7 +67,6 @@ def e1(cfg):
     return results
 
 
-# 方法说明：`e2` 完成当前步骤的业务处理；参数为 `cfg`。
 def e2(cfg):
     model = FrozenRelease(cfg)
     source = Path(cfg["root"]) / "data" / "raw" / "HDFS.log"
@@ -104,7 +98,6 @@ def e2(cfg):
     return results
 
 
-# 方法说明：`e3` 完成当前步骤的业务处理；参数为 `cfg`。
 def e3(cfg):
     base = cfg.get("ui", {}).get("api_url", "http://127.0.0.1:8000").rstrip("/")
     client = httpx.Client(timeout=10, trust_env=False)
@@ -114,7 +107,6 @@ def e3(cfg):
         return {"status": "NOT_RUN", "reason": f"API unavailable: {exc}"}
     results = []
     for concurrency in (1, 2, 4):
-        # 方法说明：`request` 完成当前步骤的业务处理；参数为 `_`。
         def request(_):
             tick = time.perf_counter()
             response = client.get(base + "/api/v1/operations/summary", timeout=10)
@@ -130,7 +122,6 @@ def e3(cfg):
     return results
 
 
-# 方法说明：`e4` 完成当前步骤的业务处理；参数为 `cfg`。
 def e4(cfg):
     times = []
     process = psutil.Process()
@@ -147,7 +138,6 @@ def e4(cfg):
     }
 
 
-# 方法说明：`run` 完成当前步骤的业务处理；参数为 `cfg`、`suite`。
 def run(cfg, suite="all"):
     selected = ("e1", "e2", "e3", "e4") if suite == "all" else (suite,)
     functions = {"e1": e1, "e2": e2, "e3": e3, "e4": e4}

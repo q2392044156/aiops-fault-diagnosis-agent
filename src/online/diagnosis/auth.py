@@ -1,26 +1,25 @@
-"""模块说明：校验复核人员身份、角色和审批令牌。"""
+"""校验复核人员身份、角色和审批令牌。"""
 
 import hashlib
 import hmac
 import json
+import logging
 import os
 import secrets
 from pathlib import Path
 
+LOG = logging.getLogger(__name__)
 
-# 类说明：`ReviewerAuthError` 封装本模块内聚的数据和行为。
+
 class ReviewerAuthError(PermissionError):
     pass
 
 
-# 方法说明：`token_hash` 完成当前步骤的业务处理；参数为 `token`。
 def token_hash(token):
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
 
-# 类说明：`ReviewerRegistry` 封装本模块内聚的数据和行为。
 class ReviewerRegistry:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `path`。
     def __init__(self, path):
         if not path:
             raise ValueError("Reviewer registry is not configured")
@@ -30,7 +29,6 @@ class ReviewerRegistry:
             raise ValueError("Reviewer registry is invalid")
         self.reviewers = value["reviewers"]
 
-    # 方法说明：`authenticate` 完成当前步骤的业务处理；参数为 `authorization`。
     def authenticate(self, authorization):
         if not authorization or not authorization.startswith("Bearer "):
             raise ReviewerAuthError("Reviewer bearer token is required")
@@ -44,7 +42,6 @@ class ReviewerRegistry:
         raise ReviewerAuthError("Reviewer bearer token is invalid")
 
 
-# 方法说明：`initialize_reviewer` 完成当前步骤的业务处理；参数为 `registry_path`、`token_path`、`reviewer_id`。
 def initialize_reviewer(registry_path, token_path, reviewer_id):
     if not reviewer_id or len(reviewer_id) > 64:
         raise ValueError("reviewer_id must contain 1-64 characters")
@@ -64,7 +61,7 @@ def initialize_reviewer(registry_path, token_path, reviewer_id):
     try:
         os.chmod(registry_path, 0o600)
         os.chmod(token_path, 0o600)
-    except OSError:
-        pass
+    except OSError as error:
+        LOG.warning("无法把评审令牌文件权限收紧到 0600：%s", error)
     return {"reviewer_id": reviewer_id, "registry": str(registry_path),
             "token_file": str(token_path), "token_sha256": token_hash(token)}

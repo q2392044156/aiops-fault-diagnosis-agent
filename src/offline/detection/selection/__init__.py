@@ -1,2 +1,1 @@
-# 模块说明：定义当前包的公共入口、版本或导出符号。
-"""W4 model comparison, ablation, final evaluation, and release freezing."""
+"""W4 模型选择：对照、消融、终评与发布冻结。"""

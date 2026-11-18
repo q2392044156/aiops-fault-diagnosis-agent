@@ -1,15 +1,14 @@
-"""模块说明：实现 `python -m` 命令行入口和参数分发。"""
+"""实现 `python -m` 命令行入口和参数分发。"""
 
 import argparse
 import json
 
-from .config import load
-from .engine import RagEngine
-from .release import verify
-from .workflow import benchmark, fetch_reranker, finalize, publish, tune, validate
+from online.knowledge.generation.engine import RagEngine
+from online.knowledge.generation.release import verify
+from online.knowledge.generation.settings import load
+from online.knowledge.generation.workflow import benchmark, fetch_reranker, finalize, publish, tune, validate
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 `argv`。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="W8 evidence-grounded knowledge report generation")
     sub = parser.add_subparsers(dest="command", required=True)

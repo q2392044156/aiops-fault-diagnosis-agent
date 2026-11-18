@@ -1,4 +1,4 @@
-"""模块说明：封装当前模块的核心执行引擎和稳定调用接口。"""
+"""词法 BM25、ONNX 向量召回与倒数排名融合。"""
 
 import math
 import re
@@ -8,12 +8,9 @@ from collections import Counter
 import jieba
 import numpy as np
 
-
-# 变量说明：`TOKEN` 保存本模块或数据模型使用的稳定值。
 TOKEN = re.compile(r"[a-z0-9_.:/-]+|[\u4e00-\u9fff]+", re.I)
 
 
-# 方法说明：`tokenize` 完成当前步骤的业务处理；参数为 `text`。
 def tokenize(text):
     value = unicodedata.normalize("NFKC", text).lower()
     result = []
@@ -26,9 +23,7 @@ def tokenize(text):
     return result
 
 
-# 类说明：`BM25` 封装本模块内聚的数据和行为。
 class BM25:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `tokenized`、`k1`、`b`。
     def __init__(self, tokenized, k1=1.5, b=0.75):
         self.tokens = tokenized
         self.k1, self.b = float(k1), float(b)
@@ -39,7 +34,6 @@ class BM25:
         for row in tokenized:
             self.df.update(set(row))
 
-    # 方法说明：`score` 完成当前步骤的业务处理；参数为 `query`。
     def score(self, query):
         scores = np.zeros(len(self.tokens), dtype=np.float64)
         n = len(self.tokens)
@@ -57,14 +51,12 @@ class BM25:
                     scores[index] += idf * tf * (self.k1 + 1) / denom
         return scores
 
-    # 方法说明：`serializable` 完成当前步骤的业务处理；参数为 无显式业务参数。
     def serializable(self):
         return {"k1": self.k1, "b": self.b, "tokens": self.tokens,
                 "doc_lengths": self.lengths.astype(int).tolist(), "avgdl": self.avgdl,
                 "document_frequency": dict(sorted(self.df.items()))}
 
 
-# 方法说明：`reciprocal_rank_fusion` 完成当前步骤的业务处理；参数为 `bm25_order`、`dense_order`、`constant`。
 def reciprocal_rank_fusion(bm25_order, dense_order, constant=60):
     scores = Counter()
     for order in (bm25_order, dense_order):
@@ -73,9 +65,7 @@ def reciprocal_rank_fusion(bm25_order, dense_order, constant=60):
     return scores
 
 
-# 类说明：`Retriever` 封装本模块内聚的数据和行为。
 class Retriever:
-    # 方法说明：`__init__` 完成当前步骤的业务处理；参数为 `chunks`、`bm25`、`embeddings`、`encoder`、`candidate_k`、`rrf_constant`、`default_mode`、`default_k`、`gate_threshold`。
     def __init__(self, chunks, bm25, embeddings=None, encoder=None, candidate_k=20,
                  rrf_constant=60, default_mode="hybrid", default_k=5, gate_threshold=None):
         self.chunks = chunks
@@ -89,7 +79,6 @@ class Retriever:
         self.default_k = int(default_k)
         self.gate_threshold = gate_threshold
 
-    # 方法说明：`_eligible` 完成当前步骤的业务处理；参数为 `component`、`product_version`。
     def _eligible(self, component=None, product_version=None):
         indexes = []
         wanted = component.lower() if component else None
@@ -103,7 +92,6 @@ class Retriever:
             indexes.append(index)
         return indexes
 
-    # 方法说明：`search` 完成当前步骤的业务处理；参数为 `query`、`mode`、`top_k`、`component`、`product_version`、`apply_gate`。
     def search(self, query, mode=None, top_k=None, component=None, product_version=None,
                apply_gate=True):
         mode = self.default_mode if mode in (None, "frozen") else mode

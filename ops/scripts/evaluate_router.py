@@ -1,4 +1,4 @@
-"""模块说明：运行工具路由对照实验（确定性 / 受控 function calling / 无约束）。"""
+"""运行工具路由对照实验（确定性 / 受控 function calling / 无约束）。"""
 
 from __future__ import annotations
 
@@ -9,22 +9,22 @@ import sys
 import time
 from pathlib import Path
 
-# 变量说明：ROOT 指向仓库根目录，便于脚本在任意工作目录运行。
+# ROOT 指向仓库根目录，便于脚本在任意工作目录运行。
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from aiops_diag.diagnosis.router_v2 import ROUTER_V2_PROMPT, ToolRouter
-from aiops_diag.evaluation.router_eval import FREE_PROMPT, markdown, score
-from aiops_diag.knowledge.generation.client import BudgetLedger, DeepSeekClient
+from evaluation.router import FREE_PROMPT, markdown, score
+from online.diagnosis.tool_router import TOOL_ROUTER_PROMPT, ToolRouter
+from online.knowledge.generation.client import BudgetLedger, DeepSeekClient
 
-# 变量说明：ALLOWLIST 是本次实验允许的三个只读工具。
+# ALLOWLIST 是本次实验允许的三个只读工具。
 ALLOWLIST = ["query_metrics", "search_similar_incidents"]
-# 变量说明：BUDGET 限制实验的总花费，避免脚本跑飞。
+# BUDGET 限制实验的总花费，避免脚本跑飞。
 BUDGET = {"max_total_tokens": 500000, "max_cost_cny": 5.0, "max_input_tokens_per_call": 10000,
           "input_cny_per_million": 2.0, "output_cny_per_million": 8.0}
 
 
-# 方法说明：_load_env 读取 .env，已存在的环境变量优先。
+# _load_env 读取 .env，已存在的环境变量优先。
 def _load_env(path):
     if not path.is_file():
         return
@@ -35,7 +35,7 @@ def _load_env(path):
             os.environ.setdefault(name.strip(), value.strip().strip('"').strip("'"))
 
 
-# 方法说明：_client 构造带预算账本的 DeepSeek 客户端。
+# _client 构造带预算账本的 DeepSeek 客户端。
 def _client(args):
     cfg = {
         "provider": {
@@ -54,15 +54,15 @@ def _client(args):
     return DeepSeekClient(cfg, ledger=ledger)
 
 
-# 方法说明：_deterministic 表示不调用任何可选工具的基线。
+# _deterministic 表示不调用任何可选工具的基线。
 def _deterministic(case, client, router):
     return {"case_id": case["case_id"], "expected": case["expected_tools"],
             "predicted": [], "usage": {}, "elapsed_ms": 0.0, "policy": "fixed"}
 
 
-# 方法说明：_constrained 走 function calling + 白名单 + Schema 校验。
+# _constrained 走 function calling + 白名单 + Schema 校验。
 def _constrained(case, client, router):
-    # 方法说明：invoke 把工具定义交给客户端，返回模型的工具调用。
+    # invoke 把工具定义交给客户端，返回模型的工具调用。
     def invoke(messages, tools):
         return client.complete_tool_calls(messages, tools)
 
@@ -73,9 +73,9 @@ def _constrained(case, client, router):
             "blocked": outcome["blocked"]}
 
 
-# 方法说明：_rules 使用与受控路由相同的规则提示，但只返回工具名、不做校验。
+# _rules 使用与受控路由相同的规则提示，但只返回工具名、不做校验。
 def _rules(case, client, router):
-    system = ROUTER_V2_PROMPT.format(max_tools=2) + \
+    system = TOOL_ROUTER_PROMPT.format(max_tools=2) + \
         '只输出严格 JSON：{"next_tools": []}，不要输出工具参数。'
     messages = [{"role": "system", "content": system},
                 {"role": "user", "content": json.dumps(case["summary"], ensure_ascii=False)}]
@@ -93,7 +93,7 @@ def _rules(case, client, router):
             "policy": policy}
 
 
-# 方法说明：_free 让模型自由输出工具名，不做白名单、Schema 与数量校验。
+# _free 让模型自由输出工具名，不做白名单、Schema 与数量校验。
 def _free(case, client, router):
     messages = [{"role": "system", "content": FREE_PROMPT},
                 {"role": "user", "content": json.dumps(case["summary"], ensure_ascii=False)}]
@@ -111,7 +111,7 @@ def _free(case, client, router):
             "policy": policy}
 
 
-# 方法说明：main 依次运行三种模式并写出 JSON 与 Markdown 结果。
+# main 依次运行三种模式并写出 JSON 与 Markdown 结果。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Router comparison experiment")
     parser.add_argument("--cases", default=str(ROOT / "resources/evaluation/router/cases.jsonl"))

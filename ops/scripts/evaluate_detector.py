@@ -9,11 +9,12 @@ from pathlib import Path
 
 sys.path.insert(0, "src")
 sys.path.insert(0, "ops/lab/harness")
-from aiops_diag.detection.source_detector import TemplateNoveltyDetector, wilson
 from windows import load_normal_windows, load_windows
 
+from offline.detection.novelty import TemplateNoveltyDetector, wilson
 
-# 方法说明：_windows 返回案例集合的正常/故障窗口。
+
+# _windows 返回案例集合的正常/故障窗口。
 def _windows(cases, source_type):
     normal, fault = [], []
     for case in cases:
@@ -27,12 +28,12 @@ def _windows(cases, source_type):
     return normal, fault
 
 
-# 方法说明：_score 返回窗口的检测结果。
+# _score 返回窗口的检测结果。
 def _score(rows, detector):
     return detector.decide(rows)["decision"] == "PASS"
 
 
-# 方法说明：_fold 在训练集拟合并在测试集评测。
+# _fold 在训练集拟合并在测试集评测。
 def _fold(train, test, source_type, target_fpr, top1):
     train_normal, _ = _windows(train, source_type)
     test_normal, test_fault = _windows(test, source_type)
@@ -53,7 +54,7 @@ def _fold(train, test, source_type, target_fpr, top1):
             "e2e_hits": e2e_hits, "e2e_total": e2e_total}
 
 
-# 方法说明：_summary 汇总多折结果。
+# _summary 汇总多折结果。
 def _summary(folds):
     normal = sum(item["normal"] for item in folds)
     false_positive = sum(item["false_positive"] for item in folds)
@@ -73,7 +74,7 @@ def _summary(folds):
                            "top1_ci": wilson(e2e_hits, e2e_total)}}
 
 
-# 方法说明：main 执行单次切分或交叉验证。
+# main 执行单次切分或交叉验证。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--cases", required=True)

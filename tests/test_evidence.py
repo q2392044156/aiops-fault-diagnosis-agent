@@ -1,16 +1,17 @@
-"""模块说明：验证证据级评测的关键证据规则。"""
+"""验证证据级评测的关键证据规则。"""
 
-from aiops_diag.diagnosis.engine import evidence_sufficiency, select_log_rows
-from aiops_diag.diagnosis.evidence import EvidenceSelector
 from ops.lab.harness.evidence import gold_ids
 
+from online.diagnosis.agent import evidence_sufficiency, select_log_rows
+from online.diagnosis.evidence import EvidenceSelector
 
-# 方法说明：构造证据行。
+
+# 构造证据行。
 def _row(log_id, message, level="INFO"):
     return {"log_id": log_id, "message": message, "level": level}
 
 
-# 方法说明：验证卷故障信号行被标为关键证据。
+# 验证卷故障信号行被标为关键证据。
 def test_volume_gold_matches_no_space():
     incident = {"labels": {"root_cause_code": "DN_VOLUME"}}
     rows = [_row("a", "No space left on device", "ERROR"),
@@ -18,14 +19,14 @@ def test_volume_gold_matches_no_space():
     assert gold_ids(incident, rows) == ["a"]
 
 
-# 方法说明：验证心跳信号行被标为关键证据。
+# 验证心跳信号行被标为关键证据。
 def test_heartbeat_gold_matches_lost_datanode():
     incident = {"labels": {"root_cause_code": "DN_HEARTBEAT"}}
     rows = [_row("a", "Lost DataNode 10.0.0.1"), _row("b", "normal")]
     assert gold_ids(incident, rows) == ["a"]
 
 
-# 方法说明：验证关注组件优先和结构化质量。
+# 验证关注组件优先和结构化质量。
 def test_selector_prefers_focus_component():
     rows = [
         {"log_id": "a", "level": "INFO", "component": "NameNode",
@@ -39,7 +40,7 @@ def test_selector_prefers_focus_component():
     assert "DataNode" in quality["components"]
 
 
-# 方法说明：验证 token 预算和堆栈去重。
+# 验证 token 预算和堆栈去重。
 def test_select_log_rows_dedupes_stack_and_caps_tokens():
     rows = [{"log_id": "signal", "level": "ERROR",
              "redacted_message": "No space left on device", "component": "DataNode"}]
@@ -52,13 +53,13 @@ def test_select_log_rows_dedupes_stack_and_caps_tokens():
     assert evidence_sufficiency(selected)["sufficient"] is True
 
 
-# 方法说明：验证只有普通 INFO 时证据不足。
+# 验证只有普通 INFO 时证据不足。
 def test_evidence_sufficiency_flags_missing_signal():
     rows = [{"log_id": "a", "level": "INFO", "redacted_message": "started"}]
     assert evidence_sufficiency(rows)["sufficient"] is False
 
 
-# 方法说明：验证磁盘可写性错误被标为关键证据。
+# 验证磁盘可写性错误被标为关键证据。
 def test_disk_io_gold_matches_diskchecker():
     incident = {"labels": {"root_cause_code": "DISK_IO"}}
     rows = [_row("a", "DiskChecker$DiskErrorException: Directory is not writable", "ERROR"),
@@ -66,7 +67,7 @@ def test_disk_io_gold_matches_diskchecker():
     assert gold_ids(incident, rows) == ["a"]
 
 
-# 方法说明：验证网络连接超时行被标为关键证据。
+# 验证网络连接超时行被标为关键证据。
 def test_network_gold_matches_retrying_connect():
     incident = {"labels": {"root_cause_code": "NETWORK_CONNECTIVITY"}}
     rows = [_row("a", "Retrying connect to server: namenode:9000", "INFO"),
@@ -74,7 +75,7 @@ def test_network_gold_matches_retrying_connect():
     assert gold_ids(incident, rows) == ["a"]
 
 
-# 方法说明：验证无强信号时卷相关行作为兜底证据。
+# 验证无强信号时卷相关行作为兜底证据。
 def test_volume_fallback_uses_volume_terms():
     incident = {"labels": {"root_cause_code": "DN_VOLUME"}}
     rows = [_row("a", "Adding replicas on volume /data"),

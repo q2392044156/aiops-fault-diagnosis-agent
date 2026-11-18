@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 
-# 方法说明：main 生成按稳定哈希分层的网络分区切分。
+# main 生成按稳定哈希分层的网络分区切分。
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--cases", required=True)

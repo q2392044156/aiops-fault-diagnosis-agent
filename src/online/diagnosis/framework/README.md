@@ -15,12 +15,12 @@
 | `__init__.py` | 定义当前包的公共入口、版本或导出符号。 | — |
 | `checkpoint.py` | 保存和恢复 LangGraph 图进度快照。 | `DatabaseCheckpointSaver` |
 | `evaluation.py` | 计算当前模块的评测指标并输出结构化结果。 | `_jsonl`、`evaluate_public_data`、`evaluate_runtime`、`markdown_report` |
-| `graph.py` | 定义 LangGraph 节点、分支和状态流转。 | `GraphRunState`、`LangGraphAgentEngine` |
+| `graph.py` | 定义 LangGraph 节点、分支和状态流转。 | `GraphRunState`、`LangGraphAgent` |
 | `release.py` | 校验并生成当前模块的不可变发布清单。 | `_base`、`_code_hashes`、`_dependencies`、`_deployment`、`_package`、`_prior_observation`、`_value`、`publish` 等 |
-| `release_v12.py` | 冻结并校验 v1.2 RC 发布清单。 | `_value`、`publish`、`verify` |
+| `release_checkpointed.py` | 冻结并校验 v1.2 RC 发布清单。 | `_value`、`publish`、`verify` |
 | `report_chain.py` | 用 LangChain 组织提示词、结构化输出和降级。 | `_provider_messages`、`CandidateSummaryChain` |
 | `retriever.py` | 把现有混合检索器适配为 LangChain Retriever。 | `LangChainRetrieverAdapter` |
-| `tools_v12.py` | v1.2 只读工具扩展点（Trace 能力已移除）。 | `V12AgentTools` |
+| `tools.py` | v1.2 只读工具扩展点（Trace 能力已移除）。 | `CheckpointTools` |
 
 ## 阅读建议
 

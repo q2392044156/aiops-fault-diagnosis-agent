@@ -1,14 +1,13 @@
-"""模块说明：实现 `python -m` 命令行入口和参数分发。"""
+"""实现 `python -m` 命令行入口和参数分发。"""
 
 import argparse
 import json
 
-from .config import load
-from .release import FrozenRetriever, verify
-from .workflow import benchmark, build, fetch_model, finalize, publish, tune, validate
+from online.knowledge.release import FrozenRetriever, verify
+from online.knowledge.retrieval import benchmark, build, fetch_model, finalize, publish, tune, validate
+from online.knowledge.settings import load
 
 
-# 方法说明：`main` 完成当前步骤的业务处理；参数为 `argv`。
 def main(argv=None):
     parser = argparse.ArgumentParser(description="W7 reproducible hybrid retrieval")
     sub = parser.add_subparsers(dest="command", required=True)

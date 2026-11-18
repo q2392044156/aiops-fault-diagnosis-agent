@@ -1,4 +1,4 @@
-"""模块说明：加载知识卡并切分为带稳定 chunk_id 的语料。"""
+"""加载知识卡并切分为带稳定 chunk_id 的语料。"""
 
 import hashlib
 import json
@@ -9,32 +9,25 @@ from urllib.parse import urlparse
 
 import yaml
 
-
-# 变量说明：`REQUIRED_SECTIONS` 保存本模块或数据模型使用的稳定值。
 REQUIRED_SECTIONS = {"overview", "evidence", "steps", "risk"}
-# 变量说明：`FORBIDDEN` 保存本模块或数据模型使用的稳定值。
 FORBIDDEN = (re.compile(r"blk_-?\d+", re.I), re.compile(r"anomaly_score", re.I),
              re.compile(r"(?:^|\W)(?:normal|anomaly)[_-]?label(?:\W|$)", re.I))
 
 
-# 方法说明：`normalized` 完成当前步骤的业务处理；参数为 `text`。
 def normalized(text):
     return "\n".join(line.rstrip() for line in unicodedata.normalize("NFKC", text).strip().splitlines())
 
 
-# 方法说明：`load_cards` 完成当前步骤的业务处理；参数为 `directory`。
 def load_cards(directory):
     cards = [json.loads(path.read_text(encoding="utf-8"))
              for path in sorted(Path(directory).glob("*.json"))]
     return cards
 
 
-# 方法说明：`load_sources` 完成当前步骤的业务处理；参数为 `path`。
 def load_sources(path):
     return yaml.safe_load(Path(path).read_text(encoding="utf-8"))["sources"]
 
 
-# 方法说明：`validate_corpus` 完成当前步骤的业务处理；参数为 `cfg`。
 def validate_corpus(cfg):
     cards = load_cards(cfg["paths"]["cards_dir"])
     sources = load_sources(cfg["paths"]["sources"])
@@ -78,7 +71,6 @@ def validate_corpus(cfg):
     return cards, sources
 
 
-# 方法说明：`evidence_units` 完成当前步骤的业务处理；参数为 `card`。
 def evidence_units(card):
     return [{"evidence_unit_id": f"{card['doc_id']}:{section['id']}",
              "doc_id": card["doc_id"], "section_id": section["id"],
@@ -86,13 +78,11 @@ def evidence_units(card):
             for section in card["sections"]]
 
 
-# 方法说明：`_chunk_id` 完成当前步骤的业务处理；参数为 `kb_version`、`variant`、`doc_id`、`section_path`、`text`。
 def _chunk_id(kb_version, variant, doc_id, section_path, text):
     raw = "|".join((kb_version, variant, doc_id, section_path, normalized(text)))
     return "chk_" + hashlib.sha256(raw.encode()).hexdigest()[:24]
 
 
-# 方法说明：`_metadata` 完成当前步骤的业务处理；参数为 `card`、`sources`。
 def _metadata(card, sources):
     source = sources[card["source_ids"][0]]
     codes = card.get("root_cause_codes") or []
@@ -107,7 +97,6 @@ def _metadata(card, sources):
     }
 
 
-# 方法说明：`chunk_structured` 完成当前步骤的业务处理；参数为 `cards`、`sources`、`kb_version`。
 def chunk_structured(cards, sources, kb_version):
     chunks = []
     for card in cards:
@@ -121,7 +110,6 @@ def chunk_structured(cards, sources, kb_version):
     return chunks
 
 
-# 方法说明：`chunk_fixed` 完成当前步骤的业务处理；参数为 `cards`、`sources`、`kb_version`、`tokenizer`、`size`、`overlap`。
 def chunk_fixed(cards, sources, kb_version, tokenizer, size=300, overlap=50):
     chunks = []
     for card in cards:
@@ -155,14 +143,12 @@ def chunk_fixed(cards, sources, kb_version, tokenizer, size=300, overlap=50):
     return chunks
 
 
-# 方法说明：`write_jsonl` 完成当前步骤的业务处理；参数为 `path`、`rows`。
 def write_jsonl(path, rows):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text("".join(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n"
                                   for row in rows), encoding="utf-8")
 
 
-# 方法说明：`read_jsonl` 完成当前步骤的业务处理；参数为 `path`。
 def read_jsonl(path):
     return [json.loads(line) for line in Path(path).read_text(encoding="utf-8").splitlines()
             if line.strip()]
