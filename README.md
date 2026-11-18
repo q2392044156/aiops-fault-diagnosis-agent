@@ -200,26 +200,49 @@ test 混淆矩阵四类全部落在对角线上，案例级误判 0。
 
 ## 环境与配置
 
+### 两种复现口径
+
+| 口径 | 额外需要 | 能到什么程度 |
+| --- | --- | --- |
+| **A 最简**（先跑这个） | Python 3.11 + 能装 pip 包 | 248 个用例通过、8 个依赖本地发布制品的用例跳过；离线 demo、结构校验、静态检查全部可用 |
+| **B 完整** | 再加 torch（CUDA 可选） | 检测器 / LSTM 训练、BGE ONNX 重建、服务发布链路 |
+
+### A 最简：三条命令装上
+
+    python -m pip install -r requirements-framework-lock.txt "pytest>=8,<10"
+    python -m pip install -e . --no-deps
+    python -m pip check
+
+装完就是三条验证命令，不需要 API Key、不需要 GPU、不写数据库：
+
+    python -m pytest -q                                # 新克隆 248 passed, 8 skipped；有本地 artifacts 时 256 passed
+    python demo/run_demo.py --json                     # 离线端到端，约 2 秒
+    python ops/scripts/validate_project_structure.py   # PASS
+
+pwsh 7 / bash 想一行跑完前三条验证：
+
+    python -m pytest -q && python ops/scripts/validate_project_structure.py && python demo/run_demo.py --json
+
+日常只需要这三条验证命令；`pip check` 装完过一遍就行（若只报 `pipx` 自身的 filelock/packaging
+版本冲突，那是 conda 环境自带的工具，与项目依赖无关）。
+
+### B 完整：一条命令建 conda 环境
+
+    conda env create --file environment.yml
+    conda activate aiops-fault-diagnosis-agent
+
+`environment.yml` 里已经带 `-e .[dev,research]`（torch 2.14.1+cu130、transformers），不用再手动装；
+CPU-only 机器把 `--extra-index-url` 的 `cu130` 换成 `cpu` 即可。
+
 ### 环境要求
 
 | 依赖 | 要求 |
 | --- | --- |
-| Python | 3.11 |
-| Conda | 推荐 |
+| Python | 3.11（见 `.python-version`） |
+| Conda | 只有 B 口径需要 |
+| torch | 只有训练 / ONNX 制品需要 |
 | Docker | Docker 实验需要 |
-| WSL2 + Ubuntu | WSL 实验需要 |
-| JDK 11 + Hadoop 3.3.6 | WSL 实验需要 |
-
-### 安装
-
-    conda env create --file environment.yml
-    conda run --name aiops-fault-diagnosis-agent python -m pip install -r requirements-framework-lock.txt
-    conda run --name aiops-fault-diagnosis-agent python -m pip install -e ".[dev,framework]" --no-deps
-    conda run --name aiops-fault-diagnosis-agent python -m pip check
-
-需要重建 ONNX/BGE 制品时再安装 research 依赖：
-
-    conda run --name aiops-fault-diagnosis-agent python -m pip install -e ".[dev,framework,research]" --no-deps
+| WSL2 + Ubuntu + JDK 11 + Hadoop 3.3.6 | WSL 实验需要 |
 
 ### 配置
 
@@ -237,36 +260,59 @@ test 混淆矩阵四类全部落在对角线上，案例级误判 0。
 
 artifacts/、runtime/、data/、experiments/ 和 ops/lab/*_cases/ 不提交 Git。
 
+### 两个常见问题
+
+1. **克隆后 4 条 `test_retrieval*` 报 `Sealed development queries changed`**：密封协议的摘要是按字节算的，
+   仓库里存的是 LF；Windows 上 `core.autocrlf=true` 会把工作区改成 CRLF，摘要就对不上。`.gitattributes`
+   已经固定 LF，真遇到就 `git config --global core.autocrlf false` 后重新 `git checkout -- resources`。
+2. **有 8 条用例 skipped**：它们要 `artifacts/releases/v1.0_service` 这类本地发布制品，而 `artifacts/`、
+   `experiments/`、`data/` 都不进仓库（`publish` 还依赖 `experiments/time_event_v1/model_selection_v1/final/manifest.json`
+   等上游产物）。新克隆跑不了这几条是设计如此，不是装错了。
+
 ---
 
 ## 快速运行
 
 ### 离线 Demo（无需 API Key）
 
-    conda run --name aiops-fault-diagnosis-agent python demo/run_demo.py
+    python demo/run_demo.py
+    python demo/run_demo.py --json     # 机器可读
 
-机器可读：
+预期输出（本机实测，约 2 秒）：
 
-    conda run --name aiops-fault-diagnosis-agent python demo/run_demo.py --json
-
-预期输出包含 diagnosis_status、final_status=APPROVED_REPORT、工具调用次数和引用数量。
-
-### 测试与结构校验
-
-    conda run --name aiops-fault-diagnosis-agent python -m pytest -q
-    conda run --name aiops-fault-diagnosis-agent python ops/scripts/validate_project_structure.py
-
-静态检查（ruff / mypy，规则与标注范围都在 pyproject.toml）：
-
-    conda run --name aiops-fault-diagnosis-agent python -m ruff check .
-    conda run --name aiops-fault-diagnosis-agent python -m mypy
-
-结构校验同时检查：模块目录登记、每个 `.py` 都在 README 中列出、模块 docstring 为中文、禁止
-`# 方法说明：` 一类机械注释标签、mypy 边界清单内的函数必须写返回标注。
+    diagnosis_status  = DEGRADED_TEMPLATE      # 模板链路出的结论，不是 LLM
+    requires_review   = true                   # review_reasons = [low_confidence]
+    final_status      = APPROVED_REPORT
+    tool_calls        = 7
+    evidence          = 7
+    illegal_citations = 0
+    executable_advice = 0
 
 ### 在线 Demo（需要 Key）
 
-    conda run --name aiops-fault-diagnosis-agent python demo/run_demo.py --online
+    cp .env.example .env      # 填 DEEPSEEK_API_KEY
+    python demo/run_demo.py --online
+
+### 静态检查
+
+规则与标注范围都在 `pyproject.toml`，两条命令各自独立：
+
+    python -m ruff check .
+    python -m mypy
+
+结构校验除了静态检查，还查：模块目录登记、每个 `.py` 都在 README 里列出、模块 docstring 为中文、
+禁止 `# 方法说明：` 一类机械注释标签、mypy 边界清单内的函数必须写返回标注。
+
+### 可选：Makefile 快捷方式
+
+装了 make 的环境（WSL / Git Bash / macOS / Linux）可以用等价快捷键，Windows 原生 PowerShell 直接用上面的 python 命令：
+
+    make test        # python -m pytest -q
+    make validate    # 结构校验
+    make lint        # ruff check .
+    make typecheck   # mypy
+    make demo-json   # 离线 demo 的 JSON 输出
+    make ci          # 以上五条串起来
 
 ---
 
