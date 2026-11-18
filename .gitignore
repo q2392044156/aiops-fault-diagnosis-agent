@@ -31,3 +31,5 @@ demo_result.json
 /ops/lab/cases/
 /ops/lab/wsl_cases/
 /ops/lab/real_batch_cases/
+.mypy_cache/
+.ruff_cache/
