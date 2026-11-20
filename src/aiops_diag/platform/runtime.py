@@ -20,7 +20,7 @@ from online.knowledge.release import FrozenRetriever
 
 from .db import Database, LeaseLost
 from .pipeline import database_payload, process
-from .release import FrozenRelease, ReleaseMetadata
+from .release import RuleDetector
 
 LOG = logging.getLogger(__name__)
 
@@ -51,13 +51,8 @@ class ServiceRuntime:
         self.rag_lock = threading.Lock()
         self.ready_error = None
         try:
-            if load_model:
-                self.model = FrozenRelease(cfg)
-                self.release = self.model
-            else:
-                verify_base_integrations = (role == "api" and cfg.get(
-                    "agent_backend", "legacy") == "legacy")
-                self.release = ReleaseMetadata(cfg, verify_rag=verify_base_integrations)
+            self.model = RuleDetector(cfg)
+            self.release = self.model
             if role in ("api", "worker") and cfg.get("retrieval"):
                 self.retriever = FrozenRetriever(cfg["retrieval"])
             if cfg.get("agent_backend") in ("v11_candidate", "framework_candidate"):

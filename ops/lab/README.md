@@ -59,7 +59,7 @@ Docker Desktop 的 loop 在反复挂载后不可用（`losetup` 返回 rc=1）�
 ```powershell
 docker compose -f ops/lab/compose.yaml up -d
 python ops/lab/harness/capture_normal.py --minutes 5 --output ops/lab/normal/steady_5m
-python ops/scripts/evaluate_detector.py --cases ops/lab/real_batch_cases --source-type docker_container --normal-dir ops/lab/normal/steady_5m/logs --output resources/evaluation/lab/detector_docker_steady.json --diagnosis resources/evaluation/lab/frozen_docker.json
+python ops/lab/harness/evaluate_detector.py --cases ops/lab/real_batch_cases --source-type docker_container --normal-dir ops/lab/normal/steady_5m/logs --output resources/evaluation/lab/detector_docker_steady.json --diagnosis resources/evaluation/lab/frozen_docker.json
 ```
 
 ## 设计约束

@@ -15,7 +15,7 @@ sys.path.insert(0, "ops/lab/harness")
 sys.path.insert(0, "src")
 from ingest import FrozenCodeRetriever, ingest
 
-from offline.detection.mining import SourceTemplateMatcher
+from offline.case.source_templates import SourceTemplateMatcher
 from online.knowledge.release import FrozenRetriever
 from online.knowledge.settings import load as load_knowledge
 

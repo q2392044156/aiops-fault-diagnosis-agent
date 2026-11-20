@@ -2,7 +2,7 @@
 
 ## 模块职责
 
-执行离线评测、在线验收、恢复演练和数据准备。
+执行真实案例评测、在线验收、恢复演练和服务烟测。
 
 ## 依赖边界
 
@@ -12,35 +12,17 @@
 
 | 文件 | 主要功能 | 主要类或函数 |
 | --- | --- | --- |
-| `acceptance_w10.py` | 执行评测或验收并输出机器可读结果。 | `wait_for`、`main` |
 | `benchmark_w6_containers.py` | 运行基准测试并记录耗时与资源指标。 | `wait_ready`、`compose`、`main` |
 | `build_framework_rc2_acceptance_manifest.py` | 执行评测或验收并输出机器可读结果。 | `load_json`、`sha256`、`evidence`、`main` |
-| `attribute_failures.py` | 对失败样例做证据缺失/召回缺失/排序错误归因。 | `attribute`、`summarize` |
-| `evaluate_incidents.py` | 用 incident 标签与报告计算 Top-1/Top-3/MRR/MTTD。 | `evaluate`、`markdown` |
-| `evaluate_gate.py` | 用正常/故障窗口评测门禁的 FPR 与 Recall。 | `_metrics`、`main` |
-| `evaluate_detector.py` | 训练模板新颖度检测器并评测正常/故障窗口。 | `_windows`、`_metrics`、`main` |
-| `evaluate_windows.py` | 用统一时间/组件窗口训练并评测门禁。 | `_fault_start`、`_score`、`main` |
-| `evaluate_events.py` | 按窗口事件评测事件级/案例级 Top-1。 | `_rank`、`main` |
-| `evaluate_evidence.py` | 评测证据选择的召回、精度与预算消融。 | `main` |
-| `evaluate_citations.py` | 评测报告引用对关键证据的覆盖率。 | `_line`、`main` |
-| `evidence_gap.py` | 审计证据不足案例并生成补采集清单。 | `main` |
-| `merge_evaluations.py` | 合并有效 Docker 子集与 WSL 原始/补采批次。 | `main` |
-| `freeze_v2_split.py` | 冻结 v2 的批次/分层 train-test 切分。 | `_cases`、`main` |
-| `freeze_network_split.py` | 冻结网络分区/磁盘 IO 的独立 train-test 切分。 | `main` |
-| `freeze_cross_batch.py` | 冻结网络分区+磁盘 IO 的跨批次测试集。 | `main` |
-| `build_unified_manifest.py` | 构建历史 5 类（含磁盘 IO）统一 manifest。 | `_rows`、`main` |
-| `freeze_unified_split.py` | 按故障族+来源冻结统一切分。 | `_pick`、`main` |
-| `evaluate_unified.py` | 统一 4 类指标、案例四口径、cluster bootstrap 与混淆矩阵。 | `_wilson`、`_bootstrap`、`_evaluate`、`main` |
 | `build_challenge20.py` | 从独立 holdout 构造 20 例受控分布偏移回归集。 | `paraphrase`、`transform_logs`、`build_case`、`main` |
 | `evaluate_challenge20.py` | 按扰动组评测回归集的案例/事件指标与错误明细。 | `_wilson`、`_report_codes`、`main` |
-| `evaluate_confusion.py` | 生成网络分区与心跳丢失的混淆矩阵。 | `_predict`、`_features`、`main` |
-| `evaluate_disk_confusion.py` | 生成磁盘 IO 与卷故障的混淆矩阵。 | `_predict`、`_rows`、`main` |
-| `freeze_detector.py` | 冻结检测器并生成可校验的 release 清单。 | `_sha`、`main` |
-| `run_redteam.py` | 运行红队用例并输出拦截率与误杀率。 | `main` |
-| `mcp_smoke.py` | 以子进程方式冒烟验证 MCP 服务器。 | `_rpc`、`main` |
+| `evaluate_citations.py` | 评测报告引用对关键证据的覆盖率。 | `_line`、`main` |
 | `evaluate_context.py` | 对同一批报告做上下文策略消融并输出对比表。 | `_load_env`、`_client`、`_cases`、`_citation_check`、`main` |
-| `evaluate_trajectory.py` | 读取服务数据库并输出诊断轨迹指标。 | `_rows`、`main` |
+| `evaluate_evidence.py` | 评测证据选择的召回、精度与预算消融。 | `main` |
+| `evaluate_incidents.py` | 用 incident 标签与报告计算 Top-1/Top-3/MRR/MTTD。 | `evaluate`、`markdown` |
 | `evaluate_router.py` | 运行工具路由三模式对照实验并输出对比表。 | `_load_env`、`_client`、`_deterministic`、`_constrained`、`_free`、`main` |
+| `evaluate_trajectory.py` | 读取服务数据库并输出诊断轨迹指标。 | `_rows`、`main` |
+| `mcp_smoke.py` | 以子进程方式冒烟验证 MCP 服务器。 | `_rpc`、`main` |
 | `run_framework_chain_online_smoke.py` | 执行关键路径冒烟验证。 | `load_local_secrets`、`run` |
 | `run_framework_flow_smoke.py` | 执行关键路径冒烟验证。 | `wait_for`、`run` |
 | `run_framework_offline_comparison.py` | 实现 run framework offline comparison 相关的辅助流程。 | — |
@@ -49,10 +31,10 @@
 | `run_framework_rc2_online_acceptance.py` | 执行评测或验收并输出机器可读结果。 | `load_secret_environment`、`percentile`、`render` |
 | `run_framework_rc2_rollback_drill.py` | 实现 run framework rc2 rollback drill 相关的辅助流程。 | — |
 | `run_framework_rc2_sealed_acceptance.py` | 执行评测或验收并输出机器可读结果。 | `read_jsonl`、`percentile`、`ranking_metrics`、`render` |
+| `run_redteam.py` | 运行红队用例并输出拦截率与误杀率。 | `main` |
 | `smoke_w6.py` | 执行关键路径冒烟验证。 | `main` |
 | `validate_framework_rc2_docs.py` | 校验输入、产物和运行条件是否满足约定。 | `digest`、`markdown_missing_links`、`iter_text_files`、`main` |
 | `validate_project_structure.py` | 检查功能目录、模块 README、旧包引用和中文源码说明。 | `_module_readme_errors`、`_source_comment_errors`、`validate`、`main` |
-| `verify_w1.py` | 校验输入、产物和运行条件是否满足约定。 | `main` |
 | `w9_api_smoke.py` | 执行关键路径冒烟验证。 | `main` |
 
 ## 阅读建议

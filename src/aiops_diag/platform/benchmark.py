@@ -8,12 +8,11 @@ from pathlib import Path
 
 import httpx
 import psutil
-import pyarrow.parquet as pq
 
 from aiops_diag.common import save
 
 from .pipeline import _raw_rows
-from .release import FrozenRelease
+from .release import RuleDetector
 
 
 def _percentile(values, fraction):
@@ -31,32 +30,36 @@ def _meta():
     }
 
 
-def _sequences(cfg, limit=128):
-    path = Path(cfg["model"]["artifact_dir"]) / "sessions.parquet"
+def _sessions(limit=128):
+    """构造固定形态的会话样本，避免基准依赖任何训练产物。"""
     values = []
-    for batch in pq.ParquetFile(path).iter_batches(columns=["template_ids"], batch_size=limit):
-        values.extend(row["template_ids"] for row in batch.to_pylist())
-        if len(values) >= limit:
-            return values[:limit]
+    for index in range(limit):
+        values.append({
+            "session_id": f"bench_{index:04d}", "template_ids": [1 + index % 7],
+            "start_time": "2026-01-01 00:00:00,000", "end_time": "2026-01-01 00:00:05,000",
+            "line_count": 1 + index % 5, "unknown_count": 0, "first_log_id": f"log_{index}",
+            "last_log_id": f"log_{index}", "host_alias": "bench",
+            "severity": 0.05 * (1 + index % 4), "hits": index % 3,
+        })
     return values
 
 
 def e1(cfg):
-    model = FrozenRelease(cfg)
-    source = _sequences(cfg)
-    if not source:
-        raise ValueError("No session sequences are available for E1")
+    detector = RuleDetector(cfg)
+    source = _sessions()
     results = []
     process = psutil.Process()
     for size in (1, 32, 128):
         batch = [source[index % len(source)] for index in range(size)]
         for _ in range(20):
-            model.score(batch)
+            for session in batch:
+                detector.score(session)
         elapsed = []
         started = time.perf_counter()
         for _ in range(100):
             tick = time.perf_counter()
-            model.score(batch)
+            for session in batch:
+                detector.score(session)
             elapsed.append((time.perf_counter() - tick) * 1000)
         total = time.perf_counter() - started
         results.append({
@@ -68,7 +71,7 @@ def e1(cfg):
 
 
 def e2(cfg):
-    model = FrozenRelease(cfg)
+    detector = RuleDetector(cfg)
     source = Path(cfg["root"]) / "data" / "raw" / "HDFS.log"
     if not source.is_file():
         return {"status": "NOT_RUN", "reason": "data/raw/HDFS.log is unavailable"}
@@ -83,7 +86,7 @@ def e2(cfg):
             valid = (row.get("parse_status") == "ok" and row.get("timestamp_local")
                      and row.get("session_ids"))
             if valid:
-                matched += int(model.template(row) != 0)
+                matched += int(detector.template(row) != 0)
             else:
                 quarantined += 1
             if total >= target:
@@ -94,7 +97,6 @@ def e2(cfg):
             "lines_per_second": total / elapsed, "quarantined_lines": quarantined,
             "matched_lines": matched, "rss_bytes": process.memory_info().rss,
         })
-    model.assert_unchanged()
     return results
 
 
@@ -127,10 +129,10 @@ def e4(cfg):
     process = psutil.Process()
     for _ in range(5):
         started = time.perf_counter()
-        FrozenRelease(cfg)
+        RuleDetector(cfg)
         times.append(time.perf_counter() - started)
     return {
-        "mode": "in_process_model_load",
+        "mode": "in_process_detector_init",
         "runs_seconds": times, "mean_seconds": statistics.mean(times),
         "p50_seconds": _percentile(times, 0.50), "p95_seconds": _percentile(times, 0.95),
         "rss_bytes": process.memory_info().rss,

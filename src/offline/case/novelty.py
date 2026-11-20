@@ -6,7 +6,7 @@ import json
 from math import sqrt
 from pathlib import Path
 
-from offline.detection.features import content
+from offline.ingestion.redact import content
 
 
 # _text 兼容 canonical message 与平台 redacted_message。

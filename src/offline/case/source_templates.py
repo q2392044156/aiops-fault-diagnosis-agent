@@ -11,8 +11,8 @@ from drain3.file_persistence import FilePersistence
 from drain3.template_miner import TemplateMiner
 from drain3.template_miner_config import TemplateMinerConfig
 
-from offline.detection.features import content
 from offline.ingestion.adapters import parse_lines
+from offline.ingestion.redact import content
 
 
 # _config 构造与主模板器一致的 Drain3 配置。

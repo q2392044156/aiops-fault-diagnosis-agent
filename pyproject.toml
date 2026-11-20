@@ -1,7 +1,7 @@
 [project]
 name = "aiops-fault-diagnosis-agent"
 version = "1.2.0rc1"
-description = "Reproducible HDFS data pipeline for an AIOps research prototype"
+description = "Explainable HDFS fault diagnosis agent over real incident cases"
 requires-python = ">=3.11,<3.12"
 dependencies = [
     "fastapi>=0.143,<1",
@@ -69,18 +69,13 @@ ignore = ["E501", "E701", "E702"]
 "src/evaluation/retrieval/pool.py" = ["T201"]
 "src/evaluation/retrieval/review.py" = ["T201"]
 "src/evaluation/retrieval/runbook.py" = ["T201"]
-"src/offline/detection/mining.py" = ["T201"]
-"src/offline/ingestion/download.py" = ["T201"]
-"src/offline/ingestion/pipeline.py" = ["T201"]
+"src/offline/case/source_templates.py" = ["T201"]
 "src/online/diagnosis/framework/release.py" = ["T201"]
 "src/online/diagnosis/release_candidate.py" = ["T201"]
 "src/online/knowledge/gate.py" = ["T201"]
 "src/online/knowledge/protocol.py" = ["T201"]
 # FastAPI 的 File(...)/Header(...) 默认值是框架要求的写法
 "src/aiops_diag/platform/api.py" = ["B008"]
-# 这两个文件在 pytest.importorskip("torch") 之后才导入被测模块，顺序不可调
-"tests/test_lstm.py" = ["E402"]
-"tests/test_selection.py" = ["E402"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

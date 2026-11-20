@@ -14,8 +14,10 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 from aiops_diag.common import digest, key, save
-from offline.detection.features import IP, content
 from offline.ingestion.parser import parse
+from offline.ingestion.redact import IP, content
+
+from .events import SEVERITY, keyword_hits
 
 LOG = logging.getLogger(__name__)
 
@@ -129,14 +131,14 @@ def _stage_db(path):
     db.execute("PRAGMA journal_mode=OFF")
     db.execute("PRAGMA synchronous=OFF")
     db.execute("CREATE TABLE session_events(session_id TEXT,line_no INTEGER,log_id TEXT,"
-               "stamp TEXT,level TEXT,template_id INTEGER,host_alias TEXT)")
+               "stamp TEXT,level TEXT,template_id INTEGER,host_alias TEXT,hits INTEGER)")
     db.execute("CREATE INDEX idx_session_events ON session_events(session_id,line_no)")
     return db
 
 
 def _session_rows(stage_db):
     cursor = stage_db.execute(
-        "SELECT session_id,line_no,log_id,stamp,level,template_id,host_alias "
+        "SELECT session_id,line_no,log_id,stamp,level,template_id,host_alias,hits "
         "FROM session_events ORDER BY session_id,line_no"
     )
     current = None
@@ -151,11 +153,15 @@ def _session_rows(stage_db):
                 "session_id": block, "template_ids": [], "start_time": None,
                 "end_time": None, "line_count": 0, "unknown_count": 0,
                 "first_log_id": None, "last_log_id": None, "host_alias": row[6],
+                "severity": 0.0, "hits": 0,
             }
         stamp = row[3]
         state["template_ids"].append(int(row[5]))
         state["line_count"] += 1
         state["unknown_count"] += int(row[5] == 0)
+        state["severity"] = max(state["severity"],
+                                SEVERITY.get((row[4] or "").upper(), 0.05))
+        state["hits"] += int(row[7] or 0)
         state["start_time"] = min(state["start_time"] or stamp, stamp)
         state["end_time"] = max(state["end_time"] or stamp, stamp)
         state["first_log_id"] = state["first_log_id"] or row[2]
@@ -164,7 +170,7 @@ def _session_rows(stage_db):
         yield state
 
 
-def _score_sessions(stage_db, directory, model, cfg):
+def _score_sessions(stage_db, directory, detector, cfg):
     session_writer = BufferedWriter(directory / "sessions.parquet", SESSION_SCHEMA,
                                     cfg["processing"]["parquet_batch_rows"])
     prediction_writer = BufferedWriter(directory / "predictions.parquet", PREDICTION_SCHEMA,
@@ -176,15 +182,14 @@ def _score_sessions(stage_db, directory, model, cfg):
         nonlocal count, anomalies
         if not pending:
             return
-        scores, predictions = model.score([row["template_ids"] for row in pending])
-        for index, row in enumerate(pending):
-            session_writer.add(row)
-            prediction = int(predictions[index])
+        for row in pending:
+            score, prediction = detector.score(row)
+            session_writer.add({name: row[name] for name in SESSION_SCHEMA.names})
             prediction_writer.add({
                 "session_id": row["session_id"], "start_time": row["start_time"],
                 "end_time": row["end_time"], "line_count": row["line_count"],
-                "unknown_count": row["unknown_count"], "anomaly_score": float(scores[index]),
-                "threshold": model.threshold, "prediction": prediction,
+                "unknown_count": row["unknown_count"], "anomaly_score": float(score),
+                "threshold": detector.threshold, "prediction": prediction,
                 "first_log_id": row["first_log_id"], "last_log_id": row["last_log_id"],
                 "host_alias": row["host_alias"],
             })
@@ -263,7 +268,7 @@ def _write_events(directory, batch_id, cfg):
     return len(events)
 
 
-def process(task, cfg, model, set_stage):
+def process(task, cfg, detector, set_stage):
     runtime = Path(cfg["paths"]["runtime_dir"])
     staging_root = runtime / "staging"
     batches_root = runtime / "batches"
@@ -274,7 +279,7 @@ def process(task, cfg, model, set_stage):
     if final.exists():
         manifest = json.loads((final / "manifest.json").read_text(encoding="utf-8"))
         expected = {"batch_id": task["batch_id"], "input_hash": task["input_hash"],
-                    "release_id": model.manifest["release_id"],
+                    "release_id": detector.manifest["release_id"],
                     "processing_hash": cfg["processing_hash"]}
         if any(manifest.get(name) != value for name, value in expected.items()):
             raise ValueError("Existing completed batch belongs to different inputs")
@@ -308,8 +313,9 @@ def process(task, cfg, model, set_stage):
         for row in rows:
             total += 1
             valid = row.get("parse_status") == "ok" and row.get("timestamp_local") and row.get("session_ids")
-            template_id = model.template(row) if valid else None
+            template_id = detector.template(row) if valid else None
             redacted = content(row) if row.get("message") is not None else ""
+            hits = keyword_hits(row.get("message"))
             logs.add({
                 "log_id": row["log_id"], "raw_line_no": row["raw_line_no"],
                 "timestamp": row.get("timestamp_local"), "level": row.get("level"),
@@ -334,19 +340,19 @@ def process(task, cfg, model, set_stage):
                 links.add({"session_id": block, "raw_line_no": row["raw_line_no"],
                            "log_id": row["log_id"]})
                 pending_events.append((block, row["raw_line_no"], row["log_id"],
-                                       row["timestamp_local"], row.get("level"), template_id, alias))
+                                       row["timestamp_local"], row.get("level"), template_id,
+                                       alias, hits))
                 if len(pending_events) >= batch_rows:
-                    temp_db.executemany("INSERT INTO session_events VALUES (?,?,?,?,?,?,?)", pending_events)
+                    temp_db.executemany("INSERT INTO session_events VALUES (?,?,?,?,?,?,?,?)", pending_events)
                     temp_db.commit()
                     pending_events.clear()
         if pending_events:
-            temp_db.executemany("INSERT INTO session_events VALUES (?,?,?,?,?,?,?)", pending_events)
+            temp_db.executemany("INSERT INTO session_events VALUES (?,?,?,?,?,?,?,?)", pending_events)
             temp_db.commit()
         logs.close(); quarantine.close(); links.close()
         writers_closed = True
         set_stage("SCORING")
-        session_count, anomaly_count = _score_sessions(temp_db, stage, model, cfg)
-        model.assert_unchanged()
+        session_count, anomaly_count = _score_sessions(temp_db, stage, detector, cfg)
     finally:
         if not writers_closed:
             for writer in (logs, quarantine, links):
@@ -365,8 +371,8 @@ def process(task, cfg, model, set_stage):
               "anomaly_count": anomaly_count, "event_count": event_count}
     manifest = {
         "schema_version": 1, "batch_id": task["batch_id"], "task_id": task["task_id"],
-        "input_hash": source_hash, "release_id": model.manifest["release_id"],
-        "release_manifest_hash": digest(Path(cfg["release_dir"]) / "service_release.json"),
+        "input_hash": source_hash, "release_id": detector.manifest["release_id"],
+        "release_manifest_hash": detector.identity,
         "processing_hash": cfg["processing_hash"], "counts": counts,
         "artifacts": {name: digest(stage / name) for name in names},
     }

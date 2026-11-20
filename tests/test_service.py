@@ -2,15 +2,12 @@
 
 from concurrent.futures import ThreadPoolExecutor
 from io import BytesIO
-from pathlib import Path
 
-import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
 
 from aiops_diag.common import digest
-from aiops_diag.platform import release as release_module
 from aiops_diag.platform.api import ServiceError, create_app
 from aiops_diag.platform.db import Database, IdempotencyConflict
 from aiops_diag.platform.pipeline import _event_groups, process
@@ -21,36 +18,33 @@ LINE_2 = b"081109 203519 144 ERROR dfs.DataNode$DataXceiver: Failed block blk_-1
 NO_BLOCK = b"081109 203520 145 INFO dfs.DataNode: heartbeat ok\n"
 
 
-class FakeModel:
+class FakeDetector:
     manifest = {"release_id": "test_release"}
-    threshold = 1.0
+    identity = "test_release_identity"
+    threshold = 0.6
+    min_lines = 1
 
     def template(self, row):
         return 2 if row.get("level") == "ERROR" else 1
 
-    def score(self, sequences):
-        scores = np.asarray([2.0 if 2 in row else -2.0 for row in sequences])
-        return scores, (scores >= self.threshold).astype(np.int8)
-
-    def assert_unchanged(self):
-        return None
+    def score(self, session):
+        score = float(session["severity"])
+        prediction = int(score >= self.threshold and session["line_count"] >= self.min_lines)
+        return score, prediction
 
     def public(self):
-        return {"schema_version": 1, "release_id": "test_release",
-                "model_id": "logistic_regression", "model_family": "tfidf_lr",
-                "threshold": 1.0,
-                "anomaly_score_semantics": "larger_is_more_anomalous_uncalibrated",
-                "protocol_hash": "protocol", "template_manifest_hash": "templates"}
+        return {"schema_version": 5, "release_id": "test_release",
+                "model_id": "severity_rule", "model_family": "rule",
+                "threshold": 0.6, "min_lines": 1,
+                "anomaly_score_semantics": "rule_score_in_0_1_not_calibrated",
+                "rule_set_hash": "rules", "masking_hash": "masking"}
 
 
 def config(tmp_path, max_bytes=1024):
     runtime = tmp_path / "runtime"
-    release_dir = tmp_path / "release"
-    release_dir.mkdir()
-    (release_dir / "service_release.json").write_text("{}", encoding="utf-8")
     return {
         "paths": {"runtime_dir": str(runtime), "database": str(runtime / "service.sqlite3")},
-        "release_dir": str(release_dir), "processing_hash": "processing",
+        "processing_hash": "processing",
         "upload": {"max_bytes": max_bytes, "chunk_bytes": 4},
         "processing": {"max_line_bytes": 1024, "parquet_batch_rows": 2,
                        "inference_batch_sessions": 2, "event_max_gap_seconds": 300,
@@ -61,7 +55,7 @@ def config(tmp_path, max_bytes=1024):
 
 def runtime(tmp_path, max_bytes=1024):
     value = ServiceRuntime(config(tmp_path, max_bytes), load_model=False)
-    value.model = FakeModel()
+    value.model = FakeDetector()
     value.ready_error = None
     return value
 
@@ -161,7 +155,7 @@ def test_pipeline_writes_traceable_artifacts(tmp_path):
     task = {"task_id": "tsk_test", "batch_id": "bat_test", "source_kind": "upload",
             "source_ref": str(source), "input_hash": source_hash}
     stages = []
-    directory, manifest = process(task, cfg, FakeModel(), stages.append)
+    directory, manifest = process(task, cfg, FakeDetector(), stages.append)
     assert stages == ["PARSING", "SCORING", "AGGREGATING"]
     assert manifest["counts"] == {"total_lines": 4, "parsed_lines": 2,
                                   "quarantined_lines": 2, "session_count": 1,
@@ -181,37 +175,12 @@ def test_pipeline_bounds_long_lines_and_reuses_verified_completion(tmp_path):
     source.write_bytes(b"x" * 200 + b"\n" + LINE_2.rstrip(b"\n"))
     task = {"task_id": "tsk_bounded", "batch_id": "bat_bounded", "source_kind": "upload",
             "source_ref": str(source), "input_hash": digest(source)}
-    directory, manifest = process(task, cfg, FakeModel(), lambda _stage: None)
+    directory, manifest = process(task, cfg, FakeDetector(), lambda _stage: None)
     assert manifest["counts"]["total_lines"] == 2
     assert manifest["counts"]["quarantined_lines"] == 1
     stages = []
-    reused, second = process(task, cfg, FakeModel(), stages.append)
+    reused, second = process(task, cfg, FakeDetector(), stages.append)
     assert reused == directory and second == manifest and stages == []
-
-
-def test_release_verification_rejects_changed_component(tmp_path, monkeypatch):
-    files = {}
-    for name in ("drain3_state", "template_vocab", "tfidf", "logistic_regression",
-                 "w2_training", "w2_templates", "w4_release", "w4_manifest"):
-        path = tmp_path / name
-        path.write_text(name, encoding="utf-8")
-        files[name] = path
-    cfg = {"release_dir": str(tmp_path / "release"), "config_hash": "service",
-           "processing_hash": "processing"}
-    components = (
-        {"release": "v0.2", "default_model": "logistic_regression"}, {},
-        {"selected_similarity": 0.5},
-        {"run_id": "w2", "protocol_hash": "protocol", "template_manifest_hash": "templates"},
-        files, 4.0,
-    )
-    monkeypatch.setattr(release_module, "_components", lambda _cfg: components)
-    release_module.publish(cfg)
-    assert release_module.verify(cfg)["release_id"] == "v0.2_lr"
-    bundle = Path(cfg["release_dir"])
-    manifest = release_module._read(bundle / "service_release.json")
-    (bundle / manifest["components"]["tfidf"]).write_text("changed", encoding="utf-8")
-    with pytest.raises(ValueError, match="changed"):
-        release_module.verify(cfg)
 
 
 def test_database_completion_is_atomic(tmp_path):

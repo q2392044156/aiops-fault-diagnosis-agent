@@ -81,4 +81,4 @@ def test_release_configuration_binds_v1_components():
     cfg = load_release(ROOT / "resources/configs/release.yaml")
     assert cfg["product_version"] == "v1.0"
     assert cfg["agent"]["agent_version"] == "agent_v0.2"
-    assert cfg["service"]["release_dir"].endswith("v1.0_service")
+    assert cfg["service"]["detector"] == {"threshold": 0.6, "min_lines": 1}

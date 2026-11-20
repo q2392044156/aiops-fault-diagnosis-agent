@@ -5,7 +5,7 @@ import importlib
 
 def test_offline_online_architecture_is_importable():
     modules = [
-        "offline", "offline.ingestion", "offline.detection", "evaluation",
+        "offline", "offline.ingestion", "offline.case", "evaluation",
         "online", "online.diagnosis", "online.knowledge",
     ]
     for name in modules:

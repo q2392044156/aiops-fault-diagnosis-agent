@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from aiops_diag.common import digest, key, save, verified_manifest
-from aiops_diag.platform.release import verify as verify_service
+from aiops_diag.platform.release import RuleDetector
 from online.diagnosis.isolation import validate_isolation
 from online.diagnosis.release import verify as verify_agent
 
@@ -18,7 +18,7 @@ def _source_hashes(root):
 
 
 def freeze(cfg):
-    service = verify_service(cfg["service"])
+    service = RuleDetector(cfg["service"]).public()
     agent = verify_agent(cfg["agent"])
     isolation = validate_isolation(cfg["agent"]["paths"]["adev"],
                                    cfg["agent"]["paths"]["atest"])
@@ -27,7 +27,7 @@ def freeze(cfg):
         "candidate_version": cfg["candidate_version"], "config_hash": cfg["config_hash"],
         "service": {"deployment_release": service["deployment_release"],
                     "release_id": service["release_id"], "manifest_hash": key(service)},
-        "components": {"model": "v0.2_lr", "knowledge": "kb_v0.1",
+        "components": {"detector": "v0.3_rules", "knowledge": "kb_v0.1",
                        "rag": "rag_v0.1", "agent": agent["agent_version"]},
         "agent_release_id": agent["release_id"],
         "agent_candidate_hash": agent["candidate_hash"],
@@ -68,7 +68,7 @@ def verify(cfg):
         raise ValueError("Candidate release contents changed")
     if value.get("source_hashes") != _source_hashes(cfg["root"]):
         raise ValueError("Source code changed after candidate freeze")
-    service = verify_service(cfg["service"])
+    service = RuleDetector(cfg["service"]).public()
     agent = verify_agent(cfg["agent"])
     if value["service"]["manifest_hash"] != key(service):
         raise ValueError("Service release changed after candidate freeze")
@@ -144,7 +144,7 @@ def export(cfg):
     summary = {
         "schema_version": 1, "product_version": result["product_version"],
         "release_status": result["status"], "candidate_hash": result["candidate_hash"],
-        "components": {"model": "v0.2_lr", "knowledge": "kb_v0.1",
+        "components": {"detector": "v0.3_rules", "knowledge": "kb_v0.1",
                        "rag": "rag_v0.1", "agent": "agent_v0.2"},
         "atest": {"cases": 40, "online_repeats": online.get("completed_repeats", 0),
                   "aggregate": online.get("aggregate"), "usage": usage},

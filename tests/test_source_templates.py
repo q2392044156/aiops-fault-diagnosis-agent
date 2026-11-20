@@ -2,7 +2,7 @@
 
 import json
 
-from offline.detection.mining import SourceTemplateMatcher, build
+from offline.case.source_templates import SourceTemplateMatcher, build
 from offline.ingestion.adapters import parse_lines
 
 

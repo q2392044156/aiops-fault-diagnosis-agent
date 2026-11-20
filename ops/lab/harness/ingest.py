@@ -272,7 +272,7 @@ def ingest_log(case_id, log_path, database_path, start, end, mode="template",
     # 统一窗口：正常检测和故障检测使用同一时间/组件窗口。
     passing = []
     if event_source == "model" and detector_path:
-        from offline.detection.novelty import TemplateNoveltyDetector
+        from offline.case.novelty import TemplateNoveltyDetector
         detector = TemplateNoveltyDetector.load(detector_path)
         lower = (datetime.fromisoformat(start.replace("Z", "+00:00"))
                  - timedelta(seconds=60)).timestamp()
@@ -474,7 +474,7 @@ def ingest(case_dir, database_path, mode="template", agent_backend="native",
     if source_type is None:
         source_type = "wsl" if "wsl_cases" in str(case_dir) else "docker_container"
     if matcher is None and template_dir:
-        from offline.detection.mining import SourceTemplateMatcher
+        from offline.case.source_templates import SourceTemplateMatcher
         matcher = SourceTemplateMatcher(template_dir)
     if cutoff is None:
         cutoff = incident.get("diagnosis_snapshot", {}).get("cutoff_time")

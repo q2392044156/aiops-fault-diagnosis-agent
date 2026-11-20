@@ -1,6 +1,6 @@
 """验证模板新颖度检测器。"""
 
-from offline.detection.novelty import TemplateNoveltyDetector
+from offline.case.novelty import TemplateNoveltyDetector
 
 
 # 构造一行日志。
@@ -10,7 +10,7 @@ def _row(message="hello", level="INFO"):
 
 # 返回与检测器一致的模板文本。
 def _text_for(message, level):
-    from offline.detection.novelty import _text
+    from offline.case.novelty import _text
     return _text(_row(message, level))
 
 

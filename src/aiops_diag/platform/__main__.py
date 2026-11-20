@@ -11,7 +11,7 @@ from .api import create_app
 from .benchmark import run as run_benchmark
 from .config import load
 from .incident_cli import run as run_incident
-from .release import FrozenRelease, publish, verify
+from .release import RuleDetector
 from .runtime import ServiceRuntime
 
 
@@ -29,10 +29,10 @@ def main(argv=None):
         return
 
     # ---------- 构建 argparse 解析器 ----------
-    # 6 个基础子命令统一要求 --config，benchmark 额外提供 --suite 选择测试套件。
+    # 5 个基础子命令统一要求 --config，benchmark 额外提供 --suite 选择测试套件。
     parser = argparse.ArgumentParser(description="W9 controlled AIOps diagnosis service")
     sub = parser.add_subparsers(dest="command", required=True)
-    for name in ("publish", "init", "verify", "serve", "worker", "worker-health"):
+    for name in ("init", "verify", "serve", "worker", "worker-health"):
         item = sub.add_parser(name)
         item.add_argument("--config", required=True)
     benchmark = sub.add_parser("benchmark")
@@ -44,28 +44,22 @@ def main(argv=None):
     # 统一加载配置（所有子命令共用）
     cfg = load(args.config)
 
-    # ---------- publish：发布模型制品 ----------
-    # 将训练好的模型写入发布目录并生成 manifest，供后续 worker 加载。
-    # 发布后才会生成 release_id，verify 命令依赖这个目录结构。
-    if args.command == "publish":
-        print(json.dumps(publish(cfg), ensure_ascii=False, indent=2))
-
     # ---------- init：初始化数据库 ----------
-    # 创建 SQLite 文件和 schema（version=4）。role 用默认 api（不加载模型），
+    # 创建 SQLite 文件和 schema（version=4）。role 用默认 api（不加载检测器明细），
     # 因为只需要 Database 的建表能力，不需要任何推理组件。
-    elif args.command == "init":
+    if args.command == "init":
         runtime = ServiceRuntime(cfg, load_model=False)
         print(json.dumps({"database": str(runtime.db.path), "schema_version": 4},
                          ensure_ascii=False, indent=2))
 
-    # ---------- verify：校验发布完整性 ----------
-    # 依次校验：模型目录存在 → manifest 一致 → 检索索引完整 → Agent release 可加载。
+    # ---------- verify：校验运行时装配 ----------
+    # 检测器是纯规则实现，无外部制品；这里只做一次装配自检，
     # 生产部署的门禁步骤，verify 通过后才允许 serve/worker 启动。
     elif args.command == "verify":
-        manifest = verify(cfg)
-        FrozenRelease(cfg)
-        print(json.dumps({"verified": True, "release_id": manifest["release_id"],
-                          "model_id": manifest["model_id"]}, ensure_ascii=False, indent=2))
+        detector = RuleDetector(cfg)
+        print(json.dumps({"verified": True, "release_id": detector.manifest["release_id"],
+                          "model_id": detector.manifest["model_id"]},
+                         ensure_ascii=False, indent=2))
 
     # ---------- serve：启动 API 服务 ----------
     # 调用 create_app(cfg) 构建 FastAPI 应用，uvicorn 以单 worker 模式启动
@@ -78,7 +72,7 @@ def main(argv=None):
                     workers=1, log_level="info")
 
     # ---------- worker：启动后台计算进程 ----------
-    # role="worker" + load_model=True，会加载完整的 FrozenRelease + Agent。
+    # role="worker" + load_model=True，会加载完整的规则检测器 + Agent。
     # 启动后进入 run_forever() 主循环：心跳 → 抢占租约 → 执行任务 → 续期 → 写回结果。
     # 这是整个平台的核心计算引擎，负责日志解析、事件诊断、Agent 推理。
     elif args.command == "worker":

@@ -1,4 +1,4 @@
-"""脚本说明：训练模板新颖度检测器并评测正常/故障窗口。"""
+"""脚本说明：在实验台案例上拟合模板新颖度门禁并评测正常/故障窗口。"""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, "src")
 sys.path.insert(0, "ops/lab/harness")
 from windows import load_normal_windows, load_windows
 
-from offline.detection.novelty import TemplateNoveltyDetector, wilson
+from offline.case.novelty import TemplateNoveltyDetector, wilson
 
 
 # _windows 返回案例集合的正常/故障窗口。

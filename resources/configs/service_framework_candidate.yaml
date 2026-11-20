@@ -1,5 +1,7 @@
-schema_version: 4
-model_config: resources/configs/model_lr.yaml
+schema_version: 5
+detector:
+  threshold: 0.6
+  min_lines: 1
 retrieval_config: resources/configs/retrieval.yaml
 rag_config: resources/configs/rag.yaml
 agent_config: resources/configs/agent.yaml
@@ -15,8 +17,6 @@ framework_candidate:
   base_service_config: resources/configs/service_v11_framework_base.yaml
   release_dir: artifacts/releases/framework_v12_rc1_02
   prior_blind_observation: experiments/v1_2/blind_cde_20261020_once/result.json
-w4_release_dir: experiments/time_event_v1/model_selection_v1/final
-release_dir: artifacts/releases/v1.0_service
 server:
   host: 127.0.0.1
   port: 8000
@@ -43,7 +43,4 @@ ui:
 paths:
   runtime_dir: runtime/framework_candidate
   database: runtime/framework_candidate/service.sqlite3
-registered_batches:
-  w1_dev:
-    kind: w1_parquet
-    path: data/processed/b6ec93dcf0ef27974252/dev_logs.parquet
+registered_batches: {}

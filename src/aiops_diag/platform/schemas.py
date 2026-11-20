@@ -128,9 +128,10 @@ class ReleaseResponse(StrictModel):
     model_id: str
     model_family: str
     threshold: float
+    min_lines: int
     anomaly_score_semantics: str
-    protocol_hash: str
-    template_manifest_hash: str
+    rule_set_hash: str
+    masking_hash: str
 
 
 class OperationsSummary(StrictModel):

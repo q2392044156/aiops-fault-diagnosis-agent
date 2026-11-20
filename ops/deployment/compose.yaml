@@ -15,7 +15,6 @@ x-common: &common
   tmpfs:
     - /tmp:size=128m,mode=1777
   environment: &environment
-    AIOPS_RELEASE_DIR: /app/release
     AIOPS_RUNTIME_DIR: /app/runtime
     AIOPS_REGISTERED_ROOT: /app/data
     AIOPS_KB_RELEASE_DIR: /app/kb
@@ -27,11 +26,9 @@ services:
     <<: *common
     volumes:
       - aiops-runtime:/app/runtime
-      - ${AIOPS_RELEASE_DIR:-../../artifacts/releases/v1.0_service}:/app/release:ro
       - ${AIOPS_KB_RELEASE_DIR:-../../artifacts/releases/kb_v0.1}:/app/kb:ro
       - ${AIOPS_RAG_RELEASE_DIR:-../../artifacts/releases/rag_v0.1}:/app/rag:ro
       - ${AIOPS_AGENT_RELEASE_DIR:-../../artifacts/releases/agent_v0.2}:/app/agent:ro
-      - ${AIOPS_REGISTERED_FILE:-../../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
     command: ["python", "-m", "aiops_diag.platform", "worker", "--config", "resources/configs/service.yaml"]
     healthcheck:
       test: ["CMD", "python", "-m", "aiops_diag.platform", "worker-health", "--config", "resources/configs/service.yaml"]
@@ -48,11 +45,9 @@ services:
       AIOPS_REVIEWER_REGISTRY_FILE: /run/secrets/agent_reviewer_registry
     volumes:
       - aiops-runtime:/app/runtime
-      - ${AIOPS_RELEASE_DIR:-../../artifacts/releases/v1.0_service}:/app/release:ro
       - ${AIOPS_KB_RELEASE_DIR:-../../artifacts/releases/kb_v0.1}:/app/kb:ro
       - ${AIOPS_RAG_RELEASE_DIR:-../../artifacts/releases/rag_v0.1}:/app/rag:ro
       - ${AIOPS_AGENT_RELEASE_DIR:-../../artifacts/releases/agent_v0.2}:/app/agent:ro
-      - ${AIOPS_REGISTERED_FILE:-../../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
     secrets:
       - agent_reviewer_registry
     command: ["python", "-m", "aiops_diag.platform", "serve", "--config", "resources/configs/service.yaml"]

@@ -22,14 +22,13 @@ import sys
 import time
 from pathlib import Path
 
-import numpy as np
-
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from aiops_diag.common import digest, key
 from aiops_diag.platform.db import Database
 from aiops_diag.platform.pipeline import database_payload, process
+from aiops_diag.platform.release import RuleDetector
 from online.diagnosis.agent import Agent, AgentYield
 from online.diagnosis.budget import DatabaseBudgetLedger
 from online.knowledge.generation.client import DeepSeekClient
@@ -40,44 +39,18 @@ KB_RELEASE_ID = "kb_demo_v1"
 WORKER_ID = "demo-worker"
 
 
-# DemoDetector 是演示用的确定性检测器，替代训练好的 TF-IDF+LR 模型。
-class DemoDetector:
-    """只做一件事：包含 ERROR/FATAL 的会话判为异常。
+# DemoDetector 是演示用的检测器：复用平台的规则检测器，只把发布标识改成 demo。
+class DemoDetector(RuleDetector):
+    """规则检测器本身不依赖任何训练制品，演示直接复用它。
 
-    真实系统里这一步由冻结的 Drain3 模板 + TF-IDF + 逻辑回归完成，
-    这里用规则替代，是为了让演示不依赖训练制品，同时保持接口一致。
+    这样演示看到的事件与真实服务完全同源：日志级别与关键词算分，
+    阈值 0.6、最少 1 行即判异常。
     """
 
-    manifest = {"release_id": DEMO_RELEASE_ID}
-    threshold = 1.0
-
-    # template 把日志行映射为模板编号，ERROR/FATAL 记为 2。
-    def template(self, row):
-        level = (row.get("level") or "").upper()
-        return 2 if level in ("ERROR", "FATAL") else 1
-
-    # score 给每个会话打分，返回分数与是否超过阈值。
-    def score(self, sequences):
-        scores = np.asarray([2.0 if 2 in row else -2.0 for row in sequences],
-                            dtype=np.float64)
-        return scores, (scores >= self.threshold).astype(np.int8)
-
-    # assert_unchanged 真实模型会校验制品未被篡改，演示版为空实现。
-    def assert_unchanged(self):
-        return None
-
-    # public 返回可写入发布清单的模型元数据。
-    def public(self):
-        return {
-            "schema_version": 1,
-            "release_id": DEMO_RELEASE_ID,
-            "model_id": "demo_rule_detector",
-            "model_family": "rule_based",
-            "threshold": self.threshold,
-            "anomaly_score_semantics": "larger_is_more_anomalous_uncalibrated",
-            "protocol_hash": "demo",
-            "template_manifest_hash": "demo",
-        }
+    def __init__(self):
+        super().__init__({"detector": {"threshold": 0.6, "min_lines": 1}})
+        self.manifest = {**self.manifest, "release_id": DEMO_RELEASE_ID}
+        self.identity = key(self.manifest)
 
 
 # _tokens 把文本切分为小写词元，供演示检索器打分。

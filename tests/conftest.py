@@ -11,12 +11,12 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
-# LEGACY_RELEASE 是 v1.0 发布制品的注册表，缺失说明本地尚未构建发布制品。
-LEGACY_RELEASE = ROOT / "artifacts" / "releases" / "v1.0_service" / "registry.json"
+# LEGACY_RELEASE 是本地知识库发布制品的注册表，缺失说明尚未构建发布制品。
+LEGACY_RELEASE = ROOT / "artifacts" / "releases" / "kb_v0.1" / "registry.json"
 
 
 # requires_artifacts 在缺少发布制品时跳过用例，避免新克隆仓库与 CI 误报失败。
 @pytest.fixture
 def requires_artifacts():
     if not LEGACY_RELEASE.is_file():
-        pytest.skip("需要本地发布制品 artifacts/releases/v1.0_service（见 README 的发布步骤）")
+        pytest.skip("需要本地发布制品 artifacts/releases/kb_v0.1（见 README 的重建 RAG release 一节）")

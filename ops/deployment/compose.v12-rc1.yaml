@@ -10,10 +10,8 @@ x-v12-environment: &v12-environment
 
 x-v12-volumes: &v12-volumes
   - aiops-runtime:/app/runtime
-  - ${AIOPS_RELEASE_DIR:-../../artifacts/releases/v1.0_service}:/app/release:ro
   - ${AIOPS_KB_RELEASE_DIR:-../../artifacts/releases/kb_v0.1}:/app/kb:ro
   - ${AIOPS_RAG_RELEASE_DIR:-../../artifacts/releases/rag_v0.1}:/app/rag:ro
-  - ${AIOPS_REGISTERED_FILE:-../../data/processed/b6ec93dcf0ef27974252/dev_logs.parquet}:/app/data/dev_logs.parquet:ro
   - ../../experiments/v1_1/gate_calibration.json:/app/v11-calibration.json:ro
   - ../../artifacts/releases/agent_v11_framework_base_rc2:/app/v11-agent:ro
   - ../../artifacts/releases/framework_v12_rc2:/app/framework-rc2:ro

@@ -13,17 +13,32 @@ KEYWORDS = (
 )
 
 
+# keyword_hits 统计一条消息命中的故障关键词个数。
+def keyword_hits(message):
+    text = (message or "").lower()
+    return sum(1 for word in KEYWORDS if word in text)
+
+
+# combine 把「最高级别分」与「关键词命中数」合成为最终分数。
+def combine(severity, hits):
+    if hits:
+        severity = max(severity, min(1.0, 0.6 + 0.05 * hits))
+    return round(min(1.0, severity), 4)
+
+
+# session_score 由级别序列与关键词命中总数计算 0~1 的规则分数。
+def session_score(levels, hits):
+    base = 0.0
+    for level in levels:
+        base = max(base, SEVERITY.get((level or "").upper(), 0.05))
+    return combine(base, hits)
+
+
 # score_rows 根据级别与关键词给会话打分。
 def score_rows(rows):
-    base = 0.0
-    hits = 0
-    for row in rows:
-        base = max(base, SEVERITY.get((row.get("level") or "").upper(), 0.05))
-        message = (row.get("redacted_message") or row.get("message") or "").lower()
-        hits += sum(1 for word in KEYWORDS if word in message)
-    if hits:
-        base = max(base, min(1.0, 0.6 + 0.05 * hits))
-    return round(min(1.0, base), 4)
+    levels = [row.get("level") for row in rows]
+    hits = sum(keyword_hits(row.get("redacted_message") or row.get("message")) for row in rows)
+    return session_score(levels, hits)
 
 
 # gate_session 返回 PASS/REJECT 与原因。

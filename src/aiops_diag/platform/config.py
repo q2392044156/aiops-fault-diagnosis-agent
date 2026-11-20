@@ -7,17 +7,31 @@ from pathlib import Path
 import yaml
 
 from aiops_diag.common import config_root, key, logical_config
-from offline.detection.settings import load as load_model_config
 from online.diagnosis.settings import load as load_agent_config
 from online.knowledge.generation.settings import load as load_rag_config
 from online.knowledge.settings import load as load_retrieval_config
+
+DEFAULT_DETECTOR = {"threshold": 0.6, "min_lines": 1}
+
+
+def _detector(raw):
+    detector = {**DEFAULT_DETECTOR, **(raw.get("detector") or {})}
+    unknown = set(detector) - set(DEFAULT_DETECTOR)
+    if unknown:
+        raise ValueError("Unsupported detector settings: " + ", ".join(sorted(unknown)))
+    threshold = float(detector["threshold"])
+    if not 0.0 < threshold <= 1.0:
+        raise ValueError("Detector threshold must be in (0, 1]")
+    if int(detector["min_lines"]) < 1:
+        raise ValueError("Detector min_lines must be at least 1")
+    return {"threshold": threshold, "min_lines": int(detector["min_lines"])}
 
 
 def load(path):
     path = Path(path).resolve()
     root = config_root(path)
     raw = yaml.safe_load(path.read_text(encoding="utf-8"))
-    if raw.get("schema_version") not in (2, 3, 4, 5):
+    if raw.get("schema_version") != 5:
         raise ValueError("Unsupported service configuration schema")
     if raw["server"].get("workers") != 1:
         raise ValueError("The service requires exactly one API process")
@@ -58,7 +72,7 @@ def load(path):
     cfg["event_source"] = event_source
     cfg["root"] = str(root)
     cfg["config_path"] = str(path)
-    cfg["model"] = load_model_config(root / raw["model_config"])
+    cfg["detector"] = _detector(raw)
     if raw.get("retrieval_config"):
         cfg["retrieval"] = load_retrieval_config(root / raw["retrieval_config"])
     if raw.get("rag_config"):
@@ -90,16 +104,12 @@ def load(path):
         if not query_builder_path:
             raise ValueError("Candidate service requires query_builder_config")
         cfg["query_builder_config"] = str((root / query_builder_path).resolve())
-    for field in ("w4_release_dir", "release_dir"):
-        cfg[field] = str((root / raw[field]).resolve())
     for field in ("runtime_dir", "database"):
         cfg["paths"][field] = str((root / raw["paths"][field]).resolve())
     registered = {}
     for name, item in raw.get("registered_batches", {}).items():
         registered[name] = {**item, "path": str((root / item["path"]).resolve())}
     cfg["registered_batches"] = registered
-    if os.environ.get("AIOPS_RELEASE_DIR"):
-        cfg["release_dir"] = str(Path(os.environ["AIOPS_RELEASE_DIR"]).resolve())
     if os.environ.get("AIOPS_HOST"):
         cfg["server"]["host"] = os.environ["AIOPS_HOST"]
     if os.environ.get("AIOPS_RUNTIME_DIR"):
@@ -115,7 +125,7 @@ def load(path):
     cfg["processing_hash"] = key({
         "schema_version": raw["schema_version"],
         "processing": raw["processing"],
-        "model_config": logical_config(raw["model_config"]),
+        "detector": cfg["detector"],
     })
     return cfg
 

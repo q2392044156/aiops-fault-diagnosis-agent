@@ -14,7 +14,7 @@ flowchart TB
     end
     subgraph processing[处理]
         D[数据层<br/>解析 · 脱敏 · 会话切分]
-        M[检测层<br/>Drain3 模板 + TF-IDF + LR]
+        M[检测层<br/>规则门禁<br/>severity + 关键词]
         R[检索层<br/>BM25 + BGE ONNX + RRF]
     end
     A[诊断层<br/>确定性 Agent<br/>8 个只读工具 · 预算 · 证据白名单 · 模板降级]
@@ -40,15 +40,15 @@ flowchart TB
 
 | 模块 | 负责什么 | 不负责什么 |
 | --- | --- | --- |
-| `data` | 下载校验、逐行解析、脱敏、按 block 切会话、时间切分 | 不做检测，不做诊断 |
-| `detection` | Drain3 模板、TF-IDF/LR、LSTM 对照、阈值与指标 | 不接触知识库 |
+| `ingestion` | 逐行解析、脱敏、按组件切窗口 | 不做检测，不做诊断 |
+| `detector` | 规则打分（日志级别 + 关键词）、阈值与事件合并 | 不接触知识库，不训练模型 |
 | `knowledge` | 知识卡切分、BM25 + BGE 检索、RRF 融合、证据门禁 | 不调用大模型 |
 | `diagnosis` | 只读工具、预算、审批、状态机、LangGraph 编排 | 不写数据库事务（交给 platform） |
 | `platform` | FastAPI、worker、SQLite、Streamlit、运行时装配 | 不实现算法 |
 | `evaluation` | legacy / framework 离线对照 | 不参与在线请求 |
 | `release` | 发布清单、哈希校验、导出 | 不改业务状态 |
 
-依赖方向是单向的：`data → detection → diagnosis → platform`，`knowledge` 只被诊断层读取，`release` 读取各层产物。禁止反向导入。
+依赖方向是单向的：`ingestion → detector → diagnosis → platform`，`knowledge` 只被诊断层读取，`release` 读取各层产物。禁止反向导入。
 
 ## 四条不变量
 
@@ -62,7 +62,7 @@ flowchart TB
 ```text
 POST /api/v1/batches/uploads
   → 校验幂等键与大小 → 落盘 → 创建 task（QUEUED）
-  → worker 领取租约（30s，5s 心跳）→ 解析/打分/聚合
+  → worker 领取租约（30s，5s 心跳）→ 解析/规则打分/事件聚合
   → 写 batches/artifacts + SQLite（COMPLETED）
 POST /api/v1/diagnoses
   → 创建 agent_run（预算快照）→ worker 领取

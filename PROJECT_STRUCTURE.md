@@ -6,9 +6,8 @@
 aiops-fault-diagnosis-agent/
 ├─ src/
 │  ├─ offline/           # 离线数据流程一级入口
-│  │  ├─ ingestion/      # 下载、解析、脱敏、滑动窗口与审计
-│  │  ├─ case/           # 故障事件契约、导入与受控实验记录
-│  │  └─ detection/      # 模板挖掘/特征、severity-first 门禁、LR/LSTM、选择实验
+│  │  ├─ ingestion/      # 解析、脱敏、滑动窗口
+│  │  └─ case/           # 故障事件契约、导入与受控实验记录、来源模板与新颖度门禁
 │  ├─ online/            # 在线诊断流程一级入口
 │  │  ├─ knowledge/      # 语料、混合检索与发布；v11/ 评测、generation/ 报告生成
 │  │  └─ diagnosis/      # 7 节点代理、工具、证据与路由；v11/ 候选、framework/ LangGraph
@@ -33,7 +32,7 @@ aiops-fault-diagnosis-agent/
 ```text
 aiops_diag（common / constants / nodes）← 所有模块
 
-offline.ingestion → offline.case → offline.detection
+offline.ingestion → offline.case
 
 online.knowledge → online.diagnosis
 
