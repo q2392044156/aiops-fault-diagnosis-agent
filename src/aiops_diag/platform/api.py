@@ -55,15 +55,15 @@ from .schemas import (
 
 AUDIT_LOG = logging.getLogger("aiops_diag.platform.audit")
 
-
+# 业务异常类，用于表示服务端业务逻辑中的异常情况
 class ServiceError(Exception):
     def __init__(self, status, code, message, retryable=False, headers=None):
-        super().__init__(message)
-        self.status = status
-        self.code = code
-        self.message = message
-        self.retryable = retryable
-        self.headers = headers or {}
+        super().__init__(message)  # 初始化父类异常
+        self.status = status  # HTTP 状态码
+        self.code = code  # 业务错误码
+        self.message = message  # 错误消息
+        self.retryable = retryable  # 是否可重试
+        self.headers = headers or {}  # 自定义响应头
 
 
 def _encode_cursor(value):
