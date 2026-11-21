@@ -23,6 +23,7 @@
 | `evaluate_router.py` | 运行工具路由三模式对照实验并输出对比表。 | `_load_env`、`_client`、`_deterministic`、`_constrained`、`_free`、`main` |
 | `evaluate_trajectory.py` | 读取服务数据库并输出诊断轨迹指标。 | `_rows`、`main` |
 | `mcp_smoke.py` | 以子进程方式冒烟验证 MCP 服务器。 | `_rpc`、`main` |
+| `replay_cases.py` | 准备 132 例的 case 集，并把重放结果与冻结基线逐条比对。 | `_registry_ids`、`_case_index`、`prepare`、`_compare_gates`、`verify`、`main` |
 | `run_framework_chain_online_smoke.py` | 执行关键路径冒烟验证。 | `load_local_secrets`、`run` |
 | `run_framework_flow_smoke.py` | 执行关键路径冒烟验证。 | `wait_for`、`run` |
 | `run_framework_offline_comparison.py` | 实现 run framework offline comparison 相关的辅助流程。 | — |

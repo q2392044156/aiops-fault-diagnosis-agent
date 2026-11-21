@@ -180,6 +180,11 @@ pwsh 7 / bash 想一行跑完前三条验证：
 日常只需要这三条验证命令；`pip check` 装完过一遍就行（若只报 `pipx` 自身的 filelock/packaging
 版本冲突，那是环境自带的工具，与项目依赖无关）。
 
+真实案例侧另有一条可复核的重放：`python ops/scripts/replay_cases.py prepare` → 用
+`run_gate_batch.py` 重放 132 例 → `python ops/scripts/replay_cases.py verify`，与删除研究训练轨前的
+冻结基线逐条比对（事件切分、门禁理由与分数、案例 Top-1）。步骤与实测输出见
+[documentation/REPRODUCTION_v1.md](documentation/REPRODUCTION_v1.md)。
+
 ### B 完整：一条命令建 conda 环境
 
     conda env create --file environment.yml

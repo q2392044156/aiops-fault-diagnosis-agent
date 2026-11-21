@@ -40,6 +40,7 @@
 
 | 文档 | 内容 |
 | --- | --- |
+| [REPRODUCTION_v1.md](REPRODUCTION_v1.md) | 132 例在 v1 上的完整重放记录：命令、冻结制品、与删除前基线逐条比对（差异 0） |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | 分层、模块边界、四条不变量 |
 | [../PROJECT_STRUCTURE.md](../PROJECT_STRUCTURE.md) | 目录结构、依赖方向、兼容约定 |
 | [发布校验策略.md](发布校验策略.md) | 两类哈希（身份指纹 / 运行期一致性）、日常与门禁两档校验、源码清单按 glob 生成 |
