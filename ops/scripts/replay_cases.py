@@ -8,7 +8,7 @@
 - ``verify``：把 ``run_gate_batch.py`` 产出的 gates/eval JSON 与
   ``resources/evaluation/unified4`` 的冻结基线逐条比对，打印差异并给出判定。
 
-用法见 ``documentation/REPRODUCTION_v1.md``。
+用法见 ``documentation/REPRODUCTION_v2.md``。
 """
 
 from __future__ import annotations

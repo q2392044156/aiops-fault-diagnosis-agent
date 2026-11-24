@@ -159,7 +159,7 @@
 | **A 最简**（先跑这个） | Python 3.11 + 能装 pip 包 | 209 个用例全部通过；离线 demo、结构校验、静态检查全部可用 |
 | **B 完整** | 再加 torch / optimum-onnx / transformers | 重建 BGE ONNX 与知识库发布制品 |
 
-v1 不再包含任何训练制品：检测器是 `aiops_diag/platform/release.py` 里的规则实现，服务启动不需要模型文件。
+v2 不再包含任何训练制品：检测器是 `aiops_diag/platform/release.py` 里的规则实现，服务启动不需要模型文件。
 
 ### A 最简：三条命令装上
 
@@ -183,7 +183,7 @@ pwsh 7 / bash 想一行跑完前三条验证：
 真实案例侧另有一条可复核的重放：`python ops/scripts/replay_cases.py prepare` → 用
 `run_gate_batch.py` 重放 132 例 → `python ops/scripts/replay_cases.py verify`，与删除研究训练轨前的
 冻结基线逐条比对（事件切分、门禁理由与分数、案例 Top-1）。步骤与实测输出见
-[documentation/REPRODUCTION_v1.md](documentation/REPRODUCTION_v1.md)。
+[documentation/REPRODUCTION_v2.md](documentation/REPRODUCTION_v2.md)。
 
 ### B 完整：一条命令建 conda 环境
 
@@ -227,7 +227,7 @@ artifacts/、runtime/、data/、experiments/ 和 ops/lab/*_cases/ 不提交 Git�
 1. **克隆后 4 条 `test_retrieval*` 报 `Sealed development queries changed`**：密封协议的摘要是按字节算的，
    仓库里存的是 LF；Windows 上 `core.autocrlf=true` 会把工作区改成 CRLF，摘要就对不上。`.gitattributes`
    已经固定 LF，真遇到就 `git config --global core.autocrlf false` 后重新 `git checkout -- resources`。
-2. **服务起不来，`/health/ready` 返回失败**：先看 `status.ready_error`。v1 只剩三种失败来源：`service.yaml`
+2. **服务起不来，`/health/ready` 返回失败**：先看 `status.ready_error`。v2 只剩三种失败来源：`service.yaml`
    解析失败、SQLite 打不开、RAG 发布清单缺失（重建知识库发布即可）。
 3. **Windows 上敲 `python` 弹出应用商店**：那是 `WindowsApps` 下的占位符，不是真解释器。用
    `py -3.11`、`conda activate` 之后的 `python`，或直接写解释器绝对路径。

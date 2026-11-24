@@ -1,11 +1,12 @@
-# 真实案例复现记录（v1）
+# 真实案例复现记录（v2）
 
-> 分支 `v1`（提交 `6820429`）删除了研究训练轨之后，本文记录如何把 **132 例真实案例**完整重放一遍，
+> 分支 `v2`（提交 `6820429`）删除了研究训练轨之后，本文记录如何把 **132 例真实案例**完整重放一遍，
 > 并把结果与删除前冻结的基线逐条比对。所有命令都在仓库根目录执行，Windows PowerShell 与 bash 通用。
+> 分支名 `v1` 已于 2026-11-24 重命名为 `v2`（`v1` 预留给 main 的发布口径），提交历史与本文所有数字不变。
 
 ## 0. 这份文档证明什么
 
-1. 132 例真实案例在 `v1` 上**仍然完整存在**，只是不在 Git 里（`ops/lab/*` 被 `.gitignore` 忽略）；
+1. 132 例真实案例在 `v2` 上**仍然完整存在**，只是不在 Git 里（`ops/lab/*` 被 `.gitignore` 忽略）；
 2. 案例侧链路（窗口切分 → 模板新颖度门禁 → 事件合并 → 根因信号 → 报告）**逐条复现**删除前的基线：
    132 例的事件切分、门禁理由、门禁分数、案例 Top-1 全部一致；
 3. 哪一部分**不再复现**（检测器训练/评测指标），以及为什么它随研究轨一起移除。
@@ -21,7 +22,7 @@
 | 复现口径 | README 的「A 最简」：不含 torch / optimum-onnx |
 | 自检 | `python -m pytest -q` → 209 passed；`python ops/scripts/validate_project_structure.py` → PASS |
 
-`v1` 不再需要任何训练制品（`experiments/`、`artifacts/releases/v1.0_service`）就能起服务：
+`v2` 不再需要任何训练制品（`experiments/`、`artifacts/releases/v1.0_service`）就能起服务：
 `python -m aiops_diag.platform verify --config resources/configs/service.yaml`
 → `{"verified": true, "release_id": "v0.3_rules", "model_id": "severity_rule"}`。
 
@@ -131,7 +132,7 @@ PASS: event segmentation, gate reasons/scores and case top-1 all match the froze
 
 再比对 test/train 两个切分的案例数、事件数、案例 Top-1，全部来自 `results.json` 的计数字段。
 
-| 指标 | 删除前（`results.json`） | `v1` 重放 |
+| 指标 | 删除前（`results.json`） | `v2` 重放 |
 |---|---|---|
 | 事件总数 | 299（test 143 + train 156） | 299（143 + 156） |
 | 案例 Top-1（test） | 60/60 = 1.0，CI [0.9398, 1.0] | 60/60 |
@@ -148,7 +149,7 @@ PASS: event segmentation, gate reasons/scores and case top-1 all match the froze
   wsl 的事件数从 97 掉到 87、10 个案的 `gate_reason` 漂移——**事件级指标会静默偏移**，所以模型制品要按名字冻结。
 - `artifacts/`、`runtime/`、`experiments/`、`data/` 都在 `.gitignore` 里：新克隆只有代码与 `resources/` 基线，
   没有探测器、模板与案例，必须从原机器补齐。
-- `run_gate_batch.py` 必须给 `--work` 与 `--output`（旧 README 漏参数，已在 v1 修正）。
+- `run_gate_batch.py` 必须给 `--work` 与 `--output`（旧 README 漏参数，已在 v2 修正）。
 - WSL 的卷故障案例缺 `fault_start` 时间戳，MTTD 为 `N/A`，属数据本身缺字段，不是链路问题。
 - `evaluate_incidents.py` 依赖 DB 里的 `incident_reports` 与每案 `map.json` 的 report/diagnosis 映射，
   重放时会复制 source DB 并清空旧 `events` / `sessions` / `incident_reports`，因此不会读到历史结果。
@@ -173,7 +174,7 @@ PASS: event segmentation, gate reasons/scores and case top-1 all match the froze
 
 | 项 | 值 |
 |---|---|
-| 分支 / 提交 | `v1` / `6820429` `refactor(v1): 移除研究训练轨，在线检测改为规则门禁` |
+| 分支 / 提交 | `v2` / `6820429` `refactor(v1): 移除研究训练轨，在线检测改为规则门禁` |
 | 运行时间 | 2026-11-21 |
 | 机器 | Windows，Python 3.11.16（uv），CPU 单机 |
 | 重放产物 | `runtime/repro/`（gitignored，不提交） |
