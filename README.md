@@ -76,8 +76,9 @@
 
 门禁规则：
 
-- ERROR/FATAL 直接 PASS；
-- 其余行按关键词命中累加权重（`ENOSPC`、`missed liveness deadline`、`safe mode` 等），分数越过 0.6 且会话不少于 1 行才 PASS；
+- 级别分：FATAL 1.0、ERROR 0.9、WARN 0.6、INFO 0.1、DEBUG 0.05；FATAL/ERROR/WARN 的起始分已经不低于阈值 0.6，所以直接 PASS；
+- 关键词分：一行只要命中关键词（`ENOSPC`、`missed liveness deadline`、`safe mode` 等），分数被抬到 `0.6 + 0.05 × 命中个数`（≥ 0.65），因此 INFO/DEBUG 行只有命中关键词才会 PASS；
+- 一行取“级别分”和“关键词分”的较大者，会话取其中最高分；分数 ≥ 0.6 且会话不少于 1 行才 PASS；
 - 分数落在 [0, 1]，只表示“越接近 1 越异常”，没有校准含义。
 
 同一案例、同一组件、时间重叠或相接的 PASS 窗口合并为一个 event，避免同一段故障重复诊断。实验台还可以按来源单独拟合
@@ -156,10 +157,13 @@
 
 | 口径 | 额外需要 | 能到什么程度 |
 | --- | --- | --- |
-| **A 最简**（先跑这个） | Python 3.11 + 能装 pip 包 | 209 个用例全部通过；离线 demo、结构校验、静态检查全部可用 |
+| **A 最简**（先跑这个） | Python 3.11 + 能装 pip 包 | 209 个用例全部通过；离线 demo、结构校验可用；静态检查另装 ruff/mypy |
 | **B 完整** | 再加 torch / optimum-onnx / transformers | 重建 BGE ONNX 与知识库发布制品 |
 
 v2 不再包含任何训练制品：检测器是 `aiops_diag/platform/release.py` 里的规则实现，服务启动不需要模型文件。
+但服务装配仍要读两份发布清单：`artifacts/releases/kb_v0.1`（知识库检索）与 `artifacts/releases/agent_v0.2`
+（Agent 发布身份）。`artifacts/` 不提交 Git，新克隆直接起服务会在 `/health/ready` 报清单缺失；离线 demo 与
+三条验证命令都不需要它们。
 
 ### A 最简：三条命令装上
 
@@ -179,6 +183,15 @@ pwsh 7 / bash 想一行跑完前三条验证：
 
 日常只需要这三条验证命令；`pip check` 装完过一遍就行（若只报 `pipx` 自身的 filelock/packaging
 版本冲突，那是环境自带的工具，与项目依赖无关）。
+
+如果 `pip install` 长时间停在“解析依赖”不动（本机 pip 26.3 实测 20 分钟没有任何进展，同一份 lock 用 uv
+11 秒装完），可以换成 uv，装的还是同一份 lock：
+
+    uv venv .venv --python 3.11
+    uv pip install --python .venv/Scripts/python.exe -r requirements-framework-lock.txt "pytest>=8,<10"
+    uv pip install --python .venv/Scripts/python.exe -e . --no-deps
+
+Linux/macOS 把 `--python .venv/Scripts/python.exe` 换成 `--python .venv/bin/python` 即可。
 
 真实案例侧另有一条可复核的重放：`python ops/scripts/replay_cases.py prepare` → 用
 `run_gate_batch.py` 重放 132 例 → `python ops/scripts/replay_cases.py verify`，与删除研究训练轨前的
@@ -227,8 +240,10 @@ artifacts/、runtime/、data/、experiments/ 和 ops/lab/*_cases/ 不提交 Git�
 1. **克隆后 4 条 `test_retrieval*` 报 `Sealed development queries changed`**：密封协议的摘要是按字节算的，
    仓库里存的是 LF；Windows 上 `core.autocrlf=true` 会把工作区改成 CRLF，摘要就对不上。`.gitattributes`
    已经固定 LF，真遇到就 `git config --global core.autocrlf false` 后重新 `git checkout -- resources`。
-2. **服务起不来，`/health/ready` 返回失败**：先看 `status.ready_error`。v2 只剩三种失败来源：`service.yaml`
-   解析失败、SQLite 打不开、RAG 发布清单缺失（重建知识库发布即可）。
+2. **服务起不来，`/health/ready` 返回失败**：先看 `status.ready_error`。v2 有四类失败来源：`service.yaml`
+   解析失败、SQLite 打不开、RAG 发布清单缺失（`artifacts/releases/kb_v0.1`，重建知识库发布即可）、Agent 发布
+   清单缺失或指纹漂移（`artifacts/releases/agent_v0.2`；若报 `Agent configuration changed after publication`，
+   说明 `resources/configs/agent.yaml` 或 `src/online/diagnosis/*.py` 在清单冻结后改过，重发一次 Agent 清单即可）。
 3. **Windows 上敲 `python` 弹出应用商店**：那是 `WindowsApps` 下的占位符，不是真解释器。用
    `py -3.11`、`conda activate` 之后的 `python`，或直接写解释器绝对路径。
 
@@ -283,50 +298,233 @@ artifacts/、runtime/、data/、experiments/ 和 ops/lab/*_cases/ 不提交 Git�
 
 ---
 
-## 完整运行
+## 完整实现
 
-这一节是完整链路，前置条件比上面两条复现口径重：需要本地数据（`data/`、`ops/lab/*_cases`）和 Docker / WSL 实验台。
-新克隆只能跑「A 最简」那三条命令，跑不了这里的采集与评测。
+这一节是从空环境走到「跑出案例、重放门禁、算出指标」的完整过程，每一步都给命令和本机实测输出。
+前四小节（1–4）只需要 Python，新克隆照做即可；5 节以后需要本地数据、Docker / WSL 实验台，以及
+gitignore 里的 `artifacts/`（门禁探测器 `artifacts/detectors/*_sliding_v4.json`、模板
+`artifacts/templates/*`）。完整跑一遍约 1.5 小时，主要时间在故障注入的观测窗口。
 
-### 1. WSL 故障采集
+### 1. 复现环境
+
+| 组件 | 本机实测 | 用途 |
+| --- | --- | --- |
+| 操作系统 | Windows 11 + PowerShell 7 | 主环境 |
+| Python | 3.11.16（由 uv 提供，见 `.python-version`） | 全部阶段 |
+| uv | 0.12.11 | 建 venv、装锁定依赖 |
+| Docker | 29.8.2（Docker Desktop） | Docker 实验台（1 NN + 3 DN） |
+| WSL2 | Ubuntu-24.04，Hadoop 3.3.6 + JDK 11 | WSL 实验台 |
+| GPU | 不需要（torch 只在重建 BGE ONNX 时需要） | B 口径 |
+
+### 2. 从零装环境（A 最简，实测约 1 分钟）
+
+    uv venv .venv --python 3.11 --seed
+    uv pip install --python .\.venv\Scripts\python.exe -r requirements-framework-lock.txt "pytest>=8,<10"
+    uv pip install --python .\.venv\Scripts\python.exe -e . --no-deps
+    .\.venv\Scripts\python.exe -m pip check
+
+Linux / macOS 把 `--python .\.venv\Scripts\python.exe` 换成 `--python .venv/bin/python`。
+
+实测：`uv venv` 落到 CPython 3.11.16；`uv pip install` 11 秒装完并打印 `Installed 1 package in 13ms`
+（可编辑安装）；`pip check` → `No broken requirements found.`。用 pip 装同一份 lock 在本机会卡在
+依赖解析（20 分钟无进展），原因与绕过方式见第 11 节第 1 条。
+
+### 3. 三条验证命令（实测输出）
+
+    .\.venv\Scripts\python.exe -m pytest -q
+    # 209 passed, 3 warnings in 37.49s
+
+    .\.venv\Scripts\python.exe demo\run_demo.py --json
+    # {
+    #   "counts": {"total_lines": 12, "parsed_lines": 10, "quarantined_lines": 2,
+    #              "session_count": 3, "anomaly_count": 1, "event_count": 1},
+    #   "event_id": "evt_9658dab23fa9c49cae2a7880",
+    #   "diagnosis_id": "dia_8487f2a6c0a63b93c43d83e3",
+    #   "report_id": "irpt_462a496786e3b0acd0ae757b",
+    #   "diagnosis_status": "DEGRADED_TEMPLATE",
+    #   "confidence_level": "low",
+    #   "requires_review": true,
+    #   "review_reasons": ["low_confidence"],
+    #   "tool_calls": 7, "evidence": 7,
+    #   "illegal_citations": 0, "executable_advice": 0,
+    #   "approval_status": "APPROVED", "final_status": "APPROVED_REPORT",
+    #   "llm_calls": 0, "tokens": 0, "estimated_cost_cny": 0.0,
+    #   "elapsed_seconds": 1.372
+    # }
+
+    .\.venv\Scripts\python.exe ops\scripts\validate_project_structure.py
+    # {
+    #   "schema_version": 1,
+    #   "status": "PASS",
+    #   "module_directory_count": 17,
+    #   "python_file_count": 165,
+    #   "errors": []
+    # }
+
+demo 的判定要点：12 行日志里 10 行解析成功、2 行进隔离区，聚成 3 个会话，规则门禁挑出 1 个异常会话
+并合成 1 个 event；7 次只读工具调用、7 条证据，0 条非法引用、0 条可执行建议；因为没有 Key 走模板链路，
+所以是 `DEGRADED_TEMPLATE` + `requires_review=true`，但复核通过后 final 仍是 `APPROVED_REPORT`。
+
+### 4. 静态检查（实测）
+
+    uv pip install --python .\.venv\Scripts\python.exe "ruff==0.17.5" "mypy==2.4.1"
+    .\.venv\Scripts\python.exe -m ruff check .
+    # All checks passed!
+    .\.venv\Scripts\python.exe -m mypy
+    # Success: no issues found in 6 source files
+
+结构校验是另一套规则，和这两条互不替代：模块目录登记、每个 `.py` 都要在模块 README 里列到、模块
+docstring 用中文、禁止 `# 方法说明：` 一类机械注释标签、mypy 边界清单里的函数必须写返回标注。
+
+### 5. Docker 实验台（1 NameNode + 3 DataNode）
+
+`ops/lab/compose.yaml` 定义 4 个服务，镜像 `apache/hadoop:3.3.6`，同一 bridge 网络 `hdfs`：
+
+| 服务 | 容器名 | 存储 | 说明 |
+| --- | --- | --- | --- |
+| namenode | aiops-lab-namenode | `namenode-data` 命名卷 | 暴露 9870（Web UI）/ 9000（RPC） |
+| datanode1 | aiops-lab-dn1 | 128 MB tmpfs | 造卷满最快，一个 `dd` 就 ENOSPC |
+| datanode2 | aiops-lab-dn2 | `dn2-data` 命名卷 | 心跳丢失 / 安全模式注入 |
+| datanode3 | aiops-lab-dn3 | `dn3-data` 命名卷 | 同上 |
+
+启动与健康校验：
+
+    docker compose -f ops/lab/compose.yaml config --quiet     # 语法自检，无输出即通过
+    docker compose -f ops/lab/compose.yaml up -d
+    docker ps --filter name=aiops-lab --format '{{.Names}}\t{{.Status}}'
+    # aiops-lab-namenode ... 0.0.0.0:9870->9870, 0.0.0.0:9000->9000
+    # aiops-lab-dn1 / dn2 / dn3  Up
+    curl -s -o NUL -w "%{http_code}" http://127.0.0.1:9870/     # 200
+    docker exec aiops-lab-namenode hdfs dfs -ls /               # 有 /aiops-normal、/lab 即正常
+
+注入脚本挂在容器内 `/lab/inject`（`dn_volume_full.sh`、`dn_volume_recover.sh`、
+`nn_safemode_enter.sh`、`nn_safemode_leave.sh`），起停脚本在 `/lab/bin`，都由 `run_batch.py` 调用，
+一般不用手敲。
+
+停止：只想暂停用 `docker compose -f ops/lab/compose.yaml stop`（保留 namenode 卷里的 HDFS 数据）；
+要彻底清空用 `down -v`，会删掉 `namenode-data` 卷，下次启动是空集群。
+
+### 6. 采集故障案例
+
+Docker 侧（21 例，每类 7 例；卷/心跳/安全模式各观测 12 秒，网络分区 30 秒）：
+
+    python ops/lab/harness/run_batch.py --real --per-fault 7 --observe 12 --database runtime/lab/real_batch.sqlite3 --require-signal
+    python ops/lab/harness/run_batch.py --real --faults NETWORK_PARTITION --per-fault 7 --observe 30 --database runtime/lab/network.sqlite3 --require-signal
+
+WSL 侧（单机 HDFS，先重置卷再逐类注入）：
 
     bash ops/lab/wsl/reset_volume.sh
     python ops/lab/wsl/run_case.py --fault DN_VOLUME --database runtime/lab/wsl.sqlite3 --require-signal
     python ops/lab/wsl/run_case.py --fault DN_HEARTBEAT --database runtime/lab/wsl.sqlite3 --require-signal
     python ops/lab/wsl/run_case.py --fault NN_SAFE_MODE --database runtime/lab/wsl.sqlite3 --require-signal
 
-### 2. Docker 故障采集
+产物：`ops/lab/real_batch_cases/<id>/`、`ops/lab/wsl_cases/<id>/`、`ops/lab/network_cases/<id>/`，
+每例含 `incident.json`（脱敏后的事件记录）、`map.json`、`evidence/logs/*.log`、`evidence/metrics/*.csv`；
+案例入库信息在 `runtime/lab/*.sqlite3`。
 
-    docker compose -f ops/lab/compose.yaml up -d
-    python ops/lab/harness/run_batch.py --real --per-fault 7 --observe 12 --database runtime/lab/real_batch.sqlite3 --require-signal
-    python ops/lab/harness/run_batch.py --real --faults NETWORK_PARTITION --per-fault 7 --observe 30 --database runtime/lab/network.sqlite3 --require-signal
-    docker compose -f ops/lab/compose.yaml down -v
+### 7. 门禁与 event 重放
 
-### 3. 门禁与 event 重放
-
-下面的 `run_gate_batch.py` 是一整条命令（写成一行，PowerShell、cmd、bash 都能直接粘）：
+需要 `artifacts/detectors/*_sliding_v4.json` 与 `artifacts/templates/*`（都不在 Git 里，见第 9 节）。
+`run_gate_batch.py` 写成一行，PowerShell / cmd / bash 都能直接粘：
 
     python ops/lab/harness/run_gate_batch.py --cases ops/lab/wsl_cases --database runtime/lab/events.sqlite3 --work runtime/lab/gate_work --output runtime/lab/gate_output --source-db runtime/lab/wsl.sqlite3 --source-type wsl --detector artifacts/detectors/wsl_sliding_v4.json --detector-release novelty_wsl_sliding_v4 --template-dir artifacts/templates/wsl --gate-output resources/evaluation/lab/gates.json --window-seconds 60 --window-step 10 --max-rows 500
 
-上面的 `--detector` 是实验台门禁探测器，可以用正常窗口重新拟合：先用 `python ops/lab/harness/capture_normal.py` 采到正常日志，再运行
+它逐案重放「解析 → 60s/10s 窗口 → 门禁 → 事件合并 → 诊断 → 报告」，实测 WSL 68 例全部 PASS，
+gate_reason 集中在 `novel_info`（57）与 `novel_warn`（11），每案 1–3 个 event。
+
+探测器可以重新拟合：先用 `capture_normal.py` 采正常窗口，再跑
 
     python ops/lab/harness/evaluate_detector.py --cases ops/lab/wsl_cases --source-type wsl --normal-dir <正常日志目录> --output resources/evaluation/lab/detector_wsl_steady.json --save artifacts/detectors/wsl_sliding_v4.json
 
-默认把同一案例/组件、时间重叠或相接的 PASS 窗口合并为一个 event；加 `--no-event-merge` 可关闭，加 `--max-event-span 300` 可调整合并时长上限。
+默认把同一案例/组件、时间重叠或相接的 PASS 窗口合并成一个 event；加 `--no-event-merge` 关闭，
+`--max-event-span 300` 调整合并时长上限。重放 132 例的完整口径见
+[documentation/REPRODUCTION_v2.md](documentation/REPRODUCTION_v2.md)。
 
-### 4. 真实案例评测
+### 8. 真实案例评测
 
     python ops/scripts/evaluate_challenge20.py
     python ops/scripts/evaluate_incidents.py --database runtime/lab/wsl.sqlite3
     python ops/scripts/evaluate_evidence.py --cases ops/lab/wsl_cases --source-type wsl --output resources/evaluation/lab/evidence.json
     python ops/scripts/evaluate_citations.py --gates resources/evaluation/lab/gates.json --database runtime/lab/events.sqlite3 --cases ops/lab/wsl_cases --output resources/evaluation/lab/citations.json
 
-### 5. 重建 RAG release
+`evaluate_challenge20.py` 实测输出：`cases 20`、`events 21`、`report_modes {"DEGRADED_TEMPLATE": 21}`，
+四组各 5/5（`paraphrase_distractor` 事件 6/6），卷 7/7、心跳 7/7、安全模式 6/6。
+
+它默认读 `runtime/challenge20/events_committed.sqlite3`，并把结果写回被 Git 跟踪的
+`resources/evaluation/challenge20/results.json`；换个环境想只看结果，加 `--db runtime/verify/challenge20.sqlite3
+--output runtime/verify/challenge20.json`，避免改动仓库文件。
+
+### 9. 重建 RAG 发布制品（B 口径）
+
+服务装配要读 `artifacts/releases/kb_v0.1`（知识库）与 `artifacts/releases/agent_v0.2`（Agent 发布身份），
+两者都不提交 Git。知识库发布用 `online.knowledge`：
 
     python -m online.knowledge validate --config resources/configs/retrieval.yaml
-    python -m online.knowledge build --config resources/configs/retrieval.yaml
-    python -m online.knowledge tune --config resources/configs/retrieval.yaml
+    python -m online.knowledge build --config resources/configs/retrieval.yaml      # 104 卡切 154 chunk
+    python -m online.knowledge tune --config resources/configs/retrieval.yaml       # 标定门禁阈值
     python -m online.knowledge publish --config resources/configs/retrieval.yaml
+    python -m online.knowledge verify --config resources/configs/retrieval.yaml
+
+`build`/`tune` 需要 `transformers` / `optimum-onnx` / `torch`（`environment.yml` 的 `research` extras）来导出
+BGE ONNX；只想跑前面的 A 口径不需要装。发布完可以校验服务装配、起服务：
+
+    python -m aiops_diag.platform verify --config resources/configs/service.yaml
+    # {"verified": true, "release_id": "v0.3_rules", "model_id": "severity_rule"}
+    python -m aiops_diag.platform serve --config resources/configs/service.yaml      # API + UI
+    python -m aiops_diag.platform worker --config resources/configs/service.yaml     # 后台 worker
+
+### 10. 走一遍完整链路（服务侧）
+
+    # 上传一批日志（multipart 字段名固定为 file），返回 task_id / batch_id
+    curl -X POST http://127.0.0.1:8000/api/v1/batches/uploads -H "Idempotency-Key: demo-1" -F "file=@<日志文件>"
+    # 等 worker 处理完，查任务、批次与事件
+    curl http://127.0.0.1:8000/api/v1/tasks/<task_id>
+    curl http://127.0.0.1:8000/api/v1/batches/<batch_id>
+    curl "http://127.0.0.1:8000/api/v1/events?batch_id=<batch_id>"
+    # 选一个 event 起诊断（B 完成后不会自动建诊断，必须显式提交）
+    curl -X POST http://127.0.0.1:8000/api/v1/diagnoses -H "Content-Type: application/json" -H "Idempotency-Key: diag-1" -d "{\"event_id\": \"<event_id>\"}"
+    curl http://127.0.0.1:8000/api/v1/reports/<report_id>
+    # 人工复核：需要复核员 token、Idempotency-Key，以及审批单上的 report_hash / revision
+    curl -X POST http://127.0.0.1:8000/api/v1/approvals/<approval_id>/decision -H "Authorization: Bearer <复核员 token>" -H "Idempotency-Key: approval-1" -H "Content-Type: application/json" -d "{\"decision\": \"approve\", \"report_hash\": \"<report_hash>\", \"revision\": <revision>}"
+
+复核接口的 `decision` 只接受 `approve` / `reject` / `request_more_evidence`；复核员身份来自
+`AIOPS_REVIEWER_REGISTRY_FILE` 指向的注册表，没配时会返回 503 `REVIEWER_AUTH_UNAVAILABLE`。
+
+只想一条命令看完 B→C，用离线 demo：`python demo/run_demo.py`（不写数据库、不需要 Key）。
+
+### 11. 复现时会踩的坑
+
+1. **`pip install` 卡在依赖解析**：本机 pip 26.3 对 `requirements-framework-lock.txt` 解析 20 分钟没有
+   任何产出；同一份 lock 用 uv 11 秒装完。改用第 2 节的 uv 命令，装的依赖完全一致。
+2. **Windows 上敲 `python` 弹出应用商店**：那是 `WindowsApps` 下的占位符。用 `.venv\Scripts\python.exe`
+   绝对路径，或 `py -3.11`。
+3. **克隆后 4 条 `test_retrieval*` 报 `Sealed development queries changed`**：密封摘要按字节算，仓库是 LF；
+   `core.autocrlf=true` 会把工作区改成 CRLF。`.gitattributes` 已固定 LF，真遇到就
+   `git config --global core.autocrlf false` 后重新 `git checkout -- resources`。
+4. **`evaluate_challenge20.py` 找不到 DB 或改动了仓库文件**：默认 DB 在 `runtime/`（不入库），输出会回写
+   被跟踪的 `results.json`；用 `--db` / `--output` 指到 `runtime/` 下。
+5. **`/health/ready` 失败**：看 `status.ready_error`，四类来源——`service.yaml` 解析、SQLite 打不开、
+   RAG 清单缺失（`artifacts/releases/kb_v0.1`）、Agent 清单缺失或指纹漂移（`artifacts/releases/agent_v0.2`，
+   报 `Agent configuration changed after publication` 时重发清单）。
+6. **`run_gate_batch.py` 缺参数报 `--work, --output`**：这两个是必填，指到 `runtime/lab/` 下的临时目录。
+7. **PowerShell 5.1 用 `Out-File -Encoding utf8` 改文件会写 BOM**，导致 `SyntaxError: invalid
+   non-printable character U+FEFF`；改文件用 `[IO.File]::WriteAllText($p, $text, (New-Object Text.UTF8Encoding($false)))`。
+
+### 12. 一次完整复现的检查清单
+
+| 步骤 | 命令 | 期望 | 实测耗时 |
+| --- | --- | --- | --- |
+| 建环境 | 第 2 节三条 uv 命令 | `pip check` 无冲突 | 约 1 分钟 |
+| 用例 | `python -m pytest -q` | 209 passed | 37 秒 |
+| 离线 demo | `python demo/run_demo.py --json` | `APPROVED_REPORT`、0 非法引用 | 1.4 秒 |
+| 结构校验 | `python ops/scripts/validate_project_structure.py` | `status: PASS`、17 目录 / 165 py | 1 秒 |
+| 静态检查 | `python -m ruff check .` / `python -m mypy` | 全通过 | 各 2 秒 |
+| 起实验台 | `docker compose -f ops/lab/compose.yaml up -d` | 4 容器 Up、9870 返回 200 | 25 秒 |
+| Docker 采集 | 第 6 节两条 `run_batch.py` | 每类 7 例、`--require-signal` 通过 | 约 25 分钟 |
+| WSL 采集 | 第 6 节三条 `run_case.py` | 每类至少 1 例带信号 | 约 10 分钟 |
+| 门禁重放 | 第 7 节 `run_gate_batch.py` | 案例全 PASS、产出 event/report | 约 3 分钟 |
+| 评测 | 第 8 节四个 `evaluate_*.py` | challenge20 20/20、事件 21/21 | 约 1 分钟 |
+| 清场 | `docker compose -f ops/lab/compose.yaml down -v` | 容器与卷清空 | 5 秒 |
 
 ---
 
